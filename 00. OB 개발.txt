@@ -84,11 +84,12 @@ git remote add origin https://github.com/JINTAEMAN/PythonWorkspace.git
 - git add . : 모든 파일을 스테이지에 올림
 - git commit -m "Add to Python Work space[22. 07.19(T_01), by 진태만]";     # 스테이지에 올린 파일들을 커밋
 - git push origin master : 원격저장소의 master 브랜치에 push
- 
+--------------------------------------------------------------------------------------------
+
  - git pull origin main 	
 
 git add -A;
-git commit -m "Add to Python Work space[22. 07.19(T_02), by 진태만]";
+git commit -m "Add to Memo(2023.07).sql 추가[22. 07.19(T_03), by 진태만]";
 git push
 
 
