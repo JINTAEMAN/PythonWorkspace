@@ -47,8 +47,19 @@
 
 - 원격 저장소 주소:
 origin --  https://github.com/JINTAEMAN/01_Git_TAMA.git
- 
-https://github.com/JINTAEMAN/01_TAMA_Work
+
+- 깃 허브 비번 변경[23.07.18(화)]
+1./ https://github.com/login  ===> JINTAEMAN/ asas12@@!!tam@
+===========================================================================================================
+
+
+- Memo(2023.07).sql 수정
+cp  /D/'01. TAMA_DATA'/'01. TAMA Work'/'01. Memo'/'Memo(2023.07).sql'  /D/PythonWorkspace/'01. Memo'
+
+git add -A;
+git commit -m "Add to Memo(2023.07).sql 수정[22. 07.18(T_01_2)], by 진태만]"; 
+git push; 
+
 ===========================================================================================================
 
 
