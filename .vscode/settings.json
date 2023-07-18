@@ -1,0 +1,12 @@
+{
+	"workbench.startupEditor": "none",
+	"security.workspace.trust.untrustedFiles": "open",
+	"editor.fontFamily": "함초롱돋움",	    // 01. 함초롬돋움 폰트 설정 ■■  
+	"editor.fontLigatures": false, 
+	"workbench.colorTheme": "Visual Studio Dark",
+	"python.testing.pytestArgs": [
+		"rpa_basic"
+	],
+	"python.testing.unittestEnabled": false,
+	"python.testing.pytestEnabled": true // 테마 설정  ■■
+} 
