@@ -110,7 +110,7 @@ git push origin main
 cp  /D/'01. TAMA_DATA'/'01. TAMA Work'/'01. Memo'/'Memo(2023.07).sql'  /D/PythonWorkspace/'01. Memo'
 
 git add -A;
-git commit -m "Add to Memo(2023.07).sql 수정[22.07.20(T_01), by 진태만];";
+git commit -m "Add to Python Work space[22.07.20(T_02), by 진태만];";
 git push origin main;
 
 ===========================================================================================================
