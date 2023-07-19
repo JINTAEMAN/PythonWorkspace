@@ -959,10 +959,10 @@ git log --oneline --all --graph
 ===========================================================================================================
 
 ■■■■■■■■■■■■■ 2023.07.19(수) 작업 ■■■■■■■■■■■■■■■■■■  
----> 08:00 ~ 18:00 ==> 
+---> 08:00 ~ 18:00 ==> 수종 은천 아동 센터에서 음식(라면, 햇반, 반찬) 받아옴(18시)
 
 - LG U+ CRM_PDA 현행화 Prj[★] 
-1. 
+1. No. 26, No. 32
 =============================================================================================================
 
 - git 원격 저장소 추가
@@ -977,7 +977,7 @@ git log --oneline --all --graph 		# 로그 보기
 git pull origin main; 
 git add -A;
 git commit -m "Add to Python Work space[22.07.19(T_04)], by 진태만];";
-git push
+git push origin main;		# origin으로 이름지어진 저장소에 현재 master Branch를 push
 
 tamar@TAMA-INO-PC MINGW64 /d/PythonWorkspace (main)
 $ git log --oneline --all --graph 
@@ -992,9 +992,33 @@ $ git log --oneline --all --graph
 https://blog.danggun.net/7702
 
 D:\PythonWorkspace\.gitignore
-.vscode/launch.json
+.git/
+.vscode/
+.vscode/launch.json 
+.vscode/settings.json
 .gitignore
 =============================================================================================================
+
+- Memo(2023.07).sql 수정
+cp  /D/'01. TAMA_DATA'/'01. TAMA Work'/'01. Memo'/'Memo(2023.07).sql'  /D/PythonWorkspace/'01. Memo'
+
+git add -A;
+git commit -m "Add to Memo(2023.07).sql 수정[22.07.18(T_01_2), by 진태만]"; 
+git push origin master;		# origin으로 이름지어진 저장소에 현재 master Branch를 push
+===========================================================================================================
+
+- 영문 주소 변환
+https://www.jusoen.com
+1. 한글 주소: 여수시 무선로50 신동아파밀리에 107동405호 
+2. 영문 주소: Room 405, Building 107, Shindong A Familie APT, 50, Museon-ro, Yeosu-si, Jeollanam-do, Republic of Korea 
+============================================================================================================= 
+
+- branch 확인
+$ git branch  # 전환한 브랜치인 testBranch 앞에  '*' 표시
+$ git branch 'master'		# 브랜치 생성 
+$ git checkout 'master'		# 브랜치 전환 
+$ git checkout -b <branch>   # 브랜치 작성과 체크아웃을 한꺼번에 실행 
+============================================================================================================= 
 
 ■■■■■■■■■■■■■ 2023.07.20(목) 작업 ■■■■■■■■■■■■■■■■■■  
 ---> 08:00 ~ 18:00 ==> 
@@ -1002,6 +1026,8 @@ D:\PythonWorkspace\.gitignore
 - LG U+ CRM_PDA 현행화 Prj[★] 
 1. 
 =============================================================================================================
+
+
 
 
 
