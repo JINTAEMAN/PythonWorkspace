@@ -109,7 +109,7 @@ git push origin master
 
 
 git add -A;
-git commit -m "Add to Python Work space[22.07.19(T_06), by 진태만]";
+git commit -m "Add to Python Work space[22.07.19(T_07), by 진태만]";
 git push origin master  # origin으로 이름지어진 저장소에 현재 master Branch를 push
 
 

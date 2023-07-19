@@ -941,15 +941,17 @@ git config --global --list
 
 git config --global user.name "JINTAEMAN"
 git config --global user.email "tamario@naver.com"
+-------------------------------------------------------------------------------------------
 
 - 원격 저장소 주소:
 origin --  https://github.com/JINTAEMAN/01_Git_TAMA.git
-git log --oneline --all --graph
+origin -- https://github.com/JINTAEMAN/01_TAMA_Work
+
+https://github.com/JINTAEMAN/01_Git_TAMA.git
+-------------------------------------------------------------------------------------------
 
 - 로그 보기
-git log --oneline --all --graph
-
-https://github.com/JINTAEMAN/01_TAMA_Work
+git log --oneline --all --graph 
 ===========================================================================================================
 
 - 깃 허브 비번 변경
@@ -957,11 +959,74 @@ https://github.com/JINTAEMAN/01_TAMA_Work
 ===========================================================================================================
 
 ■■■■■■■■■■■■■ 2023.07.19(수) 작업 ■■■■■■■■■■■■■■■■■■  
+---> 08:00 ~ 18:00 ==> 수종 은천 아동 센터에서 음식(라면, 햇반, 반찬) 받아옴(18시)
+
+- LG U+ CRM_PDA 현행화 Prj[★] 
+1. No. 26, No. 32
+=============================================================================================================
+
+- git 원격 저장소 추가
+- 기존 원격저장소를 삭제하고 새로 추가
+git remote remove origin;
+git remote add origin https://github.com/JINTAEMAN/PythonWorkspace.git
+
+git remote -v			# 원격저장소 목록 조회
+ 
+git log --oneline --all --graph 		# 로그 보기
+
+git pull origin main; 
+git add -A;
+git commit -m "Add to Python Work space[22.07.19(T_04)], by 진태만];";
+git push origin master;		# origin으로 이름지어진 저장소에 현재 master Branch를 push
+
+tamar@TAMA-INO-PC MINGW64 /d/PythonWorkspace (main)
+$ git log --oneline --all --graph 
+* c963f12 (HEAD -> main, origin/main) Add to Memo(2023.07).sql 추가[22.07.19(T_03), by 진태만]
+* 0c4445f Add to Python Work space[22.07.19(T_02), by 진태만]
+* 697ce28 Add to Python Work space[22.07.19(T_01)], by 진태만];
+* 71740c0 Add to Python Work space[22.07.19(T_01)], by 진태만];
+* 340b240 v1_test
+=============================================================================================================
+
+- [Visual Studio Git] 깃(Git)에 올리지 말아야 할 파일 제외 하는 방법 - gitignore
+https://blog.danggun.net/7702
+
+D:\PythonWorkspace\.gitignore
+.git/
+.vscode/
+.vscode/launch.json 
+.vscode/settings.json
+.gitignore
+=============================================================================================================
+
+- Memo(2023.07).sql 수정
+cp  /D/'01. TAMA_DATA'/'01. TAMA Work'/'01. Memo'/'Memo(2023.07).sql'  /D/PythonWorkspace/'01. Memo'
+
+git add -A;
+git commit -m "Add to Memo(2023.07).sql 수정[22.07.18(T_01_2), by 진태만]"; 
+git push origin master;		# origin으로 이름지어진 저장소에 현재 master Branch를 push
+===========================================================================================================
+
+- 영문 주소 변환
+https://www.jusoen.com
+1. 한글 주소: 여수시 무선로50 신동아파밀리에 107동405호 
+2. 영문 주소: Room 405, Building 107, Shindong A Familie APT, 50, Museon-ro, Yeosu-si, Jeollanam-do, Republic of Korea 
+============================================================================================================= 
+
+- branch 확인
+$ git branch  # 전환한 브랜치인 testBranch 앞에  '*' 표시
+$ git branch 'master'		# 브랜치 생성 
+$ git checkout 'master'		# 브랜치 전환 
+$ git checkout -b <branch>   # 브랜치 작성과 체크아웃을 한꺼번에 실행 
+============================================================================================================= 
+
+■■■■■■■■■■■■■ 2023.07.20(목) 작업 ■■■■■■■■■■■■■■■■■■  
 ---> 08:00 ~ 18:00 ==> 
 
 - LG U+ CRM_PDA 현행화 Prj[★] 
 1. 
 =============================================================================================================
+
 
 
 
