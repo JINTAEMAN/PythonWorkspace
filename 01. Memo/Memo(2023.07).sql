@@ -1015,8 +1015,8 @@ https://www.jusoen.com
 
 - branch 확인
 $ git branch  # 전환한 브랜치인 testBranch 앞에  '*' 표시
-$ git branch 'master'		# 브랜치 생성 
-$ git checkout 'master'		# 브랜치 전환 
+$ git checkout 'master'		# 브랜치 전환(main, master) ■■■
+$ git branch 'master'		# 브랜치 생성  
 $ git checkout -b <branch>   # 브랜치 작성과 체크아웃을 한꺼번에 실행 
 ============================================================================================================= 
 
