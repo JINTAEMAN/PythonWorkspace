@@ -92,16 +92,18 @@ git remote add origin https://github.com/JINTAEMAN/PythonWorkspace.git
 git add -A;
 git commit -m "Add to Python Work space[22.07.19(T_04), by 진태만];";
 git push
+
 =============================================================================================================
 ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
 
  
 tamar@TAMA-INO-PC MINGW64 /d/PythonWorkspace (main)
 $ git log --oneline --all --graph 
-* c963f12 (HEAD -> main, origin/main) Add to Memo(2023.07).sql 추가[22.07.19(T_03), by 진태만]
-* 0c4445f Add to Python Work space[22.07.19(T_02), by 진태만]
-* 697ce28 Add to Python Work space[22.07.19(T_01), by 진태만];
-* 71740c0 Add to Python Work space[22.07.19(T_01), by 진태만];
+* 318ee39 (HEAD -> main, origin/main) Add to Python Work space[22.07.19(T_04), by 진태만];
+* c963f12 Add to Memo(2023.07).sql 추가[22. 07.19(T_03), by 진태만]
+* 0c4445f Add to Python Work space[22. 07.19(T_02), by 진태만]
+* 697ce28 Add to Python Work space[22. 07.19(T_01)], by 진태만];
+* 71740c0 Add to Python Work space[22. 07.19(T_01)], by 진태만];
 * 340b240 v1_test
 
 =============================================================================================================
