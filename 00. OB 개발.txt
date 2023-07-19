@@ -80,18 +80,29 @@ git remote remove origin;
 git remote add origin https://github.com/JINTAEMAN/PythonWorkspace.git
 
 
-- git pull origin main 		: 원격저장소의 master 브랜치를 pull하여 로컬의 master브랜치와 연결
+- git pull origin main 		: 원격저장소의 master 브랜치를 pull하여 로컬의 main 브랜치와 연결 ■■■■
 - git add . : 모든 파일을 스테이지에 올림
-- git commit -m "Add to Python Work space[22. 07.19(T_01), by 진태만]";     # 스테이지에 올린 파일들을 커밋
-- git push origin master : 원격저장소의 master 브랜치에 push
+- # git add hello.html  	# 해당 파일을 Git 스테이지 영역에 추가
+- git commit -m "Add to Python Work space[22. 07.19(T_01), by 진태만]";     # Git 로컬 저장소 영역에 추가 ■■■■
+- git push origin master : 원격저장소의 master 브랜치에 반영
 --------------------------------------------------------------------------------------------
 
  - git pull origin main 	
-
+ 
 git add -A;
-git commit -m "Add to Memo(2023.07).sql 추가[22. 07.19(T_03), by 진태만]";
+git commit -m "Add to Python Work space[22.07.19(T_04), by 진태만];";
 git push
+=============================================================================================================
+■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
 
+ 
+tamar@TAMA-INO-PC MINGW64 /d/PythonWorkspace (main)
+$ git log --oneline --all --graph 
+* c963f12 (HEAD -> main, origin/main) Add to Memo(2023.07).sql 추가[22.07.19(T_03), by 진태만]
+* 0c4445f Add to Python Work space[22.07.19(T_02), by 진태만]
+* 697ce28 Add to Python Work space[22.07.19(T_01), by 진태만];
+* 71740c0 Add to Python Work space[22.07.19(T_01), by 진태만];
+* 340b240 v1_test
 
 =============================================================================================================
 ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■

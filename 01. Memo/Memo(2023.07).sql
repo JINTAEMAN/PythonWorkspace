@@ -948,8 +948,6 @@ origin --  https://github.com/JINTAEMAN/01_Git_TAMA.git
 origin -- https://github.com/JINTAEMAN/01_TAMA_Work
 
 https://github.com/JINTAEMAN/01_Git_TAMA.git
-
-
 -------------------------------------------------------------------------------------------
 
 - 로그 보기
@@ -967,6 +965,35 @@ git log --oneline --all --graph
 1. 
 =============================================================================================================
 
+- git 원격 저장소 추가
+- 기존 원격저장소를 삭제하고 새로 추가
+git remote remove origin;
+git remote add origin https://github.com/JINTAEMAN/PythonWorkspace.git
+
+git remote -v			# 원격저장소 목록 조회
+ 
+git log --oneline --all --graph 		# 로그 보기
+
+git pull origin main; 
+git add -A;
+git commit -m "Add to Python Work space[22.07.19(T_04)], by 진태만];";
+git push
+
+tamar@TAMA-INO-PC MINGW64 /d/PythonWorkspace (main)
+$ git log --oneline --all --graph 
+* c963f12 (HEAD -> main, origin/main) Add to Memo(2023.07).sql 추가[22.07.19(T_03), by 진태만]
+* 0c4445f Add to Python Work space[22.07.19(T_02), by 진태만]
+* 697ce28 Add to Python Work space[22.07.19(T_01)], by 진태만];
+* 71740c0 Add to Python Work space[22.07.19(T_01)], by 진태만];
+* 340b240 v1_test
+=============================================================================================================
+
+■■■■■■■■■■■■■ 2023.07.19(수) 작업 ■■■■■■■■■■■■■■■■■■  
+---> 08:00 ~ 18:00 ==> 
+
+- LG U+ CRM_PDA 현행화 Prj[★] 
+1. 
+=============================================================================================================
 
 
 
