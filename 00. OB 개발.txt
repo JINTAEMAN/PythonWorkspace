@@ -90,7 +90,7 @@ git remote add origin https://github.com/JINTAEMAN/PythonWorkspace.git
  - git pull origin main 	
  
 git add -A;
-git commit -m "Add to Python Work space[22.07.19(T_04), by 진태만];";
+git commit -m "Add to Python Work space[22.07.19(T_05), by 진태만];";
 git push
 
 =============================================================================================================
