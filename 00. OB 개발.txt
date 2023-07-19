@@ -87,11 +87,20 @@ git remote add origin https://github.com/JINTAEMAN/PythonWorkspace.git
 - git push origin master : 원격저장소의 master 브랜치에 반영
 --------------------------------------------------------------------------------------------
 
- - git pull origin main 	
+
+git remote -v			# 원격저장소 목록 조회
+ 
+git log --oneline --all --graph 		# 로그 보기
+
+git status         # Git 저장소의 상태 확인
+--------------------------------------------------------------------------
+
+- git pull origin main 	
  
 git add -A;
-git commit -m "Add to Python Work space[22.07.19(T_05), by 진태만];";
-git push
+git commit -m "Add to Python Work space[22.07.20(T_01), by 진태만];";
+git push origin main
+
 
 
 =============================================================================================================
