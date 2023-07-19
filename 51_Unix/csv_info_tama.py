@@ -36,34 +36,34 @@ for i in table_list:    # i ~ table_list
     
 	try :
 		trst_num_file_nm =  i.strip()[0:1]
- 			if(trst_num_file_nm == '#"  :  # 파일명 앞에 #이 붙여 있으면
- 				continue    # 아래 코드를 실행하지 않고 건너 뜀
-            
- 			lited_str = i.strip().split('.')	# 파일명 쪼개기
- 			str_No = splited_str[0].strip()
- 			# file_nm_path = '/data/INBOUND/CR/'+ splited_str[1].strip() 		# 02. CRM 파일명(전체 경로) 
- 			ile_nm_path = '/D/PythonWorkspace/data/INBOUND/CR/'+ splited_str[1].strip() # 02. CRM 파일명(전체 경로) 
- 			crm_file_nm_path = file_nm_path +'_202303.csv'		# 02. CRM 파일명[path 포함]
- 			crm_file_nm = splited_str[1].strip() +'_202303.csv'	# 파일명[History 데이타 초기 적재(2023년 03월)]
- 			tb_nm = splited_str[1].strip()		# 테이블명
+		if(trst_num_file_nm == '#"  :  # 파일명 앞에 #이 붙여 있으면
+ 			continue    # 아래 코드를 실행하지 않고 건너 뜀
+		
+		lited_str = i.strip().split('.')	# 파일명 쪼개기
+		str_No = splited_str[0].strip()
+		# file_nm_path = '/data/INBOUND/CR/'+ splited_str[1].strip() 		# 02. CRM 파일명(전체 경로) 
+		ile_nm_path = '/D/PythonWorkspace/data/INBOUND/CR/'+ splited_str[1].strip() # 02. CRM 파일명(전체 경로) 
+		crm_file_nm_path = file_nm_path +'_202303.csv'		# 02. CRM 파일명[path 포함]
+		crm_file_nm = splited_str[1].strip() +'_202303.csv'	# 파일명[History 데이타 초기 적재(2023년 03월)]
+		tb_nm = splited_str[1].strip()		# 테이블명
 	except :
- 		continue    # 아래 코드를 실행하지 않고 건너 뜀
+		continue    # 아래 코드를 실행하지 않고 건너 뜀
     
 	print("\n\n[@_T] ■ [/csv_info_tama.py] ==> [T_40] [table_list] [i_번째]"+ i +"[01. 파일 명]"+ crm_file_nm  +"[CSV 파일 정보 확인 작업 중...] .....■■■■■■ ")
-  
+	
 	comm_stg = ['du', '-h', crm_file_nm_path]	# 용량 확인	 
 	popen = subprocess.Popen(comm_stg, stdout = subprocess.PIPE).stdout
 	stg = popen.read().strip()
 	volume = stg.split('\t')[0]       # 03. 용량
-  
- 	comm_line = ['wc', '-I', crm_file_nm_path]	# 라인, 단어, 문자수 출럭    
+
+	comm_line = ['wc', '-I', crm_file_nm_path]	# 라인, 단어, 문자수 출럭    
 	popen = subprocess.Popen(comm_line, stdout = subprocess.PIPE).stdout
 	line = popen.read().strip()
 	line_count = line.split(' ')[0]     # 04. 라인 수
     
-   	comm_header = ['head', 'n', '1', crm_file_nm_path] 
-  	popen = subprocess.Popen(comm_header, stdout = subprocess.PIPE).stdout
-  	header = popen.read().strip()
+	comm_header = ['head', 'n', '1', crm_file_nm_path] 
+	popen = subprocess.Popen(comm_header, stdout = subprocess.PIPE).stdout
+	header = popen.read().strip()
 
 	comm_head = ['grep', '-rn', header, crm_file_nm_path]    # 헤드 수 찾기
 	popen = subprocess.Popen(comm_head, stdout = subprocess.PIPE).stdout
@@ -84,12 +84,12 @@ for i in table_list:    # i ~ table_list
 		volume = "X"        # 03. 용량 ■
 		head_count = "X"    # 05. 헤드 수 
 		real_data_cnt = "X"     # 07 실재 데이터 건수 ■
- 
+
 	result = list()   # 결과 list 설정
 	result.append(int(strNo)) # No.
 	result.append(str(splited_str[1].strip()))  # 01. 파일명
-	result.append(str(real_data_cnt))		# 07 실재 데이터 건수 ■
-	result.append(str(volume))			    # 03. 용량 ■
+	result.append(str(real_data_cnt))	# 07 실재 데이터 건수 ■
+	result.append(str(volume))			# 03. 용량 ■
 	result.append(str(line_count))		# 04. 라인 수
 	result.append(str(head_count))	    # 05. 헤드 수 
 	result.append(str(crm_file_nm))		# 02. 파일명
@@ -97,7 +97,7 @@ for i in table_list:    # i ~ table_list
 
 	csv_res.append(result)
 	print("\n\n[@_T] ■■  [/csv_info_tama.py] ==> [T_99] [End] ■■■■")
-  
+
 with open(res_path, 'w') as file:	    # data 디렉토리안에 res_path 경로의 파일을 생성	
 	write = csv.writer(file)    # 쓰고 싶은 내용 입력
 	write.writerows(csv_res)
@@ -106,5 +106,5 @@ with open(res_path, "r") as cvs_file:	# data 디렉토리안에 res_path 경로�
 	print("\n\n[@_T] ■■■  [/csv_info_tama.py] ==> [T_91] [파일 읽어 오기 Start] ■■■■■■■■■■■■")
 	print(cvs_file.read())
 	print("\n\n[@_T] ■■■  [/csv_info_tama.py] ==> [T_99] [파일 읽어 오기 End] ■■■■■■■■■■■■")
- 
+
 	print("\n\n[@_TT] ■■■ [/csv_info_tama.py] ==> [T_99] ■■■■■■ [######################### [CSV 파일 정보 확인 End] #########################] ■■■■■■\n\n\n\n")

@@ -104,25 +104,25 @@ for i in table_list:		# i ~ table_list
 
 	if susbdd_01 == "L2":   # L2 이면
 		susbdd_02 = "00"
-	print("n\n[@_T] ■ [/ob_excel_fm_copy.py] ==> [T_51_0] [tablejist] [L번찌！】i  +"[tb_nmp str(tb_nm) +'[susbdd_01f+ str(susbdd_01) +"[susbdd_02p str 
+	print("\n[@_T] ■■ [/ob_excel_fm_copy.py] ==> [T_51_0] [tablejist] [i_번찌]"+ i +"[tb_nm]"+ str(tb_nm) +"[isusbdd_01]"+ str(isusbdd_01) +"[susbdd_02]"+ str(susbdd_02) )
 
 	src_path = "D:\\\\"+ ob_folder +"\\\\"+ num_folder_nm  +"\\\\"+ num_file_nm +".xlsx"    # 복사알 파일 경로
 	# dst_path = "C:\\\\Users\\\tamario\\\PycharmProjects\\\dlk_airflow_01\\\\"+ susbdd_01.lower() +"\\\\"+ susbdd_02.lower() +"\\\\"+ num_file_nm +".xlsx" 
-	dst_path = "V:\\\\개인작업폴더\\\\최성오\\\\PDA_현행화\\\\매핑정의서\\\\"+ susbdd_01.lower() +"\\\\"+ susbdd_02.lower() +"\\\\"+ num_file_nm +".xlsx"   #복시 
-	printr\n\n[@一T】 ■ [/ob_excel_fm_copy.py) =»> [T_51] [tablejist] [i_번찌!厂* i ♦"[tb.nmj"* str(tb_nm) *"[1. 복人f알 파일 경로str(src_path) *"[2. 복사된 옥 
-	
+	dst_path = "V:\\\\개인작업폴더\\\\최성오\\\\PDA_현행화\\\\매핑정의서\\\\"+ susbdd_01.lower() +"\\\\"+ susbdd_02.lower() +"\\\\"+ num_file_nm +".xlsx"   #복시  
+	print("\n[@_T] ■■ [/ob_excel_fm_copy.py] ==> [T_51_2] [tablejist] [i_번찌]"+ i +"[src_path]"+ str(src_path) +"[dst_path]"+ str(dst_path) )
+
 	file_copy(src_pathr, dst_path)   # 파일 복사 쳐리 ■■■■■
-	print("\n\n[@_T] ■ [/ob_excel_fm_copypy] «> [T_52]   [tablejist] [i_번찌ll"+ ■    +_[tb_nmr+ str(tb.nm) 욥-[조회된 파일명】"+ str(srcjath))
+	print("\n[@_T] ■■ [/ob_excel_fm_copy.py] ==> [T_51] [tablejist] [i_번찌]"+ i +"[src_path]"+ str(src_path) +"[dst_path]"+ str(dst_path) )
 	
-	result.append(int(strNo))    # No.
+	result.append(int(strNo))    	# No.
 	result.append(str(tb_nm))		# 01. 파일명
-	result.append(str(src_path))   # 02 복사할 파일 경로
-	result_append(str(dst_path))   # 03 복사된 목적지 파일 경로
-	print("\n[@_T] ■■ [/ob_sqLfm_copy pyj ==> [T_53J [tablejist ■] [i_번찌IJ+나 i +"[01   파일 명卜 str(tb_nm) -+"[02  조회된 파일 명str(src_path)  )
+	result.append(str(src_path))   	# 02. 복사할 파일 경로
+	result_append(str(dst_path))   	# 03. 복사된 목적지 파일 경로 
+	print("\n[@_T] ■■ [/ob_excel_fm_copy.py] ==> [T_53J] [tablejist] [i_번찌]"+ i +"[02. 복사할 파일 경로]"+ str(src_path) +"[dst_path]"+ str(dst_path) )
 
 	csv_res.append(result)
-	print("\n\n [@_T] ■■■ [/ob_excel_fm_copy.pyj —> [T_81_2J [End] ■■■「)
-	   
+	print("\n[@_T] ■■ [/ob_excel_fm_copy.py] ==> [T_81_2J] [[End] ■■■" )
+
 with open(res_path, 'w') as file:	    # data 디렉토리안에 res_path 경로의 파일을 생성	
 	write = csv.writer(file)    # 쓰고 싶은 내용 입력
 	write.writerows(csv_res)
@@ -131,6 +131,5 @@ with open(res_path, "r") as cvs_file:	# data 디렉토리안에 res_path 경로�
 	print("\n\n[@_T] ■■■  [/ob_excel_fm_copy.py] ==> [T_91] [파일 읽어 오기 Start] ■■■■■■■■■■■■")
 	print(cvs_file.read())
 	print("\n\n[@_T] ■■■  [/ob_excel_fm_copy.py] ==> [T_99] [파일 읽어 오기 End] ■■■■■■■■■■■■")
- 
+
 	print("\n\n[@_TT] ■■■ [/ob_excel_fm_copy.py] ==> [T_99] ■■■■■■ [######################### [CSV 파일 정보 확인 End] #########################] ■■■■■■\n\n\n\n")
- 

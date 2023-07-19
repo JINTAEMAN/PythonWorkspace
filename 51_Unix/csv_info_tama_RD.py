@@ -1,11 +1,11 @@
 ﻿# -*- coding: utf-8 -*-	# 문자 인코딩(한글 사용) 
-#!/csvJnfo_tama_RD.py # CSV 파일 정보 조회, 삭제 처리 파일(Unix에서》
+#!/csv_info_tama_RD.py 	# CSV 파일 정보 조회, 삭제 처리 파일(Unix에서》
 
 import os	    # 운영체제(OS) 제어 Lib 
-import sys	# 파이씬 인터프리터 제어 Lib
+import sys		# 파이씬 인터프리터 제어 Lib
 import subprocess	# 하위 프로세스 관리 표준 Lib
-import csv	# CSV 파일 Lib 
-import shutil      #	 고수준 파일 연산 Ub
+import csv		# CSV 파일 Lib 
+import shutil  	# 고수준 파일 연산 Ub
 from datetime import dater timedelta   # 시간 Lib
 
 path = '.,/csvJnfo_tama_table2.txt'       # 대상 테이블 txt 파일(/csv_info_tama_table2.txt: TEST 파일) 
@@ -16,7 +16,7 @@ table_list = f.readlines()
 f.close()
 
 csv_res = list()    # csv_res 설정 
-print("\n\n\n\n[@_TT] ■■■ [/csv_info_tama.py] ==> [T_01] ■■■■■■ [######################### [CSV 파일 정보 조회, 삭제 처리 Start] #########################] ■■■■■■ ")
+print("\n\n\n\n[@_TT] ■■■ [/csv_info_tama_RD.py] ==> [T_01] ■■■■■■ [######################### [CSV 파일 정보 조회, 삭제 처리 Start] #########################] ■■■■■■ ")
 
 ob.sort = 0      # 0B 처리 종류(1. 파일 조회, 2. 파일 삭제) ■■■■■■■■■■■■■■■■■■
 
@@ -40,7 +40,7 @@ delete_ym = date.today().strftime("%Y%m")      # 삭제 대상 년월(오늘 년
 delete_post_fm = ""     # 03. 삭제 후 파일 명
 
 result_title = list()    # 제옥 설정
-result_title.append("CSV File Info[Start Date:"+ str(now_date) ♦**]")    林    00. 제옥 설정■ 
+result_title.append("CSV File Info[Start Date "+ str(now_date) +"]")	# 제목 설정
 csv_res.append(result_title)
 
 result_head = list()	# 파일 헤드 설정
@@ -48,7 +48,7 @@ result_head.append("No") # No.
 result_head.append("File Name")		# 01. 파일명
 result_head.append("Searched File Name")   # 02. 조회된 파일 명
 result_head .append("Delete Post File Name")    # 03  삭제 후 파일 명  
-result_head.append("Real File Name")		# 02. 파일 명
+result_head.append("Real File Name")		# 04. 파일 명
 csv_res.append(result_head)	 # HEAD 설정
 
 for i in table_list:		# i ~ table_list
@@ -79,7 +79,7 @@ for i in table_list:		# i ~ table_list
 		result.append(int(strNo)) # No.
 		result.append(str(tb_nm))  # 01   파일명
 		result .append("No file")     # 02. 조회된 파일 명
-		result .append("No file"      # 03. 삭제 후 파일 명
+		result .append("No file")      # 03. 삭제 후 파일 명
 		print("\n\n[@_T] ■ [/csv_info_tama_RD.py] :=> [T_51_2]] [tablejist] [i_번쪠]"+ i +"[tb_nm]"+ str(tb_nm) +"[조회된 파일명]"+  str(inq_fm) )
 		
 		csv_res.append(result)
@@ -96,7 +96,7 @@ for i in table_list:		# i ~ table_list
 
 			today_file_nm = '/data/INBOUND/CR/'+ splited_str[1].strip() +'_'+ now_ymd +'.csv'     #  오늘 파일 명
 			today_fiIe_nm_back = '/data/INBOUND/CR/'+ splited_str[1].strip() +'_back_'+ now_ymd +'.csv'   # 오늘 이동 파일 명 
-
+			
 			comm_move = 'mv '+ today_file_nm +' '+ today_fiIe_nm_back		# 파일 이동
 			proc = subprocess.Popen(comm_move. shell=True, stdout=subprocess.PIPE).stdout 
 			inq_fm_move = proc.read()  # 오늘 파일 이동 처리   ■■■■■■ 
@@ -107,8 +107,8 @@ for i in table_list:		# i ~ table_list
 		continue    # 아래 코드를 실행하지 않고 건너뜀
 	print("\n\n[@_T] ■ [/csv_info_tama_RD.py] :=> [T_52_D]] [tablejist] [i_번쪠]"+ i +"[어제 이동 파일 명]"+ str(yst_file_nm_back) +"[오늘 이동 파일 명]"+  str(today_fiIe_nm_back) )
 
-	 try :
-	 	comm_delete = 'rm -f '+ file_nm_path +'_'+ delete_ym +'*.*csv'			# 삭제 명령어
+	try :
+		comm_delete = 'rm -f '+ file_nm_path +'_'+ delete_ym +'*.*csv'			# 삭제 명령어
 		proc = subprocess.Popen(comm_delete, shell=True, stdout = subprocess.PIPE).stdout
 		delete_fm = proc.read()       # 파일 삭계 처리  ■■■■■
 		print("\n\n[@_T] ■ [/csv_info_tama_RD.py] :=> [T_53]] [tablejist] [i_번쪠]"+ i +"[tb_nm]"+ str(tb_nm) +"[삭제 명령어]"+  str(comm_delete) )
@@ -124,16 +124,16 @@ for i in table_list:		# i ~ table_list
 	inq_res = delete_post_fm.split('\n’)
 	print("\n\n[@_T] ■ [/csv_info_tama_RD.py] :=> [T_55] [tablejist] [i_번쪠]"+ i +"[tb_nm]"+ str(tb_nm) +"[조회된 파일명]"+  str(inq_fm) )
 	# 파일 삭제 처리 이면 --> 종료  =======================================>
- 
+	
 	result.append(int(strNo)) # No.
 	result.append(str(tb_nm))  # 01. 파일명
-	result.append(str(inq_fm))		# 02  조회된 파일 명
-	result.append(str(delete_post_fm))		# 03. 삭제 후 파일 명 
+	result.append(str(inq_fm))		# 02. 조회된 파일 명
+	result.append(str(delete_post_fm))	# 03. 삭제 후 파일 명 
 	print("\n[@_T] ■■  [/csvJnfo_tama_RD.py] ==> [T_51]  [table_list ■] [i_번째]"+ i +"[01. 파일명]"+ str(tb_nm) +"[ 02  조회된 파일 명]"+ str(inq_fm) +"[03. 삭제 후 파일 명 ]"+ str(delete_post_fm) ) 
 	
 	csv_res.append(result) 
 	print("\n\n[@_T] ■■  [/csvJnfo_tama_RD.py] ==> [T_99] [End] ■■■■")
-  
+
 with open(res_path, 'w') as file:	    # data 디렉토리안에 res_path 경로의 파일을 생성	
 	write = csv.writer(file)    # 쓰고 싶은 내용 입력
 	write.writerows(csv_res)
@@ -142,5 +142,4 @@ with open(res_path, "r") as cvs_file:	# data 디렉토리안에 res_path 경로�
 	print("\n\n[@_T] ■■■  [/csvJnfo_tama_RD.py] ==> [T_91] [처리 결과 파일 읽어 오기 Start] ■■■■■■■■■■■■")
 	print(cvs_file.read())
 	print("\n\n[@_T] ■■■  [/csvJnfo_tama_RD.py] ==> [T_99] [처리 결과 파일 읽어 오기 End] ■■■■■■■■■■■■")
- 
 	print("\n\n[@_TT] ■■■ [/csvJnfo_tama_RD.py] ==> [T_99] ■■■■■■ [######################### [CSV 파일 정보 조회 삭제 처리 End] #########################] ■■■■■■\n\n\n\n")

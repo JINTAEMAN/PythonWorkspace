@@ -1,57 +1,21 @@
-# ! /ob_sqljm_copy.py   # OB sql 파일 복사 쳐리 파일 
+# ! / ob_excel_fm_conts_edit.py  # OB 엑실 파일 내용 수정 파일
 # -*- coding: utf-8 -*-	# 문자 인코딩(한글 사용)
 
-import os	# 운영체제(OS) 제어 Lib 
-import sys	# 파이씬 인터프리터 제어 Lib
-import csv	# CSV 파일 Lib 
-import shutil      # 고수준 파일 연산 Ub
+import os	    # 운영체제(OS) 제어 Lib 
+import sys		# 파이씬 인터프리터 제어 Lib
+import sys		# 파이씬 인터프리터 제어 Lib
+import csv		# CSV 파일 Lib 
+import shutil      # 고수준 파일 연산 Lib
 import datetime     # 시간 Lib
 import subprocess	# 하위 프로세스 관리 표준 Lib
+import xlwings as xw  # 엑셀 Lib
 
-src_path = ""	# 복사할 파일 경로
-dst_path = ""   # 복사된 옥적지 파일 경로
+app = xw.App()		# App 열기
+print("\n\n\n\n[@_TT] ■■■ [/ob_excel_fm_conts_edit.py] ==> [T_01] ■■■■■■ [######################### [OB 엑셀 파일 내용 수정 쳐리 Start] #########################] ■■■■■■ ")
 
-def file_copy(src, dst)： # 파일 복사 처리 함수()
-	try :
-		print"\n[[@_T] ■■ [/ob_sql_fm_copy.py] [file_copy()] ==> ■■■■■■ [T_01] [src]"+ str(src) +"[dstr]"+ str(dst) )
-	
-		shutil.copy2(src, dst)   # 파일 복사
-		print("\n[[@_T] ■■ [/ob.sqljm.copy py] [file.copyO] ==> ■■■■■■ [T_11] [파일 복사 성공}")
+ob.sort = 0      # 0B 쳐리 종류(1. 개발 테스트 추출, 2   CRM 데이다 추출) ■■■■■■■■■■■■■■■■■■
 
-		# if not os.path.isfilefdst)+    # dst 파일이 없다면 ==> dst 경로 인식 못 함
-		#  print("\n[[@_T] ■■ [/ob_sql_fm_copy.py] file_copy()] ==> ■■■■■■ [T_02] [src】”+ str(src) +”[dst】"+  str(dst)) 
-
-		#  if not os.path.isdir(dst)     # 복사할 곳에 디액토리가 없다연
-		#       print("\n[[@_T] ■■ [/ob_sql_fm_copy py] file_copy()] ==> ■■■■■■ [T_03] [src】”+  str(src) +"[dst]"+ str(dst))
-
-		# dst_dir = os.path dirname(dst)    # 디렉토리 경로 계산
-		#  # os.makedirs(dst_dir)    # 디액토리 생성 
-
-		# shutil.copy2(src, dst)    # 파일 복사
-		#         pnnt(An[[@_T] ■■ [/ob_sqLfm_copy.py] [file_copy()] ==>■■■■■■ [T_11】    [파일 복사 성공】_) 
-
-		# else :
-		# pnnt("[@_T] ■■ [/ob_sqLfm_copy.py] [file_copy()] ==>■■■■■■ [T_11】    [파일 복사 성공】")
-
-	except Exception as e:
-		print(e)
-		print("\n[[@_丁]  ■■ [/ob_sql_fm_copy.py]] [file_copy()J => [T_91] [파일 복사 실파!】  [Error] "+src )
-
-# path = './ob_work_table_T.txt'    # OB 처리 대상 테이블 txt 파일【/ob_workJable_T.txt: TEST 파일)
-# res_path = './ob.work^rst.csv'   # OB 처리 결과 csv 파일
-path = "D：\\\\PythonWorkspace\\\\02_0B_Windows\\\\ob_work_table_T.txt"    # OB 쳐리 대상 테이불 txt 파일(八)b_work_table_Tt)rt: TEST 파일》 
-res_path = "D:\\\PythonWorkspace\\\\02_0B_Windows\\\\ob_work_rst.csv"		# OB 처리 결과 csv 파일
-f = open(path, "r") 
-
-tablejist = f.readlines()
-f_close()
-
-csv_res = list()   # csv_res 설정 
-print("\n\n\n\n[@_TT] ■■■ [/ob_sql_fm_copy.py] ==> [T_01] ■■■■■■ [######################### [OB sql 파일 복사 쳐리 Start] #########################] ■■■■■■ ")
-
-ob.sort = 0       # OB 처리 종류【1. 가!발 테스트 추출. 2.  CRM 데이다 추출)	■■■■■■■■■■■■■■■■■■■■■■■■
-
-if len(sys.argv) < 2 -      # 인자값이 없으연
+if len(sys.argv) < 2 :      # 인자값이 없으연
 	ob_sort = 1
 else :
 	ob_sort = sys.argv[1]   # 2번찌！       인자값 
@@ -64,37 +28,40 @@ if ob_sort = 1  :    # OB 처리 종류가 1 이면
 	ob_folder = "ob_dsgn"  # ob_dsgn 폴더
 else :
 	ob_folder = "ob_dsgn_CRM"		# CRM ob_dsgn 폴더
-print("\n\n\n\n[@_TT] ■■ [/ob_sql_fm_copy.py] ==> [T_021 [ob_sort]"+ str(ob_sort) +"[ob_dsgn 폴더】"+ str(ob_folder ))
+print("\n[@_T] ■■ [/ob_excel_fm_conts_edit.py] ==> [T_02] [ob_sort]"+ str(ob_sort) +"[ob_dsgn 폴더】"+ str(ob_folder ))
+
+# path = './ob_work_table_T.txt'    # OB 처리 대상 테이블 txt 파일【/ob_workJable_T.txt: TEST 파일)
+# res_path = './ob.work^rst.csv'   # OB 처리 결과 csv 파일
+path = "D：\\\\PythonWorkspace\\\\02_0B_Windows\\\\ob_work_table_T.txt"    # OB 쳐리 대상 테이불 txt 파일(八)b_work_table_Tt)rt: TEST 파일》 
+res_path = "D:\\\PythonWorkspace\\\\02_0B_Windows\\\\ob_work_rst.csv"		# OB 처리 결과 csv 파일
+f = open(path, "r") 
+
+tablejist = f.readlines()
+f_close()
+
+csv_res = list()   # csv_res 설정 
 
 result_title = list()   # 제목 설정
-now_date = time.strftime("%Y-%m-%d %H:%M:%S")		# 오늘 날짜
-result_title.append("CSV File Info[Start Date "+ str(now_date) +"]")	# 제목 설정
+now_date = datetime.datetime.nowO.strtime("%Y-%m-%d %H-%M %S")     # 오늘 날짜 
+print("\n[@_T] ■■ [/ob_excel_fm_conts_edit.py] ==> [T_03] [now.date]"+ str(now_date))
+
+if ob.sort == 1 :    # OB 쳐리 종류가 1   이연
+	title_nm = "OB Work[Start Date "+ str(now.date) +"]" 
+else:
+	title.nm = "CRM OB Work[Start Date "+ str(now.date) +"]" 
+result_title.append(title_nm)   # 00  제목 설정■
+
 csv_res.append(result_title)
 
-result_head = list() #     파일 헤드 설정
-result_head.append("No.") # No.
-result_head .append("File Name")      # 01. 파일 명
-result_head .append("Copy File path")    # 02.복사할 파일 경로
-result_head.append("Copied File path")    # 03. 복사된 목적지 파일 경로 
-csv_res .append(result_head)   # HEAD 설정
+result_head = list()		# 파일 헤드 설정 
+result_head.append("No")		# No.
+result_head .append("File Name")      # 01   파일 명 
+result_head.append("batch_value")   # 02  배치 스케줄 값 
+result_head.append("changed batch_value") # 03.  변경된 배치 스케줄 값
+csv_res.append(result_head)   # HEAD 설정
 
-# cmd = "git —version" 
-#    cmd = "git pull"
-#     cmd = "your command"
-# # returns output as byte string
-#      #     returned_output = subprocess.check_output(cmd)
-#      #     esult = subprocess run(cmd, capture_output=True, shell=True, encoding='utf-8') 
-#     result = subprocess.run(cmd, capture_outputsTrue, shell=True)
-# print(result.stdout)
-#     print("\n[@_T] ■■ [/ob_sql_fm_copy py】    => [T_03] [returned_output]"+ str(result stdout)) 
-# using decode() function to convert byte string to string
-#  printfCurrent date isreturned_output decode("utf-8M))
-# printC〜n[@_丁] ■■ [/ob_sql_fm_copy.pyl ==> [T_03] [returned_output)"+ str(returned_output))
-
-
-# No.와 원하는 No. 비교해서 돌리기 @@@
 for i in table_list:		# i ~ table_list
-	print("\n\n[@_T] ■ [/ob_sql_fm_copy.py] ==> [T_50] [table_list] [i_번째]"+ i +"[01. 파일 명]"+ crm_file_nm  +"[CSV 파일 정보 확인 작업 중...] .....■■■■■■ ")
+	print("\n[@_T] ■■ [/ob_excel_fm_conts_edit.py] ==> [T_50] [table_list] [i_번째]"+ i +"[01. 파일 명]"+ crm_file_nm  +"[CSV 파일 정보 확인 작업 중...] .....■■■■■■ ")
 
 	try :
 		frst_num_file_nm = i.strip()[0:1]
@@ -110,63 +77,65 @@ for i in table_list:		# i ~ table_list
 
 	result = list()     # 결과 list 설정
 
-	if ob.sort == 1 :    # 0B 쳐리 종휴가 1 이면(1: 개발 테스트 추출)
-		num_file_nm = "grape_odl_cr_002_"+ tb_nm.lower() +"_001_bq2gcswithfin"
-	else :		# OB 처리 종류가 2 이면(2: CRM 더이다 추출)
-		num_file_nm = "grape_odl_cr_002_"+ tb_nm.lower() +"crmt_001__bq2gcswithfin" 
+	if ob.sort == 1 :    # 0B 쳐리 종류가 1 이면(1: 개발 테스트 추출) 
+		num_file_nm = num_folder_nm
+		if int(strNo) > 0 and int(strNo) < 31：		# No. 01 ~ No  31  까지
+			batch_value_n = '3 2 • • •'           # 배치 스케줄 값 수정 ■■■  A  d0203 설정
+		elif int(strNo) > 30 and int(strNo) < 49:		# No  31 ~ No. 48 까지
+			batch_value_n = '4 2 • • ••'      # 배치 스케줄 값 수정 ■■■ B. d0204 설정 
+		else     # No  48 이후 
+			batch_value_n = '2 2 • • ••'     # 배치 스케줄 값 수정 ■■■ C  d0202 설정
+	else :      # 0B 처리 종류가 2 이면(2.  CRM 데이ㅌ다 추출)
+		num_file_nm = num_folder_nm +"_CRM" 
+		if int(strNo) > 0 and int(strNo) < 31：		# No. 01 ~ No  31  까지
+			batch_value_n = '7 2 • • •'			# 배치 스케줄 값 수정 ■■■ C_B. d0208 설정
+		elif int(strNo) > 30 and int(strNo) < 49:		# No  31 ~ No. 48 까지
+			batch_value_n = '8 2 • • •'			# 배치 스케줄 값 수정 ■■■ C_B. d0208 설정
+		else     # No  48 이후 
+			batch_value_n = '9 2 • • ••'     # 배치 스케줄 값 수정 ■■■ C_C. d0209 설정
+
+	open_path = "D:\\\\"+ ob_folder +"\\\\"+ num_folder_nm  +"\\\\"+ num_file_nm +".xlsx"    # 오픈할 파일 경로
+	print("\n[@_T] ■■ [/ob_excel_fm_conts_edit.py] ==> [T_51] [tablejist] [i_번찌]"+ i +"[open_pathr]"+ str(open_pathr) +"[i.strip()]"+ i.strip() )
 	
-	susbdd_01 = tb_nm[0:2]		# L0, L1, L2
-	susbdd_02 = tb_nm[2:4]		# 하위 폴더(/bi, /cr...)
+	try : 
+		wb = xw.Book(open_path)    # 해당 파일에서 wb을 물러옴(Work Book 열기)
+		sht = wb.sheets[3]  # 시트 선택하기(4 번째 시트: 1.기본정보)
+		batch_value = sht.range("C5").value   # 배치 스케줄 값(3 2 • • ••) 
+		batch_value_n = batch_value_n    # 배치 스케줄 값 수정 ■■■ 
+		sht.range("C5").value = batch_value_n    # 배치 스케줄 칼럽값 변경
+		print("\n[@_T] ■■ [/ob_excel_fm_conts_edit.py] ==> [T_51_1] [tablejist ■] [i_번찌]"+ i +"[배치 스케줄 값(수정 전)]"+ str(batch_value) +"[베치 스케줄 값]"+ str(batch_value_n) )
+		
+	except :
+		result.append(int(strNo))	# No		 
+		result.append(str(tb_nm))  #01.  파일명
+		result.append("No file in open_path")    # 02. 배치 스케줄 값 
+		result.append("No file")     #  03. 변경 후 배치 스케줄 값 
+		print("\n[@_T] ■■ [/ob_excel_fm_conts_edit.py] ==> [T_51_2] [tablejist ■] [i_번찌]"+ i +"[tb_nm]"+ str(tb_nm) )
 
-	if susbdd_01 == "L2":   # L2 이면
-		susbdd_02 = "00"
-	print("n\n[@_T] ■ [/ob_sql_fm_copy.py] ==> [T_51_0] [tablejist] [L번찌！】i  +"[tb_nmp str(tb_nm) +'[susbdd_01f+ str(susbdd_01) +"[susbdd_02p str 
+		continue    # 아래 코드를 실쟁하지 않고 2너뜀
+	# print("\n[@_T] ■■ [/ob_excel_fm_conts_edit.py] ==> [T_52] [tablejist ■] [i_번찌]"+ i +"[배치 스케줄 값(수정 전)]"+ str(batch_value) +"[베치 스케줄 값)]"+ str(batch_value_n) )
 
-	src_path = "D:\\\\"+ ob_folder +"\\\\"+ num_folder_nm  +"\\\\"+ num_file_nm +".sql"    # 복사알 파일 경로
-	dst_path = "C:\\\\Users\\\tamario\\\PycharmProjects\\\dlk_airflow_01\\\\"+ susbdd_01.lower() +"\\\\"+ susbdd_02.lower() +"\\\\"+ num_file_nm +".sql" 
-	print("\n\n[@_T] ■ [/ob_sql_fm_copy.py] ==> [T.51] [tablejist] [i_번씨IP ' +M[tb_nmr+ str(tb.nm) 에 복사할 파일 경로]、str(src_path) +"[2 복사된 옥적:
-
-	file_copy(src_pathr, dst_path)   # 파일 복사 쳐리 ■■■■■
-	print("\n\n[@_T] ■ [/ob_sql_fm_copypy] «> [T_52]   [tablejist] [i_번찌ll"+ ■    +_[tb_nmr+ str(tb.nm) 욥-[조회된 파일명】”+ str(srcjath))
+	result_append(int(strNo))           # No
+	result.append(str(tb_nm))             # 01. 파일명
+	result.append(str(batch_value))     # 02  배치 스케줄 값
+	result.append(str(batch_value_n))   # 03.  변경 후 배치 스케줄 값
+	print("\n[@_T] ■■ [/ob_excel_fm_conts_edit.py] ==> [T_6이 [tablejist ■] [i_번찌]"+ i +"[배치 스케줄 값(수정 전)]"+ str(batch_value) +"[베치 스케줄 값)]"+ str(batch_value_n) )
 	
-	result.append(int(strNo))    # No.
-	result.append(str(tb_nm))		# 01. 파일명
-	result.append(str(src_path))   # 02 복사할 파일 경로
-	result_append(str(dst_path))   # 03 복사된 목적지 파일 경로
-	print("\n[@_T] ■■ [/ob_sqLfm_copy pyj ==> [T_53J [tablejist ■] [i_번찌IJ+나 i +"[01   파일 명卜 str(tb_nm) -+"[02  조회된 파일 명str(src_path)  )
-
 	csv_res.append(result)
-	print("\n\n [@_T] ■■■ [/ob_sql_fm_copy.pyj —> [T_81_2J [End] ■■■「)
 	
-	try :
-		# x = subprocess.run(['cp' ,'Project_Repo_Details.csv', 'bitbucket_repo_report/Project_Repo_Details.csv'])
-       # print(x.stdout)
-       # print(x.stderr)
-    
-		os.chdir("/dirs/Repo-report_scripts/bitbucket_repo_report")
-		subprocess.run(['git', 'config','--global', 'user.email', 'tamario@lgupluspartners.co.kr'])  # Git Config 설정 확인 및 변경(전역 email 설정)
-		subprocess.run(['git', 'init')
-		subprocess.run(['git', 'add', 'Project_Repo_Details.csv'])		# 01   staging area로 효기기(add) ■■■■■
-		subprocess.run(['git', 'commit', '-m', 'CRM TESTDD'])	# commit 에 대한 설명 메시지
-		subprocess.run(['git',' push', 'origin', 'develop'])		# 3. gti 서버로 추가(pushg): 원격 저장소에 반영 ■■■■■
-		# subprocess run(['git', 'push', 'https://tamario:asas1212!r,'--al니)
-		# subprocess.runlCgit',' push', ,httDs:"tamar，o asas1212"@QitreDorul..’--a"'】)  #  3. gti 서버로 추가(push) ■■■■■■■■
+	wb _save(open_path)		# 해당 파일에 wb을 지장 
+	wb.close()    # Work Book 당기
+	print("\n[@_T] ■■ [/ob_excel_fm_conts_edit.py] ==> [T_99] [End] ■■■■")
 
-	except Exception as e :
-		print("\n[@_T] ■■ [/ob_sql_fm_copy py] => [T_44] Error occured :".format(e)》 
-	print(,f\n\n [@_T] ■■■ [/ob_sql_fm_copy.py] ==> [T_99] [End] ■■■ j
-
-	csv_res.append(result) 
-	print("\n\n[@_T] ■■  [/ob_sql_fm_copy.py] ==> [T_99] [End] ■■■■")
-  
 with open(res_path, 'w') as file:	    # data 디렉토리안에 res_path 경로의 파일을 생성	
 	write = csv.writer(file)    # 쓰고 싶은 내용 입력
 	write.writerows(csv_res)
 
 with open(res_path, "r") as cvs_file:	# data 디렉토리안에 res_path 경로의 파일 읽어 오기
-	print("\n\n[@_T] ■■■  [/ob_sql_fm_copy.py] ==> [T_91] [파일 읽어 오기 Start] ■■■■■■■■■■■■")
+	print("\n\n[@_T] ■■■  [/ob_excel_fm_conts_edit.py] ==> [T_91] [변경된 파일 읽어 오기 Start] ■■■■■■■■■■■■")
 	print(cvs_file.read())
-	print("\n\n[@_T] ■■■  [/ob_sql_fm_copy.py] ==> [T_99] [파일 읽어 오기 End] ■■■■■■■■■■■■")
- 
-	print("\n\n[@_TT] ■■■ [/ob_sql_fm_copy.py] ==> [T_99] ■■■■■■ [######################### [CSV 파일 정보 확인 End] #########################] ■■■■■■\n\n\n\n")
- 
+	print("\n\n[@_T] ■■■  [/ob_excel_fm_conts_edit.py] ==> [T_99] [변경된 파일 읽어 오기 End] ■■■■■■■■■■■■")
+
+app.quit()   # App 닫기
+print("\n\n[@_TT] ■■■ [/ob_excel_fm_conts_edit.py] ==> [T_99] ■■■■■■ [######################### [CSV 파일 정보 확인 End] #########################] ■■■■■■\n\n\n\n")
+

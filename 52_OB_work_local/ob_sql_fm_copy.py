@@ -2,10 +2,10 @@
 # -*- coding: utf-8 -*-	# 문자 인코딩(한글 사용)
 
 import os	    # 운영체제(OS) 제어 Lib 
-import sys	# 파이씬 인터프리터 제어 Lib
-import sys	# 파이씬 인터프리터 제어 Lib
-import csv	# CSV 파일 Lib 
-import shutil      #	 고수준 파일 연산 Ub
+import sys		# 파이씬 인터프리터 제어 Lib
+import sys		# 파이씬 인터프리터 제어 Lib
+import csv		# CSV 파일 Lib 
+import shutil      # 고수준 파일 연산 Lib
 import datetime     # 시간 Lib
 import subprocess	# 하위 프로세스 관리 표준 Lib
 import xlwings as xw  # 엑셀 Lib
@@ -35,7 +35,7 @@ print("\n[@_T] ■■ [/ob_excel_fm_conts_edit.py] ==> [T_02] [ob_sort]"+ str(ob
 path = "D：\\\\PythonWorkspace\\\\02_0B_Windows\\\\ob_work_table_T.txt"    # OB 쳐리 대상 테이불 txt 파일(八)b_work_table_Tt)rt: TEST 파일》 
 res_path = "D:\\\PythonWorkspace\\\\02_0B_Windows\\\\ob_work_rst.csv"		# OB 처리 결과 csv 파일
 f = open(path, "r") 
- 
+
 tablejist = f.readlines()
 f_close()
 
@@ -93,9 +93,9 @@ for i in table_list:		# i ~ table_list
 			batch_value_n = '8 2 • • •'			# 배치 스케줄 값 수정 ■■■ C_B. d0208 설정
 		else     # No  48 이후 
 			batch_value_n = '9 2 • • ••'     # 배치 스케줄 값 수정 ■■■ C_C. d0209 설정
- 
+
 	open_path = "D:\\\\"+ ob_folder +"\\\\"+ num_folder_nm  +"\\\\"+ num_file_nm +".xlsx"    # 오픈할 파일 경로
-	print("\n[@_T] ■■ [/ob_excel_fm_conts_edit.py] ==> [T51] [tablejist ■】   [i_번1내i  +_[open_pathr+ str(open_path) ♦"[> strip()F* i.strip() ) 
+	print("\n[@_T] ■■ [/ob_excel_fm_conts_edit.py] ==> [T_51] [tablejist] [i_번찌]"+ i +"[open_pathr]"+ str(open_pathr) +"[i.strip()]"+ i.strip() )
 	
 	try : 
 		wb = xw.Book(open_path)    # 해당 파일에서 wb을 물러옴(Work Book 열기)
@@ -103,14 +103,14 @@ for i in table_list:		# i ~ table_list
 		batch_value = sht.range("C5").value   # 배치 스케줄 값(3 2 • • ••) 
 		batch_value_n = batch_value_n    # 배치 스케줄 값 수정 ■■■ 
 		sht.range("C5").value = batch_value_n    # 배치 스케줄 칼럽값 변경
-		print("\n[@_T] ■■ [/ob_excel_fm_conts_edit.py] ==> [T_51_1] [tablejist ■] [i_번찌]"+ i +"[배치 스케줄 값(수정 전)]"+ str(batch_value) +"[베치 스케줄 값)]"+ str(batch_value_n) )
-	 
+		print("\n[@_T] ■■ [/ob_excel_fm_conts_edit.py] ==> [T_51_1] [tablejist ■] [i_번찌]"+ i +"[배치 스케줄 값(수정 전)]"+ str(batch_value) +"[베치 스케줄 값]"+ str(batch_value_n) )
+		
 	except :
 		result.append(int(strNo))	# No		 
 		result.append(str(tb_nm))  #01.  파일명
 		result.append("No file in open_path")    # 02. 배치 스케줄 값 
-		result.append("No file")     #  03. 변경 후 배치 스케줄 값
-		print(_\n[@_T] ■■ [/csv_infojama_inqry.py] ==> [T_51_2] [tablejist ■] [i一번째 1”* i  *"[01  라일 명】"* str(tb_nm) ) 
+		result.append("No file")     #  03. 변경 후 배치 스케줄 값 
+		print("\n[@_T] ■■ [/ob_excel_fm_conts_edit.py] ==> [T_51_2] [tablejist ■] [i_번찌]"+ i +"[tb_nm]"+ str(tb_nm) )
 
 		continue    # 아래 코드를 실쟁하지 않고 2너뜀
 	# print("\n[@_T] ■■ [/ob_excel_fm_conts_edit.py] ==> [T_52] [tablejist ■] [i_번찌]"+ i +"[배치 스케줄 값(수정 전)]"+ str(batch_value) +"[베치 스케줄 값)]"+ str(batch_value_n) )
@@ -122,12 +122,11 @@ for i in table_list:		# i ~ table_list
 	print("\n[@_T] ■■ [/ob_excel_fm_conts_edit.py] ==> [T_6이 [tablejist ■] [i_번찌]"+ i +"[배치 스케줄 값(수정 전)]"+ str(batch_value) +"[베치 스케줄 값)]"+ str(batch_value_n) )
 	
 	csv_res.append(result)
-
-	# 저장 및 종료
+	
 	wb _save(open_path)		# 해당 파일에 wb을 지장 
 	wb.close()    # Work Book 당기
 	print("\n[@_T] ■■ [/ob_excel_fm_conts_edit.py] ==> [T_99] [End] ■■■■")
-  
+
 with open(res_path, 'w') as file:	    # data 디렉토리안에 res_path 경로의 파일을 생성	
 	write = csv.writer(file)    # 쓰고 싶은 내용 입력
 	write.writerows(csv_res)
@@ -136,7 +135,7 @@ with open(res_path, "r") as cvs_file:	# data 디렉토리안에 res_path 경로�
 	print("\n\n[@_T] ■■■  [/ob_excel_fm_conts_edit.py] ==> [T_91] [변경된 파일 읽어 오기 Start] ■■■■■■■■■■■■")
 	print(cvs_file.read())
 	print("\n\n[@_T] ■■■  [/ob_excel_fm_conts_edit.py] ==> [T_99] [변경된 파일 읽어 오기 End] ■■■■■■■■■■■■")
- 
+
 app.quit()   # App 닫기
 print("\n\n[@_TT] ■■■ [/ob_excel_fm_conts_edit.py] ==> [T_99] ■■■■■■ [######################### [CSV 파일 정보 확인 End] #########################] ■■■■■■\n\n\n\n")
 
