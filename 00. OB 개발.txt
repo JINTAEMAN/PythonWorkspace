@@ -125,7 +125,7 @@ git log --oneline --all --graph   # 로그 확인
 --------------------------------------------------------------------------------------
 
 git add -A;	
-git commit -m "Add to Python Work space[22.07.20(T_05), by 진태만];";
+git commit -m "Add to Python Work space[22.07.20(T_07), by 진태만];";
 git push origin main ;
 
 

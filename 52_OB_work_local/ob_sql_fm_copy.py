@@ -16,7 +16,7 @@ def file_copy(src, dst)： 	# 파일 복사 처리 함수()
 		print("\n[@_T] ■■ [/ob_sql_fm_copy.py] [file_copy()] ==> ■■■■■■ [T_01 [ob_srcsort]"+ str(src) +"[dstr】"+ str(dst) )
 		
 		shutil.copy2(src, dst)   # 파일 복사
-		print("\n[@_T] ■■ [/ob.sqljm.copy.py] [file.copy()] ==> [T_11] [파일 복사 성공]")
+		print("\n[@_T] ■■ [/ob_sql_fm_copy.py] [file_copy()] ==> [T_11] [파일 복사 성공]")
 
 		# if not os.path.isfilefdst)+    # dst 파일이 없다면 ==> dst 경로 인식 못 함
 		#  print("\n[@_T] ■■ [/ob_sql_fm_copy.py] file_copy()] ==> ■■■■■■ [T_02] [src】"+ str(src) +"[dst】"+  str(dst)) 
@@ -28,14 +28,14 @@ def file_copy(src, dst)： 	# 파일 복사 처리 함수()
 		#  # os.makedirs(dst_dir)    # 디액토리 생성 
 
 		# shutil.copy2(src, dst)    # 파일 복사
-		#         pnnt(An[[@_T] ■■ [/ob_sqLfm_copy.py] [file_copy()] ==>■■■■■■ [T_11】    [파일 복사 성공】_) 
+		#         pnnt(An[[@_T] ■■ [/ob_sql_fm_copy.py] [file_copy()] ==>■■■■■■ [T_11】    [파일 복사 성공】_) 
 
 		# else :
-		# pnnt("[@_T] ■■ [/ob_sqLfm_copy.py] [file_copy()] ==>■■■■■■ [T_11】    [파일 복사 성공】")
+		# pnnt("[@_T] ■■ [/ob_sql_fm_copy.py] [file_copy()] ==>■■■■■■ [T_11】    [파일 복사 성공】")
 
 	except Exception as e:
 		print(e)
-		print("\n[@_T] ■■ [/ob.sqljm.copy.py] [file.copy()] ==> [T_91] [파일 복사 실패] [Error]"+ e )
+		print("\n[@_T] ■■ [/ob_sql_fm_copy.py] [file_copy()] ==> [T_91] [파일 복사 실패] [Error]"+ e )
 
 # path = './ob_work_table_T.txt'    # OB 처리 대상 테이블 txt 파일【/ob_workJable_T.txt: TEST 파일)
 # res_path = './ob.work^rst.csv'   # OB 처리 결과 csv 파일
@@ -59,7 +59,7 @@ else :
 	for i  in argvlist:
 		ob_sort = sys.argv[1]
 		# print(f"{[i]번째 인자값은 (sys.argv[iD 입니다.")
- 
+
 if ob_sort == 1  :    # OB 처리 종류가 1 이면 
 	ob_folder = "ob_dsgn"  # ob_dsgn 폴더
 else :
@@ -80,7 +80,7 @@ csv_res .append(result_head)   # HEAD 설정
 
 strNo_Str = None        # No
 cmt_No = "06"    # 커밋 메세지 번호 ■■■■■■■■■■■ 
- 
+
 command = 'git pull origin develop    # 0. 원격 저장소 데이다 가저 오기
 proc = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE).stdoul
 out_cmd = proc.read()
@@ -121,18 +121,18 @@ for i in table_list:		# i ~ table_list
 	
 	file_copy(src_pathr, dst_path)   # 파일 복사 처리(Git 로컬 저장소에 파일 저장) ■■■■■
 	print("\n[@_T] ■ [/ob_sql_fm_copy.py] ==> [T_52] [table_list] [i_번째]"+ i +"[tb_nmp]"+ str(tb_nm) +"[src_path]"+ str(src_path) +"[dst_path]"+ str(dst_path) )
-     
+
     src_path = "D:\\\\"+ ob_folder +"\\\\"+ num_folder_nm  +"\\\\"+ num_file_nm +".sql"    # 복사할 파일 경로
 	st_py_path = "D:\\\\Users\\\tamario\\\PycharmProjects\\\dlk_airflow_01\\\\"+ susbdd_01.lower() +"\\\\"+ susbdd_02.lower() +"\\\\"+ num_file_nm +".sql"    # 복사할 파일 경로 
 	print("\n[@_T] ■ [/ob_sql_fm_copy.py] ==> [T_51_0] [table_list] [i_번째]"+ i +"[tb_nmp]"+ str(tb_nm) +"[src_path]"+ str(src_path) +"[dst_path]"+ str(dst_path) )
 	
 	file_copy(src_pathr, st_py_path)  # 파일 복사 처리(D\PythonWorkspace에 파일 저장) ■■■■■
 	print("\n[@_T] ■ [/ob_sql_fm_copy.py] ==> [T_52] [table_list] [i_번째]"+ i +"[tb_nmp]"+ str(tb_nm) +"[src_path]"+ str(src_path) +"[복사할 파일 경로]"+ str(st_py_path) )
- 
+
 	result.append(int(strNo))    # No.
 	result.append(str(tb_nm))		# 01. 파일명
-	result.append(str(src_path))   # 02 복사할 파일 경로
-	result_append(str(dst_path))   # 03 복사된 목적지 파일 경로 
+	result.append(str(src_path))	# 02 복사할 파일 경로
+	result_append(str(dst_path))   	# 03 복사된 목적지 파일 경로 
 	print("\n[@_T] ■ [/ob_sql_fm_copy.py] ==> [T_53J] [table_list] [i_번째]"+ i +"[파일명]"+ str(tb_nm) +"[02 복사할 파일 경로]"+ str(src_path) +"[03 복사된 목적지 파일 경로]"+ str(dst_path) )
 
 	csv_res.append(result) 
