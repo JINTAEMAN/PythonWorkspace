@@ -117,8 +117,15 @@ git push origin master  # origin으로 이름지어진 저장소에 현재 maste
 ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
 
 
+git status		# 0. Git 저장소 상태 확인
+git pull  origin  main     # 원격 저장소 데이타 가져 오기(main: 브랜치)
+
+git log --oneline --all --graph   # 로그 확인
+
+--------------------------------------------------------------------------------------
+
 git add -A;	
-git commit -m "Add to Python Work space[22.07.20(T_05),, by 진태만];";
+git commit -m "Add to Python Work space[22.07.20(T_05), by 진태만];";
 git push origin main ;
 
 
