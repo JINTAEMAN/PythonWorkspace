@@ -12,11 +12,11 @@ src_path = ""	# 복사할 파일 경로
 dst_path = ""   # 복사된 옥적지 파일 경로
 
 def file_copy(src, dst)： # 파일 복사 처리 함수()
-	try :
-		print"\n[@_T] ■■ [/ob_sql_fm_copy.py] [file_copy()] ==> ■■■■■■ [T_01] [src]"+ str(src) +"[dstr]"+ str(dst) )
+	try : 
+		print("\n[@_T] ■■ [/ob_sql_fm_copy.py] [file_copy()] ==> ■■■■■■ [T_01 [ob_srcsort]"+ str(src) +"[dstr】"+ str(dst) )
 		
 		shutil.copy2(src, dst)   # 파일 복사
-		print("\n[@_T] ■■ [/ob.sqljm.copy py] [file.copyO] ==> ■■■■■■ [T_11] [파일 복사 성공}")
+		print("\n[@_T] ■■ [/ob.sqljm.copy.py] [file.copy()] ==> [T_11] [파일 복사 성공]")
 
 		# if not os.path.isfilefdst)+    # dst 파일이 없다면 ==> dst 경로 인식 못 함
 		#  print("\n[@_T] ■■ [/ob_sql_fm_copy.py] file_copy()] ==> ■■■■■■ [T_02] [src】"+ str(src) +"[dst】"+  str(dst)) 
@@ -35,7 +35,7 @@ def file_copy(src, dst)： # 파일 복사 처리 함수()
 
 	except Exception as e:
 		print(e)
-		print("\n[[@_丁]  ■■ [/ob_sql_fm_copy.py]] [file_copy()J => [T_91] [파일 복사 실파!】  [Error] "+src )
+		print("\n[@_T] ■■ [/ob.sqljm.copy.py] [file.copy()] ==> [T_91] [파일 복사 실패] [Error]"+ e )
 
 # path = './ob_work_table_T.txt'    # OB 처리 대상 테이블 txt 파일【/ob_workJable_T.txt: TEST 파일)
 # res_path = './ob.work^rst.csv'   # OB 처리 결과 csv 파일
@@ -114,16 +114,16 @@ for i in table_list:		# i ~ table_list
 	file_copy(src_pathr, dst_path)   # 파일 복사 쳐리 ■■■■■
 	print("\n[@_T] ■ [/ob_sql_fm_copy.py] ==> [T_52] [table_list] [i_번째]"+ i +"[tb_nmp]"+ str(tb_nm) +"[src_path]"+ str(src_path) +"[dst_path]"+ str(dst_path) )
 
-	try:
+	try :
 		# x = subprocess.run(['cp','Project_Repo_Details.csv', 'bitbucket_repo_report/Project_Repo_Details.csv'])   # Unix 명령어
         # print(x.stdout)   
         # print(x.stderr)
 		
 		os.chdir("/dirs/Repo-report_scripts/bitbucket_repo_report")
 		subprocess.run(['git','config','--global','user.email','test@gmail.com'])
-        subprocess.run(['git','add','Project_Repo_Details.csv'])		#  ■■■
-		subprocess.run(['git','commit','-m','PQR-99 adding repo report'])	
-        subprocess.run(['git','push','https://username:password@gitreporul','--all'])	#  ■■■
+		subprocess.run(['git','add','Project_Repo_Details.csv']) 
+		subprocess.run(['git','commit','-m','PQR-99 adding repo report'])
+        subprocess.run(['git','push','https://username:password@gitreporul','--all'])
 
     except Exception as e:
 		print("Error occured :".format(e))
@@ -134,8 +134,8 @@ for i in table_list:		# i ~ table_list
 	result_append(str(dst_path))   # 03 복사된 목적지 파일 경로 
 	print("\n[@_T] ■ [/ob_sql_fm_copy.py] ==> [T_53J] [table_list] [i_번째]"+ i +"[파일명]"+ str(tb_nm) +"[02 복사할 파일 경로]"+ str(src_path) +"[03 복사된 목적지 파일 경로]"+ str(dst_path) )
 
-	csv_res.append(result)
-	print("\n\n [@_T] ■■■ [/ob_sql_fm_copy.pyj —> [T_81_2J [End] ■■■「)
+	csv_res.append(result) 
+  	print("\n\n [@_T] ■■ [/ob_sql_fm_copy.py] ==> [T_81_2J [End] ■■■" )    
 	   
 with open(res_path, 'w') as file:	    # data 디렉토리안에 res_path 경로의 파일을 생성	
 	write = csv.writer(file)    # 쓰고 싶은 내용 입력
