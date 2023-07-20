@@ -16,7 +16,7 @@
 
 
 # OB 엑셀 파일 복사 파일 실행  ■■■■■■
-#  python D:\PythonWorkspace\02_0B_Windows\ob_excel_fm_copy.py
+#  er
 
 
 #  python D:\PythonWorkspace\02_0B_Windows\ob_excel_fm_copy.py CRMT

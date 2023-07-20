@@ -1,5 +1,9 @@
 # 파일 기본
+<<<<<<< HEAD
 import os
+=======
+import os   # 기타 운영 체제 인터페이스 표준 Lib
+>>>>>>> eda17eae7e526c9fb1f71b53e863ca50f6374b75
 # print(os.getcwd()) # current working directory 현재 작업 공간
 # os.chdir("rpa_basic") # rpa_basic 으로 작업 공간 이동
 # print(os.getcwd())

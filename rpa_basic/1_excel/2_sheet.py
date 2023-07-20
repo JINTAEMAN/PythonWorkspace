@@ -23,4 +23,10 @@ target = wb.copy_worksheet(new_ws)
 target.title = "Copied Sheet"
 print("\n\n[@_T] ■ [/2_sheet.py] ==> [T_50] [target sheet 명]"+ target.title )
 
+<<<<<<< HEAD
 wb.save("sample.xlsx")
+=======
+wb.save("sample.xlsx")
+
+
+>>>>>>> eda17eae7e526c9fb1f71b53e863ca50f6374b75

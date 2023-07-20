@@ -977,7 +977,7 @@ git log --oneline --all --graph 		# 로그 보기
 git pull origin main; 
 git add -A;
 git commit -m "Add to Python Work space[22.07.19(T_04)], by 진태만];";
-git push origin master;		# origin으로 이름지어진 저장소에 현재 master Branch를 push
+git push origin main;		# origin으로 이름지어진 저장소에 현재 master Branch를 push
 
 tamar@TAMA-INO-PC MINGW64 /d/PythonWorkspace (main)
 $ git log --oneline --all --graph 
@@ -1015,13 +1015,34 @@ https://www.jusoen.com
 
 - branch 확인
 $ git branch  # 전환한 브랜치인 testBranch 앞에  '*' 표시
-$ git branch 'master'		# 브랜치 생성 
-$ git checkout 'master'		# 브랜치 전환 
+$ git checkout 'master'		# 브랜치 전환(main, master) ■■■
+$ git branch 'master'		# 브랜치 생성  
 $ git checkout -b <branch>   # 브랜치 작성과 체크아웃을 한꺼번에 실행 
 ============================================================================================================= 
 
 ■■■■■■■■■■■■■ 2023.07.20(목) 작업 ■■■■■■■■■■■■■■■■■■  
----> 08:00 ~ 18:00 ==> 
+---> 08:00 ~ 18:00 ==> 신한 직불 카드로 ATM기에서 5만원 출금(11:50, LG 사이언스 빌딩 지하 1층[E13])
+
+- LG U+ CRM_PDA 현행화 Prj[★] 
+1. ob_sql_fm_copy.py 개발 ==> 완료[♥♡]
+1. git bash를 사용하여 python 실행
+p$ ython D:\PythonWorkspace\02_0B_Windows\ob_excel_fm_copy.py
+=============================================================================================================
+
+- 수영모 구입
+- 아레나 스판 수영모자 ATAAS01. 색상: 블루, 블랙, 가격: 10,360원(2개)
+https://item.gmarket.co.kr/DetailView/Item.asp?goodscode=1300313932
+https://www.enuri.com/detail.jsp?modelno=28871524
+=============================================================================================================
+
+- 청소 솔 구입
+- 바이칸 테이블솔 미디움 녹색 45892. 테이블솔: 미디움/녹색, 가격: 13,800원
+https://www.11st.co.kr/products/664788264
+https://www.enuri.com/detail.jsp?modelno=63404584
+=============================================================================================================
+
+■■■■■■■■■■■■■ 2023.07.21(금) 작업 ■■■■■■■■■■■■■■■■■■  
+---> 08:00 ~ 18:00 ==>  
 
 - LG U+ CRM_PDA 현행화 Prj[★] 
 1. 
