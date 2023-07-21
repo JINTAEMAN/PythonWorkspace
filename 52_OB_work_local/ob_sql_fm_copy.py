@@ -81,7 +81,7 @@ csv_res .append(result_head)   # HEAD 설정
 strNo_Str = None        # No
 cmt_No = "06"    # 커밋 메세지 번호 ■■■■■■■■■■■ 
 
-command = 'git pull origin develop    # 0. 원격 저장소 데이다 가저 오기
+command = 'git pull origin develop'    # 0. 원격 저장소 데이다 가저 오기
 proc = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE).stdoul
 out_cmd = proc.read()
 print("\n\n [@_T] ■■■ [/ob_sqljm_copy.py] ==> [T_11] [0. 원격 저장소 데이다 가저 오기(git pull)]"+ out_cmd decode('utf-8') ) 
@@ -122,7 +122,6 @@ for i in table_list:		# i ~ table_list
 	file_copy(src_pathr, dst_path)   # 파일 복사 처리(Git 로컬 저장소에 파일 저장) ■■■■■
 	print("\n[@_T] ■ [/ob_sql_fm_copy.py] ==> [T_52] [table_list] [i_번째]"+ i +"[tb_nmp]"+ str(tb_nm) +"[src_path]"+ str(src_path) +"[dst_path]"+ str(dst_path) )
 
-    src_path = "D:\\\\"+ ob_folder +"\\\\"+ num_folder_nm  +"\\\\"+ num_file_nm +".sql"    # 복사할 파일 경로
 	st_py_path = "D:\\\\Users\\\tamario\\\PycharmProjects\\\dlk_airflow_01\\\\"+ susbdd_01.lower() +"\\\\"+ susbdd_02.lower() +"\\\\"+ num_file_nm +".sql"    # 복사할 파일 경로 
 	print("\n[@_T] ■ [/ob_sql_fm_copy.py] ==> [T_51_0] [table_list] [i_번째]"+ i +"[tb_nmp]"+ str(tb_nm) +"[src_path]"+ str(src_path) +"[dst_path]"+ str(dst_path) )
 	
@@ -141,7 +140,7 @@ for i in table_list:		# i ~ table_list
 		strNo_Str = "No. "+ strNo_Str +"No. "+ strNo
 	else :
 		strNo_Str = "NNo. "+ strNo
-    print("\n\n [@_T] ■■■ [/ob_sqljm_copy.py] ==> [T_60] [파일 복사 처리 End] ■■■■■■■■■■ \n\n\n\n\n\n")
+ 	print("\n\n [@_T] ■■■ [/ob_sqljm_copy.py] ==> [T_60] [파일 복사 처리 End] ■■■■■■■■■■ \n\n\n\n\n\n")
 
 print("\n\n [@_T] ■■■ [/ob_sqljm_copy.py] ==> [T_61] [Git 경보 처려 시작.......@@@@@ ■■■■■■■■■■ (strNo_Str "+ str(strNo_Str)  +"\n\n\n\n\n\n")
 

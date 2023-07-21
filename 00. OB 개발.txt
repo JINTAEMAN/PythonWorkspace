@@ -108,9 +108,11 @@ git push origin master
 ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
 
 
+cp  /D/'01. TAMA_DATA'/'01. TAMA Work'/'01. Memo'/'Memo(2023.07).sql'  /D/PythonWorkspace/'01. Memo'
+
 git add -A;
-git commit -m "Add to Python Work space[22.07.19(T_07), by 진태만]";
-git push origin master  # origin으로 이름지어진 저장소에 현재 master Branch를 push
+git commit -m "Add to Python Work space[22.07.21(T_01), by 진태만]";
+git push origin main   
 
 
 =============================================================================================================
