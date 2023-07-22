@@ -12,7 +12,7 @@ import subprocess	# 하위 프로세스 관리 표준 Lib
 src_path = ""	# 복사할 파일 경로
 dst_path = ""   # 복사된 옥적지 파일 경로
 
-csv_res = list()   # csv_res 설정   
+csv_res = list()   # csv_res 설정    wwww
 print("\n\n\n\n[@_TT] ■■■ [/python_ws_pu.py] ==> [T_01] ■■■■■■ [######################### [python Workspace 처리 Start] #########################] ■■■■■■ ")
 
 strNo_Str = None        # No
