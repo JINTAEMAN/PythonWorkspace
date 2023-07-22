@@ -67,7 +67,7 @@ if ob_sort > 1 :    # 인자값이 없으연
     proc = subprocess.Popen(cmd_cmt_msg, shell=True, stdout=subprocess.PIPE).stdout
     out_cmt_msg = proc.read()
     print("\n\n [@_T] ■■■ [/python_ws_pu.py] ==> [T_73] [4. Git 로걸 저장소 영역에 추가(커잇 에세지)J  ■■■■■■■■■■■■ "+ str(cmd_cmt_msg))
-    print("\n\n [@_T] ■■■ [/python_ws_pu.py] ==> [T_73_2] [4  Git 로걸 저장소 영역에 추가(git commit)] ■■■■■■■■■■■■ "* out_cmt_msg.decode(utf-8) ) 
+    print("\n\n [@_T] ■■■ [/python_ws_pu.py] ==> [T_73_2] [4  Git 로걸 저장소 영역에 추가(git commit)] ■■■■■■■■■■■■ "* out_cmt_msg.decode('utf-8') )
 
     command = 'git push origin develop'      # 5. 원격  저장소에 반영
     proc = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE).stdout
