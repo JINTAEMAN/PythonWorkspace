@@ -39,7 +39,7 @@ else :
 		# print(f"{[i]번째 인자값은 (sys.argv[iD 입니다.")
 
 if ob_sort > 0 :
-    command = 'git pull origin develop'    # 0. 원격 저장소 데이다 가저 오기
+    command = 'git pull origin main'    # 0. 원격 저장소 데이다 가저 오기
     proc = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE).stdout
     out_cmd = proc.read()
     print("\n\n [@_T] ■■■ [/python_ws_pu.py] ==> [T_61] [0. 원격 저장소 데이다 가저 오기(git pull)]"+ out_cmd.decode('utf-8') ) 
@@ -66,10 +66,10 @@ if ob_sort > 1 :    # 인자값이 없으연
     # git commit -m 'Add to TEST 대이다 추출(22.07.20J)1》[(No  31, No. 32) by 진태만1 
     proc = subprocess.Popen(cmd_cmt_msg, shell=True, stdout=subprocess.PIPE).stdout
     out_cmt_msg = proc.read()
-    print("\n\n [@_T] ■■■ [/python_ws_pu.py] ==> [T_73] [4. Git 로걸 저장소 영역에 추가(커잇 에세지)]  ■■■■■■■■■■■■ "+ str(cmd_cmt_msg))
+    print("\n\n [@_T] ■■■ [/python_ws_pu.py] ==> [T_73] [4. Git 로걸 저장소 영역에 추가(커밋 에세지)]  ■■■■■■■■■■■■ "+ str(cmd_cmt_msg))
     # print("\n\n [@_T] ■■■ [/python_ws_pu.py] ==> [T_73_2] [4  Git 로걸 저장소 영역에 추가(git commit)] ■■■■■■■■■■■■ "* out_cmt_msg.decode('utf-8') )
 
-    command = 'git push origin develop'      # 5. 원격  저장소에 반영
+    command = 'git push origin main'      # 5. 원격  저장소에 반영
     proc = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE).stdout
     out_cmd_push = proc.read()
     print("\n[@_T] ■■ [/python_ws_pu py] ==> [T_74] [5. 원격 方!장소에 반영(git push)]"+ out_cmd_push.decode('utf-8'))
