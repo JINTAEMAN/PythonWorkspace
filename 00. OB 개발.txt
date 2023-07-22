@@ -16,8 +16,7 @@
 
 
 # OB 엑셀 파일 복사 파일 실행  ■■■■■■
-#  er
-
+#  python D:\PythonWorkspacecdf02_0B_Windows\ob_excel_fm_copy.py
 
 #  python D:\PythonWorkspace\02_0B_Windows\ob_excel_fm_copy.py CRMT
 
@@ -32,6 +31,11 @@
 #  python D:\PythonWorkspace\02_0B_Windows\ob_sql_fm_copy.py CRMT
 
 
+# Opython Workspace 처리 파일 실행(Git bash에서 처리) ■■■■■■
+#  python /D/PythonWorkspace/python_ws_pu.py
+
+
+ 
 =============================================================================================================
 ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
 
@@ -130,6 +134,23 @@ git add -A;
 git commit -m "Add to Python Work space[22.07.20(T_07), by 진태만];";
 git push origin main ;
 
+=============================================================================================================
+■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+
+
+ 
+- Memo(2023.07).sql 수정
+cp  /D/'01. TAMA_DATA'/'01. TAMA Work'/'01. Memo'/'Memo(2023.07).sql'  /D/PythonWorkspace/'01. Memo'
+
+git add -A;
+git commit -m "Add to Memo(2023.07).sql 수정[22.07.18(T_01_2), by 진태만]"; 
+git push origin master
+
+========================================================================================
+
+
+- 파일 복사
+cp   /D/PythonWorkspace/'01. Memo'/'Memo(2023.07).sql'   /D/'01. TAMA_DATA'/'01. TAMA Work'/'01. Memo'
 
 =============================================================================================================
 ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
