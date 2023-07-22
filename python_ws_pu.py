@@ -52,7 +52,7 @@ if ob_sort > 0 :
     #  print("\n\n [@_T] ■■■ [/python_ws_pu.py] ==> [T_61] [Git 경보 처려 시작.......@@@@@ ■■■■■■■■■■ (strNo_Str "+ str(strNo_Str)  +"\n\n\n\n\n\n")
     
 if ob_sort > 1 :    # 인자값이 없으연
-    ommand = 'git status'    # 0. Git 저장소의 상태 확인
+    command = 'git status'    # 0. Git 저장소의 상태 확인
     proc = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE).stdout
     out_cmd_status = proc.read()
     print("\n\n [@_T] ■■■ [/python_ws_pu.py] ==> [T_71] [0. Git 저장소의 상태 확인(git status)]"+ out_cmd_status.decode('utf-8') ) 
@@ -67,12 +67,12 @@ if ob_sort > 1 :    # 인자값이 없으연
     proc = subprocess.Popen(cmd_cmt_msg, shell=True, stdout=subprocess.PIPE).stdout
     out_cmt_msg = proc.read()
     print("\n\n [@_T] ■■■ [/python_ws_pu.py] ==> [T_73] [4. Git 로걸 저장소 영역에 추가(커밋 에세지)]  ■■■■■■■■■■■■ "+ str(cmd_cmt_msg))
-    # print("\n\n [@_T] ■■■ [/python_ws_pu.py] ==> [T_73_2] [4  Git 로걸 저장소 영역에 추가(git commit)] ■■■■■■■■■■■■ "* out_cmt_msg.decode('utf-8') )
+    print("\n\n [@_T] ■■■ [/python_ws_pu.py] ==> [T_73_2] [4  Git 로걸 저장소 영역에 추가(git commit)] ■■■■■■■■■■■■ "* out_cmt_msg.decode('utf-8') )
 
     command = 'git push origin main'      # 5. 원격  저장소에 반영
     proc = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE).stdout
     out_cmd_push = proc.read()
-    print("\n[@_T] ■■ [/python_ws_pu py] ==> [T_74] [5. 원격 方!장소에 반영(git push)]"+ out_cmd_push.decode('utf-8'))
+    print("\n[@_T] ■■ [/python_ws_pu py] ==> [T_74] [5. 원격 정장소에 반영(git push)]"+ out_cmd_push.decode('utf-8'))
     print("\n\n [@_T] ■■■ [/ob_sqlJm.copy py] ==> [T_80 [Git 정보 쳐리 시작 End] ■■■ @@@@@ ■■■■■■■■■ ■\n\n\n\n\n\n")
 
 print("\n\n[@_TT] ■■■ [/python_ws_pu.py] ==> [T_99] ■■■■■■ [######################### [python Workspace 처리 End] #########################] ■■■■■■\n\n\n\n")
