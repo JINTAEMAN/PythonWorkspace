@@ -169,7 +169,7 @@ print("\n\n [@_T] ■■■ [/ob_sql_fm_copy.py] ==> [T_63_1] [3. Git 스테이�
 if intNo > 10 :		# No.가 10보다 크면
 	strNo_Str = "No. "+ str(intfirtNoNo) + " ~ No. "+ str(lastNo)
 
-ob_dsgn_sort_nm = "TEST 서버
+ob_dsgn_sort_nm = "TEST 서버"
 
 cmd_cmt_msg = 'git commit -m "Add to '+ ob_dsgn_sort_nm +' 데이타 추출('+ now_ydmhm +') [('+ str(strNo_Str) +'), by 진태만]"'   # 4. Git 로컬 저장소 영역에 커밋 처리
 # git commit -m 'Add to TEST 대이다 추출(22.07.20J)1》[(No  31, No. 32) by 진태만1 
