@@ -20,14 +20,14 @@ print("\n\n [@_T] ■■■ [/python_ws_pu.py] ==> [T_60] [Git 경보 처리 시
 
 ob_sort = 2      # OB 처리 종류
 ob_sort_nm = ""
-now_ydmhm = time.strftime("%Y.%m.%d %H:%M")		# 오늘 날짜(년.월.일 시:분)
+now_ydmhm = time.strftime("%y.%m.%d %H:%M")		# 오늘 날짜(년.월.일 시:분)
 
 if len(sys.argv) < 2:   # 인자값이 없으연
 	ob_sort = 2
 else :
     ob_sort = 1  # 인자값이 존재하면
 
-    # ob_sort_nm = sys.argv[1]   # 2번쨰 인자값 
+    ob_sort_nm = sys.argv[1]   # 2번쨰 인자값 
     
     # if ob_sort_nm = "get":   # 인자값이 get 이면
     #     ob_sort = 1
@@ -39,6 +39,10 @@ else :
 		# print(f"{[i]번째 인자값은 (sys.argv[iD 입니다.")
 
 if ob_sort > 0 :
+        
+    if ob_sort_nm == "get":   # 인자값이 get 이면
+        print("\n\n [@_T] ■■■ [/python_ws_pu.py] ==> [T_60_2] [Git 경보 처리 시작0. 원격 저장소 데이다 가저 오기(git pull)] ■■■■■■■■■■ \n\n\n\n\n\n")
+
     command = 'git pull origin main'    # 0. 원격 저장소 데이다 가저 오기
     proc = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE).stdout
     out_cmd = proc.read()
@@ -64,7 +68,7 @@ if ob_sort > 1 :    # 인자값이 없으연
     
     cmd_cmt_msg = 'git commit -m "Add to Python Work space['+ now_ydmhm +'(T_01), by 진태만]"'   # 4. Git 로컬 저장소 영역에 커밋 처리
     # git commit -m 'Add to TEST 대이다 추출(22.07.20J)1》[(No  31, No. 32) by 진태만1 
-    proc = subprocess.Popen(cmd_cmt_msg, shell=True, stdout=subprocess.PIPE).stdout
+    proc = subprocess.Popen(cmd_cmt_msg, shell=True, stdout=subprocess.PIPE).stdout 
     out_cmt_msg = proc.read()
     print("\n\n [@_T] ■■■ [/python_ws_pu.py] ==> [T_73] [4. Git 로걸 저장소 영역에 추가(커밋 에세지)]  ■■■■■■■■■■■■ "+ str(cmd_cmt_msg))
     # print("\n\n [@_T] ■■■ [/python_ws_pu.py] ==> [T_73_2] [4  Git 로걸 저장소 영역에 추가(git commit)] ■■■■■■■■■■■■ "* out_cmt_msg.decode('utf-8') )
