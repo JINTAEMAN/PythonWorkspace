@@ -41,7 +41,7 @@ else :
 if ob_sort > 0 :
         
     if ob_sort_nm == "get":   # 인자값이 get 이면
-        print("\n\n [@_T] ■■■ [/python_ws_pu.py] ==> [T_60_2] [Git 경보 처리 시작0. 원격 저장소 데이다 가저 오기(git pull)] ■■■■■■■■■■ \n\n\n\n\n\n")
+        print("\n\n [@_T] ■■■ [/python_ws_pu.py] ==> [T_60_2] [Git 경보 처리 시작0. 원격 저장소 데이다 가저 오기(git pull)] ■■■■■■■■■■ \n\n")
 
     command = 'git pull origin main'    # 0. 원격 저장소 데이다 가저 오기
     proc = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE).stdout
