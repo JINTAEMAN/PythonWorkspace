@@ -1,4 +1,4 @@
-# ! /ob_sql_fm_copy.py   # OB 엑셀 파일 복사 쳐리 파일 
+# ! /ob_sql_fm_copy.py   # OB SQL 파일 복사 쳐리 파일 
 # -*- coding: utf-8 -*-	# 문자 인코딩(한글 사용)
 
 import os	# 운영체제(OS) 제어 Lib 
@@ -12,7 +12,7 @@ import subprocess	# 하위 프로세스 관리 표준 Lib
 src_path = ""	# 복사할 파일 경로
 dst_path = ""   # 복사된 옥적지 파일 경로
 
-def file_copy(src, dst)： 	# 파일 복사 처리 함수()
+def file_copy(src, dst) : 	# 파일 복사 처리 함수()
 	try : 
 		print("\n[@_T] ■■ [/ob_sql_fm_copy.py] [file_copy()] ==> ■■■■■■ [T_01 [ob_srcsort]"+ str(src) +"[dstr】"+ str(dst) )
 		
@@ -38,21 +38,23 @@ def file_copy(src, dst)： 	# 파일 복사 처리 함수()
 		print(e)
 		print("\n[@_T] ■■ [/ob_sql_fm_copy.py] [file_copy()] ==> [T_91] [파일 복사 실패] [Error]"+ e )
 
-# path = './ob_work_table_T.txt'    # OB 처리 대상 테이블 txt 파일【/ob_workJable_T.txt: TEST 파일)
-# res_path = './ob.work^rst.csv'   # OB 처리 결과 csv 파일
-path = "D：\\\\PythonWorkspace\\\\02_0B_Windows\\\\ob_work_table_T.txt"    # OB 쳐리 대상 테이불 txt 파일(八)b_work_table_Tt)rt: TEST 파일》 
-res_path = "D:\\\PythonWorkspace\\\\02_0B_Windows\\\\ob_work_rst.csv"		# OB 처리 결과 csv 파일
+# D:\PythonWorkspace\52_OB_work_local>
+path = './ob_work_table_T.txt'    # OB 처리 대상 테이블 txt 파일【/ob_workJable_T.txt: TEST 파일)
+res_path = './ob_work_rst.csv'   # OB 처리 결과 csv 파일
+# path = "D：\PythonWorkspace\52_OB_work_local\ob_work_table_T.txt"    	# OB 쳐리 대상 테이불 txt 파일(八)b_work_table_Tt)rt: TEST 파일》 
+# res_path = "D:\PythonWorkspace\2_OB_work_local\ob_work_rst.csv"		# OB 처리 결과 csv 파일
+# D:\PythonWorkspace\52_OB_work_local\
 f = open(path, "r") 
 
-tablejist = f.readlines()
-f_close()
+table_list = f.readlines()
+f.close()
 
 csv_res = list()   # csv_res 설정 
 print("\n\n\n\n[@_TT] ■■■ [/ob_sql_fm_copy.py] ==> [T_01] ■■■■■■ [######################### [OB sql 파일 복사 쳐리 Start] #########################] ■■■■■■ ")
 
 ob_sort = 0       # OB 처리 종류【1. 가!발 테스트 추출. 2.  CRM 데이다 추출)	■■■■■■■■■■■■■■■■■■■■■■■■
 
-if len(sys.argv) < 2 -      # 인자값이 없으연
+if len(sys.argv) < 2 :     # 인자값이 없으연
 	ob_sort = 1
 else :
 	ob_sort = sys.argv[1]   # 2번쨰 인자값 
@@ -85,14 +87,13 @@ firtNo = ""
 lastNo = ""
 intNo = 0
 
-command = 'git pull origin develop'    # 0. 원격 저장소 데이다 가저 오기
+command = 'git pull origin main'    # 0. 원격 저장소 데이다 가저 오기
 proc = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE).stdout
 out_cmd = proc.read()
-print("\n\n [@_T] ■■■ [/ob_sql_fm_copy.py] ==> [T_11] [0. 원격 저장소 데이다 가저 오기(git pull)]"+ out_cmd decode('utf-8') ) 
+print("\n\n [@_T] ■■■ [/ob_sql_fm_copy.py] ==> [T_11] [0. 원격 저장소 데이다 가저 오기(git pull)]"+ out_cmd.decode('utf-8') ) 
 
-
-stdoutfor i in table_list:		# i ~ table_list
-	print("\n\n[@_T] ■ [/ob_sql_fm_copy.py] ==> [T_50] [table_list] [i_번째]"+ i +"[01. 파일 명]"+ crm_file_nm  +"[CSV 파일 정보 확인 작업 중...] .....■■■■■■ ")
+for i in table_list :		# i ~ table_list
+	print("\n\n[@_T] ■ [/ob_sql_fm_copy.py] ==> [T_50] [table_list] [i_번째]"+ i +"[01. 파일 명]"+ i.strip()  +"[CSV 파일 정보 확인 작업 중...] .....■■■■■■ ")
 
 	try :
 		frst_num_file_nm = i.strip()[0:1]
@@ -141,10 +142,10 @@ stdoutfor i in table_list:		# i ~ table_list
 
 	csv_res.append(result) 
     
-	if strNo_Str != None and strNo_Str =! ''        # No .가 존재하연 
+	if strNo_Str != None and strNo_Str != '' :        # No .가 존재하연 
 		strNo_Str = "No. "+ strNo_Str +"No. "+ strNo
 	else :
-		strNo_Str = "NNo. "+ str(strNo_Str)
+		strNo_Str = "No. "+ str(strNo_Str)
 		firtNo = str(intNo)
 	
 	intNo = intNo + 1
@@ -165,8 +166,10 @@ proc = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE).stdout
 out_cmd_add = proc.read()
 print("\n\n [@_T] ■■■ [/ob_sql_fm_copy.py] ==> [T_63_1] [3. Git 스테이지 영역에 추가(git add)]"+ out_cmd_add.decode('utf-8') )
 
-if intNo > 10 # No.가 10보다 크면
+if intNo > 10 :		# No.가 10보다 크면
 	strNo_Str = "No. "+ str(intfirtNoNo) + " ~ No. "+ str(lastNo)
+
+ob_dsgn_sort_nm = "TEST 서버
 
 cmd_cmt_msg = 'git commit -m "Add to '+ ob_dsgn_sort_nm +' 데이타 추출('+ now_ydmhm +') [('+ str(strNo_Str) +'), by 진태만]"'   # 4. Git 로컬 저장소 영역에 커밋 처리
 # git commit -m 'Add to TEST 대이다 추출(22.07.20J)1》[(No  31, No. 32) by 진태만1 
@@ -175,7 +178,7 @@ out_cmt_msg = proc.read()
 print("\n\n [@_T] ■■■ [/ob_sql_fm_copy.py] ==> [T_63_2] [4. Git 로걸 저장소 영역에 추가(커밋 에세지)]  ■■■■■■■■■■■■ "+ str(cmd_cmt_msg))
 # print("\n\n [@_T] ■■■ [/ob_sql_fm_copy.py] ==> [T_63_2] [4  Git 로걸 저장소 영역에 추가(git commit)] ■■■■■■■■■■■■ "* out_cmt_msg.decode('utf-8') )
 
-command = 'git push origin develop'      # 5. 원격  저장소에 반영
+command = 'git push origin main'      # 5. 원격  저장소에 반영
 proc = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE).stdout
 out_cmd_push = proc.read()
 print("\n[@_T] ■■ [/ob_sql_fm_copy.py] ==> [T_63_3] [5. 원격 方!장소에 반영(git push)]"+ out_cmd_push.decode('utf-8'))
