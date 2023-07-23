@@ -87,29 +87,31 @@ for i in table_list:		# i ~ table_list
 	if ob_sort == 1 :    # 0B 쳐리 종류가 1 이면(1: 개발 테스트 추출) 
 		num_file_nm = num_folder_nm
 		if int(strNo) > 0 and int(strNo) < 31 :  	# No. 01 ~ No  31  까지
-			batch_value_n = '3 2 • • •'           # 배치 스케줄 값 수정 ■■■  A  d0203 설정
+			batch_value_n = '3 2 * * *'           # 배치 스케줄 값 수정 ■■■  A  d0203 설정
 		elif int(strNo) > 30 and int(strNo) < 49 :  		# No  31 ~ No. 48 까지
-			batch_value_n = '4 2 • • ••'      # 배치 스케줄 값 수정 ■■■ B. d0204 설정 
+			batch_value_n = '4 2 * * *'      # 배치 스케줄 값 수정 ■■■ B. d0204 설정 
 		else :    # No  48 이후 
-			batch_value_n = '2 2 • • ••'     # 배치 스케줄 값 수정 ■■■ C  d0202 설정
+			batch_value_n = '2 2 * * *'     # 배치 스케줄 값 수정 ■■■ C  d0202 설정
 	else :      # 0B 처리 종류가 2 이면(2.  CRM 데이ㅌ다 추출)
 		num_file_nm = num_folder_nm +"_CRM" 
 		if int(strNo) > 0 and int(strNo) < 31 :  	# No. 01 ~ No  31  까지
-			batch_value_n = '7 2 • • •'			# 배치 스케줄 값 수정 ■■■ C_B. d0208 설정
+			batch_value_n = '7 2 * * *'			# 배치 스케줄 값 수정 ■■■ C_B. d0208 설정
 		elif int(strNo) > 30 and int(strNo) < 49 :  	# No  31 ~ No. 48 까지
-			batch_value_n = '8 2 • • •'			# 배치 스케줄 값 수정 ■■■ C_B. d0208 설정
+			batch_value_n = '8 2 * * *'			# 배치 스케줄 값 수정 ■■■ C_B. d0208 설정
 		else :    # No  48 이후 
-			batch_value_n = '9 2 • • ••'     # 배치 스케줄 값 수정 ■■■ C_C. d0209 설정
-
+			batch_value_n = '9 2 * * *'     # 배치 스케줄 값 수정 ■■■ C_C. d0209 설정
+	
 	open_path = "D:\\\\"+ ob_folder +"\\\\"+ num_folder_nm  +"\\\\"+ num_file_nm +".xlsx"    # 오픈할 파일 경로
 	print(" [@_T] ■■ [/ob_excel_fm_conts_edit.py] ==> [T_51] [table_list] [i_번째]"+ i +"[open_path]"+ str(open_path) +"[i.strip()]"+ i.strip() )
 	
 	try : 
 		wb = xw.Book(open_path)    # 해당 파일에서 wb을 물러옴(Work Book 열기)
 		sht = wb.sheets[3]  # 시트 선택하기(4 번째 시트: 1.기본정보)
-		batch_value = sht.range("C5").value   # 배치 스케줄 값(3 2 • • ••) 
+		batch_value = sht.range("C5").value   # 배치 스케줄 값(3 2 * * *) 
 		batch_value_n = batch_value_n    # 배치 스케줄 값 수정 ■■■ 
 		sht.range("C5").value = batch_value_n    # 배치 스케줄 칼럽값 변경
+		# batch_value = '8 2'			# 배치 스케줄 값 수정 ■■■ C_B. d0208 설정  ==> TEST @@@ ===>
+		# batch_value_n = '9 2'		# 배치 스케줄 값 수정 ■■■ C_B. d0208 설정  ==> TEST @@@ ===>
 		print(" [@_T] ■■ [/ob_excel_fm_conts_edit.py] ==> [T_51_1] [table_list ■] [i_번째]"+ i +"[배치 스케줄 값(수정 전)]"+ str(batch_value) +"[베치 스케줄 값]"+ str(batch_value_n) )
 		
 	except :

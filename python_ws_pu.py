@@ -13,7 +13,7 @@ src_path = ""	# 복사할 파일 경로
 dst_path = ""   # 복사된 옥적지 파일 경로
 
 csv_res = list()   # csv_res 설정    wwww
-print("\n\n[@_TT] ■■■ [/python_ws_pu.py] ==> [T_01] ■■■■■■ [######################### [python Workspace 처리 Start] #########################] ■■■■■■ ")
+print(" [@_T] ■■■ [/python_ws_pu.py] ==> [T_01] ■■■■■■ [######################### [python Workspace 처리 Start] #########################] ■■■■■■ ")
 
 strNo_Str = None        # No
 print("[@_T] ■■■ [/python_ws_pu.py] ==> [T_60] [Git 경보 처리 시작.......@@@@@ ■■■■■■■■■■ \n\n\n\n\n\n")
@@ -76,7 +76,7 @@ if ob_sort > 1 :    # 인자값이 없으연
     command = 'git push origin main'      # 5. 원격  저장소에 반영
     proc = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE).stdout
     out_cmd_push = proc.read()
-    print("\n[@_T] ■■ [/python_ws_pu py] ==> [T_74] [5. 원격 정장소에 반영(git push)]"+ out_cmd_push.decode('utf-8'))
-    print("[@_T] ■■■ [/ob_sqlJm.copy py] ==> [T_80 [Git 정보 쳐리 시작 End] ■■■ @@@@@ ■■■■■■■■■ ■\n\n\n\n\n\n")
+    print("[@_T] ■■■ [/python_ws_pu py] ==> [T_74] [5. 원격 정장소에 반영(git push)]"+ out_cmd_push.decode('utf-8'))
+    print("[@_T] ■■■ [/python_ws_pu.copy py] ==> [T_80] [Git 정보 쳐리 시작 End] ■■■ @@@@@ ■■■■■■■■■ ■\n\n\n")
 
-print("[@_TT] ■■■ [/python_ws_pu.py] ==> [T_99] ■■■■■■ [######################### [python Workspace 처리 End] #########################] ■■■■■■\n\n\n\n")
+print("[@_T] ■■■ [/python_ws_pu.py] ==> [T_99] ■■■■■■ [######################### [python Workspace 처리 End] #########################] ■■■■■■\n\n\n\n")

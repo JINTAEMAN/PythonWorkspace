@@ -1,2 +1,7 @@
-OB Work[Start Date 2023-07-23 15:46:05]
+OB Work[Start Date 2023-07-23 17:00:09]
 No,File Name,batch_value,changed batch_value
+1,L0BIM_DCT_CALENDAR,3 2 * * *,3 2 * * *
+2,L0BIM_DKV_GC_PP,3 2 * * *,3 2 * * *
+3,L0BIT_OHW_DCF_SBGN_MART,3 2 * * *,3 2 * * *
+4,L0BTM_ORG_USER,3 2 * * *,3 2 * * *
+6,L0CR_TB_CMCE_CMPN_RSPN_RSLT_H,3 2 * * *,3 2 * * *
