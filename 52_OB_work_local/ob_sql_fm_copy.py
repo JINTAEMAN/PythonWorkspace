@@ -103,7 +103,7 @@ for i in table_list :		# i ~ table_list
 
 		splited_str = i.strip().split('.')  # 파일명 쪼개기
 		strNo = splited_str[0].strip()
-		num_folder_nm = splited_str[0].strip() +"_"+ splited_str[1].strip() 
+		num_folder_nm = splited_str[0].strip() +"_"+ splited_str[1].strip()  # 파일명(번호_DB명), 예) 01_L0BIM_DCT_CALENDAR
 		tb_nm = splited_str[1].strip()   # 테이블명
 	except :
 		print(" [@_T] ■ [/ob_sql_fm_copy.py] ==> [T_50_99] [table_list] [i_번째]"+ i )
@@ -127,9 +127,11 @@ for i in table_list :		# i ~ table_list
 		susbdd_02 = "00"
 	print(" [@_T] ■ [/ob_sql_fm_copy.py] ==> [T_51_3] [table_list] [i_번째]"+ i +"[tb_nmp]"+ str(tb_nm) +"[susbdd_01]"+ str(susbdd_01) +"[susbdd_02]"+ str(susbdd_02) )
 	
+	# D:\ob_dsgn\L0BIM_DCT_CALENDAR\
 	# src_path = "D:\\\\"+ ob_folder +"\\\\"+ num_folder_nm  +"\\\\"+ num_file_nm +".sql"    # 복사할 파일 경로
 	# dst_path = "C:\\\\Users\\\tamario\\\PycharmProjects\\\\dlk_airflow_01\\\\"+ susbdd_01.lower() +"\\\\"+ susbdd_02.lower() +"\\\\"+ num_file_nm +".sql"    # 복사할 파일 경로 
-	src_path = "D:\\\\91_Git_TAMA\dlk_airflow_01\\\\"+ susbdd_01.lower() +"\\\\"+ susbdd_02.lower() +"\\\\"+ num_file_nm +".sql"    # 복사할 파일 경로
+	# src_path = "D:\\\\91_Git_TAMA\dlk_airflow_01\\\\"+ susbdd_01.lower() +"\\\\"+ susbdd_02.lower() +"\\\\"+ num_file_nm +".sql"    # 복사할 파일 경로
+	src_path = "D:\\\\"+ ob_folder +"\\\\"+ num_folder_nm  +"\\\\"+ num_file_nm +".sql"    # 복사할 파일 경로
 	dst_path = "D:\\\\PythonWorkspace\\\\dlk_airflow_01\\\\"+ susbdd_01.lower() +"\\\\"+ susbdd_02.lower() +"\\\\"+ num_file_nm +".sql"    # 복사할 파일 경로 
 	print(" [@_T] ■ [/ob_sql_fm_copy.py] ==> [T_51_3] [table_list] [i_번째]"+ i +"[tb_nmp]"+ str(tb_nm) +"[src_path]"+ str(src_path) +"[dst_path]"+ str(dst_path) )
 	
