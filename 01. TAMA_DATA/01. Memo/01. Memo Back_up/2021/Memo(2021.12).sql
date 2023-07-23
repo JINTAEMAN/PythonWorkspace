@@ -21,7 +21,7 @@ scwin.btn_deleteRpl_onclick = function() {
 	com.sbm.execute(sbm_commonGroup);   // 코드관리 조회
 }; 
 ==============================================================================================================
- 
+
 - NTOSS 로컬 서버(eclipse) Websquare 라이선스 키 등록(라이센스 등록)
 1. eclipse > Help > 웹스퀘어 라이선스 등록 > 라이선스 키(license)
 2022년 01월 31일 만료 WebSquare Platform, Hybrid, Push 통합 라이선스 (cpu = 64)
