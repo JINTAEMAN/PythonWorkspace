@@ -1,5 +1,5 @@
 ﻿# -*- coding: utf-8 -*-	# 문자 인코딩(한글 사용) 
-#!/csv_info_tama_RD.py 	# CSV 파일 정보 조회, 삭제 처리 파일(Unix에서》
+#!/csv_info_tama_RD.py 	# CSV 파일 정보 조회, 삭제 처리 파일(Unix에서)
 
 import os	    # 운영체제(OS) 제어 Lib 
 import sys		# 파이씬 인터프리터 제어 Lib
@@ -8,16 +8,17 @@ import csv		# CSV 파일 Lib
 import shutil  	# 고수준 파일 연산 Ub
 from datetime import dater timedelta   # 시간 Lib
 
-path = '.,/csvJnfo_tama_table2.txt'       # 대상 테이블 txt 파일(/csv_info_tama_table2.txt: TEST 파일) 
-res_path = ',./csv_info_tama_rst2.csv',      # 결과 csv 파일(TEST 용)
+path = './csvJnfo_tama_table2.txt'       # 대상 테이블 txt 파일(/csv_info_tama_table2.txt: TEST 파일) 
+res_path = './csv_info_tama_rst2.csv',      # 결과 csv 파일(TEST 용)
 f = open(path, 'r') 
 
 table_list = f.readlines()
 f.close()
 
 csv_res = list()    # csv_res 설정 
-print("\n\n\n\n[@_TT] ■■■ [/csv_info_tama_RD.py] ==> [T_01] ■■■■■■ [######################### [CSV 파일 정보 조회, 삭제 처리 Start] #########################] ■■■■■■ ")
+print(" [@_T] ■■■ [/csv_info_tama_RD.py] ==> [T_01] ■■■■■■ [######################### [CSV 파일 정보 조회, 삭제 처리 Start] #########################] ■■■■■■ ")
 
+resu
 ob.sort = 0      # 0B 처리 종류(1. 파일 조회, 2. 파일 삭제) ■■■■■■■■■■■■■■■■■■
 
 if len(sys.argv) < 2 :      # 인자값이 없으연
@@ -73,14 +74,14 @@ for i in table_list:		# i ~ table_list
 	proc = subprocess.Popen(comm_find., shell=True, stdout=subprocess.PIPE).stdout
 	inq_fm = proc.read()    # 검색된 &일 처리 
 	inq_res = inq_frn.split('\n’)
-	print("\n\n[@_T] ■ [/csv_info_tama_RD.py] :=> [T_51] [tablejist] [i_번쪠]"+ i +"[tb_nm]"+ str(tb_nm) +"[조회된 파일명]"+  str(inq_fm) )
+	print(" [@_T] ■ [/csv_info_tama_RD.py] ==> [T_51] [tablejist] [i_번쪠]"+ i +"[tb_nm]"+ str(tb_nm) +"[조회된 파일명]"+ str(inq_fm) )
 
 	if inq_fm == None or inq_fm == '':    # 파일 명이 존재 안하면
-		result.append(int(strNo)) # No.
-		result.append(str(tb_nm))  # 01   파일명
-		result .append("No file")     # 02. 조회된 파일 명
-		result .append("No file")      # 03. 삭제 후 파일 명
-		print("\n\n[@_T] ■ [/csv_info_tama_RD.py] :=> [T_51_2]] [tablejist] [i_번쪠]"+ i +"[tb_nm]"+ str(tb_nm) +"[조회된 파일명]"+  str(inq_fm) )
+		result.append(int(strNo)) 	# No.
+		result.append(str(tb_nm))  	# 01   파일명
+		result.append("No file")	# 02. 조회된 파일 명
+		result.append("No file") 	# 03. 삭제 후 파일 명
+		print(" [@_T] ■ [/csv_info_tama_RD.py] ==> [T_51_2]] [tablejist] [i_번쪠]"+ i +"[tb_nm]"+ str(tb_nm) +"[조회된 파일명]"+  str(inq_fm) )
 		
 		csv_res.append(result)
 		continue    # 아래 코드를 실행하지 않고 건너뜀
@@ -100,46 +101,46 @@ for i in table_list:		# i ~ table_list
 			comm_move = 'mv '+ today_file_nm +' '+ today_fiIe_nm_back		# 파일 이동
 			proc = subprocess.Popen(comm_move. shell=True, stdout=subprocess.PIPE).stdout 
 			inq_fm_move = proc.read()  # 오늘 파일 이동 처리   ■■■■■■ 
-			print("\n\n[@_T] ■ [/csv_info_tama_RD.py] :=> [T_51_2]] [tablejist] [i_번쪠]"+ i +"[어제 이동 파일 명]"+ str(yst_file_nm_back) +"[오늘 이동 파일 명]"+  str(today_fiIe_nm_back) )
+			print(" [@_T] ■ [/csv_info_tama_RD.py] ==> [T_51_2]] [tablejist] [i_번쪠]"+ i +"[어제 이동 파일 명]"+ str(yst_file_nm_back) +"[오늘 이동 파일 명]"+  str(today_fiIe_nm_back) )
 
 	except :
 		inq_fm_move = "해당 파일이 미존재■■■■■■ ===>"
 		continue    # 아래 코드를 실행하지 않고 건너뜀
-	print("\n\n[@_T] ■ [/csv_info_tama_RD.py] :=> [T_52_D]] [tablejist] [i_번쪠]"+ i +"[어제 이동 파일 명]"+ str(yst_file_nm_back) +"[오늘 이동 파일 명]"+  str(today_fiIe_nm_back) )
+	print(" [@_T] ■ [/csv_info_tama_RD.py] ==> [T_52_D]] [tablejist] [i_번쪠]"+ i +"[어제 이동 파일 명]"+ str(yst_file_nm_back) +"[오늘 이동 파일 명]"+  str(today_fiIe_nm_back) )
 
 	try :
 		comm_delete = 'rm -f '+ file_nm_path +'_'+ delete_ym +'*.*csv'			# 삭제 명령어
 		proc = subprocess.Popen(comm_delete, shell=True, stdout = subprocess.PIPE).stdout
 		delete_fm = proc.read()       # 파일 삭계 처리  ■■■■■
-		print("\n\n[@_T] ■ [/csv_info_tama_RD.py] :=> [T_53]] [tablejist] [i_번쪠]"+ i +"[tb_nm]"+ str(tb_nm) +"[삭제 명령어]"+  str(comm_delete) )
+		print(" [@_T] ■ [/csv_info_tama_RD.py] ==> [T_53]] [tablejist] [i_번쪠]"+ i +"[tb_nm]"+ str(tb_nm) +"[삭제 명령어]"+  str(comm_delete) )
 
 	except :
 		inq_fm_move = "해당 파일이 미존재■■■■■■ ===>" 
 		continue    # 아래 코드를 실행하지 않고 건너뜀
-	print("\n\n[@_T] ■ [/csv_info_tama_RD.py] :=> [T_54_D]] [tablejist] [i_번쪠]"+ i +"[오늘 이동 파일 명]"+ str(yst_file_nm_back) +"[오늘 이동 파일 명]"+  str(today_fiIe_nm_back) )
+	print(" [@_T] ■ [/csv_info_tama_RD.py] ==> [T_54_D]] [tablejist] [i_번쪠]"+ i +"[오늘 이동 파일 명]"+ str(yst_file_nm_back) +"[오늘 이동 파일 명]"+  str(today_fiIe_nm_back) )
 	
 	commjind = 'find "/data/INBOUND/CR" -name '+ splited_str[1].strip() +'• | sort -n'       # 파일 검색(2번쨰)  ■■■■■■ 
 	proc = subprocess.Popen(comm_find., shell=True, stdout=subprocess.PIPE).stdout
 	delete_post_fm = proc.read()    # 삭제 후 파일 검색 ■■■■■■
 	inq_res = delete_post_fm.split('\n’)
-	print("\n\n[@_T] ■ [/csv_info_tama_RD.py] :=> [T_55] [tablejist] [i_번쪠]"+ i +"[tb_nm]"+ str(tb_nm) +"[조회된 파일명]"+  str(inq_fm) )
+	print(" [@_T] ■ [/csv_info_tama_RD.py] ==> [T_55] [tablejist] [i_번쪠]"+ i +"[tb_nm]"+ str(tb_nm) +"[조회된 파일명]"+  str(inq_fm) )
 	# 파일 삭제 처리 이면 --> 종료  =======================================>
 	
 	result.append(int(strNo)) # No.
 	result.append(str(tb_nm))  # 01. 파일명
 	result.append(str(inq_fm))		# 02. 조회된 파일 명
 	result.append(str(delete_post_fm))	# 03. 삭제 후 파일 명 
-	print("\n[@_T] ■■  [/csvJnfo_tama_RD.py] ==> [T_51]  [table_list ■] [i_번째]"+ i +"[01. 파일명]"+ str(tb_nm) +"[ 02  조회된 파일 명]"+ str(inq_fm) +"[03. 삭제 후 파일 명 ]"+ str(delete_post_fm) ) 
+	print("\n[@_T] ■■  [/csv_info_tama_RD.py] ==> [T_51]  [table_list ■] [i_번째]"+ i +"[01. 파일명]"+ str(tb_nm) +"[ 02  조회된 파일 명]"+ str(inq_fm) +"[03. 삭제 후 파일 명 ]"+ str(delete_post_fm) ) 
 	
 	csv_res.append(result) 
-	print("\n\n[@_T] ■■  [/csvJnfo_tama_RD.py] ==> [T_99] [End] ■■■■")
+	print(" [@_T] ■■  [/csv_info_tama_RD.py] ==> [T_99] [End] ■■■■")
 
 with open(res_path, 'w') as file:	    # data 디렉토리안에 res_path 경로의 파일을 생성	
 	write = csv.writer(file)    # 쓰고 싶은 내용 입력
 	write.writerows(csv_res)
 
 with open(res_path, "r") as cvs_file:	# data 디렉토리안에 res_path 경로의 파일 읽어 오기
-	print("\n\n[@_T] ■■■  [/csvJnfo_tama_RD.py] ==> [T_91] [처리 결과 파일 읽어 오기 Start] ■■■■■■■■■■■■")
+	print(" [@_T] ■■■  [/csv_info_tama_RD.py] ==> [T_91] [처리 결과 파일 읽어 오기 Start] ■■■■■■■■■■■■")
 	print(cvs_file.read())
-	print("\n\n[@_T] ■■■  [/csvJnfo_tama_RD.py] ==> [T_99] [처리 결과 파일 읽어 오기 End] ■■■■■■■■■■■■")
-	print("\n\n[@_TT] ■■■ [/csvJnfo_tama_RD.py] ==> [T_99] ■■■■■■ [######################### [CSV 파일 정보 조회 삭제 처리 End] #########################] ■■■■■■\n\n\n\n")
+	print(" [@_T] ■■■  [/csv_info_tama_RD.py] ==> [T_99] [처리 결과 파일 읽어 오기 End] ■■■■■■■■■■■■")
+print(" [@_T] ■■■ [/csv_info_tama_RD.py] ==> [T_99] ■■■■■■ [######################### [CSV 파일 정보 조회 삭제 처리 End] #########################] ■■■■■■\n\n\n\n")
