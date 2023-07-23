@@ -5,7 +5,7 @@ import os	    # 운영체제(OS) 제어 Lib
 import sys		# 파이씬 인터프리터 제어 Lib
 import sys		# 파이씬 인터프리터 제어 Lib
 import csv		# CSV 파일 Lib 
-import shutil      # 고수준 파일 연산 Lib
+import shutil       # 고수준 파일 연산 Lib
 import datetime     # 날짜, 시간 Lib
 import time     	# 시간 Lib
 import subprocess	# 하위 프로세스 관리 표준 Lib
