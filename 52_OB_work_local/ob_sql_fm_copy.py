@@ -1,4 +1,4 @@
-# ! /ob_sql_fm_copy.py   # OB SQL 파일 복사 쳐리 파일 
+# ! /ob_sql_fm_copy.py   # OB SQL 파일 복사 쳐리 파일(복사, Git 처리)
 # -*- coding: utf-8 -*-	# 문자 인코딩(한글 사용)
 
 import os	# 운영체제(OS) 제어 Lib 
@@ -39,8 +39,8 @@ def file_copy(src, dst) : 	# 파일 복사 처리 함수()
 		print(" [@_T] ■■ [/ob_sql_fm_copy.py] [file_copy()] ==> [T_91] [파일 복사 실패] [Error]"+ e )
 
 # D:\PythonWorkspace\52_OB_work_local>
-path = './ob_work_table_T.txt'    # OB 처리 대상 테이블 txt 파일【/ob_workJable_T.txt: TEST 파일)
-res_path = './ob_work_rst.csv'   # OB 처리 결과 csv 파일
+path = './ob_work_table_T.txt'  	# OB 처리 대상 테이블 txt 파일【/ob_work_table_T.txt: TEST 파일)
+res_path = './ob_work_rst.csv'   	# OB 처리 결과 csv 파일 
 # path = "D：\PythonWorkspace\52_OB_work_local\ob_work_table_T.txt"    	# OB 쳐리 대상 테이불 txt 파일(八)b_work_table_Tt)rt: TEST 파일》 
 # res_path = "D:\PythonWorkspace\2_OB_work_local\ob_work_rst.csv"		# OB 처리 결과 csv 파일
 # D:\PythonWorkspace\52_OB_work_local\
@@ -127,11 +127,10 @@ for i in table_list :		# i ~ table_list
 		susbdd_02 = "00"
 	print(" [@_T] ■ [/ob_sql_fm_copy.py] ==> [T_51_3] [table_list] [i_번째]"+ i +"[tb_nmp]"+ str(tb_nm) +"[susbdd_01]"+ str(susbdd_01) +"[susbdd_02]"+ str(susbdd_02) )
 	
-	# D:\ob_dsgn\L0BIM_DCT_CALENDAR\
 	# src_path = "D:\\\\"+ ob_folder +"\\\\"+ num_folder_nm  +"\\\\"+ num_file_nm +".sql"    # 복사할 파일 경로
 	# dst_path = "C:\\\\Users\\\tamario\\\PycharmProjects\\\\dlk_airflow_01\\\\"+ susbdd_01.lower() +"\\\\"+ susbdd_02.lower() +"\\\\"+ num_file_nm +".sql"    # 복사할 파일 경로 
 	# src_path = "D:\\\\91_Git_TAMA\dlk_airflow_01\\\\"+ susbdd_01.lower() +"\\\\"+ susbdd_02.lower() +"\\\\"+ num_file_nm +".sql"    # 복사할 파일 경로
-	src_path = "D:\\\\"+ ob_folder +"\\\\"+ num_folder_nm  +"\\\\"+ num_file_nm +".sql"    # 복사할 파일 경로
+	src_path = "D:\\\\"+ ob_folder +"\\\\"+ num_folder_nm  +"\\\\"+ num_file_nm +".sql"    # 복사할 파일 경로(ob_dsgn 폴더)
 	dst_path = "D:\\\\PythonWorkspace\\\\dlk_airflow_01\\\\"+ susbdd_01.lower() +"\\\\"+ susbdd_02.lower() +"\\\\"+ num_file_nm +".sql"    # 복사할 파일 경로 
 	print(" [@_T] ■ [/ob_sql_fm_copy.py] ==> [T_51_3] [table_list] [i_번째]"+ i +"[tb_nmp]"+ str(tb_nm) +"[src_path]"+ str(src_path) +"[dst_path]"+ str(dst_path) )
 	
@@ -198,4 +197,4 @@ with open(res_path, "r") as cvs_file:	# data 디렉토리안에 res_path 경로�
 	print(cvs_file.read())
 	print(" [@_T] ■■■  [/ob_sql_fm_copy.py] ==> [T_99] [파일 읽어 오기 End] ■■■■■■■■■■■■")
 	
-print(" [@_T] ■■■ [/ob_sql_fm_copy.py] ==> [T_99] ■■■■■■ [######################### [CSV 파일 정보 확인 End] #########################] ■■■■■■\n\n\n\n")
+print(" [@_T] ■■■ [/ob_sql_fm_copy.py] ==> [T_99] ■■■■■■ [######################### [OB sql 파일 복사 쳐리 End] #########################] ■■■■■■\n\n\n\n")
