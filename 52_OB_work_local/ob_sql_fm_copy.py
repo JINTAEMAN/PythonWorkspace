@@ -71,7 +71,7 @@ print("\n\n\n\n[@_T] ■■ [/ob_sql_fm_copy.py] ==> [T_021 [ob_sort]"+ str(ob_s
 
 result_title = list()   # 제목 설정
 now_date = time.strftime("%Y-%m-%d %H:%M:%S")	# 오늘 날짜
-now_ydmhm = time.strftime("%Y.%m.%d %H:%M")		# 오늘 날짜(년.월.일 시:분)
+now_ydmhm = time.strftime("%y.%m.%d %H:%M")		# 오늘 날짜(년.월.일 시:분)
 result_title.append("CSV File Info[Start Date "+ str(now_date) +"]")	# 제목 설정
 csv_res.append(result_title)
 
@@ -128,11 +128,11 @@ for i in table_list :		# i ~ table_list
 	file_copy(src_pathr, dst_path)   # 파일 복사 처리(Git 로컬 저장소에 파일 저장) ■■■■■
 	print("\n[@_T] ■ [/ob_sql_fm_copy.py] ==> [T_52] [table_list] [i_번째]"+ i +"[tb_nmp]"+ str(tb_nm) +"[src_path]"+ str(src_path) +"[dst_path]"+ str(dst_path) )
 
-	st_py_path = "D:\\\\Users\\\tamario\\\PycharmProjects\\\dlk_airflow_01\\\\"+ susbdd_01.lower() +"\\\\"+ susbdd_02.lower() +"\\\\"+ num_file_nm +".sql"    # 복사할 파일 경로 
-	print("\n[@_T] ■ [/ob_sql_fm_copy.py] ==> [T_51_0] [table_list] [i_번째]"+ i +"[tb_nmp]"+ str(tb_nm) +"[src_path]"+ str(src_path) +"[dst_path]"+ str(dst_path) )
+	# st_py_path = "D:\\\\Users\\\tamario\\\PycharmProjects\\\dlk_airflow_01\\\\"+ susbdd_01.lower() +"\\\\"+ susbdd_02.lower() +"\\\\"+ num_file_nm +".sql"    # 복사할 파일 경로 
+	# print("\n[@_T] ■ [/ob_sql_fm_copy.py] ==> [T_51_0] [table_list] [i_번째]"+ i +"[tb_nmp]"+ str(tb_nm) +"[src_path]"+ str(src_path) +"[dst_path]"+ str(dst_path) )
 	
-	file_copy(src_pathr, st_py_path)  # 파일 복사 처리(D\PythonWorkspace에 파일 저장) ■■■■■
-	print("\n[@_T] ■ [/ob_sql_fm_copy.py] ==> [T_52] [table_list] [i_번째]"+ i +"[tb_nmp]"+ str(tb_nm) +"[src_path]"+ str(src_path) +"[복사할 파일 경로]"+ str(st_py_path) )
+	# file_copy(src_pathr, st_py_path)  # 파일 복사 처리(D\PythonWorkspace에 파일 저장) ■■■■■
+	# print("\n[@_T] ■ [/ob_sql_fm_copy.py] ==> [T_52] [table_list] [i_번째]"+ i +"[tb_nmp]"+ str(tb_nm) +"[src_path]"+ str(src_path) +"[복사할 파일 경로]"+ str(st_py_path) )
 
 	result.append(int(strNo))    # No.
 	result.append(str(tb_nm))		# 01. 파일명
@@ -181,7 +181,7 @@ print("\n\n [@_T] ■■■ [/ob_sql_fm_copy.py] ==> [T_63_2] [4. Git 로걸 저
 command = 'git push origin main'      # 5. 원격  저장소에 반영
 proc = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE).stdout
 out_cmd_push = proc.read()
-print("\n[@_T] ■■ [/ob_sql_fm_copy.py] ==> [T_63_3] [5. 원격 方!장소에 반영(git push)]"+ out_cmd_push.decode('utf-8'))
+print("\n[@_T] ■■ [/ob_sql_fm_copy.py] ==> [T_63_3] [5. 원격 저장소에 반영(git push)]"+ out_cmd_push.decode('utf-8'))
 print("\n\n [@_T] ■■■ [/ob_sql_fm_copy.py] ==> [T_80 [Git 정보 쳐리 시작 End] ■■■ @@@@@ ■■■■■■■■■ ■\n\n\n\n\n\n")
 
 with open(res_path, 'w') as file:	    # data 디렉토리안에 res_path 경로의 파일을 생성	
