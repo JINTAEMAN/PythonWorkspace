@@ -1,2 +1,7 @@
-CSV File Info[Start Date 2023-07-22 17:31:25]
+CSV File Info[Start Date 2023-07-23 11:26:04]
 No.,File Name,Copy File path,Copied File path
+1,L0BIM_DCT_CALENDAR,D:\\91_Git_TAMA\dlk_airflow_01\\l0\\bi\\grape_odl_cr_002_l0bim_dct_calendar_001_bq2gcswithfin.sql,D:\\PythonWorkspace\\dlk_airflow_01\\l0\\bi\\grape_odl_cr_002_l0bim_dct_calendar_001_bq2gcswithfin.sql
+2,L0BIM_DKV_GC_PP,D:\\91_Git_TAMA\dlk_airflow_01\\l0\\bi\\grape_odl_cr_002_l0bim_dkv_gc_pp_001_bq2gcswithfin.sql,D:\\PythonWorkspace\\dlk_airflow_01\\l0\\bi\\grape_odl_cr_002_l0bim_dkv_gc_pp_001_bq2gcswithfin.sql
+3,L0BIT_OHW_DCF_SBGN_MART,D:\\91_Git_TAMA\dlk_airflow_01\\l0\\bi\\grape_odl_cr_002_l0bit_ohw_dcf_sbgn_mart_001_bq2gcswithfin.sql,D:\\PythonWorkspace\\dlk_airflow_01\\l0\\bi\\grape_odl_cr_002_l0bit_ohw_dcf_sbgn_mart_001_bq2gcswithfin.sql
+4,L0BTM_ORG_USER,D:\\91_Git_TAMA\dlk_airflow_01\\l0\\bt\\grape_odl_cr_002_l0btm_org_user_001_bq2gcswithfin.sql,D:\\PythonWorkspace\\dlk_airflow_01\\l0\\bt\\grape_odl_cr_002_l0btm_org_user_001_bq2gcswithfin.sql
+6,L0CR_TB_CMCE_CMPN_RSPN_RSLT_H,D:\\91_Git_TAMA\dlk_airflow_01\\l0\\cr\\grape_odl_cr_002_l0cr_tb_cmce_cmpn_rspn_rslt_h_001_bq2gcswithfin.sql,D:\\PythonWorkspace\\dlk_airflow_01\\l0\\cr\\grape_odl_cr_002_l0cr_tb_cmce_cmpn_rspn_rslt_h_001_bq2gcswithfin.sql
