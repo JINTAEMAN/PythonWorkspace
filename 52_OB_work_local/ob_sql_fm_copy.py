@@ -87,10 +87,10 @@ firtNo = ""
 lastNo = ""
 intNo = 0
 
-# command = 'git pull origin main'    # 0. 원격 저장소 데이다 가저 오기
-# proc = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE).stdout
-# out_cmd = proc.read()
-# print(" [@_T] ■■■ [/ob_sql_fm_copy.py] ==> [T_11] [0. 원격 저장소 데이다 가저 오기(git pull)]"+ out_cmd.decode('utf-8') ) 
+command = 'git pull origin main'    # 0. 원격 저장소 데이다 가저 오기
+proc = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE).stdout
+out_cmd = proc.read()
+print(" [@_T] ■■■ [/ob_sql_fm_copy.py] ==> [T_11] [0. 원격 저장소 데이다 가저 오기(git pull)]"+ out_cmd.decode('utf-8') ) 
 
 for i in table_list :		# i ~ table_list
 	print(" [@_T] ■ [/ob_sql_fm_copy.py] ==> [T_50] [table_list] [i_번째]"+ i +"[01. 파일 명]"+ i.strip()  +"[CSV 파일 정보 확인 작업 중...] .....■■■■■■ ")
@@ -126,12 +126,7 @@ for i in table_list :		# i ~ table_list
 	if susbdd_01 == "L2":   # L2 이면
 		susbdd_02 = "00"
 	print(" [@_T] ■ [/ob_sql_fm_copy.py] ==> [T_51_3] [table_list] [i_번째]"+ i +"[tb_nmp]"+ str(tb_nm) +"[susbdd_01]"+ str(susbdd_01) +"[susbdd_02]"+ str(susbdd_02) )
-
-	# FileNotFoundError: [Errno 2] No such file or directory: 'D:\\\\91_Git_TAMA\\dlk_airflow_01\\\\dlk_airflow_01l0\\\\bi\\\\.sql'
-	# D:\\\\91_Git_TAMA\\dlk_airflow_01\\\\l0\\\\bi\\\\grape_odl_cr_002_l0bim_dct_calendar_001_bq2gcswithfin.sql
-	 # --> grape_odl_cr_002_10bim_dct_calendar_001_bq2gcswithfin
-	# D:\91_Git_TAMA\dlk_airflow_01\\
-	# D:\PythonWorkspace\dlk_airflow_01\
+	
 	# src_path = "D:\\\\"+ ob_folder +"\\\\"+ num_folder_nm  +"\\\\"+ num_file_nm +".sql"    # 복사할 파일 경로
 	# dst_path = "C:\\\\Users\\\tamario\\\PycharmProjects\\\\dlk_airflow_01\\\\"+ susbdd_01.lower() +"\\\\"+ susbdd_02.lower() +"\\\\"+ num_file_nm +".sql"    # 복사할 파일 경로 
 	src_path = "D:\\\\91_Git_TAMA\dlk_airflow_01\\\\"+ susbdd_01.lower() +"\\\\"+ susbdd_02.lower() +"\\\\"+ num_file_nm +".sql"    # 복사할 파일 경로
