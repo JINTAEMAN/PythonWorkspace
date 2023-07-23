@@ -1144,6 +1144,31 @@ rm '.vscode/settings.json'
 22:30 취침
 ==============================================================================================================
 
+- 52_OB_work_local 개발
+1. ob_sql_fm_copy.py: OB SQL 파일 복사 쳐리 파일(복사, Git 처리)  ==> 완료[♥♡]
+2. ob_excel_fm_copy.py: OB 엑셀 파일 복사 쳐리 파일(복사)  ==> 완료[♥♡]
+3. ob_excel_fm_conts_edit.py: OB 엑실 파일 내용 수정 파일  ==> 완료[♥♡]
+ 1) 파일명
+01. L0BIM_DCT_CALENDAR
+02. L0BIM_DKV_GC_PP
+03. L0BIT_OHW_DCF_SBGN_MART
+04. L0BTM_ORG_USER
+05. L0CPT_CC_APP_WASLOG_V3
+06. L0CR_TB_CMCE_CMPN_RSPN_RSLT_H 
+==> D:\ob_dsgn\01_L0BIM_DCT_CALENDAR\		# 복사할 파일 경로(ob_dsgn 폴더): 1. 복사 대상 피일
+/01_L0BIM_DCT_CALENDAR.xlsx, /grape_odl_cr_002_l0bim_dct_calendar_001_bq2gcswithfin.sql
+==> D:\PythonWorkspace\dlk_airflow_01\l0\bi 		# 복사할 파일 경로(2. 복사 결과 피일) 
+/01_L0BIM_DCT_CALENDAR.xlsx, /grape_odl_cr_002_l0bim_dct_calendar_001_bq2gcswithfin.sql
+
+ 2) 에러 발생
+ 가.  batch_value = '8 2'			# 배치 스케줄 값 수정을 영어로 인식 못 함
+ [@_T] ■■ [/ob_excel_fm_conts_edit.py] ==> [T_99] [End] ■■■■
+Traceback (most recent call last):
+  File "D:\PythonWorkspace\52_OB_work_local\ob_excel_fm_conts_edit.py", line 142, in <module>
+    write.writerows(csv_res)
+UnicodeEncodeError: 'cp949' codec can't encode character '\u2022' in position 25: illegal multibyte sequence
+=============================================================================================================
+
 ■■■■■■■■■■■■■ 2023.07.24(월) 작업 ■■■■■■■■■■■■■■■■■■  
 ---> 08:00 ~ 18:00 ==> 
 
@@ -1161,22 +1186,10 @@ rm '.vscode/settings.json'
 99. Back up_■
 =============================================================================================================
  
- 
- 01. L0BIM_DCT_CALENDAR
-02. L0BIM_DKV_GC_PP
-03. L0BIT_OHW_DCF_SBGN_MART
 
-04. L0BTM_ORG_USER
+	
 
-05. L0CPT_CC_APP_WASLOG_V3
-06. L0CR_TB_CMCE_CMPN_RSPN_RSLT_H
-
- 
- D:\PythonWorkspace\dlk_airflow_01\L1\bi\
- =============================================================================================================
- 
- 
-■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■  
 +--------------------------------------------------------// End //----------------------------------------------------------+ 
 ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■  
  
