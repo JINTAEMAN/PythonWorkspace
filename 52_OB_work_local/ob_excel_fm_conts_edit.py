@@ -32,11 +32,7 @@ else :
 print(" [@_T] ■■ [/ob_excel_fm_conts_edit.py] ==> [T_02] [ob_sort]"+ str(ob_sort) +"[ob_dsgn 폴더】"+ str(ob_folder))
 
 path = './52_OB_work_local/ob_work_table_T.txt'  	# OB 처리 대상 테이블 txt 파일【/ob_work_table_T.txt: TEST 파일)
-res_path = './52_OB_work_local/ob_work_rst.csv'   	# OB 처리 결과 csv 파일 
-# path = './ob_work_table_T.txt'  	# OB 처리 대상 테이블 txt 파일【/ob_work_table_T.txt: TEST 파일)
-# res_path = './ob_work_rst.csv'   	# OB 처리 결과 csv 파일 
-# path = "D：\\\\PythonWorkspace\\\\02_0B_Windows\\\\ob_work_table_T.txt"    # OB 쳐리 대상 테이불 txt 파일(八)b_work_table_Tt)rt: TEST 파일》 
-# res_path = "D:\\\PythonWorkspace\\\\02_0B_Windows\\\\ob_work_rst.csv"		# OB 처리 결과 csv 파일
+res_path = './52_OB_work_local/ob_work_rst.csv'   	# OB 처리 결과 csv 파일
 f = open(path, "r") 
 
 table_list = f.readlines()
@@ -102,8 +98,8 @@ for i in table_list:		# i ~ table_list
 			batch_value_n = '8 2 * * *'			# 배치 스케줄 값 수정 ■■■ C_B. d0208 설정
 		else :    # No  48 이후 
 			batch_value_n = '9 2 * * *'     # 배치 스케줄 값 수정 ■■■ C_C. d0209 설정
-	
-	open_path = "D:\\\\"+ ob_folder +"\\\\"+ num_folder_nm  +"\\\\"+ num_file_nm +".xlsx"    # 오픈할 파일 경로
+ 
+	open_path = "D:\\"+ ob_folder +"\\"+ num_folder_nm  +"\\"+ num_file_nm +".xlsx"    # 오픈할 파일 경로
 	print(" [@_T] ■■ [/ob_excel_fm_conts_edit.py] ==> [T_51] [table_list] [i_번째]"+ i +"[open_path]"+ str(open_path) +"[i.strip()]"+ i.strip() )
 	
 	try : 

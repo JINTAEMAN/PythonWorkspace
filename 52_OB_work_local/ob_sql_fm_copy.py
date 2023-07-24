@@ -39,11 +39,11 @@ def file_copy(src, dst) : 	# 파일 복사 처리 함수()
 		print(" [@_T] ■■ [/ob_sql_fm_copy.py] [file_copy()] ==> [T_91] [파일 복사 실패] [Error]"+ e )
 
 # D:\PythonWorkspace\52_OB_work_local>
-path = './ob_work_table_T.txt'    # OB 처리 대상 테이블 txt 파일【/ob_workJable_T.txt: TEST 파일)
-res_path = './ob_work_rst.csv'   # OB 처리 결과 csv 파일
-# path = "D：\PythonWorkspace\52_OB_work_local\ob_work_table_T.txt"    	# OB 쳐리 대상 테이불 txt 파일(八)b_work_table_Tt)rt: TEST 파일》 
-# res_path = "D:\PythonWorkspace\2_OB_work_local\ob_work_rst.csv"		# OB 처리 결과 csv 파일
-# D:\PythonWorkspace\52_OB_work_local\
+# path = './ob_work_table_T.txt'    # OB 처리 대상 테이블 txt 파일【/ob_workJable_T.txt: TEST 파일)
+# res_path = './ob_work_rst.csv'   # OB 처리 결과 csv 파일
+path = './52_OB_work_local/ob_work_table_T.txt'  	# OB 처리 대상 테이블 txt 파일【/ob_work_table_T.txt: TEST 파일)
+res_path = './52_OB_work_local/ob_work_rst.csv'   	# OB 처리 결과 csv 파일  
+
 f = open(path, "r") 
 
 table_list = f.readlines()

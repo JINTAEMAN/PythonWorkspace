@@ -9,9 +9,6 @@ import datetime     # 날짜, 시간 Lib
 import time     	# 시간 Lib
 import subprocess	# 하위 프로세스 관리 표준 Lib
 
-src_path = ""	# 복사할 파일 경로
-dst_path = ""   # 복사된 옥적지 파일 경로
-
 csv_res = list()   # csv_res 설정    wwww
 print(" [@_T] ■■■ [/python_ws_pu.py] ==> [T_01] ■■■■■■ [######################### [python Workspace 처리 Start] #########################] ■■■■■■ ")
 
@@ -73,7 +70,7 @@ if ob_sort > 1 :    # 인자값이 없으연
     print("[@_T] ■■■ [/python_ws_pu.py] ==> [T_73] [4. Git 로걸 저장소 영역에 추가(커밋 에세지)]■■■■■■■■■■■■ "+ str(cmd_cmt_msg))
     # print("[@_T] ■■■ [/python_ws_pu.py] ==> [T_73_2] [4  Git 로걸 저장소 영역에 추가(git commit)] ■■■■■■■■■■■■ "* out_cmt_msg.decode('utf-8') )
 
-    command = 'git push origin main'      # 5. 원격  저장소에 반영
+    command = 'git push origin main'    # 5. 원격  저장소에 반영
     proc = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE).stdout
     out_cmd_push = proc.read()
     print("[@_T] ■■■ [/python_ws_pu py] ==> [T_74] [5. 원격 정장소에 반영(git push)]"+ out_cmd_push.decode('utf-8'))
