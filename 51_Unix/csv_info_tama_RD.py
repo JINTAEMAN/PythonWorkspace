@@ -48,7 +48,7 @@ result_head = list()	# 파일 헤드 설정
 result_head.append("■ No") # No. 
 result_head.append(" ■ File Name")		# 01. 파일명
 result_head.append(" ■ Searched File Name")   # 02. 조회된 파일 명
-result_head .append(" ■ Delete Post File Name")    # 03  삭제 후 파일 명  
+result_head.append(" ■ Delete Post File Name")    # 03  삭제 후 파일 명  
 result_head.append(" ■ Real File Name")		# 04. 파일 명
 csv_res.append(result_head)	 # HEAD 설정
 
@@ -133,7 +133,7 @@ for i in table_list:		# i ~ table_list
 	# 파일 삭제 처리 이면 --> 종료  =======================================>
 	
 	result.append("■ "+ str(strNo)) # No.
-	result.append(" ■ "+ str(tb_nm))  # 01. 파일명
+	result.append(" ■ "+ str(tb_nm))  		# 01. 파일명
 	result.append(" ■ "+ str(inq_fm))		# 02. 조회된 파일 명
 	result.append(" ■ "+ str(delete_post_fm))	# 03. 삭제 후 파일 명 
 	print("\n[@_T] ■■  [/csv_info_tama_RD.py] ==> [T_51]  [table_list ■] [i_번째]"+ i +"[01. 파일명]"+ str(tb_nm) +"[ 02  조회된 파일 명]"+ str(inq_fm) +"[03. 삭제 후 파일 명 ]"+ str(delete_post_fm) ) 

@@ -38,7 +38,6 @@ def file_copy(src, dst) : 	# 파일 복사 처리 함수()
 		print(e)
 		print(" [@_T] ■■ [/ob_sql_fm_copy.py] [file_copy()] ==> [T_91] [파일 복사 실패] [Error]"+ e )
 
-# D:\PythonWorkspace\52_OB_work_local>
 # path = './ob_work_table_T.txt'    # OB 처리 대상 테이블 txt 파일【/ob_workJable_T.txt: TEST 파일)
 # res_path = './ob_work_rst.csv'   # OB 처리 결과 csv 파일
 path = './52_OB_work_local/ob_work_table_T.txt'  	# OB 처리 대상 테이블 txt 파일【/ob_work_table_T.txt: TEST 파일)
@@ -76,10 +75,10 @@ result_title.append("CSV File Info[Start Date "+ str(now_date) +"]")	# 제목 �
 csv_res.append(result_title)
 
 result_head = list() #     파일 헤드 설정
-result_head.append("No.") # No.
-result_head .append("File Name")      # 01. 파일 명
-result_head .append("Copy File path")    # 02.복사할 파일 경로
-result_head.append("Copied File path")    # 03. 복사된 목적지 파일 경로 
+result_head.append("■ No.") # No.
+result_head .append(" ■ File Name")      # 01. 파일 명
+result_head .append(" ■ Copy File path")    # 02.복사할 파일 경로
+result_head.append(" ■ Copied File path")    # 03. 복사된 목적지 파일 경로 
 csv_res .append(result_head)   # HEAD 설정
 
 strNo_Str = None        # No]
@@ -138,10 +137,10 @@ for i in table_list :		# i ~ table_list
 	file_copy(src_path, dst_path)   # 파일 복사 처리(Git 로컬 저장소에 파일 저장) ■■■■■
 	print(" [@_T] ■ [/ob_sql_fm_copy.py] ==> [T_51_4] [table_list] [i_번째]"+ i +"[tb_nmp]"+ str(tb_nm) +"[src_path]"+ str(src_path) +"[dst_path]"+ str(dst_path) )
 	
-	result.append(int(strNo))    # No.
-	result.append(str(tb_nm))		# 01. 파일명
-	result.append(str(src_path))	# 02 복사할 파일 경로
-	result.append(str(dst_path))   	# 03 복사된 목적지 파일 경로 
+	result.append("■ "+ str(strNo))    # No.
+	result.append(" ■ "+ str(tb_nm))		# 01. 파일명
+	result.append(" ■ "+ str(src_path))	# 02 복사할 파일 경로
+	result.append(" ■ "+ str(dst_path))   	# 03 복사된 목적지 파일 경로 
 	print(" [@_T] ■ [/ob_sql_fm_copy.py] ==> [T_53] [table_list] [i_번째]"+ i +"[파일명]"+ str(tb_nm) +"[02 복사할 파일 경로]"+ str(src_path) +"[03 복사된 목적지 파일 경로]"+ str(dst_path) )
 
 	csv_res.append(result) 
