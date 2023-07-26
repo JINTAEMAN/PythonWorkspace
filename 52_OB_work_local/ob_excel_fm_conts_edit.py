@@ -60,9 +60,15 @@ csv_res.append(result_title)
 
 result_head = list()		# 파일 헤드 설정 
 result_head.append("■ No")		# No.
+<<<<<<< HEAD
 result_head .append(" ■ File Name")      # 01   파일 명 
 result_head.append(" ■ batch_value")   # 02  배치 스케줄 값 
 result_head.append(" ■ changed batch_value") # 03.  변경된 배치 스케줄 값
+=======
+result_head.append(" ■ File Name")      # 01   파일 명 
+result_head.append(" ■ Batch_value")   # 02  배치 스케줄 값 
+result_head.append(" ■ Changed batch_value") # 03.  변경된 배치 스케줄 값
+>>>>>>> 86ea0be15b10ee54a7aa29439c22face44d90aae
 csv_res.append(result_head)   # HEAD 설정
 
 for i in table_list:		# i ~ table_list
@@ -104,7 +110,11 @@ for i in table_list:		# i ~ table_list
 		else :    # No  48 이후 
 			batch_value_n = '9 2 * * *'     # 배치 스케줄 값 수정 ■■■ C_C. d0209 설정
 	
+<<<<<<< HEAD
 	open_path = "D:\\\\"+ ob_folder +"\\\\"+ num_folder_nm  +"\\\\"+ num_file_nm +".xlsx"    # 오픈할 파일 경로
+=======
+	open_path = "D:\\"+ ob_folder +"\\"+ num_folder_nm  +"\\"+ num_file_nm +".xlsx"    # 오픈할 파일 경로
+>>>>>>> 86ea0be15b10ee54a7aa29439c22face44d90aae
 	print(" [@_T] ■■ [/ob_excel_fm_conts_edit.py] ==> [T_51] [table_list] [i_번째]"+ i +"[open_path]"+ str(open_path) +"[i.strip()]"+ i.strip() )
 	
 	try : 
@@ -118,17 +128,29 @@ for i in table_list:		# i ~ table_list
 		print(" [@_T] ■■ [/ob_excel_fm_conts_edit.py] ==> [T_51_1] [table_list ■] [i_번째]"+ i +"[배치 스케줄 값(수정 전)]"+ str(batch_value) +"[베치 스케줄 값]"+ str(batch_value_n) )
 		
 	except :
+<<<<<<< HEAD
 		result.append(int(strNo))	# No		 
 		result.append(str(tb_nm))  #01.  파일명
 		result.append(" ■ No file in open_path")    # 02. 배치 스케줄 값 
 		result.append(" ■ No file")     #  03. 변경 후 배치 스케줄 값 
+=======
+		result.append("■ "+ str(strNo))	# No		 
+		result.append(" ■ "+ str(tb_nm))  #01.  파일명
+		result.append("■ No file in open_path")    # 02. 배치 스케줄 값 
+		result.append("■ No file")     #  03. 변경 후 배치 스케줄 값 
+>>>>>>> 86ea0be15b10ee54a7aa29439c22face44d90aae
 		print(" [@_T] ■■ [/ob_excel_fm_conts_edit.py] ==> [T_51_2] [table_list ■] [i_번째]"+ i +"[tb_nm]"+ str(tb_nm) )
 
 		continue    # 아래 코드를 실쟁하지 않고 2너뜀
 	print(" [@_T] ■■ [/ob_excel_fm_conts_edit.py] ==> [T_52] [table_list ■] [i_번째]"+ i +"[배치 스케줄 값(수정 전)]"+ str(batch_value) +"[베치 스케줄 값)]"+ str(batch_value_n) )
 
+<<<<<<< HEAD
 	result.append("■ "+ str(strNo)) # No.
 	result.append(" ■ "+ str(tb_nm))  # 01. 파일명 
+=======
+	result.append("■ "+ str(strNo))           # No
+	result.append(" ■ "+ str(tb_nm))      		# 01. 파일명
+>>>>>>> 86ea0be15b10ee54a7aa29439c22face44d90aae
 	result.append(" ■ "+ str(batch_value))     # 02  배치 스케줄 값
 	result.append(" ■ "+ str(batch_value_n))   # 03. 변경 후 배치 스케줄 값
 	print(" [@_T] ■■ [/ob_excel_fm_conts_edit.py] ==> [T_60] [table_list ■] [i_번째]"+ i +"[배치 스케줄 값(수정 전)]"+ str(batch_value) +"[베치 스케줄 값)]"+ str(batch_value_n) )

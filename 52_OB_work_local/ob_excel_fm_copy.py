@@ -72,11 +72,11 @@ result_title.append("CSV File Info[Start Date "+ str(now_date) +"]")	# 제목 �
 csv_res.append(result_title)
 
 result_head = list() #     파일 헤드 설정
-result_head.append("No.") # No.
-result_head .append("File Name")      # 01. 파일 명
-result_head .append("Copy File path")    # 02.복사할 파일 경로
-result_head.append("Copied File path")    # 03. 복사된 목적지 파일 경로 
-csv_res .append(result_head)   # HEAD 설정
+result_head.append("■ No") # No. 
+result_head .append("■ File Name")      # 01. 파일 명
+result_head .append("■ Copy File path")    # 02.복사할 파일 경로
+result_head.append("■ Copied File path")    # 03. 복사된 목적지 파일 경로 
+csv_res.append(result_head)   # HEAD 설정 
 
 for i in table_list:	# i ~ table_list
 	print(" [@_T] ■■ [/ob_excel_fm_copy.py] ==> [T_50] [table_list] [i_번째]"+ i +"[01. 파일 명]"+ i.strip()  +"[CSV 파일 정보 확인 작업 중...] .....■■■■■■ ")
@@ -119,10 +119,10 @@ for i in table_list:	# i ~ table_list
 	file_copy(src_path, dst_path)   # 파일 복사 쳐리 ■■■■■
 	print(" [@_T] ■■ [/ob_excel_fm_copy.py] ==> [T_52] [table_list] [i_번째]"+ i +"[src_path]"+ str(src_path) +"[dst_path]"+ str(dst_path) )
 	
-	result.append(int(strNo))    	# No.
-	result.append(str(tb_nm))		# 01. 파일명
-	result.append(str(src_path))   	# 02. 복사할 파일 경로
-	result.append(str(dst_path))   	# 03. 복사된 목적지 파일 경로 
+	result.append("■ "+ str(strNo))    		# No.
+	result.append(" ■ "+ str(tb_nm))		# 01. 파일명
+	result.append(" ■ "+ str(src_path))   	# 02. 복사할 파일 경로
+	result.append(" ■ "+ str(dst_path))   	# 03. 복사된 목적지 파일 경로 
 	print(" [@_T] ■■ [/ob_excel_fm_copy.py] ==> [T_53J] [table_list] [i_번째]"+ i +"[02. 복사할 파일 경로]"+ str(src_path) +"[dst_path]"+ str(dst_path) )
 
 	csv_res.append(result)

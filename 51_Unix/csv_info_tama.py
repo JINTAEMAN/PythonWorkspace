@@ -21,13 +21,13 @@ result_title.append("CSV File Info[Start Date "+ str(now_date) +"]")	# 00. 제�
 csv_res.append(result_title)
 
 result_head = list()	# 파일 헤드 설정
-result_head.append("No") # No. 
-result_head.append("File Name")		# 01. 파일명
-result_head.append("real_data_cnt")	# 07. 실재 데이타 건수 ■ 
-result_head.append("Volume")		    # 03. 용량 ■  
-result_head.append("Line Cnt")		    # 04. 라인 수
-result_head.append("Head Cnt")	        # 05 헤드수
-result_head.append("Real File Name")	# 02. 파일 명
+result_head.append("■ No") # No. 
+result_head.append(" ■ File Name")		# 01. 파일명
+result_head.append(" ■ real_data_cnt")	# 07. 실재 데이타 건수 ■ 
+result_head.append(" ■ Volume")		    # 03. 용량 ■  
+result_head.append(" ■ Line Cnt")		    # 04. 라인 수
+result_head.append(" ■ Head Cnt")	        # 05 헤드수
+result_head.append(" ■ Real File Name")	# 02. 파일 명
 csv_res.append(result_head)             # HEAD설정
 
 for i in table_list:		# i ~ table_list
@@ -108,6 +108,7 @@ for i in table_list:		# i ~ table_list
 		head_count = "X"    # 05. 헤드 수 
 		real_data_cnt = "X"     # 07 실재 데이터 건수 ■
 
+<<<<<<< HEAD
 
 	
 	result.append(int(strNo)) # No.
@@ -118,6 +119,17 @@ for i in table_list:		# i ~ table_list
 	result.append(str(head_count))	    # 05. 헤드 수 
 	result.append(str(crm_file_nm))		# 02. 파일명
 	print(" [@_T] ■■ [/csv_info_tama.py] ==> [T_61]  [table_list ■] [i_번째]"+ i +"[01. 파일명]"+ splited_str[0].strip() +"[ 07 실재 데이터 건수■]]"+ str(real_data_cnt) +"[04. 라인 수]"+ str(line_count) +"[05. 헤드 수]"+ str(head_count) +"[03. 용량 ■]"+ str(volume) +"[02. 파일명"+ str(crm_file_nm) ) 
+=======
+	result = list()   # 결과 list 설정
+	result.append("■ "+ str(strNo)) # No.
+	result.append(" ■ "+ str(splited_str[1].strip()))  # 01. 파일명
+	result.append(" ■ "+ st(real_data_cnt))	# 07 실재 데이터 건수 ■
+	result.append(" ■ "+ st(volume))			# 03. 용량 ■
+	result.append(" ■ "+ st(line_count))		# 04. 라인 수
+	result.append(" ■ "+ st(head_count))	    # 05. 헤드 수 
+	result.append(" ■ "+ st(crm_file_nm))		# 02. 파일명
+	print(" [@_T] ■■ [/csv_info_tama.py] ==> [T_61]  [table_list ■] [i_번째]"+ i +"[01. 파일명]"+ splited_str[0].strip() +"[ 07 실재 데이터 건수■]]"+ str(linereal_data_cnt_count) +"[04. 라인 수]"+ str(line_count) +"[05. 헤드 수]"+ str(head_count) +"[03. 용량 ■]"+ str(volume) +"[02. 파일명"+ str(crm_file_nm) ) 
+>>>>>>> 86ea0be15b10ee54a7aa29439c22face44d90aae
 
 	csv_res.append(result)
 	print(" [@_T] ■■ [/csv_info_tama.py] ==> [T_99] [End] ■■■■")
