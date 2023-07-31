@@ -128,8 +128,6 @@ for i in table_list:		# i ~ table_list
 		volume = "X"        # 03. 용량 ■
 		head_count = "X"    # 05. 헤드 수 
 		real_data_cnt = "X"     # 07 실재 데이터 건수 ■
-
-
 	
 	result.append("■ "+ str(strNo)) # No.
 	result.append(" ■ "+ str(splited_str[1].strip()))  # 01. 파일명
