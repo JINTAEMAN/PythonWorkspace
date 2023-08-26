@@ -63,8 +63,8 @@ if ob_sort > 1 :    # 인자값이 없으연
     out_cmd_add = proc.read()
     print("[@_T] ■■■ [/python_ws_pu.py] ==> [T_72] [3. Git 스테이지 영역에 추가(git add)]"+ out_cmd_add.decode('utf-8') )
     
-    cmd_cmt_msg = 'git commit -m "Add to Python Work space['+ now_ydmhm +'(T_01), by 진태만]"'   # 4. Git 로컬 저장소 영역에 커밋 처리
-    # git commit -m 'Add to TEST 대이다 추출(22.07.20J)1》[(No  31, No. 32) by 진태만1 
+    cmd_cmt_msg = 'git commit -m "[TM] Add to Python Work space['+ now_ydmhm +'(T_01), by 진태만]"'   # 4. Git 로컬 저장소 영역에 커밋 처리
+    # git commit -m ' [TM] Add to Python Work space[23.08.26, by 진태만]'
     proc = subprocess.Popen(cmd_cmt_msg, shell=True, stdout=subprocess.PIPE).stdout 
     out_cmt_msg = proc.read()
     print("[@_T] ■■■ [/python_ws_pu.py] ==> [T_73] [4. Git 로걸 저장소 영역에 추가(커밋 에세지)]■■"+ str(cmd_cmt_msg))

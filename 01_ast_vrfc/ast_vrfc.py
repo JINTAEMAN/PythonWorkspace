@@ -1,6 +1,6 @@
 ﻿# ! /ast_vrfc.py		# 자산 검증 파일
 
-from openpyxl import load_workbook # 파일 불러오기
+from openpyxl import load_workbook # 파일 불러오기 --> TEST
 from openpyxl import Workbook
 from openpyxl.styles import Font, Border, Side, PatternFill, Alignment
 print(" [@_T] ■■■ [/ast_vrfc.py] ==> [T_01] ■■■■■■ [######################### [자산 검증 파일 TEST Start] #########################] ■■■■■■ ")
