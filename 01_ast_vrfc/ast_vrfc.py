@@ -5,11 +5,19 @@ from openpyxl import Workbook
 from openpyxl.styles import Font, Border, Side, PatternFill, Alignment
 print(" [@_T] ■■■ [/ast_vrfc.py] ==> [T_01] ■■■■■■ [######################### [자산 검증 파일 TEST Start] #########################] ■■■■■■ ")
 
+# openFileNm = "D:\PythonWorkspace\01_ast_vrfc\01. 자산 검증(23.06).xlsx"   # 월오픈 파일 명(01. 자산 검증(23.06).xlsx)
+openFileNm = "01_ast_vrfc/01. 자산 검증(23.06).xlsx"   # 오픈 파일 명(01. 자산 검증(23.06).xlsx)
+# openFileNm = "01. 자산 검증(23.06).xlsx"   # 오픈 파일 명(01. 자산 검증(23.06).xlsx)
+print(" [@_T] ■■■ [/ast_vrfc.py] ==> [T_02] [오픈 파일 명]"+ openFileNm )
+
 # wb = load_workbook("sample.xlsx")   # sample.xlsx 파일에서 wb을 불러옴
 # wb = load_workbook("\01_ast_vrfc\01. 자산 검증(23.06).xlsx")   # sample.xlsx 파일에서 wb을 불러옴  ==> testgit pull  sssssss	■■■■■■
-wb = load_workbook("01. 자산 검증(23.06).xlsx")   # sample.xlsx 파일에서 wb을 불러옴  ==> testgit pull  sssssss	■■■■■■
+# wb = load_workbook("01. 자산 검증(23.06).xlsx")   # sample.xlsx 파일에서 wb을 불러옴  ==> testgit pull  sssssss	■■■■■■
+wb = load_workbook(openFileNm)   # sample.xlsx 파일에서 wb을 불러옴  ==> testgit pull 	■■■■■■
 ws = wb.active
- 
+# print(" [@_T] ■■■ [/ast_vrfc.py] ==> [T_12] [openFileNm]"+ openFileNm )
+# print(" [@_T] ■■■ [/ast_vrfc.py] ==> [T_12] [fm_url]"+ fm_url +"[fm_url]"+ fm_url )
+
 ws.insert_rows(3, 14)       # 월별 자산 제목(3번째 줄 위치에 14줄을 추가)
 ws.merge_cells("A3:D3")     # A3 부터 D3 까지 병합
 ws["A3"] = "2023.07 자산"   # 월별 자산 제목
@@ -48,7 +56,12 @@ for row in ws.rows:
 # 틀 고정
 ws.freeze_panes = "B2" # B2 기준으로 틀 고정
 
-wb.save("01. 자산 검증(23.06)_rslt.xlsx")
+# rsltFileNm = "01. 자산 검증(23.06).xlsx"   # 결과 파일 명(01. 자산 검증(23.06).xlsx)
+rsltFileNm = "01_ast_vrfc/01. 자산 검증(23.06)_rslt.xlsx"   # 결과 파일 명(01. 자산 검증(23.06).xlsx)
+print(" [@_T] ■■■ [/ast_vrfc.py] ==> [T_91] [결과 파일 명]"+ rsltFileNm )
+
+wb.save(rsltFileNm)
+# wb.save("01. 자산 검증(23.06)_rslt.xlsx")
 print(" [@_T] ■■■ [/ast_vrfc.py] ==> [T_99] ■■■■■■ [######################### [자산 검증 파일 TEST End] #########################] ■■■■■■\n\n\n\n")
 
 
