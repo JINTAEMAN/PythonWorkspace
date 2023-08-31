@@ -73,8 +73,8 @@ csv_res.append(result_title)
 
 result_head = list() #     파일 헤드 설정
 result_head.append("■ No") # No. 
-result_head .append("■ File Name")      # 01. 파일 명
-result_head .append("■ Copy File path")    # 02.복사할 파일 경로
+result_head.append("■ File Name")      # 01. 파일 명
+result_head.append("■ Copy File path")    # 02.복사할 파일 경로
 result_head.append("■ Copied File path")    # 03. 복사된 목적지 파일 경로 
 csv_res.append(result_head)   # HEAD 설정 
 
