@@ -14,6 +14,7 @@ browser.find_element_by_link_text('가는날 선택').click()
 browser.find_elements_by_link_text('30')[0].click()
 # 오는 날
 browser.find_elements_by_link_text('5')[1].click()
+# browser.find_elements_by_link_text('30')[0].click()   # 오는 날[다음달 30일]
 
 # 제주도 클릭
 browser.find_element_by_xpath('//*[@id="recommendationList"]/ul/li[1]').click()
@@ -21,10 +22,10 @@ browser.find_element_by_xpath('//*[@id="recommendationList"]/ul/li[1]').click()
 # 항공권 검색 클릭
 browser.find_element_by_link_text('항공권 검색').click()
 
-# time.sleep(10)
+# time.sleep(10)    # 10초 대기
 
 try:
-    elem = WebDriverWait(browser, 10).until(EC.presence_of_element_located((By.XPATH, '//*[@id="content"]/div[2]/div/div[4]/ul/li[1]')))
+    elem = WebDriverWait(browser, 10).until(EC.presence_of_element_located((By.XPATH, '//*[@id="content"]/div[2]/div/div[4]/ul/li[1]')))    # URL(조회 결과)이 나올 때까지 10초 대기
     print(elem.text)
 except:
     print("실패했어요")

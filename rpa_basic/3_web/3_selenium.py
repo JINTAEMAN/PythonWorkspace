@@ -1,17 +1,26 @@
 from selenium import webdriver
 
+print(" [@_T] ■■■ [/3_selenium.py] ==> [T_01] ■■■■■■ [######################### [selenium TEST Start] #########################] ■■■■■■ ")
+
 #browser = webdriver.Chrome('./chromedriver.exe')
 browser = webdriver.Chrome()
+print(" [@_T] ■■■ [/3_selenium.py] ==> [T_02]" ) 
 
 # 네이버 이동
 browser.get('http://naver.com')
+print(" [@_T] ■■■ [/3_selenium.py] ==> [T_03]" ) 
 
 # 카페 메뉴 찾기
-elem = browser.find_element_by_link_text('카페')
+elem = browser.find_element_by_link_text('카페')    # //*[@id="shortcutArea"]/ul/li[2]/a/span[1]  ===> 에러 발생 ■■■■■■
+# AttributeError: 'WebDriver' object has no attribute 'find_element_by_link_text'
+
+print(" [@_T] ■■■ [/3_selenium.py] ==> [T_04]" ) 
+# ---------------------------------------------------------------------------------------------------------------------->
 
 # 속성 가져오기
 elem.get_attribute('href')
 elem.get_attribute('class')
+# ---------------------------------------------------------------------------------------------------------------------->
 
 # 클릭
 elem.click()
@@ -79,3 +88,4 @@ browser.close() # 현재 탭 닫기
 browser.quit() # 브라우저 종료하기
 
 # 참고 URL : https://selenium-python.readthedocs.io/
+print(" [@_T] ■■■ [/3_selenium.py] ==> [T_99] ■■■■■■ [######################### [selenium TEST End] #########################] ■■■■■■\n\n\n\n")

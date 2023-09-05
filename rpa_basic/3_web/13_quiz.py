@@ -29,15 +29,14 @@ browser.find_element_by_xpath('//*[@id="main"]/div[1]/div[1]/a[1]').click()
 browser.find_element_by_xpath('//*[@id="topnav"]/div/div[1]/a[10]').click()
 
 # 4. 좌측 메뉴 중 Contact Form 메뉴 클릭
-#browser.find_element_by_xpath('//*[@id="leftmenuinnerinner"]/a[116]').click()
-
+# browser.find_element_by_xpath('//*[@id="leftmenuinnerinner"]/a[116]').click()
 # 링크 텍스트로 비교 > Contact Form 이라는 2개 이상의 링크 텍스트가 있는 경우 실패
 #browser.find_element_by_link_text('Contact Form').click() 
 
-# 가장 좋은 방법 (텍스트 전체 일치 여부 비교)
+# 가장 좋은 방법(텍스트 전체 일치 여부 비교) (text()=)
 browser.find_element_by_xpath('//*[@id="leftmenuinnerinner"]/a[text()="Contact Form"]').click() 
 
-# 일부 텍스트 비교하는 방법
+# 일부 텍스트 비교하는 방법(contains(text())
 #browser.find_element_by_xpath('//*[@id="leftmenuinnerinner"]/a[contains(text(), "Contact")]').click()
 
 # 5. 입력란에 아래 값 입력
@@ -54,7 +53,7 @@ subject = "퀴즈 완료하였습니다."
 
 browser.find_element_by_xpath('//*[@id="fname"]').send_keys(first_name)
 browser.find_element_by_xpath('//*[@id="lname"]').send_keys(last_name)
-browser.find_element_by_xpath('//*[@id="country"]/option[text()="{}"]'.format(country)).click()
+browser.find_element_by_xpath('//*[@id="country"]/option[text()="{}"]'.format(country)).click()     # option 처리
 browser.find_element_by_xpath('//*[@id="main"]/div[3]/textarea').send_keys(subject)
 
 # 6. 5초 대기 후 Submit 버튼 클릭
