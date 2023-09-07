@@ -13,7 +13,7 @@ dst_path = ""   # 복사된 옥적지 파일 경로
 
 def file_copy(src, dst) : 	# 파일 복사 처리 함수()
 	try :
-		print("\n\n\n [@_T] ■■ [/ob_excel_fm_copy.py] [file_copy()] ==> ■■■■■■ [T_01] [1. 복사 대상 피일]"+ str(src) +"[2. 복사 결과 피일]"+ str(dst) )
+		print("\n\n\n [@_T] ■■ [/ob_excel_fm_copy.py] [file_copy()] ==> ■■■■■■ [T_01] [1. 복사 대상 파일]"+ str(src) +"[2. 복사 결과 파일]"+ str(dst) )
 	
 		shutil.copy2(src, dst)   # 파일 복사
 		print(" [@_T] ■■ [/ob.sqljm.copy py] [file_copy()] ==> ■■■■■■ [T_11] [파일 복사 성공}")
@@ -35,7 +35,7 @@ def file_copy(src, dst) : 	# 파일 복사 처리 함수()
 
 	except Exception as e:
 		print(e)
-		print("\n [@_T] ■■ [/ob_excel_fm_copy.py]] [file_copy()J => [T_91] [파일 복사 실파] [Error] "+src )
+		print("\n [@_T] ■■ [/ob_excel_fm_copy.py]] [file_copy()J => [T_91] [파일 복사 실패] [Error] "+src )
 
 path = './52_OB_work_local/ob_work_table_T.txt'  	# OB 처리 대상 테이블 txt 파일【/ob_work_table_T.txt: TEST 파일)
 res_path = './52_OB_work_local/ob_work_rst.csv'   	# OB 처리 결과 csv 파일 
@@ -111,9 +111,9 @@ for i in table_list:	# i ~ table_list
 		susbdd_02 = "00"
 	print(" [@_T] ■■ [/ob_excel_fm_copy.py] ==> [T_51_0] [table_list] [i_번째]"+ i +"[tb_nm]"+ str(tb_nm) +"[susbdd_01]"+ str(susbdd_01) +"[susbdd_02]"+ str(susbdd_02) )
 	
-	src_path = "D:\\"+ ob_folder +"\\"+ num_folder_nm +"\\"+ num_file_nm +".xlsx"    # 복사헐 파일 경로(ob_dsgn 폴더): 1. 복사 대상 피일
+	src_path = "D:\\"+ ob_folder +"\\"+ num_folder_nm +"\\"+ num_file_nm +".xlsx"    # 복사헐 파일 경로(ob_dsgn 폴더): 1. 복사 대상 파일
 	# dst_path = "V:\\\\개인작업폴더\\\\최성오\\\\PDA_현행화\\\\매핑정의서\\\\"+ susbdd_01.lower() +"\\\\"+ susbdd_02.lower() +"\\\\"+ num_file_nm +".xlsx"   #복시  
-	dst_path = "D:\\PythonWorkspace\\dlk_airflow_01\\"+ susbdd_01.lower() +"\\"+ susbdd_02.lower() +"\\"+ num_file_nm +".xlsx"    # 복사할 파일 경로(2. 복사 결과 피일) 
+	dst_path = "D:\\PythonWorkspace\\dlk_airflow_01\\"+ susbdd_01.lower() +"\\"+ susbdd_02.lower() +"\\"+ num_file_nm +".xlsx"    # 복사할 파일 경로(2. 복사 결과 파일) 
 	print(" [@_T] ■■ [/ob_excel_fm_copy.py] ==> [T_51_2] [table_list] [i_번째]"+ i +"[src_path]"+ str(src_path) +"[dst_path]"+ str(dst_path) )
 
 	file_copy(src_path, dst_path)   # 파일 복사 쳐리 ■■■■■

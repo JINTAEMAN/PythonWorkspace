@@ -9,6 +9,8 @@ import pyautogui    # 마우스와 키보드 제어 Lib
 import time     # 시간 Lib
 from datetime import datetime   # datetime Lib 
 import calendar  #   calendar Lib
+import requests
+from bs4 import BeautifulSoup
 
 def getMonthRage(year, month):      # 월 날짜 범위 설정 함수()
     date = datetime(year=year, month=month, day=1).date()
@@ -28,6 +30,10 @@ print(" [@_T] ■■■ [/ast_vrfc.py] ==> [T_02] [오늘 년월]"+ str(now_ym) 
 
 ob_sort = 1      # 0B 처리 종류(1. 파일 조회, 2. 파일 삭제)
 
+# sys.argv[0] = "/D/PythonWorkspace/01_ast_vrfc/ast_vrfc.py"         # 인자값1  ===> TEST @@@
+# sys.argv[1] = "2023.09"         # 인자값2    ===> TEST @@@`
+# print(" [@_T] ■■■ [/ast_vrfc.py] ==> [T_03] [인자값1]"+ str(sys.argv[0]) +"[인자값2]"+ str(sys.argv[1]) )
+
 if len(sys.argv) < 2 :		# 인자값이 없으연
     ob_sort = 0
 else :
@@ -39,6 +45,8 @@ if int(ob_sort) == 0 :   # 자산 년월 미입력 이면
     result = pyautogui.alert("자산 년월을 입력하세요. 예) 2023.08", title='[자산 년월 입력 오류]', button='OK')
     exit(0)     # 즉시 종료
 
+# astYYM = "2023.09"    # 2번째 인자값 ==> 자산 년월 ■■■■■■ (2023.08)
+
 astYYM = astYYM         # 자산 년월 ■■■■■■ (2023.08)
 astYM = astYYM[2:7]     # 자산 년월(23.08)
 print(" [@_T] ■■■ [/ast_vrfc.py] ==> [T_04] [astYYM]"+ str(astYYM) +"[astYM]"+ str(astYM) )
@@ -48,6 +56,82 @@ openFileNm = "01. 자산 검증("+ astYM +").xlsx"   # 오픈 파일 명(01. 자
 wb = load_workbook(urlPath + openFileNm, data_only=True)    # 오픈 파일을 wb을 불러옴(data_only=True: 수식이 아닌 실제 데이터를 가지고 옴)
 
 ws_stock = wb["91. 주식"]   # Dict 형태로 Sheet에 접근
+
+# 종목 코드 리스트
+codes = [
+    '005380'   # 현대차     
+    , '068270' # 셀트리온
+    , '096770'  # SK이노베이션
+]
+
+row = 0 
+print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_05]" )  
+
+prchs_amt = 0               # 매입 금액
+prchs_amt_sum = 0           # 매입 금액 합계
+evl_amt = 0                 # 평가 금액
+evl_amt_sum = 0             # 평가 금액 합계
+evl_profitLoss_sum = 0      # 평가 손익 합계 
+evl_profitLoss = 0          # 평가 손익
+profitLossRate_sum = 0      # 손익률 합계 
+
+for code in codes:
+    url = f"https://finance.naver.com/item/sise.naver?code={code}"    # 네이버 증권 종목(f: 포맷 문자열, 리터럴 사용)
+    # url = "https://finance.naver.com/item/sise.naver?code="+ code    # 네이버 증권 종목     
+    # url = 'https://finance.naver.com/item/sise.naver?code=005380'    # 네이버 증권 종목 ===> TEST @@@ ===>
+
+    response = requests.get(url)     # 웹 사이트 열기
+
+    if response.status_code == 200:        
+        html = response.text
+        soup = BeautifulSoup(html, 'html.parser')
+        price = soup.select_one("#_nowVal").text    # 현재가 ==>sCSS_SELECTOR
+        # print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_05_1] [row_번째]"+ str(row) +"[현재가]"+ str(price) +"[url_주소]"+ str(url) )  
+
+        price = price.replace(',', '')    
+        # price =  5000000    # 현재가  TEST @@@ ===>
+        # print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_50] [row_번째] [soup]"+ str(soup) )
+
+    else : 
+        print(response.status_code) 
+    # print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_05_2] [row_번째]"+ str(row) +"[종목 코드]"+ code +"[현재가]"+ str(price) ) 
+
+    prchs_amt = int(ws_stock[f'S{row+5}'].value)                   # 매입 금액
+    evl_amt = int(ws_stock[f'P{row+5}'].value) * int(price)         # 평가금액(엑셀) = 보유수량 * 보유수량(=P5*Q5)
+    evl_profitLoss = (evl_amt) - prchs_amt   # 평가손익(엑셀) = 평가금액 - 매입금액(=T14-S14)
+    
+    ws_stock[f'D{row+5}'] = int(price)    # 현재가(엑셀)
+    ws_stock[f'Q{row+5}'] = int(price)    # 현재가(엑셀)
+    ws_stock[f'G{row+5}'] = evl_amt    # 평가금액(엑셀) = 보유수량 * 보유수량(=P5*Q5)  evl_profitLoss = 0        # 평가 손익
+    ws_stock[f'T{row+5}'] = evl_amt    # 평가금액(엑셀) = 보유수량 * 보유수량(=P5*Q5)
+    # print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_05_3] [row_번째]"+ str(row) +"[종목 코드]"+ code +"[01. 보유수량]"+ str(int(ws_stock[f'P{row+5}'].value)) +"[02. 현재가]"+ str(price) +"[03. 평가금액]"+ str(evl_amt) ) 
+
+    ws_stock[f'H{row+5}'] = evl_profitLoss   # 평가손익(엑셀) = 평가금액 - 매입금액(=T14-S14)
+    ws_stock[f'U{row+5}'] = evl_profitLoss   # 평가손익(엑셀) = 평가금액 - 매입금액(=T14-S14)
+    ws_stock[f'I{row+5}'] = (((evl_amt) / prchs_amt) - 1) * 100   # 손익률(엑셀) = ((평가금액 / 매입금액) -1) *100 (=(T14/S14)-1) * 100)
+    ws_stock[f'V{row+5}'] = (((evl_amt) / prchs_amt) - 1) * 100   # 손익률(엑셀) = ((평가금액 / 매입금액) -1) *100 (=(T14/S14)-1) * 100)
+
+    evl_amt_sum = evl_amt_sum + evl_amt     # 평가 금액 합계
+    evl_profitLoss_sum = evl_profitLoss_sum + evl_profitLoss      # 평가손익 합계
+    prchs_amt_sum = prchs_amt_sum + prchs_amt      # 매입 금액 합계
+    print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_05_3] [row_번째]"+ str(row) +"[종목 코드]"+ code +"[01. 보유수량]"+ str(int(ws_stock[f'P{row+5}'].value)) +"[02. 매입 금액]"+ str(prchs_amt) +"[02. 현재가]"+ str(price) +"[03. 평가금액]"+ str(evl_amt) +"[04. 평가손익]"+ str(evl_profitLoss) ) 
+    
+    row = row + 1
+print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_05]" )
+
+profitLossRate_sum = ((evl_amt_sum / prchs_amt_sum) - 1) * 100     # 손익률 합계 = ((평가금액 합계 / 매입금액 합계) -1) *1 00
+print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_06] [01. 평가금액 합계]"+ str(evl_amt_sum) +"[02. 매입금액 합계]"+ str(prchs_amt_sum) +"[03. 손익률 합계]"+ str(profitLossRate_sum) +"[05. 평가손익 합계]"+ str(evl_profitLoss) ) 
+
+ws_stock["D3"] = evl_amt_sum    # 평가금액 합계(엑셀)
+ws_stock["G9"] = evl_amt_sum    # 평가금액 합계(엑셀)
+ws_stock["T9"] = evl_amt_sum    # 평가금액 합계(엑셀)
+ws_stock["K3"] = evl_profitLoss      # 평가손익 합계(엑셀)
+ws_stock["H9"] = evl_profitLoss      # 평가손익 합계(엑셀)
+ws_stock["U9"] = evl_profitLoss      # 평가손익 합계(엑셀)
+ws_stock["M3"] = profitLossRate_sum      # 손익률 합계(엑셀)
+ws_stock["I9"] = profitLossRate_sum      # 손익률 합계(엑셀)
+ws_stock["V9"] = profitLossRate_sum      # 손익률 합계(엑셀)
+
 stockValue_D3 = ws_stock["D3"].value        # 주식 평가 금액
 stockTotValue_F3 = ws_stock["F3"].value     # 주식 총 매입 금액
 shinhaBValue_Y5 = ws_stock["Y5"].value      # 은행 결산@@ 신한은행 금액
@@ -58,7 +142,7 @@ insuSonValue_P10 = ws_stock["P10"].value    # 21. 실비 보험(현대해상, �
 insuValue_S10 = ws_stock["S10"].value       # 22. 실비 보험(한화손해보험, 잔태만)
 realtyValue_U10 = ws_stock["U10"].value     # 3. 부동산(현아트빌 404호) 금액 
 pension_L9 = ws_stock["L9"].value           # 91. 퇴직 연금(개인형 IPR) 금액 
-print(" [@_T] ■■■ [/ast_vrfc.py] ==> [T_05] [주식 평가 금액]"+ str(stockValue_D3) +"[신한은행 금액]"+ str(shinhaBValue_Y5) )
+print(" [@_T] ■■■ [/ast_vrfc.py] ==> [T_07] [주식 평가 금액]"+ str(stockValue_D3) +"[신한은행 금액]"+ str(shinhaBValue_Y5) )
 
 ws = wb["자산(2023)"]   # Dict 형태로 Sheet에 접근
 prev_B7_amt = ws["B7"].value   # 70. [수협B] Sh 쑥쑥크는 아이적금(수종) 금액 --------> 이전 달 금액 
