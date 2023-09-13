@@ -63,6 +63,6 @@ if git_way == "push":   # 인자값이 push 이면
     proc = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE).stdout
     out_cmd_push = proc.read()
     print("[@_T] ■■■ [/python_ws_pu py] ==> [T_74] [5. 원격 정장소에 반영(git push)]"+ out_cmd_push.decode('utf-8'))
-    print("[@_T] ■■■ [/python_ws_pu.copy py] ==> [T_80] [Git 정보 쳐리 시작 End] ■■■ @@@@@ ■■■■■■■■■ ■\n\n")
+    print("[@_T] ■■■ [/python_ws_pu.py] ==> [T_80] [Git 정보 쳐리 시작 End] ■■■ @@@@@ ■■■■■■■■■ ■\n\n")
 
 print("[@_T] ■■■ [/python_ws_pu.py] ==> [T_99] ■■■■■■ [######################### [python Workspace 처리 End] #########################] ■■■■■■\n\n\n")
