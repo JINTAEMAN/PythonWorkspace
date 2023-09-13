@@ -1,9 +1,11 @@
-﻿# ! /ast_vrfc.py		# 자산 검증 파일 
+﻿# -*- coding: utf-8 -*-	    # 문자 인코딩(한글 사용) 
+# ! /ast_vrfc.py		    # 자산 검증 파일 
 
 from openpyxl import load_workbook # 파일 불러오기 --> [기초 Data]
 from openpyxl import Workbook
 from openpyxl.styles import Font, Border, Side, PatternFill, Alignment
 from openpyxl.styles import PatternFill
+import os       # 파이씬 os 제어 Lib
 import sys	    # 파이씬 인터프리터 제어 Lib
 import pyautogui    # 마우스와 키보드 제어 Lib
 import time     # 시간 Lib
@@ -21,38 +23,37 @@ def getMonthRage(year, month):      # 월 날짜 범위 설정 함수()
 
     return monthrange
 
-print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_01] ■■■■■■ [######################### [자산 검증 파일 TEST Start] #########################] ■■■■■■ ")
+def readParameters():    # 파일에서 파라미터 가져오는 함수()
+    print("[@_T] ■■■ [/ast_vrfc.py] [readParameters]==> [T_01]")
+
+    file = open("01_pram_properties.txt", 'rt', encoding='utf-8-sig')	# properties.txt 파일 내용 ---> 2023.09[자산 년월(오늘 년월)]
+    # print("[@_T] ■■■ [/ast_vrfc.py] [readParameters]==> [T_51] [file]"+ str(file) )
+
+    parameters = file.read().split(";")      # 자산 년월 parameters
+    print("[@_T] ■■■ [/ast_vrfc.py] [readParameters]==> [T_91] [parameters]"+ str(parameters) )
+    print("[@_T] ■■■ [/ast_vrfc.py] [readParameters]==> [T_92] [자산 년월]"+ str(parameters[0]) )
+
+    return parameters
+# # ---------------------------------------------------------------------------------------------------------------------->
 
 now_ym = str(datetime.today().date()).replace('-','.')     # 오늘 년월(년.월) (2023.08.31)
-now_ym = now_ym[0:7]     # 자산 년월(2023.08)
-print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_02_1] [오늘 년월]"+ str(now_ym) ) 
+now_ym = now_ym[0:7]     # 자산 년월(2023.08) 
 # ---------------------------------------------------------------------------------------------------------------------->
 
-ob_sort = 1      # 0B 처리 종류(1. 파일 조회, 2. 파일 삭제)
+parameters = readParameters()   # 파일에서 파라미터 가져오는 함수()
+astYYM = str(parameters[0])     # 자산 년월
+print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_02_2] [parameters[0]]"+ str(parameters[0]) +"[자산 년월]"+ str(astYYM) ) 
 
-# sys.argv[0] = "/D/PythonWorkspace/01_ast_vrfc/ast_vrfc.py"         # 인자값1  ===> TEST @@@
-# sys.argv[1] = "2023.09"         # 인자값2    ===> TEST @@@`
-# print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_03] [인자값1]"+ str(sys.argv[0]) +"[인자값2]"+ str(sys.argv[1]) )
-
-if len(sys.argv) < 2 :		# 인자값이 없으연
-    ob_sort = 0
-else :
-    astYYM = sys.argv[1]   # 2번째 인자값 ==> 자산 년월 ■■■■■■ (2023.08)
-    ob_sort = 1   # 2번째 인자값
-print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_02_2] [ob_sort]"+ str(ob_sort) )
-
-if int(ob_sort) == 0 :   # 자산 년월 미입력 이면
+if str(astYYM) == None :   # 자산 년월 미입력 이면
     result = pyautogui.alert("자산 년월을 입력하세요. 예) 2023.08", title='[자산 년월 입력 오류]', button='OK')
     sys.exit()    # 종료
-    # exit(0)     # 즉시 종료
-
-# astYYM = "2023.09"    # 2번째 인자값 ==> 자산 년월 ■■■■■■ (2023.08)
 
 astYYM = astYYM         # 자산 년월 ■■■■■■ (2023.08)
-astYM = astYYM[2:7]     # 자산 년월(23.08)
-print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_02_3] [astYYM]"+ str(astYYM) +"[astYM]"+ str(astYM) )
+astYM = astYYM[2:8]     # 자산 년월(23.08)
+print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_02_3] [자산 년월_7]"+ str(astYYM) +"[자산 년월_5]"+ str(astYM) )
 
-urlPath = "01_ast_vrfc/"   # URL 경로
+# urlPath = "01_ast_vrfc/"   # URL 경로 
+urlPath = ""   # URL 경로
 openFileNm = "01. 자산 검증("+ astYM +").xlsx"   # 오픈 파일 명(01. 자산 검증(23.08).xlsx) 
 wb = load_workbook(urlPath + openFileNm, data_only=True)    # 오픈 파일을 wb을 불러옴(data_only=True: 수식이 아닌 실제 데이터를 가지고 옴)
 
@@ -95,39 +96,46 @@ codes = [
     , '096770'  # SK이노베이션
 ]
 
-stock_code1 = ws_pay["V3"].value    # 주식(현대차) 주식코드
-stock_code2 = ws_pay["V4"].value    # 주식(셀트리온) 주식코드
-stock_code3 = ws_pay["V5"].value    # 주식(SK이노베이션) 주식코드
+row = 0  
 
-sstock_nm1 = ws_pay["W3"].value    # 주식(현대차) 주식 명
-sstock_nm2 = ws_pay["W4"].value    # 주식(셀트리온) 주식 명
-sstock_nm3 = ws_pay["W5"].value    # 주식(SK이노베이션) 주식 명
+for code in codes:   # "01. 급여" Sheet에서 월별 보유 주식 현황 Data 줄
+    if code == "068270":     # 증권 종목이 '셀트리온' 이면  
+        posses_qty2 = ws_pay[f'X{row+3}'].value  	    # 주식(셀트리온) 보유 수량
+        ave_prchs_amt2 =  ws_pay[f'Z{row+3}'].value     # 주식(셀트리온) 평균 매입가
+        prchs_amt2 =  ws_pay[f'AA{row+3}'].value        # 주식(셀트리온) 매입 금액 		
+    elif code == "096770":   # 증권 종목이 'SK이노베이션' 이면  
+        posses_qty3 = ws_pay[f'X{row+3}'].value  	    # 주식(SK이노베이션) 보유 수량
+        ave_prchs_amt3 =  ws_pay[f'Z{row+3}'].value     # 주식(SK이노베이션) 평균 매입가
+        prchs_amt3 =  ws_pay[f'AA{row+3}'].value        # 주식(SK이노베이션) 매입 금액 
+    else :      		
+        posses_qty1 = ws_pay[f'X{row+3}'].value  	    # 주식(현대차) 보유 수량
+        ave_prchs_amt1 =  ws_pay[f'Z{row+3}'].value     # 주식(현대차) 평균 매입가
+        prchs_amt1 =  ws_pay[f'AA{row+3}'].value        # 주식(현대차) 매입 금액
 
-posses_qty1 = ws_pay["X3"].value    # 주식(현대차) 보유 수량
-posses_qty2 = ws_pay["X4"].value    # 주식(셀트리온) 보유 수량
-posses_qty3 = ws_pay["X5"].value    # 주식(SK이노베이션) 보유 수량
-posses_qty_sum = ws_pay["X6"].value    # 보유 수량 합계
+    if row == 0:
+        shinhanBValue = ws_pay[f'AG{row+3}'].value      # 은행 결산@@ 신한은행 금액
+    elif row == 1:
+        kakaoBValue = ws_pay[f'AG{row+3}'].value  	    # 은행 결산@@ 카카오 뱅크 금액
+    else :      		
+        shinhybBValue = ws_pay[f'AG{row+3}'].value     # 은행 결산@@ 신협 예금 금액
 
-ave_prchs_amt1 = ws_pay["Z3"].value    # 주식(현대차) 평균 매입가
-ave_prchs_amt2 = ws_pay["Z4"].value    # 주식(셀트리온) 평균 매입가
-ave_prchs_amt3 = ws_pay["Z5"].value    # 주식(SK이노베이션) 평균 매입가
-ave_prchs_amt_sum = ws_pay["Z6"].value    # 평균 매입가 합계
+    row = row + 1   
 
-prchs_amt1 = ws_pay["AA3"].value    # 주식(현대차) 매입 금액
-prchs_amt2 = ws_pay["AA4"].value    # 주식(셀트리온) 매입 금액
-prchs_amt3 = ws_pay["AA5"].value    # 주식(SK이노베이션) 매입 금액
+add_row = 0           # 줄 추가(add_row): "01. 급여" Sheet에서 월별 보유 주식 현황 Data가 추가될 경우 대비
+row = add_row + 6     # "01. 급여" Sheet에서 합계 줄
+posses_qty_sum = ws_pay[f'X{row}'].value  	    # 보유 수량 합계
+ave_prchs_amt_sum = ws_pay[f'Z{row}'].value  	# 평균 매입가 합계
+stockPrchsAmt_sum = ws_pay[f'AA{row}'].value  	# 매입금액 합계(주식 총 매입 금액)
+sokSavBValue = ws_pay[f'AG{row}'].value  	    # 은행 결산@@ OK 저축 은행 예금 금액
 
-shinhaBValue = ws_pay["AG3"].value      # 은행 결산@@ 신한은행 금액
-kakaoBValue = ws_pay["AG4"].value       # 은행 결산@@ 카카오 뱅크 금액
-shinhybBValue = ws_pay["AG5"].value     # 은행 결산@@ 신협 예금 금액
-sokSavBValue = ws_pay["AG6"].value      # 은행 결산@@ OK 저축 은행 예금 금액
-insuSonValue = ws_pay["X7"].value    # 21. 실비 보험(현대해상, 진수종)
-insuValue = ws_pay["AA7"].value       # 22. 실비 보험(한화손해보험, 잔태만)
-realtyValue = ws_pay["AD7"].value    # 3. 부동산(현아트빌 404호) 금액 
-pensionIRP = ws_pay["AD8"].value     # 91. 퇴직 연금(개인형 IPR) 금액 
+row = add_row + 7     # "01. 급여" Sheet에서 비 보험 줄
+insuSonValue =  ws_pay[f'X{row}'].value     # 21. 실비 보험(현대해상, 진수종)
+insuValue = ws_pay[f'AA{row}'].value        # 22. 실비 보험(한화손해보험, 잔태만)
+realtyValue = ws_pay[f'AD{row}'].value      # 3. 부동산(현아트빌 404호) 금액 
 
-stockPrchsAmt_sum = ws_pay["AA6"].value     # 주식 총 매입 금액  
-print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_03_1] [row_번째] [퇴직 연금(IPR)]"+ str(pensionIRP) )
+row = add_row + 8     # "01. 급여" Sheet에서 퇴직 연금 줄
+pensionIRP = ws_pay[f'AD{row}'].value       # 91. 퇴직 연금(개인형 IPR) 금액
+print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_03_1] [보유 수량 합계]"+ str(posses_qty_sum) +"[신한은행 금액)]"+ str(shinhanBValue) +"[퇴직 연금(IPR)]"+ str(pensionIRP))
 # ---------------------------------------------------------------------------------------------------------------------->
 # ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ ------------------->
 
@@ -137,22 +145,23 @@ prev_B3 = ws_stock["B3"].value   # 이전 일자(예) 2023.08.31)
 prev_B3 = prev_B3[0:7]     # 이전 일자[년월) (2023.08)
 
 ws_stock.insert_rows(3, 8)       # 월별 자산 제목(3번째 줄 위치에 8줄을 추가)
-ws_stock.merge_cells("A8:B8")     # A8부터 B9까지 셀을 싱글 셀로 병합
-print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_04_2] [일자[년월)]"+ str(prev_B3) )
+ws_stock.merge_cells("A8:B8")    # A8부터 B9까지 셀을 싱글 셀로 병합
+print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_04_2] [91. 주식 Sheet] [오늘 년월]"+ now_ym.lstrip() +"[오늘 년월_타입]"+ str(type(now_ym)) +"[오늘 년월_갯수]"+ str(len(now_ym.lstrip())) )
+print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_04_3] [91. 주식 Sheet] [자산 년월]"+ astYYM.lstrip() +"[자산 년월_타입]"+ str(type(astYYM)) +"[자산 년월_갯수]"+ str(len(astYYM.lstrip())) )
 
-if str(astYYM) != str(now_ym) :   # 입력한 자산 년월와 오늘 년월이 다르면
-    result = pyautogui.alert("입력한 자산 년월["+ str(astYYM) +"]와 오늘 년월["+ str(now_ym) +"]이 다릅니다.", title='[자산 년월 입력 오류]', button='OK')
+if str(astYYM.strip()) != str(now_ym.strip()) :   # 입력한 자산 년월와 오늘 년월이 다르면
+    result = pyautogui.alert("[91. 주식 Sheet] 입력한 자산 년월["+ str(astYYM) +"]와 오늘 년월["+ str(now_ym) +"]이 다릅니다.", title='[자산 년월 입력 오류]', button='OK')
     sys.exit()    # 종료
-    # exit(0)     # 즉시 종료
-else :
-    if str(astYYM) == str(prev_B3) :   # 입력한 자산 년월와 이전 자산 년월 이면
-        result = pyautogui.alert("입력한 자산 년월["+ str(astYYM) +"]이 이미 존재합니다.", title='[자산 년월 입력 오류]', button='OK')
+else :   # 입력한 자산 년월와 오늘 년월이 같으면
+    # print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_04_4_2] [자산 년월]"+ str(astYYM) +"[오늘 년월]"+ str(now_ym) )
+
+    if str(astYYM) == str(prev_B3) :   # 입력한 자산 년월와 이전 자산 년월이 같으면
+        result = pyautogui.alert("[91. 주식 Sheet] 입력한 자산 년월["+ str(astYYM) +"]이 이미 존재합니다.", title='[자산 년월 입력 오류]', button='OK')
         sys.exit()    # 종료
-        # exit(0)     # 즉시 종료
 print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_04_3] [입력한 자산 년월]"+ str(astYYM) +"[오늘 년월]"+ str(now_ym) +"[이전 자산 년월]"+ str(prev_B3) )
 # ---------------------------------------------------------------------------------------------------------------------->
 
-print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_04_4]" )  
+print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_04_5]" ) 
 
 prchs_amt = 0               # 매입 금액
 prchs_amt_sum = 0           # 매입 금액 합계
@@ -184,24 +193,23 @@ for code in codes:
         print(response.status_code) 
     
     if code == "068270":     # 증권 종목이 '셀트리온' 이면 
-        stock_nm ="셀트리온"         # 주식명
+        stock_nm = "셀트리온"         # 주식명
         posses_qty = posses_qty2    # 보유수량
         prchs_amt = prchs_amt2      # 매입 금액
         ave_prchs_amt = ave_prchs_amt2   # 평균 매입가
     elif code == "096770":   # 증권 종목이 'SK이노베이션' 이면 
-        stock_nm ="SK이노베이션"    # 주식명
+        stock_nm = "SK이노베이션"    # 주식명
         posses_qty = posses_qty3    # 보유수량  
         prchs_amt = prchs_amt3      # 매입 금액
         ave_prchs_amt = ave_prchs_amt3   # 평균 매입가
-    else :     
-        stock_nm ="현대차"          # 주식명
+    else :
+        stock_nm = "현대차"          # 주식명
         posses_qty = posses_qty1    # 보유수량
         prchs_amt = prchs_amt1      # 매입 금액
         ave_prchs_amt = ave_prchs_amt1   # 평균 매입가
     
-    # posses_qty_sum = int(prchs_amt1) + int(ave_prchs_amt2) + int(posses_qty3)       # 보유수량 합계 
     evl_amt = int(posses_qty) * int(price)     # 평가금액 = 보유수량 * 현재가(=P5*Q5) 
-    evl_profitLoss = (evl_amt) - prchs_amt       # 평가손익 = 평가금액 - 매입금액(=T14-S14) \
+    evl_profitLoss = (evl_amt) - prchs_amt       # 평가손익 = 평가금액 - 매입금액(=T14-S14)
     print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_04_6] [row_번째]"+ str(row) +"[매입 금액]"+ str(prchs_amt) +"[보유수량]"+ str(posses_qty) +"[현재가]"+ str(price) ) 
 
     ws_stock[f'A{row+5}'] = code                # 주식코드
@@ -263,17 +271,17 @@ profitLossRate_sum = ((evl_amt_sum / prchs_amt_sum) - 1) * 100     # 손익률 �
 print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_04_9] [01. 평가금액 합계]"+ str(evl_amt_sum) +"[02. 매입금액 합계]"+ str(prchs_amt_sum) +"[03. 손익률 합계]"+ str(profitLossRate_sum) +"[05. 평가손익 합계]"+ str(evl_profitLoss) ) 
 
 # 01. 값 쓰기 
-ws_stock["A3"].value = "일자"           # A3 필드에 값 쓰기(일자)  -------->
-ws_stock["B3"].value = lastLastDt      # B3 필드에 값 쓰기(일자 Value) 
-ws_stock["C3"].value = "주식 평가 금액"  # C3 필드에 값 쓰기(주식 평가 금액)
-ws_stock["D3"] = format(evl_amt_sum, ',')       # 평가금액 합계
-ws_stock["E3"].value = "총 매입 금액"   # E3 필드에 값 쓰기 
-ws_stock["F3"] = format(prchs_amt_sum, ',')     # 매입 단가 합계
+ws_stock["A3"].value = "일자"                       # A3 필드에 값 쓰기(일자)  -------->
+ws_stock["B3"].value = lastLastDt                  # B3 필드에 값 쓰기(일자 Value) 
+ws_stock["C3"].value = "주식 평가 금액"             # C3 필드에 값 쓰기(주식 평가 금액)
+ws_stock["D3"] = format(evl_amt_sum, ',')          # 평가금액 합계
+ws_stock["E3"].value = "총 매입 금액"                # E3 필드에 값 쓰기 
+ws_stock["F3"] = format(prchs_amt_sum, ',')         # 매입 단가 합계
 ws_stock["K3"] = format(evl_profitLoss_sum, ',')    # 평가손익 합계
-ws_stock["H3"].value = "보유예탁자산 증감"              # H3 필드에 값 쓰기 
-ws_stock["J3"].value = "평가 손익 합계"                 # J3 필드에 값 쓰기 
+ws_stock["H3"].value = "보유예탁자산 증감"            # H3 필드에 값 쓰기 
+ws_stock["J3"].value = "평가 손익 합계"               # J3 필드에 값 쓰기 
 ws_stock["K3"] = format(evl_profitLoss_sum, ',')     # K3 필드에 값 쓰기(평가 손익 합계 Value)
-ws_stock["L3"].value = "총평가 손익률(%)"                # L3 필드에 값 쓰기 
+ws_stock["L3"].value = "총평가 손익률(%)"             # L3 필드에 값 쓰기 
 ws_stock["M3"] = f'{profitLossRate_sum:.2f}'    # M3 필드에 값 쓰기(총평가 손익률(%) Value)
 ws_stock["A4"].value = "주식코드"               # A4 필드에 값 쓰기(주식코드) Head  -------->
 ws_stock["B4"].value = "주식명"                 # B4 필드에 값 쓰기 
@@ -287,14 +295,17 @@ ws_stock["I4"].value = "손익률(%)"              # I4 필드에 값 쓰기
 ws_stock["J4"].value = "비고"                   # J4 필드에 값 쓰기 
 ws_stock["L4"].value = "목표가"                 # L4 필드에 값 쓰기 
 ws_stock["M4"].value = "손절가"                 # M4 필드에 값 쓰기
-ws_stock["A8"].value = "합계"                   # A8 필드에 값 쓰기(합계)  -------->
-ws_stock["C8"] = posses_qty_sum                 # 매입수량 합계 
-ws_stock["E8"] = format(ave_prchs_amt_sum, ',')     # 평균 매입가(매입단가) 합계
-ws_stock["F8"] = format(prchs_amt_sum, ',')         # 매입 단가 합계 
-ws_stock["G8"] = format(evl_amt_sum, ',')           # 평가금액 합계 
-ws_stock["H8"] = format(evl_profitLoss_sum, ',')    # 평가손익 합계  ===>  
-ws_stock["I8"] = f'{profitLossRate_sum:.2f}'        # 손익률(%) 합계
-stockEvlAmt_sum = evl_amt_sum                    # 주식 평가 금액 
+
+row = 0
+add_row = 0           # 줄 추가(add_row): "91. 주식" Sheet에서 보유 주식 현황 Data가 추가될 경우 대비
+row = add_row + 8     # "91. 주식" Sheet에서 합계 줄
+ws_stock[f'A{row}'].value = "합계"                   # A8 필드에 값 쓰기(합계)  -------->
+ws_stock[f'C{row}'].value = posses_qty_sum 		# 매입수량 합계 
+ws_stock[f'E{row}'].value = format(ave_prchs_amt_sum, ',') 		# 평균 매입가(매입단가) 합계
+ws_stock[f'F{row}'].value = format(prchs_amt_sum, ',')  		# 매입 단가 합계 
+ws_stock[f'G{row}'].value = format(evl_amt_sum, ',') 		    # 평가금액 합계 
+ws_stock[f'H{row}'].value = format(evl_profitLoss_sum, ',')     # 평가손익 합계  ===>  
+ws_stock[f'I{row}'].value = f'{profitLossRate_sum:.2f}' 		# 손익률(%) 합계
 
 # 02. 스타일 적용드 스타일 적용(글자 색은 빨갛게, 이탤릭, 두껍게 적용)
 ws_stock["A3"].font = Font(name="돋움", bold=False, size=9)   # A3 필드(자산 년월)  -------->
@@ -310,23 +321,23 @@ ws_stock["L3"].font = Font(name="돋움", bold=False, size=9)    # L3 필드(총
 ws_stock["M3"].font = Font(name="돋움", bold=True, size=9, color="FF0000")   # M3 필드(총평가 손익률(%) Value)
 ws_stock["A4"].font = Font(name="돋움", bold=False, size=9)   # A4 필드(주식코드) Head  -------->
 ws_stock["B4"].font = Font(name="돋움", bold=False, size=9)   # B4 필드
-ws_stock["C4"].font = Font(name="돋움", bold=False, size=9)   # A4 필드
-ws_stock["D4"].font = Font(name="돋움", bold=False, size=9)   # A4 필드
-ws_stock["E4"].font = Font(name="돋움", bold=False, size=9)   # A4 필드
-ws_stock["F4"].font = Font(name="돋움", bold=False, size=9)   # A4 필드
-ws_stock["G4"].font = Font(name="돋움", bold=False, size=9)   # A4 필드
-ws_stock["H4"].font = Font(name="돋움", bold=False, size=9)   # A4 필드
-ws_stock["I4"].font = Font(name="돋움", bold=False, size=9)   # A4 필드
-ws_stock["J4"].font = Font(name="돋움", bold=False, size=9)   # A4 필드
-ws_stock["L4"].font = Font(name="돋움", bold=False, size=9)   # A4 필드
-ws_stock["M4"].font = Font(name="돋움", bold=False, size=9)   # M4 필드(손절가)
-ws_stock["A8"].font = Font(name="돋움", bold=False, size=9)   # A8 필드(합계)  -------->
-ws_stock["C8"].font = Font(name="돋움", bold=False, size=9, color="FF0000")   # C8 필드
-ws_stock["E8"].font = Font(name="돋움", bold=False, size=9, color="FF0000")  # C8 필드
-ws_stock["F8"].font = Font(name="돋움", bold=False, size=9, color="FF0000")   # C8 필드
-ws_stock["G8"].font = Font(name="돋움", bold=True, size=9, color="FF0000")   # C8 필드
-ws_stock["H8"].font = Font(name="돋움", bold=True, size=9, color="FF0000")   # C8 필드
-ws_stock["I8"].font = Font(name="돋움", bold=True, size=9, color="FF0000")    # C8 필드
+ws_stock["C4"].font = Font(name="돋움", bold=False, size=9)   # C4 필드
+ws_stock["D4"].font = Font(name="돋움", bold=False, size=9)   # D4 필드
+ws_stock["E4"].font = Font(name="돋움", bold=False, size=9)   # E4 필드
+ws_stock["F4"].font = Font(name="돋움", bold=False, size=9)   # F4 필드
+ws_stock["G4"].font = Font(name="돋움", bold=False, size=9)   # G4 필드
+ws_stock["H4"].font = Font(name="돋움", bold=False, size=9)   # H4 필드
+ws_stock["I4"].font = Font(name="돋움", bold=False, size=9)   # I4 필드
+ws_stock["J4"].font = Font(name="돋움", bold=False, size=9)   # J4 필드
+ws_stock["L4"].font = Font(name="돋움", bold=False, size=9)   # M4 필드
+ws_stock["M4"].font = Font(name="돋움", bold=False, size=9)   # AB 필드(손절가)
+ws_stock[f'A{row}'].font = Font(name="돋움", bold=False, size=9)  		# A8 필드(합계)  -------->
+ws_stock[f'C{row}'].font = Font(name="돋움", bold=False, size=9, color="FF0000")   # C8 필드
+ws_stock[f'E{row}'].font = Font(name="돋움", bold=False, size=9, color="FF0000")   # E8 필드
+ws_stock[f'F{row}'].font = Font(name="돋움", bold=False, size=9, color="FF0000")   # F8 필드
+ws_stock[f'G{row}'].font = Font(name="돋움", bold=True, size=9, color="FF0000")     # G8 필드
+ws_stock[f'H{row}'].font = Font(name="돋움", bold=True, size=9, color="FF0000")     # H8 필드
+ws_stock[f'I{row}'].font = Font(name="돋움", bold=True, size=9, color="FF0000")     # I8 필드
 
 # 03. alignment 적용
 ws_stock["A3"].alignment = Alignment(horizontal='center', vertical='center')    # A3 필드 alignment 설정 -------->
@@ -341,24 +352,24 @@ ws_stock["K3"].alignment = Alignment(horizontal='right', vertical='center')     
 ws_stock["L3"].alignment = Alignment(horizontal='center', vertical='center')     # L3 필드(총평가 손익률(%))
 ws_stock["M3"].alignment = Alignment(horizontal='right', vertical='center')      # M3 필드(총평가 손익률(%) Value)
 ws_stock["A4"].alignment = Alignment(horizontal='center', vertical='center')     # A4 필드(주식코드) Head  -------->
-ws_stock["B4"].alignment = Alignment(horizontal='center', vertical='center')     # A4 필드
-ws_stock["C4"].alignment = Alignment(horizontal='center', vertical='center')     # A4 필드
-ws_stock["D4"].alignment = Alignment(horizontal='center', vertical='center')     # A4 필드
-ws_stock["E4"].alignment = Alignment(horizontal='center', vertical='center')     # A4 필드
-ws_stock["F4"].alignment = Alignment(horizontal='center', vertical='center')     # A4 필드
-ws_stock["G4"].alignment = Alignment(horizontal='center', vertical='center')     # A4 필드
-ws_stock["H4"].alignment = Alignment(horizontal='center', vertical='center')     # A4 필드
-ws_stock["I4"].alignment = Alignment(horizontal='center', vertical='center')     # A4 필드
+ws_stock["B4"].alignment = Alignment(horizontal='center', vertical='center')     # B4 필드
+ws_stock["C4"].alignment = Alignment(horizontal='center', vertical='center')     # C4 필드
+ws_stock["D4"].alignment = Alignment(horizontal='center', vertical='center')     # D4 필드
+ws_stock["E4"].alignment = Alignment(horizontal='center', vertical='center')     # E4 필드
+ws_stock["F4"].alignment = Alignment(horizontal='center', vertical='center')     # F4 필드
+ws_stock["G4"].alignment = Alignment(horizontal='center', vertical='center')     # G4 필드
+ws_stock["H4"].alignment = Alignment(horizontal='center', vertical='center')     # H4 필드
+ws_stock["I4"].alignment = Alignment(horizontal='center', vertical='center')     # I4 필드
 ws_stock["J4"].alignment = Alignment(horizontal='center', vertical='center')     # A4 필드
-ws_stock["L4"].alignment = Alignment(horizontal='center', vertical='center')     # A4 필드
+ws_stock["L4"].alignment = Alignment(horizontal='center', vertical='center')     # L4 필드
 ws_stock["M4"].alignment = Alignment(horizontal='center', vertical='center')     # M4 필드(손절가)
-ws_stock["A8"].alignment = Alignment(horizontal='center', vertical='center')     # A8 필드(합계)  -------->
-ws_stock["C8"].alignment = Alignment(horizontal='right', vertical='center')   # C8 필드
-ws_stock["E8"].alignment = Alignment(horizontal='right', vertical='center')   # C8 필드
-ws_stock["F8"].alignment = Alignment(horizontal='right', vertical='center')   # C8 필드
-ws_stock["G8"].alignment = Alignment(horizontal='right', vertical='center')   # C8 필드
-ws_stock["H8"].alignment = Alignment(horizontal='right', vertical='center')   # C8 필드
-ws_stock["I8"].alignment = Alignment(horizontal='right', vertical='center')   # C8 필드
+ws_stock[f'A{row}'].alignment = Alignment(horizontal='center', vertical='center')    # A8 필드(합계)  -------->
+ws_stock[f'C{row}'].alignment = Alignment(horizontal='right', vertical='center')     # C8 필드
+ws_stock[f'E{row}'].alignment = Alignment(horizontal='right', vertical='center')     # E8 필드
+ws_stock[f'F{row}'].alignment = Alignment(horizontal='right', vertical='center')     # F8 필드
+ws_stock[f'G{row}'].alignment = Alignment(horizontal='right', vertical='center')     # G8 필드
+ws_stock[f'H{row}'].alignment = Alignment(horizontal='right', vertical='center')     # H8 필드
+ws_stock[f'I{row}'].alignment = Alignment(horizontal='right', vertical='center')     # I8 필드
 
 # 04. 테두리 적용
 ws_stock["A3"].border = thin_border   # A3 필드 -------->
@@ -387,19 +398,19 @@ ws_stock["J4"].border = thin_border   # A4 필드
 ws_stock["K4"].border = thin_border   # A4 필드
 ws_stock["L4"].border = thin_border   # A4 필드
 ws_stock["M4"].border = thin_border   # M4 필드(손절가)
-ws_stock["A8"].border = thin_border     # A8 필드(합계)  -------->
-ws_stock["B8"].border = thin_border    # C8 필드
-ws_stock["C8"].border = thin_border    # C8 필드
-ws_stock["D8"].border = thin_border    # C8 필드
-ws_stock["E8"].border = thin_border     # C8 필드
-ws_stock["F8"].border = thin_border   # C8 필드
-ws_stock["G8"].border = thin_border    # C8 필드
-ws_stock["H8"].border = thin_border   # C8 필드
-ws_stock["I8"].border = thin_border   # C8 필드
-ws_stock["J8"].border = thin_border   # C8 필드
-ws_stock["K8"].border = thin_border   # C8 필드
-ws_stock["L8"].border = thin_border   # C8 필드
-ws_stock["M8"].border = thin_border   # C8 필드
+ws_stock[f'A{row}'].border = thin_border    # A8 필드(합계)  -------->
+ws_stock[f'B{row}'].border = thin_border    # B8 필드
+ws_stock[f'C{row}'].border = thin_border    # C8 필드
+ws_stock[f'D{row}'].border = thin_border    # D8 필드
+ws_stock[f'E{row}'].border = thin_border   # E8 필드
+ws_stock[f'F{row}'].border = thin_border   # F8 필드
+ws_stock[f'G{row}'].border = thin_border    # G8 필드
+ws_stock[f'H{row}'].border = thin_border   # H8 필드
+ws_stock[f'I{row}'].border = thin_border   # I8 필드
+ws_stock[f'J{row}'].border = thin_border   # J8 필드
+ws_stock[f'K{row}'].border = thin_border   # K8 필드
+ws_stock[f'L{row}'].border = thin_border   # L8 필드
+ws_stock[f'M{row}'].border = thin_border   # M8 필드
 
 # 05. 지정된 음영 색으로 음역 색칠하기(배경색 설정)
 ws_stock["A3"].fill = blueDark3Fill      # A3 필드-------->
@@ -422,21 +433,21 @@ ws_stock["J4"].fill = grayFill   # A4 필드
 ws_stock["K4"].fill = grayFill   # A4 필드
 ws_stock["L4"].fill = grayFill   # A4 필드
 ws_stock["M4"].fill = grayFill   # M4 필드(손절가) 
-ws_stock["A8"].fill = orangeWeek2Fill     # A8 필드(합계)  -------->
-ws_stock["B8"].fill = orangeWeek2Fill    # C8 필드
-ws_stock["C8"].fill = orangeWeek2Fill    # C8 필드
-ws_stock["D8"].fill = orangeWeek2Fill    # C8 필드
-ws_stock["E8"].fill = orangeWeek2Fill     # C8 필드
-ws_stock["F8"].fill = orangeWeek2Fill   # C8 필드
-ws_stock["G8"].fill = orangeWeek2Fill    # C8 필드
-ws_stock["H8"].fill = orangeWeek2Fill   # C8 필드
-ws_stock["I8"].fill = orangeWeek2Fill   # C8 필드
-ws_stock["J8"].fill = orangeWeek2Fill   # C8 필드
-ws_stock["K8"].fill = orangeWeek2Fill   # C8 필드
-ws_stock["L8"].fill = orangeWeek2Fill   # C8 필드
-ws_stock["M8"].fill = orangeWeek2Fill   # C8 필드
+ws_stock[f'A{row}'].fill = orangeWeek2Fill      # A8 필드(합계)  -------->
+ws_stock[f'B{row}'].fill = orangeWeek2Fill      # B8 필드
+ws_stock[f'C{row}'].fill = orangeWeek2Fill      # C8 필드
+ws_stock[f'D{row}'].fill = orangeWeek2Fill      # D8 필드
+ws_stock[f'E{row}'].fill = orangeWeek2Fill      # E8 필드
+ws_stock[f'F{row}'].fill = orangeWeek2Fill      # F8 필드
+ws_stock[f'G{row}'].fill = orangeWeek2Fill      # G8 필드
+ws_stock[f'H{row}'].fill = orangeWeek2Fill      # H8 필드
+ws_stock[f'I{row}'].fill = orangeWeek2Fill      # I8 필드
+ws_stock[f'J{row}'].fill = orangeWeek2Fill      # J8 필드
+ws_stock[f'K{row}'].fill = orangeWeek2Fill      # K8 필드
+ws_stock[f'L{row}'].fill = orangeWeek2Fill      # L8 필드
+ws_stock[f'M{row}'].fill = orangeWeek2Fill       # M8 필드
 
-print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_04_10] [주식 평가 금액]"+ str(stockEvlAmt_sum) +"[신한은행 금액]"+ str(shinhaBValue) ) 
+print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_04_10] [주식 평가 금액]"+ str(evl_amt_sum) +"[신한은행 금액]"+ str(shinhanBValue) ) 
 # ---------------------------------------------------------------------------------------------------------------------->
 # ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ ------------------->
 
@@ -445,22 +456,22 @@ ws = wb["자산(2023)"]    # "자산(2023)" Sheet에 접근 @@@@@@@@ ===========
 prev_B7_amt = ws["B7"].value   # 70. [수협B] Sh 쑥쑥크는 아이적금(수종) 금액 ---> 이전 달 금액 
 prev_B14_amt = ws["B14"].value   # 90. 총 합계 ---> 이전 달 금액
 prev_A3 = ws["A3"].value   # 이전 자산 년월(예) 2023.09 자산)
+print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_05_0] [일자(년월)_00]"+ str(prev_A3) )
 prev_A3 = prev_A3[0:7]     # 이전 자산 년월(2023.08)
 
 ws.insert_rows(3, 16)       # 월별 자산 제목(3번째 줄 위치에 16줄을 추가)
 ws.merge_cells("A3:D3")     # A3 부터 D3까지 셀을 싱글 셀로 병합
 print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_05_1] [prev_B7_amt]"+ str(prev_B7_amt) +"[prev_B14_amt]"+ str(prev_B14_amt) )
+print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_05_2] [자산 년월]"+ str(astYYM) +"[오늘 년월]"+ str(now_ym) +"[일자(년월)]"+ str(prev_A3) )
 
-if str(astYYM) != str(now_ym) :   # 입력한 자산 년월와 오늘 년월이 다르면
-    result = pyautogui.alert("입력한 자산 년월["+ str(astYYM) +"]와 오늘 년월["+ str(now_ym) +"]이 다릅니다.", title='[자산 년월 입력 오류]', button='OK')
-    sys.exit()    # 종료
-    # exit(0)     # 즉시 종료
-else :
-    if str(astYYM) == str(prev_A3) :   # 입력한 자산 년월와 이전 자산 년월 이면
-        result = pyautogui.alert("입력한 자산 년월["+ str(astYYM) +"]이 이미 존재합니다.", title='[자산 년월 입력 오류]', button='OK')
-        sys.exit()    # 종료
-        # exit(0)     # 즉시 종료
-print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_05_2] [입력한 자산 년월]"+ str(astYYM) +"[오늘 년월]"+ str(now_ym) +"[이전 자산 년월]"+ str(prev_A3) ) 
+# if str(astYYM) != str(now_ym) :   # 입력한 자산 년월와 오늘 년월이 다르면
+#     result = pyautogui.alert("[자산(2023) Sheet] 입력한 자산 년월["+ str(astYYM) +"]와 오늘 년월["+ str(now_ym) +"]이 다릅니다.", title='[자산 년월 입력 오류]', button='OK')
+#     sys.exit()    # 종료
+# else :
+#     if str(astYYM) == str(prev_A3) :   # 입력한 자산 년월와 이전 자산 년월이 같으면
+#         result = pyautogui.alert("[자산(2023) Sheet] 입력한 자산 년월["+ str(astYYM) +"]이 이미 존재합니다.", title='[자산 년월 입력 오류]', button='OK')
+#         sys.exit()    # 종료
+print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_05_3] [입력한 자산 년월]"+ str(astYYM) +"[오늘 년월]"+ str(now_ym) +"[이전 자산 년월]"+ str(prev_A3) ) 
 # ---------------------------------------------------------------------------------------------------------------------->
 
 astNm = "자산"     # 자산 명
@@ -468,8 +479,8 @@ clAcntCmt = ""     # A16 필드에 값 쓰기 --------> 결산 코멘트
 # clAcntCmt = "결산 - 포항집에 김치 냉장고, 전자 레인지 구입(총 합계: 777,980원)"       # A16 필드에 값 쓰기 --------> 결산 코멘트
 # ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■// [기초 Data 설정] //■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ ----------->
 
-H5_amt = shinhaBValue    # [2_Tab] 은행 결산@@ 신한은행[기초 Data] ■■
-B6_amt = stockEvlAmt_sum    # 77. 주식 투자 금액(평가 금액) ■■ -------->
+H5_amt = shinhanBValue    # [2_Tab] 은행 결산@@ 신한은행[기초 Data] ■■
+B6_amt = evl_amt_sum    # 77. 주식 투자 금액(평가 금액) ■■ -------->
 C6_amt = stockPrchsAmt_sum   # 77. 주식 총 매입 금액
 H6_amt = kakaoBValue     # [2_Tab] 은행 결산@@ 세이프박스(카카오 뱅크)) 금액[기초 Data] ■■
 # print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_39] [B7_amt]"+ type(B7_amt) +"[prev_B7_amt]"+ type(prev_B7_amt) )

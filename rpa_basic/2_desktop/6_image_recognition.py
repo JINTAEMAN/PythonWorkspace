@@ -1,7 +1,69 @@
+# ! /6_image_recognition.py    # 파일 
+
 import pyautogui
-# file_menu = pyautogui.locateOnScreen("file_menu.png")
-# print(file_menu)
-# pyautogui.click(file_menu)
+import time
+import sys
+
+print("[@_T] ■■■ [/6_image_recognition.py] ==> [T_01] ■■■■■■ [######################### [TEST Start] #########################] ■■■■■■ ")
+
+# 01. 화면 캡처 단축키: (Win) + Shift + S
+# file_menu = pyautogui.locateOnScreen("file_menu.png")  # 해당 파일명의 이미지 찾기
+# # 화면 상에서 일치하는 영역을 찾아서 왼쪽 위의 위치와 영역의 가로, 세로 크기를 튜플의 형태((left, top, width, height))로 출력
+# print("[@_T] ■■■ [/6_image_recognition.py] ==> [T_02] [file_menu]"+  str(file_menu) )    
+# # [file_menu]Box(left=48, top=11, width=37, height=22)
+
+# pyautogui.click(file_menu)    # 해당 이미지 클릭
+# print("[@_T] ■■■ [/6_image_recognition.py] ==> [T_03] [해당 이미지 클릭 완료]" )
+# ---------------------------------------------------------------------------------------------------------------------->
+
+# print("[@_T] ■■■ [/6_image_recognition.py] ==> [T_05] [체크 박스 TEST]" )
+# #  Show Checkboxes URL ==> https://www.w3schools.com/tags/tryit.asp?filename=tryhtml5_input_type_checkbox
+
+# for i in pyautogui.locateAllOnScreen("checkbox.png"):   # 해당 파일명의 모든 이미지 찾기
+#     pyautogui.click(i, duration=0.25)    # 해당 이미지들을 차례로 클릭
+#     print("[@_T] ■■■ [/6_image_recognition.py] ==> [T_51] [i_번째]"+ str(i) +"[체크 박스_체크 정보]"+ str(pyautogui.locateAllOnScreen("checkbox.png")) ) 
+
+# print("[@_T] ■■■ [/6_image_recognition.py] ==> [T_40] [해당 이미지 클릭 완료]" )
+
+
+print("[@_T] ■■■ [/6_image_recognition.py] ==> [T_51] [일정 시간 동안 기다리기 TEST]" )
+
+# 3. 일정 시간 동안 기다리기 (TimeOut)
+def find_target(img_file, timeout=30):
+    print("[@_T] ■■■ [/6_image_recognition.py] [find_target()] ==> [T_42] [img_file]"+ str(img_file) +"[timeout]"+ str(timeout) )
+
+    start = time.time()
+    target = None
+
+    while target is None:
+        target = pyautogui.locateOnScreen(img_file)
+        end = time.time()
+        if end - start > timeout:   # 요청한 시간이 지났으면
+            # [Timeout 10s] Target not found (file_menu_notepad.png). Terminate program.
+            break
+    return target
+
+def my_click(img_file, timeout=30):   # 파일 찾기 함수() (img_file: 파일명, timeout: 시간)
+    print("[@_T] ■■■ [/6_image_recognition.py] [my_click()] ==> [T_41] [img_file]"+ str(img_file) +"[timeout]"+ str(timeout) )
+
+    target = find_target(img_file, timeout)
+
+    if target:
+        pyautogui.click(target)
+    else:
+        print(f"[Timeout {timeout}s] Target not found ({img_file}). Terminate program.")
+        sys.exit()
+
+my_click("file_menu_notepad.png", 10)   # file_menu_notepad.png 파일, 10초 동안 찾기 함수 호출
+print("[@_T] ■■■ [/6_image_recognition.py] ==> [T_62] [일정 시간 동안 기다리기 TEST]" )
+
+
+print("[@_T] ■■■ [/6_image_recognition.py] ==> [T_80] [해당 이미지 클릭 완료]" )
+# ---------------------------------------------------------------------------------------------------------------------->
+
+
+
+
 
 # trash_icon = pyautogui.locateOnScreen("trash_icon.png")
 # pyautogui.moveTo(trash_icon)
@@ -12,6 +74,7 @@ import pyautogui
 # for i in pyautogui.locateAllOnScreen("checkbox.png"):
 #     print(i)
 #     pyautogui.click(i, duration=0.25)
+
 
 # checkbox = pyautogui.locateOnScreen("checkbox.png")
 # pyautogui.click(checkbox)
@@ -29,9 +92,8 @@ import pyautogui
 # pyautogui.moveTo(trash_icon)
 
 # 3. 정확도 조정
-# run_btn = pyautogui.locateOnScreen("run_btn.png", confidence=0.9) # 90%
+# run_btn = pyautogui.locateOnScreen("run_btn.png", confidence=0.9)     # 90% 이상 정확도
 # pyautogui.moveTo(run_btn)
-
 
 # 자동화 대상이 바로 보여지지 않는 경우
 # 1. 계속 기다리기
@@ -46,10 +108,7 @@ import pyautogui
 #pyautogui.click(file_menu_notepad)
 
 # 2. 일정 시간동안 기다리기 (TimeOut)
-import time
-import sys
-
-timeout = 10 # 10초 대기
+# timeout = 10 # 10초 대기
 # start = time.time() # 시작 시간 설정
 # file_menu_notepad = None
 # while file_menu_notepad is None:
@@ -59,24 +118,27 @@ timeout = 10 # 10초 대기
 #         print("시간 종료")
 #         sys.exit()
 
-def find_target(img_file, timeout=30):
-    start = time.time()
-    target = None
-    while target is None:
-        target = pyautogui.locateOnScreen(img_file)
-        end = time.time()
-        if end - start > timeout:
-            break
-    return target
+# def find_target(img_file, timeout=30):
+#     start = time.time()
+#     target = None
+#     while target is None:
+#         target = pyautogui.locateOnScreen(img_file)
+#         end = time.time()
+#         if end - start > timeout:
+#             break
+#     return target
 
-def my_click(img_file, timeout=30):
-    target = find_target(img_file, timeout)
-    if target:
-        pyautogui.click(target)
-    else:
-        print(f"[Timeout {timeout}s] Target not found ({img_file}). Terminate program.")
-        sys.exit()
+# def my_click(img_file, timeout=30):
+#     target = find_target(img_file, timeout)
+#     if target:
+#         pyautogui.click(target)
+#     else:
+#         print(f"[Timeout {timeout}s] Target not found ({img_file}). Terminate program.")
+#         sys.exit()
 
 #pyautogui.click(file_menu_notepad)
 
-my_click("file_menu_notepad.png", 10)
+# my_click("file_menu_notepad.png", 10)
+# ---------------------------------------------------------------------------------------------------------------------->
+
+print("[@_T] ■■■ [/6_image_recognition.py] ==> [T_99] ■■■■■■ [######################### [TEST End] #########################] ■■■■■■\n\n\n\n")

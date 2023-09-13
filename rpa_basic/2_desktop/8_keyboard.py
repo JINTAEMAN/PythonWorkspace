@@ -1,6 +1,29 @@
+# ! /8_keyboard.py    # 파일 
+
 import pyautogui
+import pyperclip
+
+print("[@_T] ■■■ [/8_keyboard.py] ==> [T_01] ■■■■■■ [######################### [TEST Start] #########################] ■■■■■■ ")
+
+
 w = pyautogui.getWindowsWithTitle("제목 없음")[0] # 메모장 1개 띄운 상태에서 가져옴
+
 w.activate()
+
+def my_write(text):
+    pyperclip.copy(text)
+    pyautogui.hotkey("ctrl", "v")  # 간편한 조합키(Ctrl 누르고 V 누르고)
+
+my_write("나도 코딩 TEST_02")    # 메보장에 '나도 코딩 TEST' 텍스트 입력
+print("[@_T] ■■■ [/8_keyboard.py] ==> [T_52] [w]"+ str(w) )
+
+print("[@_T] ■■■ [/8_keyboard.py] ==> [T_99] ■■■■■■ [######################### [TEST End] #########################] ■■■■■■\n\n\n\n")
+
+# ---------------------------------------------------------------------------------------------------------------------->
+
+
+# w = pyautogui.getWindowsWithTitle("제목 없음")[0] # 메모장 1개 띄운 상태에서 가져옴
+# w.activate()
 
 # pyautogui.write("12345")
 # pyautogui.write("NadoCoding", interval=0.25)
@@ -26,16 +49,17 @@ w.activate()
 # Ctrl 누르고 > Alt 누르고 > Shift 누르고 > A 누르고 > A 떼고 > Shift 떼고 > Alt 떼고 > Ctrl 떼고
 # pyautogui.hotkey("ctrl", "a")
 
-import pyperclip
-# pyperclip.copy("나도코딩") # "나도코딩" 글자를 클립보드에 저장
-# pyautogui.hotkey("ctrl", "v") # 클립보드에 있는 내용을 붙여넣기
+# import pyperclip
+# # pyperclip.copy("나도코딩") # "나도코딩" 글자를 클립보드에 저장
+# # pyautogui.hotkey("ctrl", "v") # 클립보드에 있는 내용을 붙여넣기
 
-def my_write(text):
-    pyperclip.copy(text)
-    pyautogui.hotkey("ctrl", "v")
+# def my_write(text):
+#     pyperclip.copy(text)
+#     pyautogui.hotkey("ctrl", "v")
 
-my_write("나도코딩")
+# my_write("나도코딩")
 
 # 자동화 프로그램 종료
 # win : ctrl + alt + del
 # mac : cmd + shift + option + q
+# ---------------------------------------------------------------------------------------------------------------------->
