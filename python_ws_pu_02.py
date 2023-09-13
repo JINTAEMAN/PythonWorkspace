@@ -28,6 +28,27 @@ now_ydmhm = time.strftime("%y.%m.%d %H:%M")		# 오늘 날짜(년.월.일 시:분
 parameters = readParameters()   # 파일에서 파라미터 가져오는 함수()
 git_way = str(parameters[0])     # git 방식(get, push)
 print("[@_T] ■■■ [/python_ws_pu.py] ==> [T_02] [parameters[0]]"+ str(parameters[0]) +"[git 방식]"+ str(git_way) ) 
+
+
+# ob_sort = 2      # OB 처리 종류
+# ob_sort_nm = ""  # git 방식
+# now_ydmhm = time.strftime("%y.%m.%d %H:%M")		# 오늘 날짜(년.월.일 시:분)
+
+# if len(ob_sort) < 2:   # 인자값이 없으연
+# 	ob_sort = 2
+# else :
+#     ob_sort = 1  # 인자값 존재
+
+#     ob_sort_nm = sys.argv[1]   # 2번쨰 인자값 
+    
+    # if ob_sort_nm = "get":   # 인자값이 get 이면
+    #     ob_sort = 1
+    # else :
+    #     ob_sort = 1    
+	# argvlist = range(1, len(sys.argv))
+	# for i  in argvlist:
+	# 	ob_sort = sys.argv[1]
+		# print(f"{[i]번째 인자값은 (sys.argv[iD 입니다.")
 print("[@_T] ■■■ [/python_ws_pu.py] ==> [T_40] [Git 경보 처리 시작0. 원격 저장소 데이다 가저 오기(git pull)] ■■■■■■■■■■ \n\n")
 
 command = 'git pull origin main'    # 0. 원격 저장소 데이다 가저 오기
