@@ -1,6 +1,7 @@
-﻿# -*- coding: utf-8 -*-	    # 문자 인코딩(한글 사용) 
+﻿# BeautifulSouprequests# -*- coding: utf-8 -*-	    # 문자 인코딩(한글 사용) 
 # ! /ast_vrfc.py		    # 자산 검증 파일 
 
+import shelve
 from openpyxl import load_workbook # 파일 불러오기 --> [기초 Data]
 from openpyxl import Workbook
 from openpyxl.styles import Font, Border, Side, PatternFill, Alignment
@@ -9,923 +10,2894 @@ import os       # 파이씬 os 제어 Lib
 import sys	    # 파이씬 인터프리터 제어 Lib
 import pyautogui    # 마우스와 키보드 제어 Lib
 import time     # 시간 Lib
-from datetime import datetime   # datetime Lib 
+from datetime import datetime   # datetime Lib
+import datetime
+
 import calendar  #   calendar Lib
-import requests
-from bs4 import BeautifulSoup
+# import requests
+# from bs4 import BeautifulSoup
 
-def getMonthRage(year, month):      # 월 날짜 범위 설정 함수()
-    date = datetime(year=year, month=month, day=1).date()
-    monthrange = calendar.monthrange(date.year, date.month)
-    first_day = calendar.monthrange(date.year, date.month)[0]
-    last_day = calendar.monthrange(date.year, date.month)[1] 
-    # print("[@_T] ■■■ [/ast_vrfc.py] [getMonthRage]==> [T_91] [monthrange]"+ str(monthrange) )
+# urlPath = ""   # 01. URL 경로(폴더)   # ■■■■■■■ ===> Real(배포용)
+urlPath = "01_ast_vrfc/"   # 01. URL 경로(엑셀 폴더 경로)  # ■■■■■■■ ===> TEST 수행(테스트용) @@@ ===>    
+opeParaFileNm = "01_1. paramYM.txt"   # 02. 파라 파일명 # ■■■■■■■ ===> Real
+# opeParaFileNm = "01_1. paramYM_24.12.txt"   # 02. 파라 파일명(24.12) --> 년말 테스트  # ■■■■■■■ ===> TEST @@@  ===>
 
-    return monthrange
+# /**
+# * @description 파일에서 파라미터 가져오는 함수()
+# */C
+def readParameters():
+    #  print("[@_T] ■■■ [/ast_vrfc.py] [readParameters]==> [T_01]")
+    print("[@_T] ■■■ [/ast_vrfc.py] [readParameters]==> [T_31] [URL 경로]"+ str(urlPath) +"[파라 파일명]"+ str(opeParaFileNm) )
 
-def readParameters():    # 파일에서 파라미터 가져오는 함수()
-    print("[@_T] ■■■ [/ast_vrfc.py] [readParameters]==> [T_01]")
+    file = open(urlPath + opeParaFileNm, 'rt', encoding='utf-8-sig')	# properties.txt 파일 내용]
+    print("[@_T] ■■■ [/ast_vrfc.py] [readParameters]==> [T_51] [file]"+ str(file) )
 
-    file = open("01_pram_properties.txt", 'rt', encoding='utf-8-sig')	# properties.txt 파일 내용 ---> 2023.09[자산 년월(오늘 년월)]
-    # print("[@_T] ■■■ [/ast_vrfc.py] [readParameters]==> [T_51] [file]"+ str(file) )
-
-    parameters = file.read().split(";")      # 자산 년월 parameters
-    print("[@_T] ■■■ [/ast_vrfc.py] [readParameters]==> [T_91] [parameters]"+ str(parameters) )
-    print("[@_T] ■■■ [/ast_vrfc.py] [readParameters]==> [T_92] [자산 년월]"+ str(parameters[0]) )
+    parameters = file.read().split(";")   # 자산 년월 parameters[01. 현재 년월[입력]]
+    print("[@_T] ■■■ [/ast_vrfc.py] [readParameters]==> [T_92] [01. 이전 년월[입력]]"+ str(parameters[0]) +"02. 출력할 년월[현재 월]■]"+ str(parameters[1] ) ) 
 
     return parameters
 # ---------------------------------------------------------------------------------------------------------------------->
 
 
-print(" [@_T] ■■■ [/ast_vrfc.py] ==> [T_01] ■■■■■■ [######################### [자산 검증 파일 TEST Start] #########################] ■■■■■■ ")
-
-
-now_ym = str(datetime.today().date()).replace('-','.')     # 오늘 년월(년.월) (2023.08.31)
-now_ym = now_ym[0:7]     # 자산 년월(2023.08) 
-# ---------------------------------------------------------------------------------------------------------------------->
-
-parameters = readParameters()   # 파일에서 파라미터 가져오는 함수()
-astYYM = str(parameters[0])     # 자산 년월
-print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_02_2] [parameters[0]]"+ str(parameters[0]) +"[자산 년월]"+ str(astYYM) ) 
-
-if str(astYYM) == None :   # 자산 년월 미입력 이면
-    result = pyautogui.alert("자산 년월을 입력하세요. 예) 2023.08", title='[자산 년월 입력 오류]', button='OK')
-    sys.exit()    # 종료
-
-astYYM = astYYM         # 자산 년월 ■■■■■■ (2023.08)
-astYM = astYYM[2:8]     # 자산 년월(23.08)
-print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_02_3] [자산 년월_7]"+ str(astYYM) +"[자산 년월_5]"+ str(astYM) )
-
-# urlPath = "01_ast_vrfc/"   # URL 경로 
-urlPath = ""   # URL 경로
-openFileNm = "01. 자산 검증("+ astYM +").xlsx"   # 오픈 파일 명(01. 자산 검증(23.08).xlsx) 
-wb = load_workbook(urlPath + openFileNm, data_only=True)    # 오픈 파일을 wb을 불러옴(data_only=True: 수식이 아닌 실제 데이터를 가지고 옴)
-
-today = datetime.today().date()
-month_range = getMonthRage(today.year, today.month)
-print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_02_4] [today]"+ str(today) +"[month_range]"+ str(month_range) )
-
-lastLastDt = str(today.replace(day = month_range[1])).replace('-','.')       # 자산 마지막 일 ■■■■■■ "2023.08.31"
-print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_02_5] [자산 마지막 일]"+ str(lastLastDt) )
-
 # 00. 테두리 적용
 thin_border = Border(left=Side(style="thin"), right=Side(style="thin"), top=Side(style="thin"), bottom=Side(style="thin"))
 
 # 00. 음영 색 지정
-orangeFill = PatternFill(start_color='F79646', end_color='F79646', fill_type='solid')   # 오렌지 색
-orangeWeekFill = PatternFill(start_color='FCD5B4', end_color='FCD5B4', fill_type='solid')    # 연한 오렌지
-orangeWeek2Fill = PatternFill(start_color='FABF8F', end_color='FABF8F', fill_type='solid')    # 연한 오렌지2
-orangeWeek3Fill = PatternFill(start_color='FDE9D9', end_color='FDE9D9', fill_type='solid')    # 연한 오렌지3 
-grayFill = PatternFill(start_color='C0C0C0', end_color='C0C0C0', fill_type='solid')     # 회 색
-grayDarkFill = PatternFill(start_color='B8CCE4', end_color='B8CCE4', fill_type='solid')    # 진한 회색 
+orangeFill = PatternFill(start_color='F79646', end_color='F79646', fill_type='solid')       # 오렌지 색
+orangeWeekFill = PatternFill(start_color='FCD5B4', end_color='FCD5B4', fill_type='solid')   # 연한 오렌지
+orangeWeek2Fill = PatternFill(start_color='FABF8F', end_color='FABF8F', fill_type='solid')  # 연한 오렌지2
+orangeWeek3Fill = PatternFill(start_color='FDE9D9', end_color='FDE9D9', fill_type='solid')  # 연한 오렌지3 
+grayFill = PatternFill(start_color='C0C0C0', end_color='C0C0C0', fill_type='solid')         # 회 색
+grayDarkFill = PatternFill(start_color='B8CCE4', end_color='B8CCE4', fill_type='solid')     # 진한 회색 
 grayDark2Fill = PatternFill(start_color='A6A6A6', end_color='A6A6A6', fill_type='solid')    # 진한 회색2  
-blueFill = PatternFill(start_color='DAEEF3', end_color='DAEEF3', fill_type='solid')     # 하늘 색
+blueFill = PatternFill(start_color='DAEEF3', end_color='DAEEF3', fill_type='solid')         # 하늘 색
 blueDarkFill = PatternFill(start_color='8DB4E2', end_color='8DB4E2', fill_type='solid')     # 진한 하늘 색
-blueDark2Fill = PatternFill(start_color='CCFFFF', end_color='CCFFFF', fill_type='solid')     # 진한 하늘 색2
+blueDark2Fill = PatternFill(start_color='CCFFFF', end_color='CCFFFF', fill_type='solid')    # 진한 하늘 색2
 blueDark3Fill = PatternFill(start_color='00B0F0', end_color='00B0F0', fill_type='solid')    # 진한 파란 색
-yellowFill = PatternFill(start_color='FFFF00', end_color='FFFF00', fill_type='solid')   # 노란 색
-violetFill = PatternFill(start_color='E4DFEC', end_color='E4DFEC', fill_type='solid')   # 보라 색
-greenWeekFill = PatternFill(start_color='CCFFCC', end_color='CCFFCC', fill_type='solid')   # 연한 녹색
-greenFill = PatternFill(start_color='92D050', end_color='92D050', fill_type='solid')    # 녹색
+yellowFill = PatternFill(start_color='FFFF00', end_color='FFFF00', fill_type='solid')       # 노란 색
+violetFill = PatternFill(start_color='E4DFEC', end_color='E4DFEC', fill_type='solid')       # 보라 색
+greenWeekFill = PatternFill(start_color='CCFFCC', end_color='CCFFCC', fill_type='solid')    # 연한 녹색
+greenFill = PatternFill(start_color='92D050', end_color='92D050', fill_type='solid')        # 녹색
+whiteFill = PatternFill(start_color='FFFFFF', end_color='FFFFFF', fill_type='solid')        # 흰 색
 # ---------------------------------------------------------------------------------------------------------------------->
 # ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ ------------------->
 
 
-ws_pay = wb["01. 급여"]   # "01. 급여" Sheet에 접근 @@@@@@@@ ===========>
+print("\n\n [@_T] ■■■ [/ast_vrfc.py] ==> [T_01] ■■■■■■ [######################### [자산 검증 파일 TEST Start] #########################] ■■■■■■ ")
+print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_01_01]" )
 
-# 종목 코드 리스트
-codes = [
-    '005380'   # 현대차     
-    , '068270' # 셀트리온
-    , '096770'  # SK이노베이션
-]
+now_ym = str(datetime.datetime.now()).replace('-','.')     # 오늘 년월(년.월) (2023.08.31)
+dt_now = datetime.datetime.now() 
+lastLastDt = dt_now.strftime("%Y") +"."+ dt_now.strftime("%m") +"."+ dt_now.strftime("%d")   # 자산 마지막 일 ■■■■■■ "2023.08.31"
 
-row = 0  
+parameters = readParameters()      # 파일에서 파라미터 가져오는 함수() --> [01. 현재 년월[입력]]
+input_astYYYYMM = str(parameters[0])     # 자산 년월 --> 01. 현재 년월[입력]][★]
+input_astYYYYMM = input_astYYYYMM.split(".")     
+input_astYY = str(input_astYYYYMM[0][2:4])  # 자산 년[입력]
+input_astMM = int(input_astYYYYMM[1])    # 자산 년월[입력]
+print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_02_02] [01. 현재 년월[입력][★]]"+ str(parameters[0]) +"[02. 출력할 년월■]]]"+ str(parameters[1]) +"[3. 오늘 년월(오늘 년월■)]"+ str(input_astMM) ) 
 
-for code in codes:   # "01. 급여" Sheet에서 월별 보유 주식 현황 Data 줄
-    if code == "068270":     # 증권 종목이 '셀트리온' 이면  
-        posses_qty2 = ws_pay[f'X{row+3}'].value  	    # 주식(셀트리온) 보유 수량
-        ave_prchs_amt2 =  ws_pay[f'Z{row+3}'].value     # 주식(셀트리온) 평균 매입가
-        prchs_amt2 =  ws_pay[f'AA{row+3}'].value        # 주식(셀트리온) 매입 금액 		
-    elif code == "096770":   # 증권 종목이 'SK이노베이션' 이면  
-        posses_qty3 = ws_pay[f'X{row+3}'].value  	    # 주식(SK이노베이션) 보유 수량
-        ave_prchs_amt3 =  ws_pay[f'Z{row+3}'].value     # 주식(SK이노베이션) 평균 매입가
-        prchs_amt3 =  ws_pay[f'AA{row+3}'].value        # 주식(SK이노베이션) 매입 금액 
-    else :      		
-        posses_qty1 = ws_pay[f'X{row+3}'].value  	    # 주식(현대차) 보유 수량
-        ave_prchs_amt1 =  ws_pay[f'Z{row+3}'].value     # 주식(현대차) 평균 매입가
-        prchs_amt1 =  ws_pay[f'AA{row+3}'].value        # 주식(현대차) 매입 금액
-
-    if row == 0:
-        shinhanBValue = ws_pay[f'AG{row+3}'].value      # 은행 결산@@ 신한은행 금액
-    elif row == 1:
-        kakaoBValue = ws_pay[f'AG{row+3}'].value  	    # 은행 결산@@ 카카오 뱅크 금액
-    else :      		
-        shinhybBValue = ws_pay[f'AG{row+3}'].value     # 은행 결산@@ 신협 예금 금액
-
-    row = row + 1   
-
-add_row = 0           # 줄 추가(add_row): "01. 급여" Sheet에서 월별 보유 주식 현황 Data가 추가될 경우 대비
-row = add_row + 6     # "01. 급여" Sheet에서 합계 줄
-posses_qty_sum = ws_pay[f'X{row}'].value  	    # 보유 수량 합계
-ave_prchs_amt_sum = ws_pay[f'Z{row}'].value  	# 평균 매입가 합계
-stockPrchsAmt_sum = ws_pay[f'AA{row}'].value  	# 매입금액 합계(주식 총 매입 금액)
-sokSavBValue = ws_pay[f'AG{row}'].value  	    # 은행 결산@@ OK 저축 은행 예금 금액
-
-row = add_row + 7     # "01. 급여" Sheet에서 비 보험 줄
-insuSonValue =  ws_pay[f'X{row}'].value     # 21. 실비 보험(현대해상, 진수종)
-insuValue = ws_pay[f'AA{row}'].value        # 22. 실비 보험(한화손해보험, 잔태만)
-realtyValue = ws_pay[f'AD{row}'].value      # 3. 부동산(현아트빌 404호) 금액 
-
-row = add_row + 8     # "01. 급여" Sheet에서 퇴직 연금 줄
-pensionIRP = ws_pay[f'AD{row}'].value       # 91. 퇴직 연금(개인형 IPR) 금액
-print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_03_1] [보유 수량 합계]"+ str(posses_qty_sum) +"[신한은행 금액)]"+ str(shinhanBValue) +"[퇴직 연금(IPR)]"+ str(pensionIRP))
-# ---------------------------------------------------------------------------------------------------------------------->
-# ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ ------------------->
-
-
-ws_stock = wb["91. 주식"]   # "91. 주식" Sheet에 접근 @@@@@@@@ ===========> 
-prev_B3 = ws_stock["B3"].value   # 이전 일자(예) 2023.08.31)
-prev_B3 = prev_B3[0:7]     # 이전 일자[년월) (2023.08)
-
-ws_stock.insert_rows(3, 8)       # 월별 자산 제목(3번째 줄 위치에 8줄을 추가)
-ws_stock.merge_cells("A8:B8")    # A8부터 B9까지 셀을 싱글 셀로 병합
-print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_04_2] [91. 주식 Sheet] [오늘 년월]"+ now_ym.lstrip() +"[오늘 년월_타입]"+ str(type(now_ym)) +"[오늘 년월_갯수]"+ str(len(now_ym.lstrip())) )
-print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_04_3] [91. 주식 Sheet] [자산 년월]"+ astYYM.lstrip() +"[자산 년월_타입]"+ str(type(astYYM)) +"[자산 년월_갯수]"+ str(len(astYYM.lstrip())) )
-
-if str(astYYM.strip()) != str(now_ym.strip()) :   # 입력한 자산 년월와 오늘 년월이 다르면
-    result = pyautogui.alert("[91. 주식 Sheet] 입력한 자산 년월["+ str(astYYM) +"]와 오늘 년월["+ str(now_ym) +"]이 다릅니다.", title='[자산 년월 입력 오류]', button='OK')
+if str(parameters[0]) == None :   # 자산 년월 미입력 이면
+    result = pyautogui.alert("자산 년월을 입력하세요. 예) 2023.08", title='[자산 년월 입력 오류]', button='OK')
     sys.exit()    # 종료
-else :   # 입력한 자산 년월와 오늘 년월이 같으면
-    # print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_04_4_2] [자산 년월]"+ str(astYYM) +"[오늘 년월]"+ str(now_ym) )
 
-    if str(astYYM) == str(prev_B3) :   # 입력한 자산 년월와 이전 자산 년월이 같으면
-        result = pyautogui.alert("[91. 주식 Sheet] 입력한 자산 년월["+ str(astYYM) +"]이 이미 존재합니다.", title='[자산 년월 입력 오류]', button='OK')
-        sys.exit()    # 종료
-print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_04_3] [입력한 자산 년월]"+ str(astYYM) +"[오늘 년월]"+ str(now_ym) +"[이전 자산 년월]"+ str(prev_B3) )
-# ---------------------------------------------------------------------------------------------------------------------->
+astYYM = str(parameters[1])   # 자산 년월(2023.08)
+astYM = astYYM[2:8]   # 자산 년월(23.08)
+print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_02_03] [자산 년월(2025.01)]"+ str(astYYM) +"[자산 년월(25.01)]"+ str(astYM) )
 
-print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_04_5]" ) 
+# openFileNm = "02. 자산 검증("+ astMM_new +").xlsx"   # 오픈 파일 명(02. 자산 검증(23.08).xlsx) 
+openFileNm = "02. 자산 검증("+ str(input_astYY) +"."+ format(input_astMM, '02') +").xlsx"   # 오픈 파일 명(02. 자산 검증(23.08).xlsx) 
+# print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_02_04] [URL 경로]"+ str(urlPath) +"[오픈 파일]"+ str(openFileNm) )
 
-prchs_amt = 0               # 매입 금액
-prchs_amt_sum = 0           # 매입 금액 합계
-evl_amt = 0                 # 평가 금액
-evl_amt_sum = 0             # 평가 금액 합계
-evl_profitLoss_sum = 0      # 평가 손익 합계 
-evl_profitLoss = 0          # 평가 손익
-profitLossRate_sum = 0      # 손익률 합계
-row = 0  
-
-for code in codes:
-    url = f"https://finance.naver.com/item/sise.naver?code={code}"    # 네이버 증권 종목(f: 포맷 문자열, 리터럴 사용)
-    # url = "https://finance.naver.com/item/sise.naver?code="+ code    # 네이버 증권 종목     
-    # url = 'https://finance.naver.com/item/sise.naver?code=005380'    # 네이버 증권 종목 ===> TEST @@@ ===>
-
-    response = requests.get(url)     # 웹 사이트 열기
-
-    if response.status_code == 200:        
-        html = response.text
-        soup = BeautifulSoup(html, 'html.parser')
-        price = soup.select_one("#_nowVal").text    # 현재가 ==>sCSS_SELECTOR
-        # print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_04_4] [row_번째]"+ str(row) +"[현재가]"+ str(price) +"[url_주소]"+ str(url) )  
-
-        price = price.replace(',', '')    
-        # price =  5000000    # 현재가  TEST @@@ ===>
-        # print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_04_5] [row_번째] [soup]"+ str(soup) )
-
-    else : 
-        print(response.status_code) 
-    
-    if code == "068270":     # 증권 종목이 '셀트리온' 이면 
-        stock_nm = "셀트리온"         # 주식명
-        posses_qty = posses_qty2    # 보유수량
-        prchs_amt = prchs_amt2      # 매입 금액
-        ave_prchs_amt = ave_prchs_amt2   # 평균 매입가
-    elif code == "096770":   # 증권 종목이 'SK이노베이션' 이면 
-        stock_nm = "SK이노베이션"    # 주식명
-        posses_qty = posses_qty3    # 보유수량  
-        prchs_amt = prchs_amt3      # 매입 금액
-        ave_prchs_amt = ave_prchs_amt3   # 평균 매입가
-    else :
-        stock_nm = "현대차"          # 주식명
-        posses_qty = posses_qty1    # 보유수량
-        prchs_amt = prchs_amt1      # 매입 금액
-        ave_prchs_amt = ave_prchs_amt1   # 평균 매입가
-    
-    evl_amt = int(posses_qty) * int(price)     # 평가금액 = 보유수량 * 현재가(=P5*Q5) 
-    evl_profitLoss = (evl_amt) - prchs_amt       # 평가손익 = 평가금액 - 매입금액(=T14-S14)
-    print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_04_6] [row_번째]"+ str(row) +"[매입 금액]"+ str(prchs_amt) +"[보유수량]"+ str(posses_qty) +"[현재가]"+ str(price) ) 
-
-    ws_stock[f'A{row+5}'] = code                # 주식코드
-    ws_stock[f'A{row+5}'].font = Font(name="돋움", bold=False, size=9)   # 주식코드(02. 스타일 적용)     
-    ws_stock[f'A{row+5}'].border = thin_border   # 주식코드(04. 테두리 적용)
-    ws_stock[f'B{row+5}'] = stock_nm            # 주식명
-    ws_stock[f'B{row+5}'].font = Font(name="돋움", bold=False, size=9)   # 주식명(02. 스타일 적용)
-    ws_stock[f'B{row+5}'].border = thin_border   # 주식코드(04. 테두리 적용)
-    ws_stock[f'C{row+5}'] = int(posses_qty)     # 매입수량
-    ws_stock[f'C{row+5}'].font = Font(name="돋움", bold=False, size=9)   # bold(02. 스타일 적용)
-    ws_stock[f'C{row+5}'].border = thin_border   # 주식코드(04. 테두리 적용)
-    ws_stock[f'D{row+5}'] = format(int(price), ',')  # 현재가 
-    ws_stock[f'D{row+5}'].font = Font(name="돋움", bold=False, size=9)   # 현재가(02. 스타일 적용)
-    ws_stock[f'D{row+5}'].alignment = Alignment(horizontal='right', vertical='center')     # 현재가(03. alignment 적용)
-    ws_stock[f'D{row+5}'].border = thin_border   # 현재가(04. 테두리 적용)
-    ws_stock[f'D{row+5}'].fill = yellowFill   # 현재가(05. 배경색 설정)
-    ws_stock[f'E{row+5}'] = format(int(ave_prchs_amt), ',')    # 평균 매입가
-    ws_stock[f'E{row+5}'].font = Font(name="돋움", bold=False, size=9)   # 평균 매입가(02. 스타일 적용)
-    ws_stock[f'E{row+5}'].alignment = Alignment(horizontal='right', vertical='center')     # 평균 매입가(03. alignment 적용)
-    ws_stock[f'E{row+5}'].border = thin_border   # 평균 매입가(04. 테두리 적용)
-    ws_stock[f'F{row+5}'] = format(int(prchs_amt), ',')        # 매입 금액 
-    ws_stock[f'F{row+5}'].font = Font(name="돋움", bold=False, size=9)   # 매입 금액(02. 스타일 적용)
-    ws_stock[f'F{row+5}'].alignment = Alignment(horizontal='right', vertical='center')     # 매입 금액(03. alignment 적용)
-    ws_stock[f'F{row+5}'].border = thin_border   # 매입 금액(04. 테두리 적용) 
-    ws_stock[f'G{row+5}'] = format(int(evl_amt), ',')          # 평가금액 = 보유수량 * 현재가(=P5*Q5) 
-    ws_stock[f'G{row+5}'].font = Font(name="돋움", bold=False, size=9)   # 평가금액(02. 스타일 적용)
-    ws_stock[f'G{row+5}'].alignment = Alignment(horizontal='right', vertical='center')     # 평가금액(03. alignment 적용)
-    ws_stock[f'G{row+5}'].border = thin_border   # 평가금액(04. 테두리 적용)
-    ws_stock[f'G{row+5}'].fill = orangeWeek3Fill   # 평가금액(05. 배경색 설정)
-    # print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_05_3] [row_번째]"+ str(row) +"[종목 코드]"+ code +"[01. 보유수량]"+ str(int(ws_stock[f'P{row+5}'].value)) +"[02. 현재가]"+ str(price) +"[03. 평가금액]"+ str(evl_amt) ) 
-
-    ws_stock[f'H{row+5}'] = format(int(evl_profitLoss), ',')    # 평가손익 
-    ws_stock[f'H{row+5}'].font = Font(name="돋움", bold=False, size=9)   # 평가손익(02. 스타일 적용)
-    ws_stock[f'H{row+5}'].alignment = Alignment(horizontal='right', vertical='center')     # 평가손익(03. alignment 적용)
-    ws_stock[f'H{row+5}'].border = thin_border   # 평가손익(04. 테두리 적용) 
-    ws_stock[f'H{row+5}'].fill = orangeWeek3Fill   # 평가손익(05. 배경색 설정)
-
-    profitLossRate = ((evl_amt / prchs_amt) - 1) * 100       # 손익률 = ((평가금액 / 매입금액) -1) *100 (=(T14/S14)-1) * 100) 
-    ws_stock[f'I{row+5}'] = f'{profitLossRate:.2f}'         # 손익률 = ((평가금액 / 매입금액) -1) *100 (=(T14/S14)-1) * 100)
-    ws_stock[f'I{row+5}'].font = Font(name="돋움", bold=False, size=9)   # 손익률(02. 스타일 적용)
-    ws_stock[f'I{row+5}'].alignment = Alignment(horizontal='right', vertical='center')     # 손익률(03. alignment 적용)
-    ws_stock[f'I{row+5}'].border = thin_border   # 손익률(04. 테두리 적용)
-    ws_stock[f'I{row+5}'].fill = orangeWeek3Fill   # 손익률(05. 배경색 설정)
-    
-    ws_stock[f'J{row+5}'].border = thin_border   # J5 필드 border 설징(빈칸) 
-    ws_stock[f'K{row+5}'].border = thin_border   # K5 필드 border 설징(빈칸) 
-    ws_stock[f'L{row+5}'].border = thin_border   # L5 필드 border 설징(빈칸) 
-    ws_stock[f'M{row+5}'].border = thin_border   # M5 필드 border 설징(빈칸)
-    
-    evl_amt_sum = evl_amt_sum + evl_amt     # 평가 금액 합계
-    evl_profitLoss_sum = evl_profitLoss_sum + evl_profitLoss      # 평가손익 합계
-    prchs_amt_sum = prchs_amt_sum + prchs_amt      # 매입 금액 합계 
-    print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_04_7] [row_번째]"+ str(row) +"[종목 코드]"+ code +"[00. 손익률]"+ str(profitLossRate) +"[01. 보유수량]"+ str(posses_qty) +"[02. 매입 금액]"+ str(prchs_amt) +"[02. 현재가]"+ str(price) +"[03. 평가금액]"+ str(evl_amt) +"[04. 평가손익]"+ str(evl_profitLoss) ) 
-    
-    row = row + 1
-print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_04_8]" )
-
-profitLossRate_sum = ((evl_amt_sum / prchs_amt_sum) - 1) * 100     # 손익률 합계 = ((평가금액 합계 / 매입금액 합계) -1) *1 00 
-print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_04_9] [01. 평가금액 합계]"+ str(evl_amt_sum) +"[02. 매입금액 합계]"+ str(prchs_amt_sum) +"[03. 손익률 합계]"+ str(profitLossRate_sum) +"[05. 평가손익 합계]"+ str(evl_profitLoss) ) 
-
-# 01. 값 쓰기 
-ws_stock["A3"].value = "일자"                       # A3 필드에 값 쓰기(일자)  -------->
-ws_stock["B3"].value = lastLastDt                  # B3 필드에 값 쓰기(일자 Value) 
-ws_stock["C3"].value = "주식 평가 금액"             # C3 필드에 값 쓰기(주식 평가 금액)
-ws_stock["D3"] = format(evl_amt_sum, ',')          # 평가금액 합계
-ws_stock["E3"].value = "총 매입 금액"                # E3 필드에 값 쓰기 
-ws_stock["F3"] = format(prchs_amt_sum, ',')         # 매입 단가 합계
-ws_stock["K3"] = format(evl_profitLoss_sum, ',')    # 평가손익 합계
-ws_stock["H3"].value = "보유예탁자산 증감"            # H3 필드에 값 쓰기 
-ws_stock["J3"].value = "평가 손익 합계"               # J3 필드에 값 쓰기 
-ws_stock["K3"] = format(evl_profitLoss_sum, ',')     # K3 필드에 값 쓰기(평가 손익 합계 Value)
-ws_stock["L3"].value = "총평가 손익률(%)"             # L3 필드에 값 쓰기 
-ws_stock["M3"] = f'{profitLossRate_sum:.2f}'    # M3 필드에 값 쓰기(총평가 손익률(%) Value)
-ws_stock["A4"].value = "주식코드"               # A4 필드에 값 쓰기(주식코드) Head  -------->
-ws_stock["B4"].value = "주식명"                 # B4 필드에 값 쓰기 
-ws_stock["C4"].value = "매입수량"               # C4 필드에 값 쓰기 
-ws_stock["D4"].value = "현재가"                 # D4 필드에 값 쓰기 
-ws_stock["E4"].value = "매입금액"               # E4 필드에 값 쓰기 
-ws_stock["F4"].value = "현재가"                 # F4 필드에 값 쓰기 
-ws_stock["G4"].value = "평가금액"               # G4 필드에 값 쓰기 
-ws_stock["H4"].value = "평가손익"               # H4 필드에 값 쓰기 
-ws_stock["I4"].value = "손익률(%)"              # I4 필드에 값 쓰기 
-ws_stock["J4"].value = "비고"                   # J4 필드에 값 쓰기 
-ws_stock["L4"].value = "목표가"                 # L4 필드에 값 쓰기 
-ws_stock["M4"].value = "손절가"                 # M4 필드에 값 쓰기
-
-row = 0
-add_row = 0           # 줄 추가(add_row): "91. 주식" Sheet에서 보유 주식 현황 Data가 추가될 경우 대비
-row = add_row + 8     # "91. 주식" Sheet에서 합계 줄
-ws_stock[f'A{row}'].value = "합계"                   # A8 필드에 값 쓰기(합계)  -------->
-ws_stock[f'C{row}'].value = posses_qty_sum 		# 매입수량 합계 
-ws_stock[f'E{row}'].value = format(ave_prchs_amt_sum, ',') 		# 평균 매입가(매입단가) 합계
-ws_stock[f'F{row}'].value = format(prchs_amt_sum, ',')  		# 매입 단가 합계 
-ws_stock[f'G{row}'].value = format(evl_amt_sum, ',') 		    # 평가금액 합계 
-ws_stock[f'H{row}'].value = format(evl_profitLoss_sum, ',')     # 평가손익 합계  ===>  
-ws_stock[f'I{row}'].value = f'{profitLossRate_sum:.2f}' 		# 손익률(%) 합계
-
-# 02. 스타일 적용드 스타일 적용(글자 색은 빨갛게, 이탤릭, 두껍게 적용)
-ws_stock["A3"].font = Font(name="돋움", bold=False, size=9)   # A3 필드(자산 년월)  -------->
-ws_stock["B3"].font = Font(name="돋움", bold=False, size=9)    # B3 필드 
-ws_stock["C3"].font = Font(name="돋움", bold=False, size=9)    # C3 필드 
-ws_stock["D3"].font = Font(name="돋움", bold=True, size=9, color="FF0000")    # D3 필드(주식 평가 금액 Value)
-ws_stock["E3"].font = Font(name="돋움", bold=False, size=9)    # E3 필드
-ws_stock["F3"].font = Font(name="돋움", bold=True, size=9, color="FF0000")     # F3 필드(총 매입 금액 Value)
-ws_stock["H3"].font = Font(name="돋움", bold=False, size=9)    # H3 필드
-ws_stock["J3"].font = Font(name="돋움", bold=False, size=9)    # J3 필드(평가 손익 합계)
-ws_stock["K3"].font = Font(name="돋움", bold=True, size=9, color="FF0000")   # K3 필드(평가 손익 합계 Value)
-ws_stock["L3"].font = Font(name="돋움", bold=False, size=9)    # L3 필드(총평가 손익률(%))
-ws_stock["M3"].font = Font(name="돋움", bold=True, size=9, color="FF0000")   # M3 필드(총평가 손익률(%) Value)
-ws_stock["A4"].font = Font(name="돋움", bold=False, size=9)   # A4 필드(주식코드) Head  -------->
-ws_stock["B4"].font = Font(name="돋움", bold=False, size=9)   # B4 필드
-ws_stock["C4"].font = Font(name="돋움", bold=False, size=9)   # C4 필드
-ws_stock["D4"].font = Font(name="돋움", bold=False, size=9)   # D4 필드
-ws_stock["E4"].font = Font(name="돋움", bold=False, size=9)   # E4 필드
-ws_stock["F4"].font = Font(name="돋움", bold=False, size=9)   # F4 필드
-ws_stock["G4"].font = Font(name="돋움", bold=False, size=9)   # G4 필드
-ws_stock["H4"].font = Font(name="돋움", bold=False, size=9)   # H4 필드
-ws_stock["I4"].font = Font(name="돋움", bold=False, size=9)   # I4 필드
-ws_stock["J4"].font = Font(name="돋움", bold=False, size=9)   # J4 필드
-ws_stock["L4"].font = Font(name="돋움", bold=False, size=9)   # M4 필드
-ws_stock["M4"].font = Font(name="돋움", bold=False, size=9)   # AB 필드(손절가)
-ws_stock[f'A{row}'].font = Font(name="돋움", bold=False, size=9)  		# A8 필드(합계)  -------->
-ws_stock[f'C{row}'].font = Font(name="돋움", bold=False, size=9, color="FF0000")   # C8 필드
-ws_stock[f'E{row}'].font = Font(name="돋움", bold=False, size=9, color="FF0000")   # E8 필드
-ws_stock[f'F{row}'].font = Font(name="돋움", bold=False, size=9, color="FF0000")   # F8 필드
-ws_stock[f'G{row}'].font = Font(name="돋움", bold=True, size=9, color="FF0000")     # G8 필드
-ws_stock[f'H{row}'].font = Font(name="돋움", bold=True, size=9, color="FF0000")     # H8 필드
-ws_stock[f'I{row}'].font = Font(name="돋움", bold=True, size=9, color="FF0000")     # I8 필드
-
-# 03. alignment 적용
-ws_stock["A3"].alignment = Alignment(horizontal='center', vertical='center')    # A3 필드 alignment 설정 -------->
-ws_stock["B3"].alignment = Alignment(horizontal='center', vertical='center')    # B3 필드
-ws_stock["C3"].alignment = Alignment(horizontal='center', vertical='center')    # C3 필드
-ws_stock["D3"].alignment = Alignment(horizontal='right', vertical='center')     # D3 필드
-ws_stock["E3"].alignment = Alignment(horizontal='center', vertical='center')     # E3 필드
-ws_stock["F3"].alignment = Alignment(horizontal='right', vertical='center')      # F3 필드
-ws_stock["H3"].alignment = Alignment(horizontal='center', vertical='center')     # H3 필드
-ws_stock["J3"].alignment = Alignment(horizontal='center', vertical='center')     # J3 필드(평가 손익 합계)
-ws_stock["K3"].alignment = Alignment(horizontal='right', vertical='center')      # K3 필드(평가 손익 합계 Value)
-ws_stock["L3"].alignment = Alignment(horizontal='center', vertical='center')     # L3 필드(총평가 손익률(%))
-ws_stock["M3"].alignment = Alignment(horizontal='right', vertical='center')      # M3 필드(총평가 손익률(%) Value)
-ws_stock["A4"].alignment = Alignment(horizontal='center', vertical='center')     # A4 필드(주식코드) Head  -------->
-ws_stock["B4"].alignment = Alignment(horizontal='center', vertical='center')     # B4 필드
-ws_stock["C4"].alignment = Alignment(horizontal='center', vertical='center')     # C4 필드
-ws_stock["D4"].alignment = Alignment(horizontal='center', vertical='center')     # D4 필드
-ws_stock["E4"].alignment = Alignment(horizontal='center', vertical='center')     # E4 필드
-ws_stock["F4"].alignment = Alignment(horizontal='center', vertical='center')     # F4 필드
-ws_stock["G4"].alignment = Alignment(horizontal='center', vertical='center')     # G4 필드
-ws_stock["H4"].alignment = Alignment(horizontal='center', vertical='center')     # H4 필드
-ws_stock["I4"].alignment = Alignment(horizontal='center', vertical='center')     # I4 필드
-ws_stock["J4"].alignment = Alignment(horizontal='center', vertical='center')     # A4 필드
-ws_stock["L4"].alignment = Alignment(horizontal='center', vertical='center')     # L4 필드
-ws_stock["M4"].alignment = Alignment(horizontal='center', vertical='center')     # M4 필드(손절가)
-ws_stock[f'A{row}'].alignment = Alignment(horizontal='center', vertical='center')    # A8 필드(합계)  -------->
-ws_stock[f'C{row}'].alignment = Alignment(horizontal='right', vertical='center')     # C8 필드
-ws_stock[f'E{row}'].alignment = Alignment(horizontal='right', vertical='center')     # E8 필드
-ws_stock[f'F{row}'].alignment = Alignment(horizontal='right', vertical='center')     # F8 필드
-ws_stock[f'G{row}'].alignment = Alignment(horizontal='right', vertical='center')     # G8 필드
-ws_stock[f'H{row}'].alignment = Alignment(horizontal='right', vertical='center')     # H8 필드
-ws_stock[f'I{row}'].alignment = Alignment(horizontal='right', vertical='center')     # I8 필드
-
-# 04. 테두리 적용
-ws_stock["A3"].border = thin_border   # A3 필드 -------->
-ws_stock["B3"].border = thin_border   # B3 필드 
-ws_stock["C3"].border = thin_border   # C3 필드 
-ws_stock["D3"].border = thin_border   # D3 필드 
-ws_stock["E3"].border = thin_border   # E3 필드
-ws_stock["F3"].border = thin_border   # F3 필드 
-ws_stock["G3"].border = thin_border   # G3 필드 
-ws_stock["H3"].border = thin_border   # G3 필드 
-ws_stock["I3"].border = thin_border   # I3 필드 
-ws_stock["J3"].border = thin_border   # J3 필드(평가 손익 합계)
-ws_stock["K3"].border = thin_border   # K3 필드(평가 손익 합계 Value) 
-ws_stock["L3"].border = thin_border   # L3 필드(총평가 손익률(%))
-ws_stock["M3"].border = thin_border   # M3 필드 (총평가 손익률(%) Value)
-ws_stock["A4"].border = thin_border   # A4 필드(주식코드) Head  -------->
-ws_stock["B4"].border = thin_border   # A4 필드
-ws_stock["C4"].border = thin_border   # A4 필드
-ws_stock["D4"].border = thin_border   # A4 필드
-ws_stock["E4"].border = thin_border   # A4 필드
-ws_stock["F4"].border = thin_border   # A4 필드
-ws_stock["G4"].border = thin_border   # A4 필드
-ws_stock["H4"].border = thin_border   # A4 필드
-ws_stock["I4"].border = thin_border   # A4 필드
-ws_stock["J4"].border = thin_border   # A4 필드
-ws_stock["K4"].border = thin_border   # A4 필드
-ws_stock["L4"].border = thin_border   # A4 필드
-ws_stock["M4"].border = thin_border   # M4 필드(손절가)
-ws_stock[f'A{row}'].border = thin_border    # A8 필드(합계)  -------->
-ws_stock[f'B{row}'].border = thin_border    # B8 필드
-ws_stock[f'C{row}'].border = thin_border    # C8 필드
-ws_stock[f'D{row}'].border = thin_border    # D8 필드
-ws_stock[f'E{row}'].border = thin_border   # E8 필드
-ws_stock[f'F{row}'].border = thin_border   # F8 필드
-ws_stock[f'G{row}'].border = thin_border    # G8 필드
-ws_stock[f'H{row}'].border = thin_border   # H8 필드
-ws_stock[f'I{row}'].border = thin_border   # I8 필드
-ws_stock[f'J{row}'].border = thin_border   # J8 필드
-ws_stock[f'K{row}'].border = thin_border   # K8 필드
-ws_stock[f'L{row}'].border = thin_border   # L8 필드
-ws_stock[f'M{row}'].border = thin_border   # M8 필드
-
-# 05. 지정된 음영 색으로 음역 색칠하기(배경색 설정)
-ws_stock["A3"].fill = blueDark3Fill      # A3 필드-------->
-ws_stock["C3"].fill = grayDark2Fill      # C3 필드
-ws_stock["D3"].fill = yellowFill         # D3 필드 
-ws_stock["E3"].fill = grayDark2Fill      # E3 필드
-ws_stock["H3"].fill = grayDark2Fill      # H3 필드
-ws_stock["J3"].fill = grayDark2Fill      # J3 필드(평가 손익 합계)
-ws_stock["L3"].fill = grayDark2Fill      # L3 필드(총평가 손익률(%))
-ws_stock["A4"].fill = grayFill           # A4 필드(주식코드)
-ws_stock["B4"].fill = grayFill   # A4 필드
-ws_stock["C4"].fill = grayFill   # A4 필드
-ws_stock["D4"].fill = grayFill   # A4 필드
-ws_stock["E4"].fill = grayFill   # A4 필드
-ws_stock["F4"].fill = grayFill   # A4 필드
-ws_stock["G4"].fill = grayFill   # A4 필드
-ws_stock["H4"].fill = grayFill   # A4 필드
-ws_stock["I4"].fill = grayFill   # A4 필드
-ws_stock["J4"].fill = grayFill   # A4 필드
-ws_stock["K4"].fill = grayFill   # A4 필드
-ws_stock["L4"].fill = grayFill   # A4 필드
-ws_stock["M4"].fill = grayFill   # M4 필드(손절가) 
-ws_stock[f'A{row}'].fill = orangeWeek2Fill      # A8 필드(합계)  -------->
-ws_stock[f'B{row}'].fill = orangeWeek2Fill      # B8 필드
-ws_stock[f'C{row}'].fill = orangeWeek2Fill      # C8 필드
-ws_stock[f'D{row}'].fill = orangeWeek2Fill      # D8 필드
-ws_stock[f'E{row}'].fill = orangeWeek2Fill      # E8 필드
-ws_stock[f'F{row}'].fill = orangeWeek2Fill      # F8 필드
-ws_stock[f'G{row}'].fill = orangeWeek2Fill      # G8 필드
-ws_stock[f'H{row}'].fill = orangeWeek2Fill      # H8 필드
-ws_stock[f'I{row}'].fill = orangeWeek2Fill      # I8 필드
-ws_stock[f'J{row}'].fill = orangeWeek2Fill      # J8 필드
-ws_stock[f'K{row}'].fill = orangeWeek2Fill      # K8 필드
-ws_stock[f'L{row}'].fill = orangeWeek2Fill      # L8 필드
-ws_stock[f'M{row}'].fill = orangeWeek2Fill       # M8 필드
-
-print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_04_10] [주식 평가 금액]"+ str(evl_amt_sum) +"[신한은행 금액]"+ str(shinhanBValue) ) 
+wb = load_workbook(urlPath + openFileNm, data_only=True)    # 오픈 파일을 wb을 불러옴(data_only=True: 수식이 아닌 실제 데이터를 가지고 옴)
+print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_02_05] [URL 경로]"+ str(urlPath) +"[오픈 파일]"+ str(openFileNm) +"[wb]"+ str(wb) ) 
 # ---------------------------------------------------------------------------------------------------------------------->
 # ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ ------------------->
 
 
-ws = wb["자산(2023)"]    # "자산(2023)" Sheet에 접근 @@@@@@@@ ===========>
-prev_B7_amt = ws["B7"].value   # 70. [수협B] Sh 쑥쑥크는 아이적금(수종) 금액 ---> 이전 달 금액 
-prev_B14_amt = ws["B14"].value   # 90. 총 합계 ---> 이전 달 금액
-prev_A3 = ws["A3"].value   # 이전 자산 년월(예) 2023.09 자산)
-print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_05_0] [일자(년월)_00]"+ str(prev_A3) )
-prev_A3 = prev_A3[0:7]     # 이전 자산 년월(2023.08)
+print("\n\n [@_T] ■■■ [/ast_vrfc.py] ==> [T_01] ■■■■■■ [######################### [11. 계좌별잔고 Tab(기준 정보) 작업 Start] #########################] ■■■■■■ ")
 
-ws.insert_rows(3, 16)       # 월별 자산 제목(3번째 줄 위치에 16줄을 추가)
-ws.merge_cells("A3:D3")     # A3 부터 D3까지 셀을 싱글 셀로 병합
-print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_05_1] [prev_B7_amt]"+ str(prev_B7_amt) +"[prev_B14_amt]"+ str(prev_B14_amt) )
-print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_05_2] [자산 년월]"+ str(astYYM) +"[오늘 년월]"+ str(now_ym) +"[일자(년월)]"+ str(prev_A3) )
+ws_01_actBalnc = wb["계좌별잔고"]   # "계좌별잔고" Sheet(Tab)에 접근 @@@@@@@@ ===========> 
+totAstYear = "02. 총자산("+ str(astYYM[2:4]) +"Y)"
+print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_11_01] [계좌별잔고 Tab Sheet(Tab)에 접근 @@@@@@@@ ===========>]")
+print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_11_02] [00. totAstYear]"+ str(totAstYear) +"[자산 년]"+ str(input_astYYYYMM[0]) +"[자산 월]"+ str(input_astYYYYMM[1]) )
 
-# if str(astYYM) != str(now_ym) :   # 입력한 자산 년월와 오늘 년월이 다르면
-#     result = pyautogui.alert("[자산(2023) Sheet] 입력한 자산 년월["+ str(astYYM) +"]와 오늘 년월["+ str(now_ym) +"]이 다릅니다.", title='[자산 년월 입력 오류]', button='OK')
-#     sys.exit()    # 종료
-# else :
-#     if str(astYYM) == str(prev_A3) :   # 입력한 자산 년월와 이전 자산 년월이 같으면
-#         result = pyautogui.alert("[자산(2023) Sheet] 입력한 자산 년월["+ str(astYYM) +"]이 이미 존재합니다.", title='[자산 년월 입력 오류]', button='OK')
-#         sys.exit()    # 종료
-print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_05_3] [입력한 자산 년월]"+ str(astYYM) +"[오늘 년월]"+ str(now_ym) +"[이전 자산 년월]"+ str(prev_A3) ) 
-# ---------------------------------------------------------------------------------------------------------------------->
+add_row = 0     # 줄 추가
+rowNo = add_row + 16
 
-astNm = "자산"     # 자산 명
-clAcntCmt = ""     # A16 필드에 값 쓰기 --------> 결산 코멘트
-# clAcntCmt = "결산 - 포항집에 김치 냉장고, 전자 레인지 구입(총 합계: 777,980원)"       # A16 필드에 값 쓰기 --------> 결산 코멘트
-# ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■// [기초 Data 설정] //■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ ----------->
+# 01. 주식 월별 보유 현황[계좌별잔고 Tab] @@@
+posses_qty1 = ws_01_actBalnc[f'B{rowNo}'].value  	   # 01. 보유 수량(현대차) DDDD
+cur_amt1 = ws_01_actBalnc[f'C{rowNo}'].value          # 02. 현재가(현대차)
+ave_prchs_amt1 = ws_01_actBalnc[f'D{rowNo}'].value    # 03. 평균매입가(현대차) DDDD
+prchs_amt1 = ws_01_actBalnc[f'E{rowNo}'].value        # 04. 매입금액(현대차)   DDDD
+eval_amt1 = ws_01_actBalnc[f'F{rowNo}'].value         # 05. 평가금액(현대차)
+eval_profit_loss1 = ws_01_actBalnc[f'G{rowNo}'].value   # 06. 평가손익(현대차)
+eval_profit_loss_rate1 = ws_01_actBalnc[f'H{rowNo}'].value    # 07. 손익률(%)(현대차)
+eval_profit_loss_rate1 = round((eval_profit_loss_rate1 * 100), 2)  
+print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_11_03] [(현대차)_손익률(%)]"+ str(eval_profit_loss_rate1) )  # d = round(1.23456, 2)
 
-H5_amt = shinhanBValue    # [2_Tab] 은행 결산@@ 신한은행[기초 Data] ■■
-B6_amt = evl_amt_sum    # 77. 주식 투자 금액(평가 금액) ■■ -------->
-C6_amt = stockPrchsAmt_sum   # 77. 주식 총 매입 금액
-H6_amt = kakaoBValue     # [2_Tab] 은행 결산@@ 세이프박스(카카오 뱅크)) 금액[기초 Data] ■■
-# print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_39] [B7_amt]"+ type(B7_amt) +"[prev_B7_amt]"+ type(prev_B7_amt) )
+rowNo = add_row + 17
+posses_qty2 = ws_01_actBalnc[f'B{rowNo}'].value  	   # 01. 보유 수량(셀트리온)
+cur_amt2 = ws_01_actBalnc[f'C{rowNo}'].value          # 02. 현재가(셀트리온)
+ave_prchs_amt2 = ws_01_actBalnc[f'D{rowNo}'].value    # 03. 평균매입가(셀트리온)
+prchs_amt2 = ws_01_actBalnc[f'E{rowNo}'].value        # 04. 매입금액(셀트리온) 
+eval_amt2 = ws_01_actBalnc[f'F{rowNo}'].value         # 05. 평가금액(셀트리온)
+eval_profit_loss2 = ws_01_actBalnc[f'G{rowNo}'].value   # 06. 평가손익(셀트리온)
+eval_profit_loss_rate2 = ws_01_actBalnc[f'H{rowNo}'].value    # 07. 손익률(%)(셀트리온)
+eval_profit_loss_rate2 = round((eval_profit_loss_rate2 * 100), 2)
 
-B7_amt = int(prev_B7_amt.replace(',','')) + 100000  # 70. [수협B] Sh 쑥쑥크는 아이적금(수종) 금액 -------->
-print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_05_5] [B7_amt]"+ str(B7_amt) +"[prev_B7_amt]"+ str(prev_B7_amt) )
+rowNo = add_row + 18
+posses_qty3 = ws_01_actBalnc[f'B{rowNo}'].value  	  # 01. 보유 수량(SK이노베이션)
+cur_amt3 = ws_01_actBalnc[f'C{rowNo}'].value          # 02. 현재가(SK이노베이션)
+ave_prchs_amt3 = ws_01_actBalnc[f'D{rowNo}'].value    # 03. 평균매입가(SK이노베이션)
+prchs_amt3 = ws_01_actBalnc[f'E{rowNo}'].value        # 04. 매입금액(SK이노베이션) 
+eval_amt3 = ws_01_actBalnc[f'F{rowNo}'].value         # 05. 평가금액(SK이노베이션)
+eval_profit_loss3 = ws_01_actBalnc[f'G{rowNo}'].value   # 06. 평가손익(SK이노베이션)
+eval_profit_loss_rate3 = ws_01_actBalnc[f'H{rowNo}'].value    # 07. 손익률(%)(SK이노베이션)
+eval_profit_loss_rate3 = round((eval_profit_loss_rate3 * 100), 2)
 
-H7_amt = shinhybBValue   # [2_Tab] 은행 결산@@ 신협 예금 금액[기초 Data] ■■
-B8_amt = pensionIRP         # 91. 퇴직 연금(개인형 IPR) 금액[기초 Data] ■■ -------->
-H8_amt = sokSavBValue     # [2_Tab] 은행 결산@@ OK 저축 은행 예금 금액
-
-H9_amt = int(H5_amt) + int(H6_amt)  + int(H7_amt) + int(H8_amt)   # [06] 은행 예. 적금 총합 
-B5_amt = H9_amt             # 01. 은행([06]) 금액
-B9_amt = int(H9_amt) + int(B6_amt) + B7_amt + int(B8_amt)   # 1. 총 예적금 --------> 
-
-B10_amt = insuSonValue   # 21. (무) 굿앤굿어린이CI보험(Hi1304)(현대해상, 진수종) 금액 -------->
-B11_amt = insuValue      # 22. (무) 한아름행복플러스종합보험1404(한화손해보험, 잔태만) 금액 --------> 
-B12_amt = int(B10_amt) + int(B11_amt)   # 2. 총 보험금 -------->
-B13_amt = realtyValue    # 3. 부동산(현아트빌 404호) 금액 -------->
-
-B14_amt = B9_amt + B12_amt + int(B13_amt)     # 90. 총 합계 금액 --------> 1. 총 예적금 + 2. 총 보험금 + 3. 부동산(현아트빌 404호) 
-H12_amt = int(B14_amt) - int(prev_B14_amt.replace(',',''))   # [2_Tab] 전원 대비 증감@@ 총 합계 --> 90. 총 합계 - 이전 달 90. 총 합계
-print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_05_6] [총 합계]"+ str(H12_amt) +"[90. 총 합계_amt]"+ str(B14_amt) +"[이전 달 90. 총 합계]"+ str(prev_B14_amt) )
-
-B15_amt = B9_amt            # 91. 가용 자산 금액 --------> 1. 총 예적금
-print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_05_7] [B15_amt]"+ str(B15_amt))
+# rowNo = add_row + 19
+# prchs_amt4 = ws_01_actBalnc[f'E{rowNo}'].value        # 04. 매입금액(02. 발행어음) 
+# eval_amt4 = ws_01_actBalnc[f'F{rowNo}'].value         # 05. 평가금액(02. 발행어음)
+# eval_profit_loss4 = ws_01_actBalnc[f'G{rowNo}'].value   # 06. 평가손익(02. 발행어음) 
+# # ===============================================================================================================================
 # ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ ------------------->
 
-ws.column_dimensions["G"].width = 18  # G열의 너비를 18로 설정
 
-# 01. 값 쓰기
-# ws.cell(row = 3, column = 1, value = astYYM +" "+ astNm)  # A3 필드에 값 쓰기(자산 년월)  -------->
-ws["A3"].value = astYYM +" "+ astNm    # A3 필드에 값 쓰기(자산 년월)  -------->
-ws["E3"].value = lastLastDt             # E3 필드에 값 쓰기
-ws["G3"].value = '은행 결산'            # G3 필드에 값 쓰기
-ws["J3"].value = '지출'                 # J3 필드에 값 쓰기
-ws["A4"].value = '내용'                 # A4 필드에 값 쓰기  -------->
-ws["B4"].value = '금액'                 # B4 필드에 값 쓰기
-ws["C4"].value = '원금'                 # C4 필드에 값 쓰기
-ws["D4"].value = '손익'                 # D4 필드에 값 쓰기
-ws["E4"].value = '수익률(%)'            # E4 필드에 값 쓰기
-ws["G4"].value = '은행 자산 상태'        # G4 필드에 값 쓰기
-ws["H4"].value = '금액'                 # H4 필드에 값 쓰기
-ws["J4"].value = '내역'                 # J4 필드에 값 쓰기
-ws["K4"].value = '금액'                 # K4 필드에 값 쓰기
-ws["A5"].value = '01. 은행 예. 적금([06])'   # A5 필드에 값 쓰기 -------->
-ws["B5"].value = format(B5_amt, ',')        # B5 필드에 값 쓰기 ■■■
-ws["C5"].value = ''   # C5 필드에 값 쓰기
-ws["D5"].value = ''   # D5 필드에 값 쓰기
-ws["E5"].value = ''   # E5 필드에 값 쓰기
-ws["G5"].value = '신한은행'              # G5 필드에 값 쓰기
-ws["H5"].value = format(H5_amt, ',')    # H5 필드에 값 쓰기
-ws["J5"].value = '91. 월 고정 지출'      # J5 필드에 값 쓰기
-ws["K5"].value = '1,766,187'   	        # K5 필드에 값 쓰기
-ws["A6"].value = '77. 주식 투자'         # A6 필드에 값 쓰기 -------->
-ws["B6"].value = format(B6_amt, ',')    # B6 필드에 값 쓰기 --> 77. 주식 투자 금액
-ws["C6"].value = format(C6_amt, ',')    # C6 필드에 값 쓰기
-ws["D6"].value = ''                     # D6 필드에 값 쓰기 
-ws["G6"].value = '세이프박스(카카오 뱅크)'   # G6 필드에 값 쓰기
-ws["H6"].value = format(H6_amt, ',')       # H6 필드에 값 쓰기 
-ws["J6"].value = ''   # J6 필드에 값 쓰기
-ws["K6"].value = ''   # K6 필드에 값 쓰기
-ws["A7"].value = '70. [수협B] Sh 쑥쑥크는 아이적금(수종)'		# A7 필드에 값 쓰기 -------->
-ws["B7"].value = format(B7_amt, ',')    # B7 필드에 값 쓰기 
-ws["G7"].value = '신협 예금'             # G7 필드에 값 쓰기
-ws["H7"].value = format(H7_amt, ',')    # H7 필드에 값 쓰기
-ws["J7"].value = ''   # J7 필드에 값 쓰기
-ws["K7"].value = ''   # K7 필드에 값 쓰기
-ws["A8"].value = '91. 퇴직 연금(개인형 IPR)' 		 # A8 필드에 값 쓰기 -------->
-ws["B8"].value = format(B8_amt, ',')    # B8 필드에 값 쓰기
-ws["C8"].value = '16,000,000'   	    # C8 필드에 값 쓰기
-ws["E8"].value = '100,000' 		        # E8 필드에 값 쓰기
-ws["G8"].value = 'OK 저축 은행 예금'     # G8 필드에 값 쓰기
-ws["H8"].value = format(H8_amt, ',')    # H8 필드에 값 쓰기
-ws["J8"].value = ''   # J8 필드에 값 쓰기
-ws["K8"].value = ''   # K8 필드에 값 쓰기
-ws["A9"].value = '1. 총 예적금'  	        # A9 필드에 값 쓰기 -------->
-ws["B9"].value = format(H9_amt, ',')       # B9 필드에 값 쓰기 
-ws["G9"].value= '[06] 은행 예. 적금 총합'    # G9 필드에 값 쓰기
-ws["H9"].value = format(H9_amt, ',')   	   # H9 필드에 값 쓰기 --> [06] 은행 예. 적금 총합 금액 
-ws["J9"].value= ''   		# J9 필드에 값 쓰기
-ws["K9"].value = ''   		# K9 필드에 값 쓰기
-ws["A10"].value = '21. (무) 굿앤굿어린이CI보험(Hi1304)(현대해상, 진수종)'  		# A10 필드에 값 쓰기 -------->
-ws["B10"].value = format(B10_amt, ',')     # B10 필드에 값 쓰기 
-ws["J10"].value = ''   		# J10 필드에 값 쓰기
-ws["K10"].value = ''   	    # K10 필드에 값 쓰기 
-ws["A11"].value = '22. (무) 한아름행복플러스종합보험1404(한화손해보험, 잔태만)'	 # A11 필드에 값 쓰기 -------->
-ws["B11"].value = format(B11_amt, ',')     # B11 필드에 값 쓰기
-ws["G11"].value = '전원 대비 증감'  # G11 필드에 값 쓰기 
-ws["H11"].value = '금액'         # H11 필드에 값 쓰기
-ws["J11"].value = ''   			# J11 필드에 값 쓰기
-ws["K11"].value = ''   			# K11 필드에 값 쓰기
-ws["A12"].value = '2. 총 보험금' 			# A12 필드에 값 쓰기 --------> 
-ws["B12"].value = format(B12_amt, ',')     # B12 필드에 값 쓰기 --> 2. 총 보험금 금액 
-ws["G12"].value = '총 합계'   		        # G12 필드에 값 쓰기 
-ws["H12"].value = format(H12_amt, ',')     # H12 필드에 값 쓰기
-ws["J12"].value = '지출(A) 총합'   	        # J12 필드에 값 쓰기
-ws["K12"].value = '1,766,187'   		   # K12 필드에 값 쓰기
-ws["A13"].value = '3. 부동산(현아트빌 404호)' 	# A13 필드에 값 쓰기 -------->
-ws["B13"].value = format(B13_amt, ',')        # B13 필드에 값 쓰기
-ws["J13"].value = ''   # J13 필드에 값 쓰기
-ws["K13"].value = ''   # K13 필드에 값 쓰기
-ws["A14"].value = '90. 총 합계'  		    # A14 필드에 값 쓰기 -------->
-ws["B14"].value = format(B14_amt, ',')     # B14 필드에 값 쓰기 --> 90. 총 합계 금액
-ws["J14"].value = ''   # J8 필드에 값 쓰기
-ws["K14"].value = ''   # K8 필드에 값 쓰기
-ws["A15"].value = '91. 가용 자산' 		    # A15 필드에 값 쓰기 -------->
-ws["B15"].value = format(B15_amt, ',')     # B15 필드에 값 쓰기 --> 91. 가용 자산 금액
-ws["J15"].value = '수입(B) 총합'   	        # J15 필드에 값 쓰기
-ws["K15"].value = '0'   		           # K15 필드에 값 쓰기 
-ws["A16"].value = clAcntCmt                # A16 필드에 값 쓰기 --------> 결산 코멘트 
-ws["J16"].value = '총 합계([B] - [A])'      # J16 필드에 값 쓰기
-ws["K16"].value = '0'   		           # K16 필드에 값 쓰기 --> 총 합계([B] - [A]) 금액
+print("\n\n [@_T] ■■■ [/ast_vrfc.py] ==> [T_01] ■■■■■■ [######################### [21. 퇴직신탁 Tab(기준 정보) 작업 Start] #########################] ■■■■■■ ")
 
-# 02. 스타일 적용드 스타일 적용(글자 색은 빨갛게, 이탤릭, 두껍게 적용)
-ws["A3"].font = Font(name="돋움", bold=True, size=12)   # A3 필드(자산 년월)  -------->
-ws["E3"].font = Font(name="돋움", bold=True, size=9)    # E3 필드 
-ws["G3"].font = Font(name="돋움", bold=True, size=9, color="FF0000")   # G3 필드 --> 은행 결산
-ws["J3"].font = Font(name="돋움", bold=True, size=9, color="FF0000")   # J3 필드 --> 지출
-ws["A4"].font = Font(name="돋움", bold=False, size=9)  # A4 필드 -------->
-ws["B4"].font = Font(name="돋움", bold=False, size=9)  # B4 필드
-ws["C4"].font = Font(name="돋움", bold=False, size=9)  # C4 필드
-ws["D4"].font = Font(name="돋움", bold=False, size=9)  # D4 필드
-ws["E4"].font = Font(name="돋움", bold=False, size=9)  # E4 필드 
-ws["G4"].font = Font(name="돋움", bold=False, size=9)  # G4 필드 --> 은행 자산 상태
-ws["H4"].font = Font(name="돋움", bold=False, size=9)  # H4 필드 --> 금액
-ws["J4"].font = Font(name="돋움", bold=False, size=9)  # J4 필드 --> 내역
-ws["K4"].font = Font(name="돋움", bold=False, size=9)  # K4 필드 --> 금액
-ws["H4"].font = Font(name="돋움", bold=False, size=9)  # H4 필드 --> 금액
-ws["A5"].font = Font(name="돋움", bold=False, size=9)  # A5 필드 -------->
-ws["B5"].font = Font(name="돋움", bold=False, size=9, color="FF0000")  # B5 필드 --> 01. 은행 예. 적금([06]) 금액
-ws["G5"].font = Font(name="돋움", bold=False, size=9)  # G5 필드 
-ws["H5"].font = Font(name="돋움", bold=False, size=9)  # H5 필드 
-ws["G5"].font = Font(name="돋움", bold=False, size=9)  # G5 필드 --> 91. 월 고정 지출
-ws["H5"].font = Font(name="돋움", bold=False, size=9)  # H5 필드 --> 금액
-ws["J5"].font = Font(name="돋움", bold=False, size=9)  # J5 필드 --> 91. 월 고정 지출
-ws["K5"].font = Font(name="돋움", bold=False, size=9)  # K5 필드 --> 금액
-ws["A6"].font = Font(name="돋움", bold=False, size=9)  # A6 필드 -------->
-ws["B6"].font = Font(name="돋움", bold=True, size=9, color="FF0000")    # B6 필드
-ws["C6"].font = Font(name="돋움", bold=False, size=9, color="FF0000")   # C6 필드 --> 77. 주식 총 매입 금액 
-ws["G6"].font = Font(name="돋움", bold=False, size=9)  # G6 필드 
-ws["H6"].font = Font(name="돋움", bold=False, size=9)  # H6 필드 
-ws["A7"].font = Font(name="돋움", bold=False, size=9)  # A7 필드 --------> 
-ws["B7"].font = Font(name="돋움", bold=False, size=9)  # B7 필드 
-ws["G7"].font = Font(name="돋움", bold=False, size=9)  # G7 필드 
-ws["H7"].font = Font(name="돋움", bold=False, size=9)  # H7 필드 
-ws["A8"].font = Font(name="돋움", bold=False, size=9)  # A8 필드 -------->
-ws["B8"].font = Font(name="돋움", bold=False, size=9)  # B8 필드
-ws["C8"].font = Font(name="돋움", bold=False, size=9)  # C8 필드
-ws["E8"].font = Font(name="돋움", bold=False, size=9, color="FF0000")   # E8 필드
-ws["G8"].font = Font(name="돋움", bold=False, size=9)  # G8 필드 
-ws["H8"].font = Font(name="돋움", bold=False, size=9)  # H8 필드 
-ws["A9"].font = Font(name="돋움", bold=True, size=9)    # A9 필드 -------->
-ws["B9"].font = Font(name="돋움", bold=True, size=9)    # B9 필드
-ws["G9"].font = Font(name="돋움", bold=False, size=9, color="FF0000")  # G9 필드
-ws["H9"].font = Font(name="돋움", bold=False, size=9, color="FF0000")  # H9 필드
-ws["A10"].font = Font(name="돋움", bold=False, size=9)  # A10 필드 -------->
-ws["B10"].font = Font(name="돋움", bold=False, size=9)  # B10 필드
-ws["A11"].font = Font(name="돋움", bold=False, size=9)  # A11 필드 -------->
-ws["B11"].font = Font(name="돋움", bold=False, size=9)  # B11 필드
-ws["G13"].font = Font(name="돋움", bold=False, size=9)  # G13 필드  
-ws["H13"].font = Font(name="돋움", bold=False, size=9)  # H13 필드
-ws["A12"].font = Font(name="돋움", bold=True, size=9)   # A12 필드 --------> 2. 총 보험금
-ws["B12"].font = Font(name="돋움", bold=True, size=9)   # B12 필드
-ws["G12"].font = Font(name="돋움", bold=True, size=9)   # G12 필드  
-ws["H12"].font = Font(name="돋움", bold=True, size=9, color="FF0000")  # H12 필드 --> 2. 총 보험금 금액
-ws["J12"].font = Font(name="돋움", bold=True, size=9)   # J12 필드 --> 지출(A) 총합
-ws["K12"].font = Font(name="돋움", bold=True, size=9, color="FF0000")  # K12 필드 
-ws["A13"].font = Font(name="돋움", bold=True, size=9)   # A13 필드 -------->
-ws["B13"].font = Font(name="돋움", bold=True, size=9)   # B13 필드 
-ws["A14"].font = Font(name="돋움", bold=True, size=9)   # A14 필드 -------->
-ws["B14"].font = Font(name="돋움", bold=True, size=9, color="FF0000")  # B14 필드
-ws["A15"].font = Font(name="돋움", bold=True, size=9)   # A15 필드 -------->
-ws["B15"].font = Font(name="돋움", bold=True, size=9, color="FF0000")   # B15 필드
-ws["J15"].font = Font(name="돋움", bold=True, size=9)   # J15 필드 --> 수입(B) 총합
-ws["K15"].font = Font(name="돋움", bold=True, size=9, color="FF0000")  # K15 필드
-ws["A16"].font = Font(name="돋움", bold=False, size=9)  # A16 필드-------->
-ws["J16"].font = Font(name="돋움", bold=True, size=9)  	# J16 필드 --> 총 합계([B] -[A])
-ws["K16"].font = Font(name="돋움", bold=True, size=9, color="FF0000")  # K16 필드
+ws_02_irp = wb["퇴직신탁"]   # "퇴직신탁" Sheet(Tab)에 접근 @@@@@@@@ ===========>
+print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_21_01] [퇴직신탁 Tab Sheet(Tab)에 접근 @@@@@@@@ ===========>]")
 
-# 03. alignment 적용
-ws["A3"].alignment = Alignment(horizontal='center', vertical='center')      # A3 필드 alignment 설정 -------->
-ws["E3"].alignment = Alignment(horizontal='right', vertical='center')       # E3 필드
-ws["G3"].alignment = Alignment(horizontal='center', vertical='center')      # G3 필드 --> 은행 결산
-ws["J3"].alignment = Alignment(horizontal='center', vertical='center')      # J3 필드 --> 지출
-ws["A4"].alignment = Alignment(horizontal='center', vertical='center')      # A4 필드 -------->
-ws["B4"].alignment = Alignment(horizontal='center', vertical='center')      # B4 필드
-ws["C4"].alignment = Alignment(horizontal='center', vertical='center')      # C4 필드
-ws["D4"].alignment = Alignment(horizontal='center', vertical='center')      # D4 필드
-ws["E4"].alignment = Alignment(horizontal='center', vertical='center')      # E4 필드 
-ws["G4"].alignment = Alignment(horizontal='center', vertical='center')      # G4 필드 --> 은행 자산 상태
-ws["H4"].alignment = Alignment(horizontal='center', vertical='center')      # H4 필드 --> 금액
-ws["J4"].alignment = Alignment(horizontal='center', vertical='center')      # J4 필드 --> 내역
-ws["K4"].alignment = Alignment(horizontal='center', vertical='center')      # K4 필드 --> 금액
-ws["A5"].alignment = Alignment(horizontal='left', vertical='center')        # A5 필드 -------->
-ws["B5"].alignment = Alignment(horizontal='right', vertical='center')       # B5 필드 
-ws["H5"].alignment = Alignment(horizontal='right', vertical='center')       # H5 필드  
-ws["K5"].alignment = Alignment(horizontal='right', vertical='center')       # K5 필드 --> 금액
-ws["A6"].alignment = Alignment(horizontal='left', vertical='center')        # A6 필드 -------->
-ws["B6"].alignment = Alignment(horizontal='right', vertical='center')       # B6 필드 
-ws["C6"].alignment = Alignment(horizontal='right', vertical='center')       # C6 필드 --> 77. 주식 총 매입 금액 
-ws["H6"].alignment = Alignment(horizontal='right', vertical='center')       # H6 필드  
-ws["B7"].alignment = Alignment(horizontal='right', vertical='center')       # B7 필드 --------> 
-ws["H7"].alignment = Alignment(horizontal='right', vertical='center')       # H7 필드 
-ws["B8"].alignment = Alignment(horizontal='right', vertical='center')       # B8 필드 -------->  
-ws["C8"].alignment = Alignment(horizontal='right', vertical='center')       # C8 필드
-ws["E8"].alignment = Alignment(horizontal='right', vertical='center')       # E8 필드  
-ws["H8"].alignment = Alignment(horizontal='right', vertical='center')       # H8 필드 
-ws["B9"].alignment = Alignment(horizontal='right', vertical='center')       # B9 필드 ------->
-ws["H9"].alignment = Alignment(horizontal='right', vertical='center')       # H9 필드 
-ws["B10"].alignment = Alignment(horizontal='right', vertical='center')      # B10 필드 ------->
-ws["B11"].alignment = Alignment(horizontal='right', vertical='center')      # B11 필드 ------->
-ws["G11"].alignment = Alignment(horizontal='center', vertical='center')     # G11 필드 ------->
-ws["H11"].alignment = Alignment(horizontal='center', vertical='center')     # H11 필드
-ws["B12"].alignment = Alignment(horizontal='right', vertical='center')      # B12 필드 --------> 금액(2. 총 보험금)
-ws["G12"].alignment = Alignment(horizontal='center', vertical='center')     # G12 필드 
-ws["H12"].alignment = Alignment(horizontal='right', vertical='center')      # H12 필드
-ws["K12"].alignment = Alignment(horizontal='right', vertical='center')      # K12 필드 --> 금액(지출(A) 총합) 
-ws["B13"].alignment = Alignment(horizontal='right', vertical='center')      # B13 필드 --------> 
-ws["B14"].alignment = Alignment(horizontal='right', vertical='center')      # B14 필드 -------->
-ws["B15"].alignment = Alignment(horizontal='right', vertical='center')      # B15 필드 -------->
-ws["K15"].alignment = Alignment(horizontal='right', vertical='center')      # K15 필드 --> 금액(수입(B) 총합) 
-ws["K16"].alignment = Alignment(horizontal='right', vertical='center')      # K16 필드 --> 금액(총 합계([B] -[A])) 
+# 퇴직신탁 보유현황(IRP) @@@ 
+add_row = 0     # 줄 추가
+rowNo = add_row + 6
+irp_stock_nm_1 = ws_02_irp[f'C{rowNo}'].value  	   # 상품명_1(퇴직 연금)
+irp_eval_amt_1 = ws_02_irp[f'D{rowNo}'].value  	   # 평가금액_1(퇴직 연금)
+irp_eval_profit_loss_1 = ws_02_irp[f'E{rowNo}'].value  	    # 평가손익_1(퇴직 연금)
+irp_eval_profit_loss_rate_1 = ws_02_irp[f'F{rowNo}'].value   # 손익률(%)_1(퇴직 연금)
+# print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_21_02] [평가금액_1(퇴직 연금)]"+ str(irp_eval_amt_1) +"[평가손익_1(퇴직 연금)]"+ str(irp_eval_profit_loss_1) +"[손익률(%)_1(퇴직 연금)]"+ str(irp_eval_profit_loss_rate_1) )
 
-# 04. 테두리 적용
+irp_eval_amt_1 = irp_eval_amt_1.split("원")   ## 평가금액_1(퇴직 연금)
+irp_eval_amt_1 =irp_eval_amt_1[0]
+
+irp_eval_profit_loss_rate_1 = irp_eval_profit_loss_rate_1.split("%")   # 손익률(%)_1(퇴직 연금)
+irp_eval_profit_loss_rate_1 = irp_eval_profit_loss_rate_1[0]
+# print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_21_4] 손익률(%)_1퇴직 연금)]"+ str(irp_eval_profit_loss_rate_1) )
+
+irp_prchs_amt = ws_02_irp[f'L{rowNo}'].value  	   # 매입금액 총합(퇴직 연금) ==> 03. IRP 월별 보유 현황) @@@
+irp_eval_amt = ws_02_irp[f'M{rowNo}'].value  	   # 평가금액 총합(퇴직 연금) ==> 03. IRP 월별 보유 현황) @@@
+irp_eval_profit_loss = ws_02_irp[f'N{rowNo}'].value  	   # 평가손익 총합(퇴직 연금) ==> 03. IRP 월별 보유 현황) @@@
+irp_eval_profit_loss_rate = ws_02_irp[f'O{rowNo}'].value     # 손익률(%) 총합(퇴직 연금) ==> 03. IRP 월별 보유 현황) @@@
+# print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_21_6] [매입금액(퇴직 연금)]"+ str(irp_prchs_amt) +"[평가금액(퇴직 연금)]"+ str(irp_eval_amt) +"[평가손익(퇴직 연금)]"+ str(irp_eval_profit_loss) +"[손익률(퇴직 연금)]"+ str(irp_eval_profit_loss_rate) )
+# ---------------------------------------------------------------------------------------------------------------------->
+
+rowNo = add_row + 7
+irp_stock_nm_2 = ws_02_irp[f'C{rowNo}'].value  	   # 상품명_2(퇴직 연금)
+irp_eval_amt_2 = ws_02_irp[f'D{rowNo}'].value  	   # 평가금액_2(퇴직 연금)
+irp_eval_profit_loss_2 = ws_02_irp[f'E{rowNo}'].value  	    # 평가손익_2(퇴직 연금)
+irp_eval_profit_loss_rate_2 = ws_02_irp[f'F{rowNo}'].value   # 손익률(%)_2(퇴직 연금)
+# print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_21_7] [평가금액__2(퇴직 연금)]"+ str(irp_eval_amt_2) +"[평가손익__2(퇴직 연금)]"+ str(irp_eval_profit_loss_2) +"[손익률(%)__2(퇴직 연금)]"+ str(irp_eval_profit_loss_rate_2) )
+
+irp_eval_amt_2 = irp_eval_amt_2.split("원")   ## 평가금액_2(퇴직 연금)
+irp_eval_amt_2 =irp_eval_amt_2[0]
+irp_eval_profit_loss_rate_2 = irp_eval_profit_loss_rate_2.split("%")   # 손익률(%)_2(퇴직 연금)
+irp_eval_profit_loss_rate_2 = irp_eval_profit_loss_rate_2[0]  
+# print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_21_8] [손익률(%)__2퇴직 연금)]"+ str(irp_eval_profit_loss_rate_2) )
+# ---------------------------------------------------------------------------------------------------------------------->
+
+rowNo = add_row + 8
+irp_stock_nm_3 = ws_02_irp[f'C{rowNo}'].value  	   # 상품명_3(퇴직 연금)
+irp_eval_amt_3 = ws_02_irp[f'D{rowNo}'].value  	   # 평가금액_3(퇴직 연금)
+irp_eval_profit_loss_3 = ws_02_irp[f'E{rowNo}'].value  	    # 평가손익_3(퇴직 연금)
+irp_eval_profit_loss_rate_3 = ws_02_irp[f'F{rowNo}'].value   # 손익률(%)_3(퇴직 연금)
+# print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_21_9] [평가금액__3(퇴직 연금)]"+ str(irp_eval_amt_3) +"[평가손익__3(퇴직 연금)]"+ str(irp_eval_profit_loss_3) +"[손익률(%)__3(퇴직 연금)]"+ str(irp_eval_profit_loss_rate_3) )
+
+irp_eval_amt_3 = irp_eval_amt_3.split("원")   ## 평가금액_3(퇴직 연금)
+irp_eval_amt_3 =irp_eval_amt_3[0]
+irp_eval_profit_loss_rate_3 = irp_eval_profit_loss_rate_3.split("%")   # 손익률(%)_3(퇴직 연금)
+irp_eval_profit_loss_rate_3 = irp_eval_profit_loss_rate_3[0]
+# ---------------------------------------------------------------------------------------------------------------------->
+
+rowNo = add_row + 9 
+irp_stock_nm_4 = ws_02_irp[f'C{rowNo}'].value  	   # 상품명_4(퇴직 연금)
+irp_eval_amt_4 = ws_02_irp[f'D{rowNo}'].value  	   # 평가금액_4(퇴직 연금)
+irp_eval_profit_loss_4 = ws_02_irp[f'E{rowNo}'].value  	    # 평가손익_4(퇴직 연금)
+irp_eval_profit_loss_rate_4 = ws_02_irp[f'F{rowNo}'].value   # 손익률(%)_4(퇴직 연금)
+
+irp_eval_amt_4 = irp_eval_amt_4.split("원")   ## 평가금액_4(퇴직 연금)
+irp_eval_amt_4 = irp_eval_amt_4[0]
+irp_eval_profit_loss_rate_4 = irp_eval_profit_loss_rate_4.split("%")   # 손익률(%)_4(퇴직 연금)
+irp_eval_profit_loss_rate_4 = irp_eval_profit_loss_rate_4[0]  
+
+self_house = ws_02_irp[f'L{rowNo}'].value  	        # 부동산(현아트빌 404) (05. 부동산)
+rowNo = add_row + 11
+insu_non_life_soo = ws_02_irp[f'L{rowNo}'].value    # 실비 보험(진수종) (06. 보험)
+rowNo = add_row + 12
+insu_non_life = ws_02_irp[f'L{rowNo}'].value  	    # 실비보험(06. 보험)
+rowNo = add_row + 16
+deposit_savings_sh = ws_02_irp[f'L{rowNo}'].value    # 01. 신한은행[예. 적금] (04. 은행 예. 적금)
+rowNo = add_row + 17
+deposit_savings_2 = ws_02_irp[f'L{rowNo}'].value     # 01. 은행 예. 적금_2(04. 은행 예. 적금)
+# ---------------------------------------------------------------------------------------------------------------------->
+
+rowNo = add_row + 10
+irp_stock_nm_5 = ws_02_irp[f'C{rowNo}'].value  	   # 상품명_5(퇴직 연금)
+irp_eval_amt_5 = ws_02_irp[f'D{rowNo}'].value  	   # 평가금액_5(퇴직 연금)
+irp_eval_profit_loss_5 = ws_02_irp[f'E{rowNo}'].value  	    # 평가손익_5(퇴직 연금)
+irp_eval_profit_loss_rate_5 = ws_02_irp[f'F{rowNo}'].value   # 손익률(%)_5(퇴직 연금)
+
+irp_eval_amt_5 = irp_eval_amt_5.split("원")   ## 평가금액_5(퇴직 연금)
+irp_eval_amt_5 = irp_eval_amt_5[0]
+irp_eval_profit_loss_rate_5 = irp_eval_profit_loss_rate_5.split("%")   # 손익률(%)_5(퇴직 연금)
+irp_eval_profit_loss_rate_5 = irp_eval_profit_loss_rate_5[0]  
+# ---------------------------------------------------------------------------------------------------------------------->
+
+rowNo = add_row + 11
+irp_stock_nm_6 = ws_02_irp[f'C{rowNo}'].value  	   # 상품명_6(퇴직 연금)
+irp_eval_amt_6 = ws_02_irp[f'D{rowNo}'].value  	   # 평가금액_6(퇴직 연금)
+irp_eval_profit_loss_6 = ws_02_irp[f'E{rowNo}'].value  	    # 평가손익_6(퇴직 연금)
+irp_eval_profit_loss_rate_6 = ws_02_irp[f'F{rowNo}'].value   # 손익률(%)_6(퇴직 연금)
+
+irp_eval_amt_6 = irp_eval_amt_6.split("원")   ## 평가금액_6(퇴직 연금)
+irp_eval_amt_6 = irp_eval_amt_6[0]
+irp_eval_profit_loss_rate_6 = irp_eval_profit_loss_rate_6.split("%")   # 손익률(%)_6(퇴직 연금)
+irp_eval_profit_loss_rate_6 = irp_eval_profit_loss_rate_6[0]  
+# ---------------------------------------------------------------------------------------------------------------------->
+
+rowNo = add_row + 12
+irp_stock_nm_7 = ws_02_irp[f'C{rowNo}'].value  	   # 상품명_7(퇴직 연금)
+irp_eval_amt_7 = ws_02_irp[f'D{rowNo}'].value  	   # 평가금액_7(퇴직 연금)
+irp_eval_profit_loss_7 = ws_02_irp[f'E{rowNo}'].value  	    # 평가손익_7(퇴직 연금)
+irp_eval_profit_loss_rate_7 = ws_02_irp[f'F{rowNo}'].value   # 손익률(%)_7(퇴직 연금)
+
+irp_eval_amt_7 = irp_eval_amt_7.split("원")   ## 평가금액_7(퇴직 연금)
+irp_eval_amt_7 = irp_eval_amt_7[0]
+irp_eval_profit_loss_rate_7 = irp_eval_profit_loss_rate_7.split("%")   # 손익률(%)_7(퇴직 연금)
+irp_eval_profit_loss_rate_7 = irp_eval_profit_loss_rate_7[0]  
+# ---------------------------------------------------------------------------------------------------------------------->
+
+rowNo = add_row + 13
+irp_stock_nm_8 = ws_02_irp[f'C{rowNo}'].value  	   # 상품명_8(퇴직 연금)
+irp_eval_amt_8 = ws_02_irp[f'D{rowNo}'].value  	   # 평가금액_8(퇴직 연금)
+irp_eval_profit_loss_8 = ws_02_irp[f'E{rowNo}'].value  	    # 평가손익_8(퇴직 연금)
+irp_eval_profit_loss_rate_8 = ws_02_irp[f'F{rowNo}'].value   # 손익률(%)_8(퇴직 연금)
+
+irp_eval_amt_8 = irp_eval_amt_8.split("원")   ## 평가금액_8(퇴직 연금)
+irp_eval_amt_8 = irp_eval_amt_8[0]
+irp_eval_profit_loss_rate_8 = irp_eval_profit_loss_rate_8.split("%")   # 손익률(%)_8(퇴직 연금)
+irp_eval_profit_loss_rate_8 = irp_eval_profit_loss_rate_8[0]  
+# ---------------------------------------------------------------------------------------------------------------------->
+
+rowNo = add_row + 14
+irp_stock_nm_9 = ws_02_irp[f'C{rowNo}'].value  	   # 상품명_9(퇴직 연금)
+irp_eval_amt_9 = ws_02_irp[f'D{rowNo}'].value  	   # 평가금액_9(퇴직 연금)
+irp_eval_profit_loss_9 = ws_02_irp[f'E{rowNo}'].value  	    # 평가손익_9(퇴직 연금)
+irp_eval_profit_loss_rate_9 = ws_02_irp[f'F{rowNo}'].value   # 손익률(%)_9(퇴직 연금)
+
+irp_eval_amt_9 = irp_eval_amt_9.split("원")   ## 평가금액_9(퇴직 연금)
+irp_eval_amt_9 = irp_eval_amt_9[0]
+irp_eval_profit_loss_rate_9 = irp_eval_profit_loss_rate_9.split("%")   # 손익률(%)_9(퇴직 연금)
+irp_eval_profit_loss_rate_9 = irp_eval_profit_loss_rate_9[0]  
+# ---------------------------------------------------------------------------------------------------------------------->
+
+rowNo = add_row + 15
+irp_stock_nm_10 = ws_02_irp[f'C{rowNo}'].value  	   # 상품명_10(퇴직 연금)
+irp_eval_amt_10 = ws_02_irp[f'D{rowNo}'].value  	   # 평가금액_10(퇴직 연금)
+irp_eval_profit_loss_10 = ws_02_irp[f'E{rowNo}'].value  	    # 평가손익_10(퇴직 연금)
+irp_eval_profit_loss_rate_10 = ws_02_irp[f'F{rowNo}'].value   # 손익률(%)_10(퇴직 연금)
+
+irp_eval_amt_10 = irp_eval_amt_10.split("원")   ## 평가금액_10(퇴직 연금)
+irp_eval_amt_10 = irp_eval_amt_10[0]
+irp_eval_profit_loss_rate_10 = irp_eval_profit_loss_rate_10.split("%")   # 손익률(%)_10(퇴직 연금)
+irp_eval_profit_loss_rate_10 = irp_eval_profit_loss_rate_10[0]  
+# ---------------------------------------------------------------------------------------------------------------------->
+
+rowNo = add_row + 16
+irp_stock_nm_11 = ws_02_irp[f'C{rowNo}'].value  	   # 상품명_11(퇴직 연금)
+irp_eval_amt_11 = ws_02_irp[f'D{rowNo}'].value  	   # 평가금액_11(퇴직 연금)
+
+irp_eval_profit_loss_11 = ws_02_irp[f'E{rowNo}'].value     # 평가손익_11(퇴직 연금)
+# print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_21_11] [평가금액_11]"+ str(irp_eval_amt_11) +"[평가손익_11]"+ str(type(irp_eval_profit_loss_11)) )
+
+if irp_eval_profit_loss_11 != None  :   # 평가손익_11이 존재하면 
+    irp_eval_profit_loss_11 = irp_eval_profit_loss_11
+else: 
+    irp_eval_profit_loss_11 = ''
+
+irp_eval_profit_loss_rate_11 = ws_02_irp[f'F{rowNo}'].value     # 손익률(%)_11퇴직 연금)
+# print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_21_14] [손익률(%)_11]"+ str(type(irp_eval_profit_loss_rate_11)) )
+
+if irp_eval_profit_loss_rate_11 != None  :   # 평가손익_11이 존재하면 
+    irp_eval_profit_loss_rate_11 = irp_eval_profit_loss_rate_11
+else: 
+    irp_eval_profit_loss_rate_11 = ''
+# print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_21_15] [손익률(%)_11]"+ str(irp_eval_profit_loss_rate_11) )
+# ---------------------------------------------------------------------------------------------------------------------->
+
+rowNo = add_row + 17
+irp_stock_nm_12 = ws_02_irp[f'C{rowNo}'].value  	   # 상품명_12(퇴직 연금)
+irp_eval_amt_12 = ws_02_irp[f'D{rowNo}'].value  	   # 평가금액_12(퇴직 연금)
+
+irp_eval_profit_loss_12 = ws_02_irp[f'E{rowNo}'].value     # 평가손익_12(퇴직 연금)
+print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_21_12] [평가금액_12]"+ str(irp_eval_amt_12) +"[평가손익_12]"+ str(type(irp_eval_profit_loss_12)) )
+
+if irp_eval_profit_loss_12 != None  :   # 평가손익_12이 존재하면 
+    irp_eval_profit_loss_12 = irp_eval_profit_loss_12
+else: 
+    irp_eval_profit_loss_12 = ''
+
+irp_eval_profit_loss_rate_12 = ws_02_irp[f'F{rowNo}'].value     # 손익률(%)_12퇴직 연금)
+
+if irp_eval_profit_loss_rate_12 != None  :   # 평가손익_12이 존재하면 
+    irp_eval_profit_loss_rate_12 = irp_eval_profit_loss_rate_12
+else: 
+    irp_eval_profit_loss_rate_12 = ''
+print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_21_15] [손익률(%)_12]"+ str(irp_eval_profit_loss_rate_12) )
+# ---------------------------------------------------------------------------------------------------------------------->
+
+rowNo = add_row + 18
+irp_stock_nm_13 = ws_02_irp[f'C{rowNo}'].value  	   # 상품명_13(퇴직 연금)
+irp_eval_amt_13 = ws_02_irp[f'D{rowNo}'].value  	   # 평가금액_13(퇴직 연금)
+
+irp_eval_profit_loss_13 = ws_02_irp[f'E{rowNo}'].value     # 평가손익_13(퇴직 연금)
+print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_21_13] [평가금액_13]"+ str(irp_eval_amt_13) +"[평가손익_13]"+ str(type(irp_eval_profit_loss_13)) )
+
+if irp_eval_profit_loss_13 != None  :   # 평가손익_13이 존재하면 
+    irp_eval_profit_loss_13 = irp_eval_profit_loss_13
+else: 
+    irp_eval_profit_loss_13 = ''
+
+irp_eval_profit_loss_rate_13 = ws_02_irp[f'F{rowNo}'].value     # 손익률(%)_13퇴직 연금)
+
+if irp_eval_profit_loss_rate_13 != None  :   # 평가손익_13이 존재하면 
+    irp_eval_profit_loss_rate_13 = irp_eval_profit_loss_rate_13
+else: 
+    irp_eval_profit_loss_rate_13 = ''
+print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_21_15] [손익률(%)_13]"+ str(irp_eval_profit_loss_rate_13) )
+# ---------------------------------------------------------------------------------------------------------------------->
+
+rowNo = add_row + 19
+irp_stock_nm_14 = ws_02_irp[f'C{rowNo}'].value  	   # 상품명_14(퇴직 연금)
+irp_eval_amt_14 = ws_02_irp[f'D{rowNo}'].value  	   # 평가금액_14(퇴직 연금)
+
+irp_eval_profit_loss_14 = ws_02_irp[f'E{rowNo}'].value     # 평가손익_14(퇴직 연금)
+print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_21_14] [평가금액_14]"+ str(irp_eval_amt_14) +"[평가손익_14]"+ str(type(irp_eval_profit_loss_14)) )
+
+if irp_eval_profit_loss_14 != None  :   # 평가손익_14이 존재하면 
+    irp_eval_profit_loss_14 = irp_eval_profit_loss_14
+else: 
+    irp_eval_profit_loss_14 = ''
+
+irp_eval_profit_loss_rate_14 = ws_02_irp[f'F{rowNo}'].value     # 손익률(%)_14퇴직 연금)
+
+if irp_eval_profit_loss_rate_14 != None  :   # 평가손익_14이 존재하면 
+    irp_eval_profit_loss_rate_14 = irp_eval_profit_loss_rate_14
+else: 
+    irp_eval_profit_loss_rate_14 = ''
+print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_21_15] [손익률(%)_14]"+ str(irp_eval_profit_loss_rate_14) )
+# ---------------------------------------------------------------------------------------------------------------------->
+
+rowNo = add_row + 20
+irp_stock_nm_15 = ws_02_irp[f'C{rowNo}'].value  	   # 상품명_15(퇴직 연금)
+irp_eval_amt_15 = ws_02_irp[f'D{rowNo}'].value  	   # 평가금액_15(퇴직 연금)
+
+irp_eval_profit_loss_15 = ws_02_irp[f'E{rowNo}'].value     # 평가손익_15(퇴직 연금)
+print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_21_15] [평가금액_15]"+ str(irp_eval_amt_15) +"[평가손익_15]"+ str(type(irp_eval_profit_loss_15)) )
+
+if irp_eval_profit_loss_15 != None  :   # 평가손익_15이 존재하면 
+    irp_eval_profit_loss_15 = irp_eval_profit_loss_15
+else: 
+    irp_eval_profit_loss_15 = ''
+
+irp_eval_profit_loss_rate_15 = ws_02_irp[f'F{rowNo}'].value     # 손익률(%)_15퇴직 연금)
+
+if irp_eval_profit_loss_rate_15 != None  :   # 평가손익_15이 존재하면 
+    irp_eval_profit_loss_rate_15 = irp_eval_profit_loss_rate_15
+else: 
+    irp_eval_profit_loss_rate_15 = ''
+print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_21_15] [손익률(%)_15]"+ str(irp_eval_profit_loss_rate_15) )
+# ---------------------------------------------------------------------------------------------------------------------->
+
+rowNo = add_row + 21
+irp_stock_nm_16 = ws_02_irp[f'C{rowNo}'].value  	   # 상품명_16(퇴직 연금)
+irp_eval_amt_16 = ws_02_irp[f'D{rowNo}'].value  	   # 평가금액_16(퇴직 연금)
+
+irp_eval_profit_loss_16 = ws_02_irp[f'E{rowNo}'].value     # 평가손익_16(퇴직 연금)
+print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_21_16] [평가금액_16]"+ str(irp_eval_amt_16) +"[평가손익_16]"+ str(type(irp_eval_profit_loss_16)) )
+
+if irp_eval_profit_loss_16 != None  :   # 평가손익_16이 존재하면 
+    irp_eval_profit_loss_16 = irp_eval_profit_loss_16
+else: 
+    irp_eval_profit_loss_16 = ''
+
+irp_eval_profit_loss_rate_16 = ws_02_irp[f'F{rowNo}'].value     # 손익률(%)_16퇴직 연금)
+
+if irp_eval_profit_loss_rate_16 != None  :   # 평가손익_16이 존재하면 
+    irp_eval_profit_loss_rate_16 = irp_eval_profit_loss_rate_16
+else: 
+    irp_eval_profit_loss_rate_16 = ''
+print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_21_17] [손익률(%)_16]"+ str(irp_eval_profit_loss_rate_16) )
+# ---------------------------------------------------------------------------------------------------------------------->
+
+rowNo = add_row + 22
+irp_stock_nm_17 = ws_02_irp[f'C{rowNo}'].value  	   # 상품명_17(퇴직 연금)
+irp_eval_amt_17 = ws_02_irp[f'D{rowNo}'].value  	   # 평가금액_17(퇴직 연금)
+
+irp_eval_profit_loss_17 = ws_02_irp[f'E{rowNo}'].value     # 평가손익_17(퇴직 연금)
+print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_21_17] [평가금액_17]"+ str(irp_eval_amt_17) +"[평가손익_17]"+ str(type(irp_eval_profit_loss_17)) )
+
+if irp_eval_profit_loss_17 != None  :   # 평가손익_17이 존재하면 
+    irp_eval_profit_loss_17 = irp_eval_profit_loss_17
+else: 
+    irp_eval_profit_loss_17 = ''
+
+irp_eval_profit_loss_rate_17 = ws_02_irp[f'F{rowNo}'].value     # 손익률(%)_17퇴직 연금)
+
+if irp_eval_profit_loss_rate_17 != None  :   # 평가손익_17이 존재하면 
+    irp_eval_profit_loss_rate_17 = irp_eval_profit_loss_rate_17
+else: 
+    irp_eval_profit_loss_rate_17 = ''
+print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_21_17] [손익률(%)_17]"+ str(irp_eval_profit_loss_rate_17) )
+# ---------------------------------------------------------------------------------------------------------------------->
+
+rowNo = add_row + 23
+irp_stock_nm_18 = ws_02_irp[f'C{rowNo}'].value  	   # 상품명_18(퇴직 연금)
+irp_eval_amt_18 = ws_02_irp[f'D{rowNo}'].value  	   # 평가금액_18(퇴직 연금)
+
+irp_eval_profit_loss_18 = ws_02_irp[f'E{rowNo}'].value     # 평가손익_18(퇴직 연금)
+print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_21_18] [평가금액_18]"+ str(irp_eval_amt_18) +"[평가손익_18]"+ str(type(irp_eval_profit_loss_18)) )
+
+if irp_eval_profit_loss_18 != None  :   # 평가손익_18이 존재하면 
+    irp_eval_profit_loss_18 = irp_eval_profit_loss_18
+else: 
+    irp_eval_profit_loss_18 = ''
+
+irp_eval_profit_loss_rate_18 = ws_02_irp[f'F{rowNo}'].value     # 손익률(%)_18퇴직 연금)
+
+if irp_eval_profit_loss_rate_18 != None  :   # 평가손익_18이 존재하면 
+    irp_eval_profit_loss_rate_18 = irp_eval_profit_loss_rate_18
+else: 
+    irp_eval_profit_loss_rate_18 = ''
+print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_21_19] [손익률(%)_18]"+ str(irp_eval_profit_loss_rate_18) )
+# ---------------------------------------------------------------------------------------------------------------------->
+
+rowNo = add_row + 24
+irp_stock_nm_19 = ws_02_irp[f'C{rowNo}'].value  	   # 상품명_19(퇴직 연금)
+irp_eval_amt_19 = ws_02_irp[f'D{rowNo}'].value  	   # 평가금액_19(퇴직 연금)
+
+irp_eval_profit_loss_19 = ws_02_irp[f'E{rowNo}'].value     # 평가손익_19(퇴직 연금)
+print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_21_19] [평가금액_19]"+ str(irp_eval_amt_19) +"[평가손익_19]"+ str(type(irp_eval_profit_loss_19)) )
+
+if irp_eval_profit_loss_19 != None  :   # 평가손익_19이 존재하면 
+    irp_eval_profit_loss_19 = irp_eval_profit_loss_19
+else: 
+    irp_eval_profit_loss_19 = ''
+
+irp_eval_profit_loss_rate_19 = ws_02_irp[f'F{rowNo}'].value     # 손익률(%)_19퇴직 연금)
+
+if irp_eval_profit_loss_rate_19 != None  :   # 평가손익_19이 존재하면 
+    irp_eval_profit_loss_rate_19 = irp_eval_profit_loss_rate_19
+else: 
+    irp_eval_profit_loss_rate_19 = ''
+print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_21_19] [손익률(%)_19]"+ str(irp_eval_profit_loss_rate_19) )
+# ---------------------------------------------------------------------------------------------------------------------->
+
+rowNo = add_row + 25
+irp_stock_nm_20 = ws_02_irp[f'C{rowNo}'].value  	   # 상품명_20(퇴직 연금)
+irp_eval_amt_20 = ws_02_irp[f'D{rowNo}'].value  	   # 평가금액_20(퇴직 연금)
+
+irp_eval_profit_loss_20 = ws_02_irp[f'E{rowNo}'].value     # 평가손익_20(퇴직 연금)
+print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_21_20] [평가금액_20]"+ str(irp_eval_amt_20) +"[평가손익_20]"+ str(type(irp_eval_profit_loss_20)) )
+
+if irp_eval_profit_loss_20 != None  :   # 평가손익_20이 존재하면 
+    irp_eval_profit_loss_20 = irp_eval_profit_loss_20
+else: 
+    irp_eval_profit_loss_20 = ''
+
+irp_eval_profit_loss_rate_20 = ws_02_irp[f'F{rowNo}'].value     # 손익률(%)_20퇴직 연금)
+
+if irp_eval_profit_loss_rate_20 != None  :   # 평가손익_20이 존재하면 
+    irp_eval_profit_loss_rate_20 = irp_eval_profit_loss_rate_20
+else: 
+    irp_eval_profit_loss_rate_20 = ''
+print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_21_20] [손익률(%)_20]"+ str(irp_eval_profit_loss_rate_20) )
+# ---------------------------------------------------------------------------------------------------------------------->
+
+
+rowNo = add_row + 18
+deposit_savings_3 = ws_02_irp[f'L{rowNo}'].value     # 01. 은행 예. 적금_3 (04. 은행 예. 적금) 
+# print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_21_22] [01. 은행 예. 적금_2]"+ str(type(deposit_savings_2)) +"[01. 은행 예. 적금_3]"+ str(type(deposit_savings_3)) )
+# print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_21_23] [01. 은행 예. 적금_2]"+ str(deposit_savings_2) +"[01. 은행 예. 적금_3]"+ str(deposit_savings_3) )
+
+if deposit_savings_sh == None or deposit_savings_sh == '' :   # 02. 대여금이 널 이면
+    deposit_savings_sh = 0
+if int(deposit_savings_sh) > 0  :   # 02. 대여금이 존재하면
+    deposit_savings_sh_nm = "01. 신한은행[예. 적금]"
+
+if deposit_savings_2 == None or deposit_savings_2 == '' :   # 01. 은행 예. 적금_2이 널 이면
+    deposit_savings_2 = 0
+
+if deposit_savings_3 == None or deposit_savings_3 == '' :   # 01. 은행 예. 적금_3이 널 이면
+    deposit_savings_3 = 0
+
+deposit_savings = int(deposit_savings_sh) + int(deposit_savings_2) + int(deposit_savings_3)
+deposit_savings_nm = "01. 은행 예. 적금([06])"
+# print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_21_32] [01. 신한은행[예. 적금]]"+ str(deposit_savings_sh) +"[01. 은행 예. 적금_2]"+ str(deposit_savings_2) +"[01. 은행 예. 적금_3]"+ str(deposit_savings_3) )
+# print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_21_41] [01. 은행 예. 적금]"+ str(deposit_savings) )
+# ---------------------------------------------------------------------------------------------------------------------->
+
+rowNo = add_row + 24
+rental_fee = ws_02_irp[f'L{rowNo}'].value   # 02. 대여금(문태용[24.05까지])
+# print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_21_12] [rental_fee]"+ str(rental_fee) )
+
+if rental_fee == None or rental_fee == '' :   # 02. 대여금이 널 이면
+    rental_fee = 0
+if int(rental_fee) > 0 :   # 02. 대여금이 존재하면
+    rental_fee_nm = "02. 대여금(문태용[24.05까지)"
+
+tot_deposit_savings = int(deposit_savings) + int(rental_fee)  # 1. 총 예적금
+# print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_21_51] [1. 총 예적금]"+ str(tot_deposit_savings) )
+# ---------------------------------------------------------------------------------------------------------------------->
+
+rowNo = add_row + 29
+mon_expendit = ws_02_irp[f'L{rowNo}'].value   # 91. 월 지출(A)
+# ---------------------------------------------------------------------------------------------------------------------->
+
+rowNo = add_row + 30
+mon_income = ws_02_irp[f'L{rowNo}'].value   # 92. 월 수입(B)
+# ---------------------------------------------------------------------------------------------------------------------->
+
+rowNo = add_row + 33
+settlement = ws_02_irp[f'L{rowNo}'].value   # 결산
+# ===============================================================================================================================
+# ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ ------------------->
+
+
+print("\n\n [@_T] ■■■ [/ast_vrfc.py] ==> [T_01] ■■■■■■ [######################### [22. 채권 Tab(기준 정보) 작업 Start] #########################] ■■■■■■ ")
+
+ws_03_bond = wb["채권"]   # "채권" Sheet(Tab)에 접근 @@@@@@@@ ===========>
+print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_22_01] [채권 Tab Sheet(Tab)에 접근 @@@@@@@@ ===========>]")
+
+# 채권 보유현황 @@@ 
+add_row = 0     # 줄 추가
+rowNo = add_row + 6
+prchs_amt78 = ws_03_bond[f'E{rowNo}'].value        # 04. 매입금액(78. 발행어음 만기형_개인(181~270))
+eval_amt78 = ws_03_bond[f'F{rowNo}'].value         # 05. 평가금액(78. 발행어음 만기형_개인(181~270))
+eval_profit_loss78 = ws_01_actBalnc[f'G{rowNo}'].value   # 06. 평가손익(78. 발행어음 만기형_개인(181~270)) 
+
+rowNo = add_row + 7
+prchs_amt79 = ws_03_bond[f'E{rowNo}'].value        # 04. 매입금액(79. 발행어음 CMA_개인) 
+eval_amt79 = ws_03_bond[f'F{rowNo}'].value         # 05. 평가금액(79. 발행어음 CMA_개인)
+eval_profit_loss79 = ws_01_actBalnc[f'G{rowNo}'].value   # 06. 평가손익(79. 발행어음 CMA_개인) 
+# ---------------------------------------------------------------------------------------------------------------------->
+# ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ ------------------->
+
+
+print("\n\n [@_T] ■■■ [/ast_vrfc.py] ==> [T_01] ■■■■■■ [######################### [02. 총자산(24Y) Tab 작업 Start] #########################] ■■■■■■ ")
+
+totAstYear = "02. 총자산("+ str(astYYM[2:4]) +"Y)"
+print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_51_01] [자산(202*) Sheet(Tab)에 접근 @@@@@@@@ ===========>]")
+print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_51_01] [00. totAstYear]"+ str(totAstYear) +"[자산 년]"+ str(input_astYYYYMM[0]) +"[자산 월]"+ str(input_astYYYYMM[1]) )
+
+if int(input_astYYYYMM[1]) > 11  :   # 자산 월이 12월 이면
+    wsTot = wb.create_sheet(totAstYear, 0)   # 엑셀 Sheet 생성
+    wsTot = wb[totAstYear]    # "자산(2023)" Sheet(Tab)에 접근 @@@@@@@@ ===========>
+    # print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_51_02] [엑셀 Sheet 생성] @@@@@@@@ ===========>]"+ str(totAstYear) )
+else :
+    wsTot = wb[totAstYear]    # "02. 총자산(24Y)" Sheet(Tab)에 접근 @@@@@@@@ ===========>
+    # print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_51_03] [엑셀 Sheet(Tab)에 접근] @@@@@@@@ ===========>]"+ str(totAstYear) )
+#print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_51_04] [엑셀 Sheet 명] @@@@@@@@ ===========>]"+ str(wb.sheetnames) )
+
+wsTot.column_dimensions["B"].width = 15  # A열의 너비를 50로 설정
+wsTot.column_dimensions["L"].width = 15  # A열의 너비를 10로 설정
+wsTot.column_dimensions["N"].width = 50  # G열의 너비를 18로 설정
+# print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_05_1] [prev_B7_amt]"+ str(prev_B7_amt) +"[prev_B14_amt]"+ str(prev_B14_amt) )
+# ---------------------------------------------------------------------------------------------------------------------->
+
 thin_border = Border(left=Side(style="thin"), right=Side(style="thin"), top=Side(style="thin"), bottom=Side(style="thin"))
 
-ws["A3"].border = thin_border   # A3 필드 -------->
-ws["B3"].border = thin_border   # B3 필드 
-ws["C3"].border = thin_border   # C3 필드
-ws["D3"].border = thin_border   # D3 필드 
-ws["E3"].border = thin_border   # E3 필드
-ws["G3"].border = thin_border   # G3 필드 --> image.png 
-ws["H3"].border = thin_border   # H3 필드
-ws["J3"].border = thin_border   # J3 필드 --> 지출 
-ws["K3"].border = thin_border   # K3 필드  
-ws["A4"].border = thin_border   # A4 필드 -------->
-ws["B4"].border = thin_border   # B4 필드
-ws["C4"].border = thin_border   # C4 필드
-ws["D4"].border = thin_border   # D4 필드
-ws["E4"].border = thin_border   # E4 필드
-ws["G4"].border = thin_border   # G4 필드 --> 은행 자산 상태
-ws["H4"].border = thin_border   # H4 필드 --> 금액
-ws["J4"].border = thin_border   # J4 필드 --> 내역
-ws["K4"].border = thin_border   # K4 필드 --> 금액
-ws["A5"].border = thin_border   # A5 필드 -------->
-ws["B5"].border = thin_border   # B5 필드
-ws["C5"].border = thin_border   # C5 필드
-ws["D5"].border = thin_border   # D5 필드
-ws["E5"].border = thin_border   # E5 필드
-ws["G5"].border = thin_border   # G5 필드
-ws["H5"].border = thin_border   # H5 필드
-ws["J5"].border = thin_border   # J5 필드 --> 91. 월 고정 지출
-ws["K5"].border = thin_border   # K5 필드 --> 금액 
-ws["A6"].border = thin_border   # A6 필드 -------->
-ws["B6"].border = thin_border   # B6 필드
-ws["C6"].border = thin_border   # C6 필드
-ws["D6"].border = thin_border   # D6 필드 
-ws["E6"].border = thin_border   # E6 필드
-ws["G6"].border = thin_border   # G6 필드
-ws["H6"].border = thin_border   # H6 필드
-ws["J6"].border = thin_border   # J6 필드 --> 빈 칸
-ws["K6"].border = thin_border   # K6 필드 --> 빈 칸 
-ws["A7"].border = thin_border   # A7 필드 -------->
-ws["B7"].border = thin_border   # B7 필드
-ws["C7"].border = thin_border   # C7 필드
-ws["D7"].border = thin_border   # D7 필드
-ws["E7"].border = thin_border   # E7 필드
-ws["G7"].border = thin_border   # G7 필드
-ws["H7"].border = thin_border   # H7 필드
-ws["J7"].border = thin_border   # J7 필드 --> 빈 칸
-ws["K7"].border = thin_border   # K7 필드 --> 빈 칸 
-ws["A8"].border = thin_border   # A8 필드 -------->
-ws["B8"].border = thin_border   # B8 필드
-ws["C8"].border = thin_border   # C8 필드
-ws["D8"].border = thin_border   # D8 필드
-ws["E8"].border = thin_border   # E8 필드
-ws["G8"].border = thin_border   # G8 필드
-ws["H8"].border = thin_border   # H8 필드
-ws["J8"].border = thin_border   # J8 필드 --> 빈 칸
-ws["K8"].border = thin_border   # K8 필드 --> 빈 칸 
-ws["A9"].border = thin_border   # A9 필드 -------->
-ws["B9"].border = thin_border   # B9 필드
-ws["C9"].border = thin_border   # C9 필드
-ws["D9"].border = thin_border   # D9 필드
-ws["E9"].border = thin_border   # E9 필드
-ws["G9"].border = thin_border   # G9 필드
-ws["H9"].border = thin_border   # H9 필드
-ws["J9"].border = thin_border   # J9 필드 --> 빈 칸
-ws["K9"].border = thin_border   # K9 필드 --> 빈 칸 
-ws["A10"].border = thin_border  # A10 필드 -------->
-ws["B10"].border = thin_border  # B10 필드
-ws["C10"].border = thin_border  # C10 필드
-ws["D10"].border = thin_border  # D10 필드
-ws["E10"].border = thin_border  # E10 필드
-ws["H10"].border = thin_border  # H10 필드
-ws["J10"].border = thin_border  # J10 필드 --> 빈 칸
-ws["K10"].border = thin_border  # K10 필드 --> 빈 칸 
-ws["A11"].border = thin_border  # A11 필드 -------->
-ws["B11"].border = thin_border  # B11 필드
-ws["C11"].border = thin_border  # C11 필드
-ws["D11"].border = thin_border  # D11 필드
-ws["E11"].border = thin_border  # E11 필드
-ws["G11"].border = thin_border  # G11 필드
-ws["H11"].border = thin_border  # H11 필드
-ws["J11"].border = thin_border  # J11 필드 --> 빈 칸
-ws["K11"].border = thin_border  # K11 필드 --> 빈 칸 
-ws["A12"].border = thin_border  # A12 필드 -------->
-ws["B12"].border = thin_border  # B12 필드
-ws["C12"].border = thin_border  # C12 필드
-ws["D12"].border = thin_border  # D12 필드
-ws["E12"].border = thin_border  # E12 필드
-ws["G12"].border = thin_border  # G12 필드
-ws["H12"].border = thin_border  # H12 필드
-ws["J12"].border = thin_border 	# J12 필드 ----> 지출(A) 총합
-ws["K12"].border = thin_border  # K12 필드 
-ws["A13"].border = thin_border  # A13 필드 -------->
-ws["B13"].border = thin_border  # B13 필드
-ws["C13"].border = thin_border  # C13 필드
-ws["D13"].border = thin_border  # D13 필드
-ws["E13"].border = thin_border  # E13 필드
-ws["J13"].border = thin_border  # J13 필드 --> 빈 칸
-ws["K13"].border = thin_border  # K13 필드 --> 빈 칸 
-ws["A14"].border = thin_border  # A14 필드 -------->
-ws["B14"].border = thin_border  # B14 필드
-ws["C14"].border = thin_border  # C14 필드
-ws["D14"].border = thin_border  # D14 필드
-ws["E14"].border = thin_border  # E14 필드
-ws["J14"].border = thin_border  # J14 필드 --> 빈 칸
-ws["K14"].border = thin_border  # K14 필드 --> 빈 칸 
-ws["A15"].border = thin_border  # A15 필드 -------->
-ws["B15"].border = thin_border  # B15 필드
-ws["C15"].border = thin_border  # C15 필드
-ws["D15"].border = thin_border  # D15 필드
-ws["E15"].border = thin_border  # E15 필드
-ws["J15"].border = thin_border  # J15 필드 ----> 지출(A) 총합
-ws["K15"].border = thin_border  # K15 필드 
-ws["A16"].border = thin_border  # A16 필드 -------->
-ws["B16"].border = thin_border  # B16 필드
-ws["C16"].border = thin_border  # C16 필드
-ws["D16"].border = thin_border  # D16 필드
-ws["E16"].border = thin_border  # E16 필드
-ws["J16"].border = thin_border 	# J16 필드 ----> 총 합계([B] -[A])
-ws["K16"].border = thin_border  # K16 필드 
 
-# 05. 지정된 음영 색으로 음역 색칠하기(배경색 설정)
-ws["A3"].fill = orangeFill      # A3 필드-------->
-ws["E3"].fill = orangeFill      # E3 필드
-ws["G3"].fill = blueDark2Fill   # G3 필드 --> 은행 결산 
-ws["J3"].fill = blueDark2Fill   # J3 필드 --> 지출 
-ws["A4"].fill = grayFill        # A4 필드 -------->
-ws["B4"].fill = grayFill        # B4 필드
-ws["C4"].fill = grayFill        # C4 필드
-ws["D4"].fill = grayFill        # D4 필드
-ws["E4"].fill = grayFill        # E4 필드 
-ws["G4"].fill = grayFill        # G4 필드 --> 은행 자산 상태
-ws["H4"].fill = grayFill        # H4 필드 --> 금액
-ws["J4"].fill = grayFill        # J4 필드 --> 내역
-ws["K4"].fill = grayFill        # K4 필드 --> 금액
-ws["A5"].fill = blueFill        # A5 필드 -------->
-ws["B5"].fill = blueFill        # B5 필드
-ws["C5"].fill = blueFill        # C5 필드
-ws["D5"].fill = blueFill        # D5 필드
-ws["E5"].fill = blueFill        # E5 필드 
-ws["H5"].fill = blueFill        # H5 필드 
-ws["B6"].fill = yellowFill      # B6 필드 -------->
-ws["H6"].fill = blueFill        # H6 필드
-ws["B7"].fill = blueDarkFill    # B7 필드 --------> 
-ws["H7"].fill = blueFill        # H7 필드
-ws["B8"].fill = blueDarkFill    # B8 필드 -------->
-ws["E8"].fill = violetFill      # E8 필드
-ws["H8"].fill = blueFill        # H8 필드 
-ws["A9"].fill = greenWeekFill   # A9 필드 -------->
-ws["B9"].fill = greenWeekFill   # B9 필드
-ws["C9"].fill = greenWeekFill   # C9 필드
-ws["D9"].fill = greenWeekFill   # D9 필드
-ws["E9"].fill = greenWeekFill   # E9 필드 
-ws["G9"].fill = blueDark2Fill   # G9 필드 
-ws["H9"].fill = blueDark2Fill   # H9 필드 
-ws["G11"].fill = grayFill       # G11 필드
-ws["H11"].fill = grayFill       # H11 필드
-ws["A12"].fill = greenFill      # A12 필드 -------->
-ws["B12"].fill = greenFill      # B12 필드
-ws["C12"].fill = greenFill      # C12 필드
-ws["D12"].fill = greenFill      # D12 필드
-ws["E12"].fill = greenFill      # E12 필드
-ws["G12"].fill = yellowFill     # G12 필드
-ws["H12"].fill = yellowFill     # H12 필드
-ws["J12"].fill  = greenFill     # J12 필드 --> 지출(A) 총합
-ws["K12"].fill = greenFill      # K12 필드
-ws["A13"].fill = greenFill      # A13 필드 -------->
-ws["B13"].fill = greenFill      # B13 필드
-ws["C13"].fill = greenFill      # C13 필드
-ws["D13"].fill = greenFill      # D13 필드
-ws["E13"].fill = greenFill      # E13 필드 
-ws["A14"].fill = yellowFill     # A14 필드 -------->
-ws["B14"].fill = yellowFill     # B14 필드
-ws["C14"].fill = yellowFill     # C14 필드
-ws["D14"].fill = yellowFill     # D14 필드
-ws["E14"].fill = yellowFill     # E14 필드
-ws["A15"].fill = yellowFill     # A15 필드 -------->
-ws["B15"].fill = yellowFill     # B15 필드
-ws["C15"].fill = yellowFill     # C15 필드
-ws["D15"].fill = yellowFill     # D15 필드
-ws["E15"].fill = yellowFill     # E15 필드
-ws["J15"].fill = grayDarkFill   # J15 필드 --> 수입(B) 총합
-ws["K15"].fill = grayDarkFill   # K15 필드
-ws["A16"].fill = orangeWeekFill # A16 필드 -------->
-ws["B16"].fill = orangeWeekFill # B16 필드
-ws["C16"].fill = orangeWeekFill # C16 필드
-ws["D16"].fill = orangeWeekFill # D16 필드
-ws["E16"].fill = orangeWeekFill # E16 필드
-ws["J16"].fill = yellowFill     # J16 필드 --> 총 합계([B] -[A])
-ws["K16"].fill = yellowFill     # K16 필드
+# 02. 총자산(24Y) Tab 줄 추가, 셀 병합
+insertRow = 25 + 2      # 월별 자산 추가 줄(17줄 + 2줄[상위 빈 줄])
+wsTot.insert_rows(3, insertRow)    # 월별 자산 제목 아래 부터 줄부터 18줄 추가(3번째 줄 위치에 19줄을 추가 ==> 17줄)
+print("\n\n[@_T] ■■■ [/ast_vrfc.py] ==> [T_51_11] [02. 총자산(24Y) Tab 줄 추가, 셀 병합 처리]===========>" )
+
+wsTot.merge_cells(start_row=1, start_column=1, end_row=1, end_column=9)     # '02. 총자산(24Y)' 셀 병합("A1:I1") 
+wsTot.merge_cells(start_row=3, start_column=1, end_row=3, end_column=8)     # '2024.06 자산' 셀 병합("A3:H3")   ==> 3
+wsTot.merge_cells(start_row=4, start_column=1, end_row=4, end_column=9)     # '01. 주식 월별 보유 현황' 셀 병합("A4:I4") 
+wsTot.merge_cells(start_row=4, start_column=11, end_row=4, end_column=18)   # '03. IRP 월별 보유 현황(미래에셋 증권 IRP)("K4:R4")
+wsTot.merge_cells(start_row=8, start_column=11, end_row=8, end_column=17)   # '03-1. 퇴직신탁 보유현황("K8:Q8") 
+print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_51_50] [item_0번째] [01. start_row]3")
+
+addRow = 0
+addRowFrst = int(insertRow) + 3         # 줄 추가_01[2024.06 자산 칼럼] = 19 + 3줄[하위 빈 줄])
+addRowFrst2 = int(insertRow) + 25 + 2   # 줄 추가_02[결산 칼럼] = 19 + 19줄[하위 빈 줄])
+
+for i in range(1, 13):
+    addRow = int(addRow) + int(addRowFrst)     # 줄 추가_03 = 22 + 3 = 41
+    if i > 1 : addRow = int(addRow) - 3 
+    wsTot.merge_cells(start_row=addRow, start_column=1, end_row=addRow, end_column=8)         # '2024.06 자산' 셀 병합("A3:H3")    ==> 30 ~
+    wsTot.merge_cells(start_row=addRow+1, start_column=1, end_row=addRow+1, end_column=9)     # '01. 주식 월별 보유 현황' 셀 병합("A4:I4") 
+    wsTot.merge_cells(start_row=addRow+1, start_column=11, end_row=addRow+1, end_column=18)   # '03. IRP 월별 보유 현황(미래에셋 증권 IRP)("K4:R4") 
+    wsTot.merge_cells(start_row=addRow+5, start_column=11, end_row=addRow+5, end_column=17)   # '03-1. 퇴직신탁 보유현황("K8:Q8")
+    wsTot.merge_cells(start_row=addRow+6, start_column=1, end_row=addRow+6, end_column=2)     # '합계("A9:B9")
+    print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_51_51] [item_번째]"+ str(i) +"[01. start_row]"+ str(addRow) +"[02. addRow+1]"+ str(addRow+1)  +"[05. addRow+5]"+ str(addRow+5) )
+# -------------------------------------------------------------------------------------------->
+
+# if int(input_astYYYYMM[1]) > 11  :   # 자산 월이 12월 이면
+# wsTot.merge_cells("A1:I1")   # '02. 총자산(24Y)' 셀 병합("A1:I1") 
+wsTot[f'A{rowNo}'].value = "02. 총자산("+ str(astYYM[0:4]) +")"  # 01. 필드에 값 쓰기 ---> 02. 총자산 ■
+wsTot[f'A{rowNo}'].font = Font(name="돋움", bold=True, size=13)   # 02. 필드 글자 설정 
+wsTot[f'A{rowNo}'].alignment = Alignment(horizontal='center', vertical='center')   # 03. 필드 정렬 설정
+wsTot[f'A{rowNo}'].border = thin_border    # 04. 필드 테두리 설정
+wsTot[f'A{rowNo}'].fill = blueDark2Fill    # 05. 필드 배경색 설정
+# ------------------------------------------------------------------------------------------------------------->
+
+add_row = 0     # 줄 추가
+rowNo = add_row + 3     # "2023.12 자산" 칼럼 Row(02. 총자산(24Y) Tab에서)
+# wsTot.merge_cells("A3:H3")   # A2부터 H3까지 셀을 싱글 셀로 병합
+wsTot[f'A{rowNo}'].value = astYYM +" 자산"   # 01. 필드에 값 쓰기 ---> 자산 년월 ■
+wsTot[f'A{rowNo}'].font = Font(name="돋움", bold=True, size=12)   # 02. 필드 글자 설정 
+wsTot[f'A{rowNo}'].alignment = Alignment(horizontal='center', vertical='center')   # 03. 필드 정렬 설정
+wsTot[f'A{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+wsTot[f'B{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+wsTot[f'C{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+wsTot[f'D{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+wsTot[f'E{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+wsTot[f'F{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+wsTot[f'G{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+wsTot[f'H{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+wsTot[f'A{rowNo}'].fill = orangeFill      # 05. 필드 배경색 설정
+
+wsTot[f'I{rowNo}'].value = lastLastDt     # 01. 필드에 값 쓰기 ---> 024.01.01(작성 년월일) ■
+wsTot[f'I{rowNo}'].font = Font(name="돋움", bold=True, size=9)     # 02. 필드 글자 설정 
+wsTot[f'I{rowNo}'].alignment = Alignment(horizontal='center', vertical='center')    # 03. 필드 정렬 설정
+wsTot[f'I{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+wsTot[f'I{rowNo}'].fill = orangeFill      # 05. 필드 배경색 설정 
+# ------------------------------------------------------------------------------------------------------------->
+
+rowNo = add_row + 4    # "01. 주식 월별 보유 현황" 칼럼 Row(02. 총자산(24Y) Tab에서)
+# wsTot.merge_cells("A4:I4")   # A1부터 I1까지 셀을 싱글 셀로 병합
+wsTot[f'A{rowNo}'].value = "01. 주식 월별 보유 현황"   # 01. 필드에 값 쓰기 ---> 01. 주식 월별 보유 현황 ■
+wsTot[f'A{rowNo}'].font = Font(name="돋움", bold=True, size=9)   # 02. 필드 글자 설정 
+wsTot[f'A{rowNo}'].alignment = Alignment(horizontal='center', vertical='center')   # 03. 필드 정렬 설정
+wsTot[f'A{rowNo}'].border = thin_border   # 04. 필드 테두리 설정 
+wsTot[f'B{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+wsTot[f'C{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+wsTot[f'D{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+wsTot[f'E{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+wsTot[f'F{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+wsTot[f'G{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+wsTot[f'H{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+wsTot[f'I{rowNo}'].border = thin_border   # 04. 필드 테두리 설정 
+wsTot[f'A{rowNo}'].fill = blueDark2Fill   # 05. 필드 배경색 설정
+
+wsTot[f'K{rowNo}'].value = "03. IRP 월별 보유 현황(미래에셋 증권 IRP)"   # 01. 필드에 값 쓰기 ---> 01. 주식 월별 보유 현황 ■
+# wsTot.merge_cells("K4:R4")   # A1부터 I1까지 셀을 싱글 셀로 병합
+wsTot[f'K{rowNo}'].font = Font(name="돋움", bold=True, size=9)   # 02. 필드 글자 설정 
+wsTot[f'K{rowNo}'].alignment = Alignment(horizontal='center', vertical='center')   # 03. 필드 정렬 설정
+wsTot[f'K{rowNo}'].fill = blueDark2Fill   # 05. 필드 배경색 설정
+wsTot[f'K{rowNo}'].border = thin_border   # 04. 필드 테두리 설정 
+wsTot[f'L{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+wsTot[f'M{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+wsTot[f'N{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+wsTot[f'O{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+wsTot[f'P{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+wsTot[f'Q{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+wsTot[f'R{rowNo}'].border = thin_border   # 04. 필드 테두리 설정 
+# ------------------------------------------------------------------------------------------------------------->
+
+rowNo = add_row + 5    # "01. 주식 월별 보유 현황 Head" 칼럼 Row(02. 총자산(24Y) Tab에서) 
+wsTot[f'A{rowNo}'].value = "주식코드"   # 01. 필드에 값 쓰기 ---> 주식코드 ■
+wsTot[f'A{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정 
+wsTot[f'A{rowNo}'].alignment = Alignment(horizontal='center', vertical='center')   # 03. 필드 정렬 설정
+wsTot[f'A{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+wsTot[f'A{rowNo}'].fill = grayFill      # 05. 필드 배경색 설정
+
+wsTot[f'B{rowNo}'].value = '상품명'          # 01. 필드에 값 쓰기 ---> 상품명 ■
+wsTot[f'B{rowNo}'].font = Font(name="돋움", bold=False, size=9)    # 02. 필드 글자 설정
+wsTot[f'B{rowNo}'].alignment = Alignment(horizontal='center', vertical='center')     # 03. 필드 정렬 설정
+wsTot[f'B{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+wsTot[f'B{rowNo}'].fill = grayFill        # 05. 필드 배경색 설정
+
+wsTot[f'C{rowNo}'].value = '보유수량'          # 01. 필드에 값 쓰기 ---> 보유수량 ■
+wsTot[f'C{rowNo}'].font = Font(name="돋움", bold=False, size=9)    # 02. 필드 글자 설정
+wsTot[f'C{rowNo}'].alignment = Alignment(horizontal='center', vertical='center')     # 03. 필드 정렬 설정
+wsTot[f'C{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+wsTot[f'C{rowNo}'].fill = grayFill        # 05. 필드 배경색 설정
+
+wsTot[f'D{rowNo}'].value = '현재가'          # 01. 필드에 값 쓰기 ---> 현재가 ■
+wsTot[f'D{rowNo}'].font = Font(name="돋움", bold=False, size=9)    # 02. 필드 글자 설정
+wsTot[f'D{rowNo}'].alignment = Alignment(horizontal='center', vertical='center')     # 03. 필드 정렬 설정
+wsTot[f'D{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+wsTot[f'D{rowNo}'].fill = grayFill        # 05. 필드 배경색 설정
+
+wsTot[f'E{rowNo}'].value = '평균매입가'     # 01. 필드에 값 쓰기 ---> 평균매입가 ■
+wsTot[f'E{rowNo}'].font = Font(name="돋움", bold=False, size=9)    # 02. 필드 글자 설정
+wsTot[f'E{rowNo}'].alignment = Alignment(horizontal='center', vertical='center')     # 03. 필드 정렬 설정
+wsTot[f'E{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+wsTot[f'E{rowNo}'].fill = grayFill        # 05. 필드 배경색 설정
+
+wsTot[f'F{rowNo}'].value = '매입금액'          # 01. 필드에 값 쓰기 ---> 매입금액 ■
+wsTot[f'F{rowNo}'].font = Font(name="돋움", bold=False, size=9)    # 02. 필드 글자 설정
+wsTot[f'F{rowNo}'].alignment = Alignment(horizontal='center', vertical='center')     # 03. 필드 정렬 설정
+wsTot[f'F{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+wsTot[f'F{rowNo}'].fill = grayFill        # 05. 필드 배경색 설정
+
+wsTot[f'G{rowNo}'].value = '평가금액'          # 01. 필드에 값 쓰기 ---> 평가금액 ■
+wsTot[f'G{rowNo}'].font = Font(name="돋움", bold=False, size=9)    # 02. 필드 글자 설정
+wsTot[f'G{rowNo}'].alignment = Alignment(horizontal='center', vertical='center')     # 03. 필드 정렬 설정
+wsTot[f'G{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+wsTot[f'G{rowNo}'].fill = grayFill        # 05. 필드 배경색 설정
+
+wsTot[f'H{rowNo}'].value = '평가손익'     # 01. 필드에 값 쓰기 ---> 평가손익 ■
+wsTot[f'H{rowNo}'].font = Font(name="돋움", bold=False, size=9)    # 02. 필드 글자 설정
+wsTot[f'H{rowNo}'].alignment = Alignment(horizontal='center', vertical='center')     # 03. 필드 정렬 설정
+wsTot[f'H{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+wsTot[f'H{rowNo}'].fill = grayFill        # 05. 필드 배경색 설정
+
+wsTot[f'I{rowNo}'].value = '손익률(%)'     # 01. 필드에 값 쓰기 ---> 손익률(%) ■
+wsTot[f'I{rowNo}'].font = Font(name="돋움", bold=False, size=9)    # 02. 필드 글자 설정
+wsTot[f'I{rowNo}'].alignment = Alignment(horizontal='center', vertical='center')     # 03. 필드 정렬 설정
+wsTot[f'I{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+wsTot[f'I{rowNo}'].fill = grayFill        # 05. 필드 배경색 설정
+
+wsTot[f'K{rowNo}'].value = "No."   # 01. 필드에 값 쓰기 ---> No. ■ 
+wsTot[f'K{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정  
+wsTot[f'K{rowNo}'].alignment = Alignment(horizontal='center', vertical='center')     # 03. 필드 정렬 설정
+wsTot[f'K{rowNo}'].fill = grayFill   # 05. 필드 배경색 설정 
+wsTot[f'K{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+
+wsTot[f'L{rowNo}'].value = "계좌번호"   # 01. 필드에 값 쓰기 ---> 계좌번호 ■ 
+wsTot[f'L{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정  
+wsTot[f'L{rowNo}'].alignment = Alignment(horizontal='center', vertical='center')     # 03. 필드 정렬 설정
+wsTot[f'L{rowNo}'].border = thin_border   # 04. 필드 테두리 설정 
+wsTot[f'L{rowNo}'].fill = grayFill   # 05. 필드 배경색 설정
+
+wsTot[f'M{rowNo}'].value = "제도"   # 01. 필드에 값 쓰기 ---> 제도 ■ 
+wsTot[f'M{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정  
+wsTot[f'M{rowNo}'].alignment = Alignment(horizontal='center', vertical='center')     # 03. 필드 정렬 설정 
+wsTot[f'M{rowNo}'].border = thin_border   # 04. 필드 테두리 설정 
+wsTot[f'M{rowNo}'].fill = grayFill   # 05. 필드 배경색 설정
+wsTot[f'N{rowNo}'].value = "상품명"   # 01. 필드에 값 쓰기 ---> 상품명 ■ 
+wsTot[f'N{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정  
+wsTot[f'N{rowNo}'].alignment = Alignment(horizontal='center', vertical='center')     # 03. 필드 정렬 설정
+wsTot[f'N{rowNo}'].border = thin_border   # 04. 필드 테두리 설정 
+wsTot[f'N{rowNo}'].fill = grayFill   # 05. 필드 배경색 설정 
+
+wsTot[f'O{rowNo}'].value = "매입금액"   # 01. 필드에 값 쓰기 ---> 매입금액 ■ 
+wsTot[f'O{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정  
+wsTot[f'O{rowNo}'].alignment = Alignment(horizontal='center', vertical='center')     # 03. 필드 정렬 설정
+wsTot[f'O{rowNo}'].border = thin_border   # 04. 필드 테두리 설정 
+wsTot[f'O{rowNo}'].fill = grayFill   # 05. 필드 배경색 설정 
+
+wsTot[f'P{rowNo}'].value = "평가금액"   # 01. 필드에 값 쓰기 ---> 평가금액 ■ 
+wsTot[f'P{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정  
+wsTot[f'P{rowNo}'].alignment = Alignment(horizontal='center', vertical='center')     # 03. 필드 정렬 설정 
+wsTot[f'P{rowNo}'].border = thin_border   # 04. 필드 테두리 설정 
+wsTot[f'P{rowNo}'].fill = grayFill   # 05. 필드 배경색 설정 
+
+wsTot[f'Q{rowNo}'].value = "평가손익"   # 01. 필드에 값 쓰기 ---> 평가손익 ■ 
+wsTot[f'Q{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정  
+wsTot[f'Q{rowNo}'].alignment = Alignment(horizontal='center', vertical='center')     # 03. 필드 정렬 설정
+wsTot[f'Q{rowNo}'].border = thin_border   # 04. 필드 테두리 설정 
+wsTot[f'Q{rowNo}'].fill = grayFill   # 05. 필드 배경색 설정 
+
+wsTot[f'R{rowNo}'].value = "손익률(%)"   # 01. 필드에 값 쓰기 ---> 손익률(%) ■ 
+wsTot[f'R{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정  
+wsTot[f'R{rowNo}'].alignment = Alignment(horizontal='center', vertical='center')     # 03. 필드 정렬 설정
+wsTot[f'R{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+wsTot[f'R{rowNo}'].fill = grayFill   # 05. 필드 배경색 설정 
+# ------------------------------------------------------------------------------------------------------------->
+
+rowNo = add_row + 6    # "01. 주식 월별 보유 현황 Body_1" 칼럼 Row(02. 총자산(24Y) Tab에서) 
+wsTot[f'A{rowNo}'].value = "005380"   # 01. 필드에 값 쓰기 ---> 주식코드 Value ■ --> 주식(현대차)
+wsTot[f'A{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정  
+wsTot[f'A{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+# wsTot[f'A{rowNo}'].fill = violetFill      # 05. 필드 배경색 설정 ===> TEST @@@
+
+wsTot[f'B{rowNo}'].value = '현대차'          # 01. 필드에 값 쓰기 ---> 상품명 Value ■
+wsTot[f'B{rowNo}'].font = Font(name="돋움", bold=False, size=9)    # 02. 필드 글자 설정 
+wsTot[f'B{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+
+wsTot[f'C{rowNo}'].value = format(posses_qty1, ',')        # 01. 필드에 값 쓰기 ---> 보유수량 Value ■ --> 주식(현대차)
+wsTot[f'C{rowNo}'].font = Font(name="돋움", bold=False, size=9)    # 02. 필드 글자 설정
+wsTot[f'C{rowNo}'].alignment = Alignment(horizontal='right', vertical='center')     # 03. 필드 정렬 설정
+wsTot[f'C{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+
+wsTot[f'D{rowNo}'].value = format(cur_amt1, ',')          # 01. 필드에 값 쓰기 ---> 현재가 Value ■ --> 주식(현대차)
+wsTot[f'D{rowNo}'].font = Font(name="돋움", bold=False, size=9)    # 02. 필드 글자 설정
+wsTot[f'D{rowNo}'].alignment = Alignment(horizontal='right', vertical='center')     # 03. 필드 정렬 설정
+wsTot[f'D{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+wsTot[f'D{rowNo}'].fill = yellowFill      # 05. 필드 배경색 설정
+
+wsTot[f'E{rowNo}'].value = format(ave_prchs_amt1, ',')    # 01. 필드에 값 쓰기 ---> 평균매입가 Value ■
+wsTot[f'E{rowNo}'].font = Font(name="돋움", bold=False, size=9)    # 02. 필드 글자 설정
+wsTot[f'E{rowNo}'].alignment = Alignment(horizontal='right', vertical='center')     # 03. 필드 정렬 설정
+wsTot[f'E{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+
+wsTot[f'F{rowNo}'].value = format(prchs_amt1, ',')        # 01. 필드에 값 쓰기 ---> 매입금액 Value ■
+wsTot[f'F{rowNo}'].font = Font(name="돋움", bold=False, size=9)    # 02. 필드 글자 설정
+wsTot[f'F{rowNo}'].alignment = Alignment(horizontal='right', vertical='center')     # 03. 필드 정렬 설정
+wsTot[f'F{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+
+wsTot[f'G{rowNo}'].value = format(eval_amt1, ',')         # 01. 필드에 값 쓰기 ---> 평가금액 Value ■
+wsTot[f'G{rowNo}'].font = Font(name="돋움", bold=False, size=9)    # 02. 필드 글자 설정
+wsTot[f'G{rowNo}'].alignment = Alignment(horizontal='right', vertical='center')     # 03. 필드 정렬 설정
+wsTot[f'G{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+
+wsTot[f'H{rowNo}'].value = format(eval_profit_loss1, ',')      # 01. 필드에 값 쓰기 ---> 평가손익 Value ■
+wsTot[f'H{rowNo}'].alignment = Alignment(horizontal='right', vertical='center')     # 03. 필드 정렬 설정
+wsTot[f'H{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+# print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_51_05] [(현대차)_손익률(%)]"+ str(eval_profit_loss_rate1) )
+
+wsTot[f'I{rowNo}'].value = format(eval_profit_loss_rate1, ',')    # 01. 필드에 값 쓰기 ---> 손익률(%) Value ■ --> 주식(현대차)
+wsTot[f'I{rowNo}'].alignment = Alignment(horizontal='right', vertical='center')     # 03. 필드 정렬 설정
+wsTot[f'I{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+
+if eval_amt1 > 0  :   # 평가금액이 양이면
+    wsTot[f'H{rowNo}'].font = Font(name="돋움", bold=True, size=9, color="FF0000")    # 02. 필드 글자 설정(빨간색)
+    wsTot[f'I{rowNo}'].font = Font(name="돋움", bold=True, size=9, color="FF0000")   # 02. 필드 글자 설정(빨간색)
+else :
+    wsTot[f'H{rowNo}'].font = Font(name="돋움", bold=True, size=9, color="00ADEF")   # 02. 필드 글자 설정(파란색)
+    wsTot[f'I{rowNo}'].font = Font(name="돋움", bold=True, size=9, color="00ADEF")   # 02. 필드 글자 설정(파란색)
+    
+wsTot[f'K{rowNo}'].value = "1"   # 01. 필드에 값 쓰기 ---> No. ■ 
+wsTot[f'K{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정  
+wsTot[f'K{rowNo}'].alignment = Alignment(horizontal='center', vertical='center')     # 03. 필드 정렬 설정 
+wsTot[f'K{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+
+wsTot[f'L{rowNo}'].value = "010-30-7208980"   # 01. 필드에 값 쓰기 ---> 계좌번호 ■ 
+wsTot[f'L{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정  
+wsTot[f'L{rowNo}'].alignment = Alignment(horizontal='center', vertical='center')     # 03. 필드 정렬 설정
+wsTot[f'L{rowNo}'].border = thin_border   # 04. 필드 테두리 설정 
+
+wsTot[f'M{rowNo}'].value = "개인형IRP"   # 01. 필드에 값 쓰기 ---> 제도 ■ 
+wsTot[f'M{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정  
+wsTot[f'M{rowNo}'].alignment = Alignment(horizontal='center', vertical='center')     # 03. 필드 정렬 설정 
+wsTot[f'M{rowNo}'].border = thin_border   # 04. 필드 테두리 설정 
+
+wsTot[f'N{rowNo}'].value = "퇴직연금"   # 01. 필드에 값 쓰기 ---> 상품명 ■ 
+wsTot[f'N{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정 
+wsTot[f'N{rowNo}'].border = thin_border   # 04. 필드 테두리 설정 
+
+wsTot[f'O{rowNo}'].value = format(irp_prchs_amt, ',')      # 01. 필드에 값 쓰기 ---> 매입금액(퇴직 연금) Value ■
+wsTot[f'O{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정  
+wsTot[f'O{rowNo}'].alignment = Alignment(horizontal='right', vertical='center')     # 03. 필드 정렬 설정
+wsTot[f'O{rowNo}'].border = thin_border   # 04. 필드 테두리 설정 
+
+wsTot[f'P{rowNo}'].value = format(irp_eval_amt, ',')      # 01. 필드에 값 쓰기 ---> 평가금액(퇴직 연금) Value ■
+wsTot[f'P{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정  
+wsTot[f'P{rowNo}'].alignment = Alignment(horizontal='right', vertical='center')     # 03. 필드 정렬 설정 
+wsTot[f'P{rowNo}'].border = thin_border   # 04. 필드 테두리 설정 
+
+wsTot[f'Q{rowNo}'].value = format(irp_eval_profit_loss, ',')      # 01. 필드에 값 쓰기 ---> 평가손익(퇴직 연금) Value ■
+wsTot[f'Q{rowNo}'].font = Font(name="돋움", bold=True, size=9)   # 02. 필드 글자 설정  
+wsTot[f'Q{rowNo}'].alignment = Alignment(horizontal='right', vertical='center')     # 03. 필드 정렬 설정
+wsTot[f'Q{rowNo}'].border = thin_border   # 04. 필드 테두리 설정 
+
+wsTot[f'R{rowNo}'].value = format(irp_eval_profit_loss_rate * 100, ',')   # 01. 필드에 값 쓰기 ---> 손익률(%) (퇴직 연금) Value ■
+wsTot[f'R{rowNo}'].font = Font(name="돋움", bold=True, size=9)   # 02. 필드 글자 설정  
+wsTot[f'R{rowNo}'].alignment = Alignment(horizontal='right', vertical='center')     # 03. 필드 정렬 설정
+wsTot[f'R{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+
+if irp_eval_profit_loss > 0  :   # 평가손익이 양이면
+    wsTot[f'Q{rowNo}'].font = Font(name="돋움", bold=True, size=9, color="FF0000")   # 02. 필드 글자 설정(빨간색)
+    wsTot[f'R{rowNo}'].font = Font(name="돋움", bold=True, size=9, color="FF0000")   # 02. 필드 글자 설정(빨간색)
+else :
+    wsTot[f'Q{rowNo}'].font = Font(name="돋움", bold=True, size=9, color="00ADEF")   # 02. 필드 글자 설정(파란색)
+    wsTot[f'R{rowNo}'].font = Font(name="돋움", bold=True, size=9, color="00ADEF")   # 02. 필드 글자 설정(파란색)
+# ------------------------------------------------------------------------------------------------------------->
+
+rowNo = add_row + 7    # "01. 주식 월별 보유 현황 Body_2" 칼럼 Row(02. 총자산(24Y) Tab에서) 
+wsTot[f'A{rowNo}'].value = "068270"   # 01. 필드에 값 쓰기 ---> 주식코드 Value ■ --> 주식(셀트리온)
+wsTot[f'A{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정  
+wsTot[f'A{rowNo}'].alignment = Alignment(horizontal='left', vertical='center')     # 03. 필드 정렬 설정
+wsTot[f'A{rowNo}'].border = thin_border   # 04. 필드 테두리 설정 
+wsTot[f'A{rowNo}'].fill = whiteFill      # 05. 필드 배경색(흰색) 설정 ===> TEST @@@
+
+wsTot[f'B{rowNo}'].value = '셀트리온'          # 01. 필드에 값 쓰기 ---> 상품명 Value ■
+wsTot[f'B{rowNo}'].font = Font(name="돋움", bold=False, size=9)    # 02. 필드 글자 설정 
+wsTot[f'B{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+
+wsTot[f'C{rowNo}'].value = format(posses_qty2, ',')        # 01. 필드에 값 쓰기 ---> 보유수량 Value ■ --> 주식(셀트리온)
+wsTot[f'C{rowNo}'].font = Font(name="돋움", bold=False, size=9)    # 02. 필드 글자 설정
+wsTot[f'C{rowNo}'].alignment = Alignment(horizontal='right', vertical='center')     # 03. 필드 정렬 설정
+wsTot[f'C{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+
+wsTot[f'D{rowNo}'].value = format(cur_amt2, ',')          # 01. 필드에 값 쓰기 ---> 현재가 Value ■ --> 주식(셀트리온)
+wsTot[f'D{rowNo}'].font = Font(name="돋움", bold=False, size=9)    # 02. 필드 글자 설정
+wsTot[f'D{rowNo}'].alignment = Alignment(horizontal='right', vertical='center')     # 03. 필드 정렬 설정
+wsTot[f'D{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+wsTot[f'D{rowNo}'].fill = yellowFill        # 05. 필드 배경색 설정
+
+wsTot[f'E{rowNo}'].value = format(ave_prchs_amt2, ',')    # 01. 필드에 값 쓰기 ---> 평균매입가 Value ■
+wsTot[f'E{rowNo}'].font = Font(name="돋움", bold=False, size=9)    # 02. 필드 글자 설정
+wsTot[f'E{rowNo}'].alignment = Alignment(horizontal='right', vertical='center')     # 03. 필드 정렬 설정
+wsTot[f'E{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+
+wsTot[f'F{rowNo}'].value = format(prchs_amt2, ',')        # 01. 필드에 값 쓰기 ---> 매입금액 Value ■
+wsTot[f'F{rowNo}'].font = Font(name="돋움", bold=False, size=9)    # 02. 필드 글자 설정
+wsTot[f'F{rowNo}'].alignment = Alignment(horizontal='right', vertical='center')     # 03. 필드 정렬 설정
+wsTot[f'F{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+
+wsTot[f'G{rowNo}'].value = format(eval_amt2, ',')         # 01. 필드에 값 쓰기 ---> 평가금액 Value ■
+wsTot[f'G{rowNo}'].font = Font(name="돋움", bold=False, size=9)    # 02. 필드 글자 설정
+wsTot[f'G{rowNo}'].alignment = Alignment(horizontal='right', vertical='center')     # 03. 필드 정렬 설정
+wsTot[f'G{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+
+wsTot[f'H{rowNo}'].value = format(eval_profit_loss2, ',')      # 01. 필드에 값 쓰기 ---> 평가손익 Value ■
+wsTot[f'H{rowNo}'].font = Font(name="돋움", bold=True, size=9)    # 02. 필드 글자 설정
+wsTot[f'H{rowNo}'].alignment = Alignment(horizontal='right', vertical='center')     # 03. 필드 정렬 설정
+wsTot[f'H{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+# print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_51_06] [(셀트리온)_손익률(%)]"+ str(eval_profit_loss_rate2) )
+
+wsTot[f'I{rowNo}'].value = format(eval_profit_loss_rate2, ',')    # 01. 필드에 값 쓰기 ---> 손익률(%) Value ■ --> 주식(셀트리온)
+wsTot[f'I{rowNo}'].font = Font(name="돋움", bold=True, size=9)    # 02. 필드 글자 설정
+wsTot[f'I{rowNo}'].alignment = Alignment(horizontal='right', vertical='center')     # 03. 필드 정렬 설정
+wsTot[f'I{rowNo}'].border = thin_border   # 04. 필드 테두리 설정 
+print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_51_11] [01. 현대차_손익률]"+ str(eval_profit_loss_rate1) +"[02. 셀트리온_손익]"+ str(eval_profit_loss_rate2) )
+
+if eval_profit_loss2 > 0  :   # 평가손익이 양이면
+    wsTot[f'H{rowNo}'].font = Font(name="돋움", bold=True, size=9, color="FF0000")   # 02. 필드 글자 설정(빨간색)
+    wsTot[f'I{rowNo}'].font = Font(name="돋움", bold=True, size=9, color="FF0000")   # 02. 필드 글자 설정(빨간색)
+else :
+    wsTot[f'H{rowNo}'].font = Font(name="돋움", bold=True, size=9, color="00ADEF")   # 02. 필드 글자 설정(파란색)
+    wsTot[f'I{rowNo}'].font = Font(name="돋움", bold=True, size=9, color="00ADEF")   # 02. 필드 글자 설정(파란색) 
+# ------------------------------------------------------------------------------------------------------------->
+
+rowNo = add_row + 8    # "01. 주식 월별 보유 현황 Body_3" 칼럼 Row(02. 총자산(24Y) Tab에서) 
+wsTot[f'A{rowNo}'].value = "096770"   # 01. 필드에 값 쓰기 ---> 주식코드 Value ■ --> 주식(SK이노베이션)
+wsTot[f'A{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정  
+wsTot[f'A{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+
+wsTot[f'B{rowNo}'].value = 'SK이노베이션'      # 01. 필드에 값 쓰기 ---> 상품명 Value ■
+wsTot[f'B{rowNo}'].font = Font(name="돋움", bold=False, size=9)    # 02. 필드 글자 설정 
+wsTot[f'B{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+
+wsTot[f'C{rowNo}'].value = format(posses_qty3, ',')        # 01. 필드에 값 쓰기 ---> 보유수량 Value ■ --> 주식(SK이노베이션)
+wsTot[f'C{rowNo}'].font = Font(name="돋움", bold=False, size=9)    # 02. 필드 글자 설정
+wsTot[f'C{rowNo}'].alignment = Alignment(horizontal='right', vertical='center')     # 03. 필드 정렬 설정
+wsTot[f'C{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+
+wsTot[f'D{rowNo}'].value = format(cur_amt3, ',')          # 01. 필드에 값 쓰기 ---> 현재가 Value ■ --> 주식(SK이노베이션)
+wsTot[f'D{rowNo}'].font = Font(name="돋움", bold=False, size=9)    # 02. 필드 글자 설정
+wsTot[f'D{rowNo}'].alignment = Alignment(horizontal='right', vertical='center')     # 03. 필드 정렬 설정
+wsTot[f'D{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+wsTot[f'D{rowNo}'].fill = yellowFill        # 05. 필드 배경색 설정
+
+wsTot[f'E{rowNo}'].value = format(ave_prchs_amt3, ',')    # 01. 필드에 값 쓰기 ---> 평균매입가 Value ■
+wsTot[f'E{rowNo}'].font = Font(name="돋움", bold=False, size=9)    # 02. 필드 글자 설정
+wsTot[f'E{rowNo}'].alignment = Alignment(horizontal='right', vertical='center')     # 03. 필드 정렬 설정
+wsTot[f'E{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+
+wsTot[f'F{rowNo}'].value = format(prchs_amt3, ',')        # 01. 필드에 값 쓰기 ---> 매입금액 Value ■
+wsTot[f'F{rowNo}'].font = Font(name="돋움", bold=False, size=9)    # 02. 필드 글자 설정
+wsTot[f'F{rowNo}'].alignment = Alignment(horizontal='right', vertical='center')     # 03. 필드 정렬 설정
+wsTot[f'F{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+
+wsTot[f'G{rowNo}'].value = format(eval_amt3, ',')         # 01. 필드에 값 쓰기 ---> 평가금액 Value ■
+wsTot[f'G{rowNo}'].font = Font(name="돋움", bold=False, size=9)    # 02. 필드 글자 설정
+wsTot[f'G{rowNo}'].alignment = Alignment(horizontal='right', vertical='center')     # 03. 필드 정렬 설정
+wsTot[f'G{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+
+wsTot[f'H{rowNo}'].value = format(eval_profit_loss3, ',')      # 01. 필드에 값 쓰기 ---> 평가손익 Value ■
+wsTot[f'H{rowNo}'].font = Font(name="돋움", bold=True, size=9)    # 02. 필드 글자 설정
+wsTot[f'H{rowNo}'].alignment = Alignment(horizontal='right', vertical='center')     # 03. 필드 정렬 설정
+wsTot[f'H{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+# print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_51_07] [(SK이노베이션)_손익률(%)]"+ str(eval_profit_loss_rate3) )
+
+wsTot[f'I{rowNo}'].value = format(eval_profit_loss_rate3, ',')    # 01. 필드에 값 쓰기 ---> 손익률(%) Value ■ --> 주식(SK이노베이션)
+# eval_profit_loss_rate3 = eval_profit_loss_rate3 * 10    # SK이노베이션)_손익률(%)
+# # print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_51_09] [(SK이노베이션)_손익률(%)]"+  f'{eval_profit_loss_rate3:.2f}' )
+# wsTot[f'I{rowNo}'].value = f'{eval_profit_loss_rate3:.2f}'   # 01. 필드에 값 쓰기 ---> 손익률(%) Value ■ --> 주식(SK이노베이션)
+wsTot[f'I{rowNo}'].font = Font(name="돋움", bold=True, size=9)    # 02. 필드 글자 설정
+wsTot[f'I{rowNo}'].alignment = Alignment(horizontal='right', vertical='center')     # 03. 필드 정렬 설정
+wsTot[f'I{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+
+if eval_profit_loss3 > 0  :   # 평가손익이 양이면
+    wsTot[f'H{rowNo}'].font = Font(name="돋움", bold=True, size=9, color="FF0000")   # 02. 필드 글자 설정(빨간색)
+    wsTot[f'I{rowNo}'].font = Font(name="돋움", bold=True, size=9, color="FF0000")   # 02. 필드 글자 설정(빨간색)
+else :
+    wsTot[f'H{rowNo}'].font = Font(name="돋움", bold=True, size=9, color="00ADEF")   # 02. 필드 글자 설정(파란색)
+    wsTot[f'I{rowNo}'].font = Font(name="돋움", bold=True, size=9, color="00ADEF")   # 02. 필드 글자 설정(파란색) 
+
+wsTot[f'K{rowNo}'].value = "03-1. 퇴직신탁 보유현황"   # 01. 필드에 값 쓰기 ---> 03-1. 퇴직신탁 보유현황) ■
+# wsTot.merge_cells("K8:Q8")   # A1부터 I1까지 셀을 싱글 셀로 병합
+wsTot[f'K{rowNo}'].font = Font(name="돋움", bold=True, size=9)   # 02. 필드 글자 설정 
+wsTot[f'K{rowNo}'].alignment = Alignment(horizontal='center', vertical='center')   # 03. 필드 정렬 설정
+wsTot[f'K{rowNo}'].fill = blueDark2Fill   # 05. 필드 배경색 설정
+wsTot[f'K{rowNo}'].border = thin_border   # 04. 필드 테두리 설정 
+wsTot[f'L{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+wsTot[f'M{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+wsTot[f'N{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+wsTot[f'O{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+wsTot[f'P{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+wsTot[f'Q{rowNo}'].border = thin_border   # 04. 필드 테두리 설정 
+# ------------------------------------------------------------------------------------------------------------->
+
+rowNo = add_row + 9    # "01. 주식 월별 보유 현황 Body_4" 칼럼 Row(02. 총자산(24Y) Tab에서)
+# wsTot.merge_cells("A9:B9")   # A1부터 I1까지 셀을 싱글 셀로 병합
+wsTot[f'A{rowNo}'].value = "합계"   # 01. 필드에 값 쓰기 ---> 합계 ■ --> 합계
+wsTot[f'A{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정  
+wsTot[f'A{rowNo}'].alignment = Alignment(horizontal='center', vertical='center')     # 03. 필드 정렬 설정
+wsTot[f'A{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+wsTot[f'A{rowNo}'].fill = orangeWeekFill        # 05. 필드 배경색 설정
+
+wsTot[f'B{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+wsTot[f'B{rowNo}'].fill = orangeWeekFill        # 05. 필드 배경색 설정
+
+posses_qty = posses_qty1 + posses_qty2 + posses_qty3
+wsTot[f'C{rowNo}'].value = format(posses_qty, ',')        # 01. 필드에 값 쓰기 ---> 보유수량 Value ■ 
+wsTot[f'C{rowNo}'].font = Font(name="돋움", bold=False, size=9, color="FF0000")    # 02. 필드 글자 설정(빨간색)
+wsTot[f'C{rowNo}'].alignment = Alignment(horizontal='right', vertical='center')    # 03. 필드 정렬 설정
+wsTot[f'C{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+wsTot[f'C{rowNo}'].fill = orangeWeekFill        # 05. 필드 배경색 설정
+
+cur_amt = cur_amt1 + cur_amt2 + cur_amt3
+wsTot[f'D{rowNo}'].value = format(cur_amt, ',')          # 01. 필드에 값 쓰기 ---> 현재가 Value ■ 
+wsTot[f'D{rowNo}'].font = Font(name="돋움", bold=False, size=9, color="FF0000")    # 02. 필드 글자 설정(빨간색)
+wsTot[f'D{rowNo}'].alignment = Alignment(horizontal='right', vertical='center')    # 03. 필드 정렬 설정
+wsTot[f'D{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+wsTot[f'D{rowNo}'].fill = orangeWeekFill        # 05. 필드 배경색 설정
+
+ave_prchs_amt = ave_prchs_amt1 + ave_prchs_amt2 + ave_prchs_amt3
+wsTot[f'E{rowNo}'].value = format(ave_prchs_amt, ',')    # 01. 필드에 값 쓰기 ---> 평균매입가 Value ■
+wsTot[f'E{rowNo}'].font = Font(name="돋움", bold=False, size=9)    # 02. 필드 글자 설정
+wsTot[f'E{rowNo}'].alignment = Alignment(horizontal='right', vertical='center')     # 03. 필드 정렬 설정
+wsTot[f'E{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+wsTot[f'E{rowNo}'].fill = orangeWeekFill        # 05. 필드 배경색 설정
+
+prchs_amt = prchs_amt1 + prchs_amt2 + prchs_amt3
+wsTot[f'F{rowNo}'].value = format(prchs_amt, ',')        # 01. 필드에 값 쓰기 ---> 매입금액 Value ■
+wsTot[f'F{rowNo}'].font = Font(name="돋움", bold=False, size=9)    # 02. 필드 글자 설정
+wsTot[f'F{rowNo}'].alignment = Alignment(horizontal='right', vertical='center')     # 03. 필드 정렬 설정
+wsTot[f'F{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+wsTot[f'F{rowNo}'].fill = orangeWeekFill        # 05. 필드 배경색 설정
+
+eval_amt = eval_amt1 + eval_amt2 + eval_amt3
+wsTot[f'G{rowNo}'].value = format(eval_amt, ',')         # 01. 필드에 값 쓰기 ---> 평가금액 Value ■
+wsTot[f'G{rowNo}'].font = Font(name="돋움", bold=True, size=9, color="FF0000")       # 02. 필드 글자 설정
+wsTot[f'G{rowNo}'].alignment = Alignment(horizontal='right', vertical='center')     # 03. 필드 정렬 설정
+wsTot[f'G{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+wsTot[f'G{rowNo}'].fill = orangeWeekFill        # 05. 필드 배경색 설정
+# print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_51_10] [평가금액]"+ str(eval_amt) )
+
+# 평가손익(원) = 평가금액 - 매입금액
+eval_profit_loss =  eval_amt - prchs_amt
+wsTot[f'H{rowNo}'].value = format(eval_profit_loss, ',')      # 01. 필드에 값 쓰기 ---> 평가손익 Value ■
+wsTot[f'H{rowNo}'].font = Font(name="돋움", bold=True, size=9)    # 02. 필드 글자 설정
+wsTot[f'H{rowNo}'].alignment = Alignment(horizontal='right', vertical='center')     # 03. 필드 정렬 설정
+wsTot[f'H{rowNo}'].border = thin_border     # 04. 필드 테두리 설정
+wsTot[f'H{rowNo}'].fill = orangeWeekFill    # 05. 필드 배경색 설정
+# print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_51_11] [평가손익(원)]"+ str(eval_profit_loss) )
+
+# 손익률(%)= (평가금액 - 매입금액) / 매입금액
+eval_profit_loss_rate =  (eval_profit_loss / prchs_amt) * 100
+wsTot[f'I{rowNo}'].value = f'{eval_profit_loss_rate:.2f}'   # 01. 필드에 값 쓰기 ---> 손익률(%) Value ■ --> 합계
+wsTot[f'I{rowNo}'].font = Font(name="돋움", bold=True, size=9)    # 02. 필드 글자 설정
+wsTot[f'I{rowNo}'].alignment = Alignment(horizontal='right', vertical='center')     # 03. 필드 정렬 설정
+wsTot[f'I{rowNo}'].border = thin_border     # 04. 필드 테두리 설정
+wsTot[f'I{rowNo}'].fill = orangeWeekFill    # 05. 필드 배경색 설정
+
+if eval_profit_loss > 0  :   # 평가손익이 양이면
+    wsTot[f'H{rowNo}'].font = Font(name="돋움", bold=True, size=9, color="FF0000")   # 02. 필드 글자 설정(빨간색)
+    wsTot[f'I{rowNo}'].font = Font(name="돋움", bold=True, size=9, color="FF0000")   # 02. 필드 글자 설정(빨간색)
+else :
+    wsTot[f'H{rowNo}'].font = Font(name="돋움", bold=True, size=9, color="00ADEF")   # 02. 필드 글자 설정(파란색)
+    wsTot[f'I{rowNo}'].font = Font(name="돋움", bold=True, size=9, color="00ADEF")   # 02. 필드 글자 설정(파란색)
+
+wsTot[f'K{rowNo}'].value = "No."   # 01. 필드에 값 쓰기 ---> No. ■ 
+wsTot[f'K{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정  
+wsTot[f'K{rowNo}'].alignment = Alignment(horizontal='center', vertical='center')     # 03. 필드 정렬 설정
+wsTot[f'K{rowNo}'].fill = grayFill   # 05. 필드 배경색 설정 
+wsTot[f'K{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+
+wsTot[f'L{rowNo}'].value = "계좌번호"   # 01. 필드에 값 쓰기 ---> 계좌번호 ■ 
+wsTot[f'L{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정  
+wsTot[f'L{rowNo}'].alignment = Alignment(horizontal='center', vertical='center')     # 03. 필드 정렬 설정
+wsTot[f'L{rowNo}'].border = thin_border   # 04. 필드 테두리 설정 
+wsTot[f'L{rowNo}'].fill = grayFill   # 05. 필드 배경색 설정
+
+wsTot[f'M{rowNo}'].value = "제도"   # 01. 필드에 값 쓰기 ---> 제도 ■ 
+wsTot[f'M{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정  
+wsTot[f'M{rowNo}'].alignment = Alignment(horizontal='center', vertical='center')     # 03. 필드 정렬 설정 
+wsTot[f'M{rowNo}'].border = thin_border   # 04. 필드 테두리 설정 
+wsTot[f'M{rowNo}'].fill = grayFill   # 05. 필드 배경색 설정
+
+wsTot[f'N{rowNo}'].value = "상품명"   # 01. 필드에 값 쓰기 ---> 상품명 ■ 
+wsTot[f'N{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정  
+wsTot[f'N{rowNo}'].alignment = Alignment(horizontal='center', vertical='center')     # 03. 필드 정렬 설정
+wsTot[f'N{rowNo}'].border = thin_border   # 04. 필드 테두리 설정 
+wsTot[f'N{rowNo}'].fill = grayFill   # 05. 필드 배경색 설정 
+
+wsTot[f'O{rowNo}'].value = "평가금액"   # 01. 필드에 값 쓰기 ---> 평가금액 ■ 
+wsTot[f'O{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정  
+wsTot[f'O{rowNo}'].alignment = Alignment(horizontal='center', vertical='center')     # 03. 필드 정렬 설정
+wsTot[f'O{rowNo}'].border = thin_border   # 04. 필드 테두리 설정 
+wsTot[f'O{rowNo}'].fill = grayFill   # 05. 필드 배경색 설정 
+
+wsTot[f'P{rowNo}'].value = "평가손익"   # 01. 필드에 값 쓰기 ---> 평가손익 ■ 
+wsTot[f'P{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정  
+wsTot[f'P{rowNo}'].alignment = Alignment(horizontal='center', vertical='center')     # 03. 필드 정렬 설정 
+wsTot[f'P{rowNo}'].border = thin_border   # 04. 필드 테두리 설정 
+wsTot[f'P{rowNo}'].fill = grayFill   # 05. 필드 배경색 설정 
+
+wsTot[f'Q{rowNo}'].value = "손익률(%)"   # 01. 필드에 값 쓰기 ---> 손익률(%) ■ 
+wsTot[f'Q{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정  
+wsTot[f'Q{rowNo}'].alignment = Alignment(horizontal='center', vertical='center')     # 03. 필드 정렬 설정
+wsTot[f'Q{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+wsTot[f'Q{rowNo}'].fill = grayFill   # 05. 필드 배경색 설정 
+# ------------------------------------------------------------------------------------------------------------->
+
+rowNo = add_row + 10		# "01. 주식 월별 보유 현황 Body_4" 칼럼 Row(02. 총자산(24Y) Tab에서)
+# wsTot.merge_cells("A10:C10")   # A10부터 C10까지 셀을 싱글 셀로 병합
+wsTot[f'A{rowNo}'].value = "02. 발행어음 만기형_개인(181~270)"   # 01. 필드에 값 쓰기 ---> 합계 ■ --> 02. 발행어음 
+wsTot[f'A{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정  
+wsTot[f'I{rowNo}'].alignment = Alignment(horizontal='center', vertical='center')     # 03. 필드 정렬 설정
+wsTot[f'A{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+wsTot[f'B{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+wsTot[f'C{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+wsTot[f'D{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+wsTot[f'E{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+
+wsTot[f'F{rowNo}'].value = format(prchs_amt78, ',')        # 01. 필드에 값 쓰기 ---> 매입금액 Value ■  --> 02. 발행어음 
+wsTot[f'F{rowNo}'].font = Font(name="돋움", bold=False, size=9)    # 02. 필드 글자 설정
+wsTot[f'F{rowNo}'].alignment = Alignment(horizontal='right', vertical='center')     # 03. 필드 정렬 설정
+wsTot[f'F{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+
+wsTot[f'G{rowNo}'].value = format(eval_amt78, ',')         # 01. 필드에 값 쓰기 ---> 평가금액 Value ■
+wsTot[f'G{rowNo}'].font = Font(name="돋움", bold=False, size=9)    # 02. 필드 글자 설정
+wsTot[f'G{rowNo}'].alignment = Alignment(horizontal='right', vertical='center')     # 03. 필드 정렬 설정
+wsTot[f'G{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+# print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_51_13] [평가금액]"+ str(eval_amt) )
+
+# 평가손익(원) = 평가금액 - 매입금액
+eval_profit_loss78 =  eval_amt78 - prchs_amt78
+wsTot[f'H{rowNo}'].value = format(eval_profit_loss78, ',')      # 01. 필드에 값 쓰기 ---> 평가손익 Value ■
+wsTot[f'H{rowNo}'].font = Font(name="돋움", bold=True, size=9)    # 02. 필드 글자 설정
+wsTot[f'H{rowNo}'].alignment = Alignment(horizontal='right', vertical='center')     # 03. 필드 정렬 설정
+wsTot[f'H{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+# print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_51_14] [평가손익(원)]"+ str(eval_profit_loss) )
+
+# 손익률(%)= (평가금액 - 매입금액) / 매입금액
+eval_profit_loss_rate78 =  (eval_profit_loss78 / prchs_amt78) * 100
+wsTot[f'I{rowNo}'].value = f'{eval_profit_loss_rate78:.2f}'   # 01. 필드에 값 쓰기 ---> 손익률(%) Value ■ --> 02. 발행어음 
+wsTot[f'I{rowNo}'].font = Font(name="돋움", bold=True, size=9)    # 02. 필드 글자 설정
+wsTot[f'I{rowNo}'].alignment = Alignment(horizontal='right', vertical='center')     # 03. 필드 정렬 설정
+wsTot[f'I{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+
+if eval_profit_loss > 0  :   # 평가손익이 양이면
+    wsTot[f'H{rowNo}'].font = Font(name="돋움", bold=True, size=9, color="FF0000")   # 02. 필드 글자 설정(빨간색)
+    wsTot[f'I{rowNo}'].font = Font(name="돋움", bold=True, size=9, color="FF0000")   # 02. 필드 글자 설정(빨간색)
+else :
+    wsTot[f'H{rowNo}'].font = Font(name="돋움", bold=True, size=9, color="00ADEF")   # 02. 필드 글자 설정(파란색)
+    wsTot[f'I{rowNo}'].font = Font(name="돋움", bold=True, size=9, color="00ADEF")   # 02. 필드 글자 설정(파란색)
+
+if irp_stock_nm_1 != None and irp_stock_nm_1 != '' :   # 상품명_2(퇴직 연금)이 존재하면 
+    wsTot[f'K{rowNo}'].value = "1"   # 01. 필드에 값 쓰기 ---> No. ■ 
+    wsTot[f'K{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정  
+    wsTot[f'K{rowNo}'].alignment = Alignment(horizontal='center', vertical='center')     # 03. 필드 정렬 설정 
+    wsTot[f'K{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+
+    wsTot[f'L{rowNo}'].value = "010-30-7208980"   # 01. 필드에 값 쓰기 ---> 계좌번호 ■ 
+    wsTot[f'L{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정  
+    wsTot[f'L{rowNo}'].alignment = Alignment(horizontal='center', vertical='center')     # 03. 필드 정렬 설정
+    wsTot[f'L{rowNo}'].border = thin_border   # 04. 필드 테두리 설정 
+
+    wsTot[f'M{rowNo}'].value = "개인형IRP"   # 01. 필드에 값 쓰기 ---> 제도 ■ 
+    wsTot[f'M{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정  
+    wsTot[f'M{rowNo}'].alignment = Alignment(horizontal='center', vertical='center')     # 03. 필드 정렬 설정 
+    wsTot[f'M{rowNo}'].border = thin_border   # 04. 필드 테두리 설정 
+
+    wsTot[f'N{rowNo}'].value = irp_stock_nm_1       # 01. 필드에 값 쓰기 ---> 상품명_1(퇴직 연금) Value ■
+    wsTot[f'N{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정 
+    wsTot[f'N{rowNo}'].border = thin_border   # 04. 필드 테두리 설정 
+
+    wsTot[f'O{rowNo}'].value = irp_eval_amt_1       # 01. 필드에 값 쓰기 ---> 평가금액_1(퇴직 연금) Value ■
+    wsTot[f'O{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정  
+    wsTot[f'O{rowNo}'].alignment = Alignment(horizontal='right', vertical='center')     # 03. 필드 정렬 설정
+    wsTot[f'O{rowNo}'].border = thin_border   # 04. 필드 테두리 설정 
+
+    wsTot[f'P{rowNo}'].value = format(irp_eval_profit_loss_1, ',')      # 01. 필드에 값 쓰기 ---> 평가손익_1(퇴직 연금) Value ■
+    wsTot[f'P{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정  
+    wsTot[f'P{rowNo}'].alignment = Alignment(horizontal='right', vertical='center')     # 03. 필드 정렬 설정 
+    wsTot[f'P{rowNo}'].border = thin_border   # 04. 필드 테두리 설정 
+    # print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_51_15] [손익률(%)_1(퇴직 연금)]"+ str(irp_eval_profit_loss_rate_1) )
+
+    wsTot[f'Q{rowNo}'].value = irp_eval_profit_loss_rate_1      # 01. 필드에 값 쓰기 ---> 손익률(%)_1(퇴직 연금) Value ■
+    wsTot[f'Q{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정  
+    wsTot[f'Q{rowNo}'].alignment = Alignment(horizontal='right', vertical='center')     # 03. 필드 정렬 설정
+    wsTot[f'Q{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+
+    if irp_eval_profit_loss_1 > 0  :   # 평평가손익_1이 양이면
+        wsTot[f'P{rowNo}'].font = Font(name="돋움", bold=False, size=9, color="FF0000")   # 02. 필드 글자 설정(빨간색)
+        wsTot[f'Q{rowNo}'].font = Font(name="돋움", bold=False, size=9, color="FF0000")   # 02. 필드 글자 설정(빨간색)
+    else :
+        wsTot[f'P{rowNo}'].font = Font(name="돋움", bold=False, size=9, color="00ADEF")   # 02. 필드 글자 설정(파란색)
+        wsTot[f'Q{rowNo}'].font = Font(name="돋움", bold=False, size=9, color="00ADEF")   # 02. 필드 글자 설정(파란색)
+# ------------------------------------------------------------------------------------------------------------->
+
+if irp_stock_nm_2 != None and irp_stock_nm_2 != '' :   # 상품명_2(퇴직 연금)이 존재하면 
+    rowNo = add_row + 11		# "03-1. 퇴직신탁 보유현황 Body_4" 칼럼 Row(02. 총자산(24Y) Tab에서)     ---> 상품명_2(퇴직 연금)
+    wsTot[f'K{rowNo}'].value = "2"  # 01. 필드에 값 쓰기 ---> No. ■ 
+    wsTot[f'K{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정  
+    wsTot[f'K{rowNo}'].alignment = Alignment(horizontal='center', vertical='center')     # 03. 필드 정렬 설정 
+    wsTot[f'K{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+
+    wsTot[f'L{rowNo}'].value = "010-30-7208980"   # 01. 필드에 값 쓰기 ---> 계좌번호 ■ 
+    wsTot[f'L{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정  
+    wsTot[f'L{rowNo}'].alignment = Alignment(horizontal='center', vertical='center')     # 03. 필드 정렬 설정
+    wsTot[f'L{rowNo}'].border = thin_border   # 04. 필드 테두리 설정 
+
+    wsTot[f'M{rowNo}'].value = "개인형IRP"   # 01. 필드에 값 쓰기 ---> 제도 ■ 
+    wsTot[f'M{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정  
+    wsTot[f'M{rowNo}'].alignment = Alignment(horizontal='center', vertical='center')     # 03. 필드 정렬 설정 
+    wsTot[f'M{rowNo}'].border = thin_border   # 04. 필드 테두리 설정 
+
+    wsTot[f'N{rowNo}'].value = irp_stock_nm_2       # 01. 필드에 값 쓰기 ---> 상품명_2(퇴직 연금) Value ■
+    wsTot[f'N{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정 
+    wsTot[f'N{rowNo}'].border = thin_border   # 04. 필드 테두리 설정 
+
+    wsTot[f'O{rowNo}'].value = irp_eval_amt_2       # 01. 필드에 값 쓰기 ---> 평가금액_2(퇴직 연금) Value ■
+    wsTot[f'O{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정  
+    wsTot[f'O{rowNo}'].alignment = Alignment(horizontal='right', vertical='center')     # 03. 필드 정렬 설정
+    wsTot[f'O{rowNo}'].border = thin_border   # 04. 필드 테두리 설정 
+
+    wsTot[f'P{rowNo}'].value = format(irp_eval_profit_loss_2, ',')      # 01. 필드에 값 쓰기 ---> 평가손익_2(퇴직 연금) Value ■
+    wsTot[f'P{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정  
+    wsTot[f'P{rowNo}'].alignment = Alignment(horizontal='right', vertical='center')     # 03. 필드 정렬 설정 
+    wsTot[f'P{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+    # print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_51_16] [손익률(%)_2(퇴직 연금)]"+ str(irp_eval_profit_loss_rate_1) )
+
+    wsTot[f'Q{rowNo}'].value = irp_eval_profit_loss_rate_2      # 01. 필드에 값 쓰기 ---> 손익률(%)_2(퇴직 연금) Value ■
+    wsTot[f'Q{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정  
+    wsTot[f'Q{rowNo}'].alignment = Alignment(horizontal='right', vertical='center')     # 03. 필드 정렬 설정
+    wsTot[f'Q{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+
+    if irp_eval_profit_loss_2 > 0  :   # 평평가손익_2이 양이면
+        wsTot[f'P{rowNo}'].font = Font(name="돋움", bold=False, size=9, color="FF0000")   # 02. 필드 글자 설정(빨간색)
+        wsTot[f'Q{rowNo}'].font = Font(name="돋움", bold=False, size=9, color="FF0000")   # 02. 필드 글자 설정(빨간색)
+    else :
+        wsTot[f'P{rowNo}'].font = Font(name="돋움", bold=False, size=9, color="00ADEF")   # 02. 필드 글자 설정(파란색)
+        wsTot[f'Q{rowNo}'].font = Font(name="돋움", bold=False, size=9, color="00ADEF")   # 02. 필드 글자 설정(파란색)
+# ------------------------------------------------------------------------------------------------------------->
+
+if irp_stock_nm_3 != None and irp_stock_nm_3 != '' :   # 상품명_3(퇴직 연금)이 존재하면 
+    rowNo = add_row + 12	# "03-1. 퇴직신탁 보유현황 칼럼 Row(02. 총자산(24Y) Tab에서)     ---> 상품명_3(퇴직 연금)
+    wsTot[f'K{rowNo}'].value = "3"  # 01. 필드에 값 쓰기 ---> No. ■ 
+    wsTot[f'K{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정  
+    wsTot[f'K{rowNo}'].alignment = Alignment(horizontal='center', vertical='center')     # 03. 필드 정렬 설정 
+    wsTot[f'K{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+
+    wsTot[f'L{rowNo}'].value = "010-30-7208980"   # 01. 필드에 값 쓰기 ---> 계좌번호 ■ 
+    wsTot[f'L{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정  
+    wsTot[f'L{rowNo}'].alignment = Alignment(horizontal='center', vertical='center')     # 03. 필드 정렬 설정
+    wsTot[f'L{rowNo}'].border = thin_border   # 04. 필드 테두리 설정 
+
+    wsTot[f'M{rowNo}'].value = "개인형IRP"   # 01. 필드에 값 쓰기 ---> 제도 ■ 
+    wsTot[f'M{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정  
+    wsTot[f'M{rowNo}'].alignment = Alignment(horizontal='center', vertical='center')     # 03. 필드 정렬 설정 
+    wsTot[f'M{rowNo}'].border = thin_border   # 04. 필드 테두리 설정 
+
+    wsTot[f'N{rowNo}'].value = irp_stock_nm_3      # 01. 필드에 값 쓰기 ---> 상품명_2(퇴직 연금) Value ■
+    wsTot[f'N{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정 
+    wsTot[f'N{rowNo}'].border = thin_border   # 04. 필드 테두리 설정 
+
+    wsTot[f'O{rowNo}'].value = irp_eval_amt_3      # 01. 필드에 값 쓰기 ---> 평가금액_2(퇴직 연금) Value ■
+    wsTot[f'O{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정  
+    wsTot[f'O{rowNo}'].alignment = Alignment(horizontal='right', vertical='center')     # 03. 필드 정렬 설정
+    wsTot[f'O{rowNo}'].border = thin_border   # 04. 필드 테두리 설정 
+
+    wsTot[f'P{rowNo}'].value = format(irp_eval_profit_loss_3, ',')      # 01. 필드에 값 쓰기 ---> 평가손익_2(퇴직 연금) Value ■
+    wsTot[f'P{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정  
+    wsTot[f'P{rowNo}'].alignment = Alignment(horizontal='right', vertical='center')     # 03. 필드 정렬 설정 
+    wsTot[f'P{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+    # print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_51_15] [손익률(%)_2(퇴직 연금)]"+ str(irp_eval_profit_loss_rate_1) )
+
+    wsTot[f'Q{rowNo}'].value = irp_eval_profit_loss_rate_3     # 01. 필드에 값 쓰기 ---> 손익률(%)_2(퇴직 연금) Value ■
+    wsTot[f'Q{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정  
+    wsTot[f'Q{rowNo}'].alignment = Alignment(horizontal='right', vertical='center')     # 03. 필드 정렬 설정
+    wsTot[f'Q{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+
+    if irp_eval_profit_loss_3 > 0  :   # 평평가손익_2이 양이면
+        wsTot[f'P{rowNo}'].font = Font(name="돋움", bold=False, size=9, color="FF0000")   # 02. 필드 글자 설정(빨간색)
+        wsTot[f'Q{rowNo}'].font = Font(name="돋움", bold=False, size=9, color="FF0000")   # 02. 필드 글자 설정(빨간색)
+    else :
+        wsTot[f'P{rowNo}'].font = Font(name="돋움", bold=False, size=9, color="00ADEF")   # 02. 필드 글자 설정(파란색)
+        wsTot[f'Q{rowNo}'].font = Font(name="돋움", bold=False, size=9, color="00ADEF")   # 02. 필드 글자 설정(파란색)
+# ------------------------------------------------------------------------------------------------------------->
+
+if irp_stock_nm_4 != None and irp_stock_nm_4 != '' :   # 상품명_4(퇴직 연금)이 존재하면 
+    rowNo = add_row + 13		# "03-1. 퇴직신탁 보유현황" 칼럼 Row(02. 총자산(24Y) Tab에서)      ---> 상품명_4(퇴직 연금)
+    wsTot[f'K{rowNo}'].value = "4"  # 01. 필드에 값 쓰기 ---> No. ■ 
+    wsTot[f'K{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정  
+    wsTot[f'K{rowNo}'].alignment = Alignment(horizontal='center', vertical='center')     # 03. 필드 정렬 설정 
+    wsTot[f'K{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+
+    wsTot[f'L{rowNo}'].value = "010-30-7208980"   # 01. 필드에 값 쓰기 ---> 계좌번호 ■ 
+    wsTot[f'L{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정  
+    wsTot[f'L{rowNo}'].alignment = Alignment(horizontal='center', vertical='center')     # 03. 필드 정렬 설정
+    wsTot[f'L{rowNo}'].border = thin_border   # 04. 필드 테두리 설정 
+
+    wsTot[f'M{rowNo}'].value = "개인형IRP"   # 01. 필드에 값 쓰기 ---> 제도 ■ 
+    wsTot[f'M{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정  
+    wsTot[f'M{rowNo}'].alignment = Alignment(horizontal='center', vertical='center')     # 03. 필드 정렬 설정 
+    wsTot[f'M{rowNo}'].border = thin_border   # 04. 필드 테두리 설정 
+
+    wsTot[f'N{rowNo}'].value = irp_stock_nm_4      # 01. 필드에 값 쓰기 ---> 상품명_2(퇴직 연금) Value ■
+    wsTot[f'N{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정 
+    wsTot[f'N{rowNo}'].border = thin_border   # 04. 필드 테두리 설정 
+
+    wsTot[f'O{rowNo}'].value = irp_eval_amt_4      # 01. 필드에 값 쓰기 ---> 평가금액_2(퇴직 연금) Value ■
+    wsTot[f'O{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정  
+    wsTot[f'O{rowNo}'].alignment = Alignment(horizontal='right', vertical='center')     # 03. 필드 정렬 설정
+    wsTot[f'O{rowNo}'].border = thin_border   # 04. 필드 테두리 설정 
+
+    wsTot[f'P{rowNo}'].value = format(irp_eval_profit_loss_4, ',')      # 01. 필드에 값 쓰기 ---> 평가손익_2(퇴직 연금) Value ■
+    wsTot[f'P{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정  
+    wsTot[f'P{rowNo}'].alignment = Alignment(horizontal='right', vertical='center')     # 03. 필드 정렬 설정 
+    wsTot[f'P{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+    # print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_51_17] [손익률(%)_2(퇴직 연금)]"+ str(irp_eval_profit_loss_rate_1) )
+
+    wsTot[f'Q{rowNo}'].value = irp_eval_profit_loss_rate_4     # 01. 필드에 값 쓰기 ---> 손익률(%)_2(퇴직 연금) Value ■
+    wsTot[f'Q{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정  
+    wsTot[f'Q{rowNo}'].alignment = Alignment(horizontal='right', vertical='center')     # 03. 필드 정렬 설정
+    wsTot[f'Q{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+
+    if irp_eval_profit_loss_4 > 0  :   # 평평가손익_2이 양이면
+        wsTot[f'P{rowNo}'].font = Font(name="돋움", bold=False, size=9, color="FF0000")   # 02. 필드 글자 설정(빨간색)
+        wsTot[f'Q{rowNo}'].font = Font(name="돋움", bold=False, size=9, color="FF0000")   # 02. 필드 글자 설정(빨간색)
+    else :
+        wsTot[f'P{rowNo}'].font = Font(name="돋움", bold=False, size=9, color="00ADEF")   # 02. 필드 글자 설정(파란색)
+        wsTot[f'Q{rowNo}'].font = Font(name="돋움", bold=False, size=9, color="00ADEF")   # 02. 필드 글자 설정(파란색)
+# ------------------------------------------------------------------------------------------------------------->
+
+if irp_stock_nm_5 != None and irp_stock_nm_5 != '' :   # 상품명_5(퇴직 연금)이 존재하면 
+    rowNo = add_row + 14		# "03-1. 퇴직신탁 보유현황" 칼럼 Row(02. 총자산(24Y) Tab에서)     ---> 상품명_5(퇴직 연금)
+    wsTot[f'K{rowNo}'].value = "5"  # 01. 필드에 값 쓰기 ---> No. ■ 
+    wsTot[f'K{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정  
+    wsTot[f'K{rowNo}'].alignment = Alignment(horizontal='center', vertical='center')     # 03. 필드 정렬 설정 
+    wsTot[f'K{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+
+    wsTot[f'L{rowNo}'].value = "010-30-7208980"   # 01. 필드에 값 쓰기 ---> 계좌번호 ■ 
+    wsTot[f'L{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정  
+    wsTot[f'L{rowNo}'].alignment = Alignment(horizontal='center', vertical='center')     # 03. 필드 정렬 설정
+    wsTot[f'L{rowNo}'].border = thin_border   # 04. 필드 테두리 설정 
+
+    wsTot[f'M{rowNo}'].value = "개인형IRP"   # 01. 필드에 값 쓰기 ---> 제도 ■ 
+    wsTot[f'M{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정  
+    wsTot[f'M{rowNo}'].alignment = Alignment(horizontal='center', vertical='center')     # 03. 필드 정렬 설정 
+    wsTot[f'M{rowNo}'].border = thin_border   # 04. 필드 테두리 설정 
+
+    wsTot[f'N{rowNo}'].value = irp_stock_nm_5      # 01. 필드에 값 쓰기 ---> 상품명_5(퇴직 연금) Value ■
+    wsTot[f'N{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정 
+    wsTot[f'N{rowNo}'].border = thin_border   # 04. 필드 테두리 설정 
+
+    wsTot[f'O{rowNo}'].value = irp_eval_amt_5      # 01. 필드에 값 쓰기 ---> 평가금액_2(퇴직 연금) Value ■
+    wsTot[f'O{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정  
+    wsTot[f'O{rowNo}'].alignment = Alignment(horizontal='right', vertical='center')     # 03. 필드 정렬 설정
+    wsTot[f'O{rowNo}'].border = thin_border   # 04. 필드 테두리 설정 
+
+    wsTot[f'P{rowNo}'].value = format(irp_eval_profit_loss_5, ',')      # 01. 필드에 값 쓰기 ---> 평가손익_2(퇴직 연금) Value ■
+    wsTot[f'P{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정  
+    wsTot[f'P{rowNo}'].alignment = Alignment(horizontal='right', vertical='center')     # 03. 필드 정렬 설정 
+    wsTot[f'P{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+    # print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_51_18] [손익률(%)_2(퇴직 연금)]"+ str(irp_eval_profit_loss_rate_1) )
+
+    wsTot[f'Q{rowNo}'].value = irp_eval_profit_loss_rate_5     # 01. 필드에 값 쓰기 ---> 손익률(%)_2(퇴직 연금) Value ■
+    wsTot[f'Q{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정  
+    wsTot[f'Q{rowNo}'].alignment = Alignment(horizontal='right', vertical='center')     # 03. 필드 정렬 설정
+    wsTot[f'Q{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+
+    if irp_eval_profit_loss_5 > 0  :   # 평평가손익_2이 양이면
+        wsTot[f'P{rowNo}'].font = Font(name="돋움", bold=False, size=9, color="FF0000")   # 02. 필드 글자 설정(빨간색)
+        wsTot[f'Q{rowNo}'].font = Font(name="돋움", bold=False, size=9, color="FF0000")   # 02. 필드 글자 설정(빨간색)
+    else :
+        wsTot[f'P{rowNo}'].font = Font(name="돋움", bold=False, size=9, color="00ADEF")   # 02. 필드 글자 설정(파란색)
+        wsTot[f'Q{rowNo}'].font = Font(name="돋움", bold=False, size=9, color="00ADEF")   # 02. 필드 글자 설정(파란색)
+# ------------------------------------------------------------------------------------------------------------->
+
+if irp_stock_nm_6 != None and irp_stock_nm_6 != '' :   # 상품명_6(퇴직 연금)이 존재하면 
+    rowNo = add_row + 15		# "03-1. 퇴직신탁 보유현황" 칼럼 Row(02. 총자산(24Y) Tab에서)      ---> 상품명_6(퇴직 연금)
+    wsTot[f'K{rowNo}'].value = "6"  # 01. 필드에 값 쓰기 ---> No. ■ 
+    wsTot[f'K{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정  
+    wsTot[f'K{rowNo}'].alignment = Alignment(horizontal='center', vertical='center')     # 03. 필드 정렬 설정 
+    wsTot[f'K{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+
+    wsTot[f'L{rowNo}'].value = "010-30-7208980"   # 01. 필드에 값 쓰기 ---> 계좌번호 ■ 
+    wsTot[f'L{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정  
+    wsTot[f'L{rowNo}'].alignment = Alignment(horizontal='center', vertical='center')     # 03. 필드 정렬 설정
+    wsTot[f'L{rowNo}'].border = thin_border   # 04. 필드 테두리 설정 
+
+    wsTot[f'M{rowNo}'].value = "개인형IRP"   # 01. 필드에 값 쓰기 ---> 제도 ■ 
+    wsTot[f'M{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정  
+    wsTot[f'M{rowNo}'].alignment = Alignment(horizontal='center', vertical='center')     # 03. 필드 정렬 설정 
+    wsTot[f'M{rowNo}'].border = thin_border   # 04. 필드 테두리 설정 
+
+    wsTot[f'N{rowNo}'].value = irp_stock_nm_6      # 01. 필드에 값 쓰기 ---> 상품명_2(퇴직 연금) Value ■
+    wsTot[f'N{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정 
+    wsTot[f'N{rowNo}'].border = thin_border   # 04. 필드 테두리 설정 
+
+    wsTot[f'O{rowNo}'].value = irp_eval_amt_6      # 01. 필드에 값 쓰기 ---> 평가금액_2(퇴직 연금) Value ■
+    wsTot[f'O{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정  
+    wsTot[f'O{rowNo}'].alignment = Alignment(horizontal='right', vertical='center')     # 03. 필드 정렬 설정
+    wsTot[f'O{rowNo}'].border = thin_border   # 04. 필드 테두리 설정 
+
+    wsTot[f'P{rowNo}'].value = format(irp_eval_profit_loss_6, ',')      # 01. 필드에 값 쓰기 ---> 평가손익_2(퇴직 연금) Value ■
+    wsTot[f'P{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정  
+    wsTot[f'P{rowNo}'].alignment = Alignment(horizontal='right', vertical='center')     # 03. 필드 정렬 설정 
+    wsTot[f'P{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+    # print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_51_19] [손익률(%)_2(퇴직 연금)]"+ str(irp_eval_profit_loss_rate_1) )
+
+    wsTot[f'Q{rowNo}'].value = irp_eval_profit_loss_rate_6     # 01. 필드에 값 쓰기 ---> 손익률(%)_2(퇴직 연금) Value ■
+    wsTot[f'Q{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정  
+    wsTot[f'Q{rowNo}'].alignment = Alignment(horizontal='right', vertical='center')     # 03. 필드 정렬 설정
+    wsTot[f'Q{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+
+    if irp_eval_profit_loss_6 > 0  :   # 평평가손익_2이 양이면
+        wsTot[f'P{rowNo}'].font = Font(name="돋움", bold=False, size=9, color="FF0000")   # 02. 필드 글자 설정(빨간색)
+        wsTot[f'Q{rowNo}'].font = Font(name="돋움", bold=False, size=9, color="FF0000")   # 02. 필드 글자 설정(빨간색)
+    else :
+        wsTot[f'P{rowNo}'].font = Font(name="돋움", bold=False, size=9, color="00ADEF")   # 02. 필드 글자 설정(파란색)
+        wsTot[f'Q{rowNo}'].font = Font(name="돋움", bold=False, size=9, color="00ADEF")   # 02. 필드 글자 설정(파란색)
+# ------------------------------------------------------------------------------------------------------------->
+
+if irp_stock_nm_7 != None and irp_stock_nm_7 != '' :   # 상품명_7(퇴직 연금)이 존재하면
+    rowNo = add_row + 16		# "03-1. 퇴직신탁 보유현황" 칼럼 Row(02. 총자산(24Y) Tab에서)    ---> 상품명_7(퇴직 연금)
+    wsTot[f'K{rowNo}'].value = "7"  # 01. 필드에 값 쓰기 ---> No. ■ 
+    wsTot[f'K{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정  
+    wsTot[f'K{rowNo}'].alignment = Alignment(horizontal='center', vertical='center')     # 03. 필드 정렬 설정 
+    wsTot[f'K{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+
+    wsTot[f'L{rowNo}'].value = "010-30-7208980"   # 01. 필드에 값 쓰기 ---> 계좌번호 ■ 
+    wsTot[f'L{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정  
+    wsTot[f'L{rowNo}'].alignment = Alignment(horizontal='center', vertical='center')     # 03. 필드 정렬 설정
+    wsTot[f'L{rowNo}'].border = thin_border   # 04. 필드 테두리 설정 
+
+    wsTot[f'M{rowNo}'].value = "개인형IRP"   # 01. 필드에 값 쓰기 ---> 제도 ■ 
+    wsTot[f'M{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정  
+    wsTot[f'M{rowNo}'].alignment = Alignment(horizontal='center', vertical='center')     # 03. 필드 정렬 설정 
+    wsTot[f'M{rowNo}'].border = thin_border   # 04. 필드 테두리 설정 
+
+    wsTot[f'N{rowNo}'].value = irp_stock_nm_7      # 01. 필드에 값 쓰기 ---> 상품명_7(퇴직 연금) Value ■
+    wsTot[f'N{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정 
+    wsTot[f'N{rowNo}'].border = thin_border   # 04. 필드 테두리 설정 
+
+    wsTot[f'O{rowNo}'].value = irp_eval_amt_7      # 01. 필드에 값 쓰기 ---> 평가금액_2(퇴직 연금) Value ■
+    wsTot[f'O{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정  
+    wsTot[f'O{rowNo}'].alignment = Alignment(horizontal='right', vertical='center')     # 03. 필드 정렬 설정
+    wsTot[f'O{rowNo}'].border = thin_border   # 04. 필드 테두리 설정 
+
+    wsTot[f'P{rowNo}'].value = format(irp_eval_profit_loss_7, ',')      # 01. 필드에 값 쓰기 ---> 평가손익_2(퇴직 연금) Value ■
+    wsTot[f'P{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정  
+    wsTot[f'P{rowNo}'].alignment = Alignment(horizontal='right', vertical='center')     # 03. 필드 정렬 설정 
+    wsTot[f'P{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+    # print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_51_19] [손익률(%)_2(퇴직 연금)]"+ str(irp_eval_profit_loss_rate_1) )
+
+    wsTot[f'Q{rowNo}'].value = irp_eval_profit_loss_rate_7     # 01. 필드에 값 쓰기 ---> 손익률(%)_2(퇴직 연금) Value ■
+    wsTot[f'Q{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정  
+    wsTot[f'Q{rowNo}'].alignment = Alignment(horizontal='right', vertical='center')     # 03. 필드 정렬 설정
+    wsTot[f'Q{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+
+    if irp_eval_profit_loss_7 > 0  :   # 평평가손익_2이 양이면
+        wsTot[f'P{rowNo}'].font = Font(name="돋움", bold=False, size=9, color="FF0000")   # 02. 필드 글자 설정(빨간색)
+        wsTot[f'Q{rowNo}'].font = Font(name="돋움", bold=False, size=9, color="FF0000")   # 02. 필드 글자 설정(빨간색)
+    else :
+        wsTot[f'P{rowNo}'].font = Font(name="돋움", bold=False, size=9, color="00ADEF")   # 02. 필드 글자 설정(파란색)
+        wsTot[f'Q{rowNo}'].font = Font(name="돋움", bold=False, size=9, color="00ADEF")   # 02. 필드 글자 설정(파란색)
+# ------------------------------------------------------------------------------------------------------------->
+
+if irp_stock_nm_8 != None and irp_stock_nm_8 != '' :   # 상품명_8(퇴직 연금)이 존재하면
+    rowNo = add_row + 17		# "03-1. 퇴직신탁 보유현황" 칼럼 Row(02. 총자산(24Y) Tab에서)     ---> 상품명_8(퇴직 연금)
+    wsTot[f'K{rowNo}'].value = "8"  # 01. 필드에 값 쓰기 ---> No. ■ 
+    wsTot[f'K{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정  
+    wsTot[f'K{rowNo}'].alignment = Alignment(horizontal='center', vertical='center')     # 03. 필드 정렬 설정 
+    wsTot[f'K{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+
+    wsTot[f'L{rowNo}'].value = "010-30-7208980"   # 01. 필드에 값 쓰기 ---> 계좌번호 ■ 
+    wsTot[f'L{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정  
+    wsTot[f'L{rowNo}'].alignment = Alignment(horizontal='center', vertical='center')     # 03. 필드 정렬 설정
+    wsTot[f'L{rowNo}'].border = thin_border   # 04. 필드 테두리 설정 
+
+    wsTot[f'M{rowNo}'].value = "개인형IRP"   # 01. 필드에 값 쓰기 ---> 제도 ■ 
+    wsTot[f'M{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정  
+    wsTot[f'M{rowNo}'].alignment = Alignment(horizontal='center', vertical='center')     # 03. 필드 정렬 설정 
+    wsTot[f'M{rowNo}'].border = thin_border   # 04. 필드 테두리 설정 
+
+    wsTot[f'N{rowNo}'].value = irp_stock_nm_8      # 01. 필드에 값 쓰기 ---> 상품명_8(퇴직 연금) Value ■
+    wsTot[f'N{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정 
+    wsTot[f'N{rowNo}'].border = thin_border   # 04. 필드 테두리 설정 
+
+    wsTot[f'O{rowNo}'].value = irp_eval_amt_8      # 01. 필드에 값 쓰기 ---> 평가금액_2(퇴직 연금) Value ■
+    wsTot[f'O{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정  
+    wsTot[f'O{rowNo}'].alignment = Alignment(horizontal='right', vertical='center')     # 03. 필드 정렬 설정
+    wsTot[f'O{rowNo}'].border = thin_border   # 04. 필드 테두리 설정 
+
+    wsTot[f'P{rowNo}'].value = format(irp_eval_profit_loss_8, ',')      # 01. 필드에 값 쓰기 ---> 평가손익_2(퇴직 연금) Value ■
+    wsTot[f'P{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정  
+    wsTot[f'P{rowNo}'].alignment = Alignment(horizontal='right', vertical='center')     # 03. 필드 정렬 설정 
+    wsTot[f'P{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+    # print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_51_20] [손익률(%)_2(퇴직 연금)]"+ str(irp_eval_profit_loss_rate_1) )
+
+    wsTot[f'Q{rowNo}'].value = irp_eval_profit_loss_rate_8     # 01. 필드에 값 쓰기 ---> 손익률(%)_2(퇴직 연금) Value ■
+    wsTot[f'Q{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정  
+    wsTot[f'Q{rowNo}'].alignment = Alignment(horizontal='right', vertical='center')     # 03. 필드 정렬 설정
+    wsTot[f'Q{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+
+    if irp_eval_profit_loss_8> 0  :   # 평평가손익_2이 양이면
+        wsTot[f'P{rowNo}'].font = Font(name="돋움", bold=False, size=9, color="FF0000")   # 02. 필드 글자 설정(빨간색)
+        wsTot[f'Q{rowNo}'].font = Font(name="돋움", bold=False, size=9, color="FF0000")   # 02. 필드 글자 설정(빨간색)
+    else :
+        wsTot[f'P{rowNo}'].font = Font(name="돋움", bold=False, size=9, color="00ADEF")   # 02. 필드 글자 설정(파란색)
+        wsTot[f'Q{rowNo}'].font = Font(name="돋움", bold=False, size=9, color="00ADEF")   # 02. 필드 글자 설정(파란색)
+# ------------------------------------------------------------------------------------------------------------->
+
+if irp_stock_nm_9 != None and irp_stock_nm_9 != '' :   # 상품명_10(퇴직 연금)이 존재하면
+    rowNo = add_row + 18		# "03-1. 퇴직신탁 보유현황" 칼럼 Row(02. 총자산(24Y) Tab에서)   ---> 상품명_09(퇴직 연금)
+    wsTot[f'K{rowNo}'].value = "9"  # 01. 필드에 값 쓰기 ---> No. ■ 
+    wsTot[f'K{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정  
+    wsTot[f'K{rowNo}'].alignment = Alignment(horizontal='center', vertical='center')     # 03. 필드 정렬 설정 
+    wsTot[f'K{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+
+    wsTot[f'L{rowNo}'].value = "010-30-7208980"   # 01. 필드에 값 쓰기 ---> 계좌번호 ■ 
+    wsTot[f'L{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정  
+    wsTot[f'L{rowNo}'].alignment = Alignment(horizontal='center', vertical='center')     # 03. 필드 정렬 설정
+    wsTot[f'L{rowNo}'].border = thin_border   # 04. 필드 테두리 설정 
+
+    wsTot[f'M{rowNo}'].value = "개인형IRP"   # 01. 필드에 값 쓰기 ---> 제도 ■ 
+    wsTot[f'M{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정  
+    wsTot[f'M{rowNo}'].alignment = Alignment(horizontal='center', vertical='center')     # 03. 필드 정렬 설정 
+    wsTot[f'M{rowNo}'].border = thin_border   # 04. 필드 테두리 설정 
+
+    wsTot[f'N{rowNo}'].value = irp_stock_nm_9      # 01. 필드에 값 쓰기 ---> 상품명_2(퇴직 연금) Value ■
+    wsTot[f'N{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정 
+    wsTot[f'N{rowNo}'].border = thin_border   # 04. 필드 테두리 설정 
+
+    wsTot[f'O{rowNo}'].value = irp_eval_amt_9      # 01. 필드에 값 쓰기 ---> 평가금액_2(퇴직 연금) Value ■
+    wsTot[f'O{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정  
+    wsTot[f'O{rowNo}'].alignment = Alignment(horizontal='right', vertical='center')     # 03. 필드 정렬 설정
+    wsTot[f'O{rowNo}'].border = thin_border   # 04. 필드 테두리 설정 
+
+    wsTot[f'P{rowNo}'].value = format(irp_eval_profit_loss_9, ',')      # 01. 필드에 값 쓰기 ---> 평가손익_2(퇴직 연금) Value ■
+    wsTot[f'P{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정  
+    wsTot[f'P{rowNo}'].alignment = Alignment(horizontal='right', vertical='center')     # 03. 필드 정렬 설정 
+    wsTot[f'P{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+    print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_51_21] [손익률(%)_2(퇴직 연금)]"+ str(irp_eval_profit_loss_rate_1) )
+
+    wsTot[f'Q{rowNo}'].value = irp_eval_profit_loss_rate_9     # 01. 필드에 값 쓰기 ---> 손익률(%)_2(퇴직 연금) Value ■
+    wsTot[f'Q{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정  
+    wsTot[f'Q{rowNo}'].alignment = Alignment(horizontal='right', vertical='center')     # 03. 필드 정렬 설정
+    wsTot[f'Q{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+
+    if irp_eval_profit_loss_9> 0  :   # 평평가손익_2이 양이면
+        wsTot[f'P{rowNo}'].font = Font(name="돋움", bold=False, size=9, color="FF0000")   # 02. 필드 글자 설정(빨간색)
+        wsTot[f'Q{rowNo}'].font = Font(name="돋움", bold=False, size=9, color="FF0000")   # 02. 필드 글자 설정(빨간색)
+    else :
+        wsTot[f'P{rowNo}'].font = Font(name="돋움", bold=False, size=9, color="00ADEF")   # 02. 필드 글자 설정(파란색)
+        wsTot[f'Q{rowNo}'].font = Font(name="돋움", bold=False, size=9, color="00ADEF")   # 02. 필드 글자 설정(파란색)
+# ------------------------------------------------------------------------------------------------------------->
+
+if irp_stock_nm_10 != None and irp_stock_nm_10 != '' :   # 상품명_10(퇴직 연금)이 존재하면
+    rowNo = add_row + 19		# "03-1. 퇴직신탁 보유현황" 칼럼 Row(02. 총자산(24Y) Tab에서)    ---> 상품명_10(퇴직 연금)
+    wsTot[f'K{rowNo}'].value = "10"  # 01. 필드에 값 쓰기 ---> No. ■ 
+    wsTot[f'K{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정  
+    wsTot[f'K{rowNo}'].alignment = Alignment(horizontal='center', vertical='center')     # 03. 필드 정렬 설정 
+    wsTot[f'K{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+
+    wsTot[f'L{rowNo}'].value = "010-30-7208980"   # 01. 필드에 값 쓰기 ---> 계좌번호 ■ 
+    wsTot[f'L{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정  
+    wsTot[f'L{rowNo}'].alignment = Alignment(horizontal='center', vertical='center')     # 03. 필드 정렬 설정
+    wsTot[f'L{rowNo}'].border = thin_border   # 04. 필드 테두리 설정 
+
+    wsTot[f'M{rowNo}'].value = "개인형IRP"   # 01. 필드에 값 쓰기 ---> 제도 ■ 
+    wsTot[f'M{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정  
+    wsTot[f'M{rowNo}'].alignment = Alignment(horizontal='center', vertical='center')     # 03. 필드 정렬 설정 
+    wsTot[f'M{rowNo}'].border = thin_border   # 04. 필드 테두리 설정 
+
+    wsTot[f'N{rowNo}'].value = irp_stock_nm_10      # 01. 필드에 값 쓰기 ---> 상품명_2(퇴직 연금) Value ■
+    wsTot[f'N{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정 
+    wsTot[f'N{rowNo}'].border = thin_border   # 04. 필드 테두리 설정 
+
+    wsTot[f'O{rowNo}'].value = irp_eval_amt_10      # 01. 필드에 값 쓰기 ---> 평가금액_2(퇴직 연금) Value ■
+    wsTot[f'O{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정  
+    wsTot[f'O{rowNo}'].alignment = Alignment(horizontal='right', vertical='center')     # 03. 필드 정렬 설정
+    wsTot[f'O{rowNo}'].border = thin_border   # 04. 필드 테두리 설정 
+
+    wsTot[f'P{rowNo}'].value = format(irp_eval_profit_loss_10, ',')      # 01. 필드에 값 쓰기 ---> 평가손익_2(퇴직 연금) Value ■
+    wsTot[f'P{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정  
+    wsTot[f'P{rowNo}'].alignment = Alignment(horizontal='right', vertical='center')     # 03. 필드 정렬 설정 
+    wsTot[f'P{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+
+    wsTot[f'Q{rowNo}'].value = irp_eval_profit_loss_rate_10     # 01. 필드에 값 쓰기 ---> 손익률(%)_2(퇴직 연금) Value ■
+    wsTot[f'Q{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정  
+    wsTot[f'Q{rowNo}'].alignment = Alignment(horizontal='right', vertical='center')     # 03. 필드 정렬 설정
+    wsTot[f'Q{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+
+    if irp_eval_profit_loss_10> 0  :   # 평평가손익_2이 양이면
+        wsTot[f'P{rowNo}'].font = Font(name="돋움", bold=False, size=9, color="FF0000")   # 02. 필드 글자 설정(빨간색)
+        wsTot[f'Q{rowNo}'].font = Font(name="돋움", bold=False, size=9, color="FF0000")   # 02. 필드 글자 설정(빨간색)
+    else :
+        wsTot[f'P{rowNo}'].font = Font(name="돋움", bold=False, size=9, color="00ADEF")   # 02. 필드 글자 설정(파란색)
+        wsTot[f'Q{rowNo}'].font = Font(name="돋움", bold=False, size=9, color="00ADEF")   # 02. 필드 글자 설정(파란색)
+# ------------------------------------------------------------------------------------------------------------->
+
+if irp_stock_nm_11 != None and irp_stock_nm_11 != '' :   # 상품명_11(퇴직 연금)이 존재하면
+    rowNo = add_row + 20		# "03-1. 퇴직신탁 보유현황" 칼럼 Row(02. 총자산(24Y) Tab에서)     ---> 상품명_11(퇴직 연금)
+    wsTot[f'K{rowNo}'].value = "11"  # 01. 필드에 값 쓰기 ---> No. ■ 
+    wsTot[f'K{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정  
+    wsTot[f'K{rowNo}'].alignment = Alignment(horizontal='center', vertical='center')     # 03. 필드 정렬 설정 
+    wsTot[f'K{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+
+    wsTot[f'L{rowNo}'].value = "010-30-7208980"   # 01. 필드에 값 쓰기 ---> 계좌번호 ■ 
+    wsTot[f'L{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정  
+    wsTot[f'L{rowNo}'].alignment = Alignment(horizontal='center', vertical='center')     # 03. 필드 정렬 설정
+    wsTot[f'L{rowNo}'].border = thin_border   # 04. 필드 테두리 설정 
+
+    wsTot[f'M{rowNo}'].value = "개인형IRP"   # 01. 필드에 값 쓰기 ---> 제도 ■ 
+    wsTot[f'M{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정  
+    wsTot[f'M{rowNo}'].alignment = Alignment(horizontal='center', vertical='center')     # 03. 필드 정렬 설정 
+    wsTot[f'M{rowNo}'].border = thin_border   # 04. 필드 테두리 설정 
+
+    wsTot[f'N{rowNo}'].value = irp_stock_nm_11      # 01. 필드에 값 쓰기 ---> 상품명_11(퇴직 연금) Value ■
+    wsTot[f'N{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정 
+    wsTot[f'N{rowNo}'].border = thin_border   # 04. 필드 테두리 설정 
+
+    wsTot[f'O{rowNo}'].value = irp_eval_amt_11      # 01. 필드에 값 쓰기 ---> 평가금액_11(퇴직 연금) Value ■
+    wsTot[f'O{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정  
+    wsTot[f'O{rowNo}'].alignment = Alignment(horizontal='right', vertical='center')     # 03. 필드 정렬 설정
+    wsTot[f'O{rowNo}'].border = thin_border   # 04. 필드 테두리 설정 
+    # print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_51_22] [평가손익_2(퇴직 연금)]"+ str(irp_eval_profit_loss_11) )
+
+    if irp_eval_profit_loss_11 != ''  :   # 평가손익_11이 존재하면 
+        wsTot[f'P{rowNo}'].value = format(irp_eval_profit_loss_11, ',')      # 01. 필드에 값 쓰기 ---> 평가손익_11(퇴직 연금) Value ■
+    else: 
+        wsTot[f'P{rowNo}'].value = irp_eval_profit_loss_11     # 01. 필드에 값 쓰기 ---> 평가손익_11(퇴직 연금) Value ■
+
+    wsTot[f'P{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정  
+    wsTot[f'P{rowNo}'].alignment = Alignment(horizontal='right', vertical='center')     # 03. 필드 정렬 설정 
+    wsTot[f'P{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+    # print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_51_23] [손익률(%)_2(퇴직 연금)]"+ str(irp_eval_profit_loss_rate_1) )
+
+    wsTot[f'Q{rowNo}'].value = irp_eval_profit_loss_rate_11     # 01. 필드에 값 쓰기 ---> 손익률(%)_11(퇴직 연금) Value ■
+    wsTot[f'Q{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정  
+    wsTot[f'Q{rowNo}'].alignment = Alignment(horizontal='right', vertical='center')     # 03. 필드 정렬 설정
+    wsTot[f'Q{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+
+    if irp_eval_profit_loss_11 == ''  :   # 평가손익_11이 존재하면     
+        wsTot[f'P{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정 
+        wsTot[f'Q{rowNo}'].font = Font(name="돋움", bold=False, size=9)  # 02. 필드 글자 설정   
+    elif irp_eval_profit_loss_11 > 0  :   # 평평가손익_2이 양이면    
+        wsTot[f'P{rowNo}'].font = Font(name="돋움", bold=False, size=9, color="FF0000")   # 02. 필드 글자 설정(빨간색)
+        wsTot[f'Q{rowNo}'].font = Font(name="돋움", bold=False, size=9, color="FF0000")   # 02. 필드 글자 설정(빨간색)
+    else :
+        wsTot[f'P{rowNo}'].font = Font(name="돋움", bold=False, size=9, color="00ADEF")   # 02. 필드 글자 설정(파란색)
+        wsTot[f'Q{rowNo}'].font = Font(name="돋움", bold=False, size=9, color="00ADEF")   # 02. 필드 글자 설정(파란색)
+# # ------------------------------------------------------------------------------------------------------------->
+
+print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_51_22] [상품명_12(퇴직 연금)]"+ str(irp_stock_nm_12) )
+
+if irp_stock_nm_12 != None and irp_stock_nm_12 != '' :   # 상품명_12(퇴직 연금)이 존재하면
+    rowNo = add_row + 21		# "03-1. 퇴직신탁 보유현황" 칼럼 Row(02. 총자산(24Y) Tab에서)  ---> 상품명_12(퇴직 연금)
+    wsTot[f'K{rowNo}'].value = "12"  # 01. 필드에 값 쓰기 ---> No. ■ 
+    wsTot[f'K{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정  
+    wsTot[f'K{rowNo}'].alignment = Alignment(horizontal='center', vertical='center')     # 03. 필드 정렬 설정 
+    wsTot[f'K{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+
+    wsTot[f'L{rowNo}'].value = "010-30-7208980"   # 01. 필드에 값 쓰기 ---> 계좌번호 ■ 
+    wsTot[f'L{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정  
+    wsTot[f'L{rowNo}'].alignment = Alignment(horizontal='center', vertical='center')     # 03. 필드 정렬 설정
+    wsTot[f'L{rowNo}'].border = thin_border   # 04. 필드 테두리 설정 
+
+    wsTot[f'M{rowNo}'].value = "개인형IRP"   # 01. 필드에 값 쓰기 ---> 제도 ■ 
+    wsTot[f'M{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정  
+    wsTot[f'M{rowNo}'].alignment = Alignment(horizontal='center', vertical='center')     # 03. 필드 정렬 설정 
+    wsTot[f'M{rowNo}'].border = thin_border   # 04. 필드 테두리 설정 
+
+    wsTot[f'N{rowNo}'].value = irp_stock_nm_12      # 01. 필드에 값 쓰기 ---> 상품명_12(퇴직 연금) Value ■
+    wsTot[f'N{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정 
+    wsTot[f'N{rowNo}'].border = thin_border   # 04. 필드 테두리 설정 
+
+    wsTot[f'O{rowNo}'].value = irp_eval_amt_12      # 01. 필드에 값 쓰기 ---> 평가금액_12(퇴직 연금) Value ■
+    wsTot[f'O{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정  
+    wsTot[f'O{rowNo}'].alignment = Alignment(horizontal='right', vertical='center')     # 03. 필드 정렬 설정
+    wsTot[f'O{rowNo}'].border = thin_border   # 04. 필드 테두리 설정 
+    # print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_51_22] [평가손익_2(퇴직 연금)]"+ str(irp_eval_profit_loss_12) )
+
+    if irp_eval_profit_loss_12 != ''  :   # 평가손익_12이 존재하면 
+        wsTot[f'P{rowNo}'].value = format(irp_eval_profit_loss_12, ',')      # 01. 필드에 값 쓰기 ---> 평가손익_12(퇴직 연금) Value ■
+    else: 
+        wsTot[f'P{rowNo}'].value = irp_eval_profit_loss_12     # 01. 필드에 값 쓰기 ---> 평가손익_12(퇴직 연금) Value ■
+
+    wsTot[f'P{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정  
+    wsTot[f'P{rowNo}'].alignment = Alignment(horizontal='right', vertical='center')     # 03. 필드 정렬 설정 
+    wsTot[f'P{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+    # print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_51_23] [손익률(%)_2(퇴직 연금)]"+ str(irp_eval_profit_loss_rate_1) )
+
+    wsTot[f'Q{rowNo}'].value = irp_eval_profit_loss_rate_12     # 01. 필드에 값 쓰기 ---> 손익률(%)_12(퇴직 연금) Value ■
+    wsTot[f'Q{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정  
+    wsTot[f'Q{rowNo}'].alignment = Alignment(horizontal='right', vertical='center')     # 03. 필드 정렬 설정
+    wsTot[f'Q{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+
+    if irp_eval_profit_loss_12 == ''  :   # 평가손익_12이 존재하면     
+        wsTot[f'P{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정 
+        wsTot[f'Q{rowNo}'].font = Font(name="돋움", bold=False, size=9)  # 02. 필드 글자 설정   
+    elif irp_eval_profit_loss_12 > 0  :   # 평평가손익_2이 양이면    
+        wsTot[f'P{rowNo}'].font = Font(name="돋움", bold=False, size=9, color="FF0000")   # 02. 필드 글자 설정(빨간색)
+        wsTot[f'Q{rowNo}'].font = Font(name="돋움", bold=False, size=9, color="FF0000")   # 02. 필드 글자 설정(빨간색)
+    else :
+        wsTot[f'P{rowNo}'].font = Font(name="돋움", bold=False, size=9, color="00ADEF")   # 02. 필드 글자 설정(파란색)
+        wsTot[f'Q{rowNo}'].font = Font(name="돋움", bold=False, size=9, color="00ADEF")   # 02. 필드 글자 설정(파란색)
+# # ------------------------------------------------------------------------------------------------------------->
+
+if irp_stock_nm_13 != None and irp_stock_nm_13 != '' :   # 상품명_13(퇴직 연금)이 존재하면
+    rowNo = add_row + 22		# "03-1. 퇴직신탁 보유현황" 칼럼 Row(02. 총자산(24Y) Tab에서)   ---> 상품명_13(퇴직 연금)
+    wsTot[f'K{rowNo}'].value = "13"  # 01. 필드에 값 쓰기 ---> No. ■ 
+    wsTot[f'K{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정  
+    wsTot[f'K{rowNo}'].alignment = Alignment(horizontal='center', vertical='center')     # 03. 필드 정렬 설정 
+    wsTot[f'K{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+
+    wsTot[f'L{rowNo}'].value = "010-30-7208980"   # 01. 필드에 값 쓰기 ---> 계좌번호 ■ 
+    wsTot[f'L{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정  
+    wsTot[f'L{rowNo}'].alignment = Alignment(horizontal='center', vertical='center')     # 03. 필드 정렬 설정
+    wsTot[f'L{rowNo}'].border = thin_border   # 04. 필드 테두리 설정 
+
+    wsTot[f'M{rowNo}'].value = "개인형IRP"   # 01. 필드에 값 쓰기 ---> 제도 ■ 
+    wsTot[f'M{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정  
+    wsTot[f'M{rowNo}'].alignment = Alignment(horizontal='center', vertical='center')     # 03. 필드 정렬 설정 
+    wsTot[f'M{rowNo}'].border = thin_border   # 04. 필드 테두리 설정 
+
+    wsTot[f'N{rowNo}'].value = irp_stock_nm_13      # 01. 필드에 값 쓰기 ---> 상품명_13(퇴직 연금) Value ■
+    wsTot[f'N{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정 
+    wsTot[f'N{rowNo}'].border = thin_border   # 04. 필드 테두리 설정 
+
+    wsTot[f'O{rowNo}'].value = irp_eval_amt_13      # 01. 필드에 값 쓰기 ---> 평가금액_13(퇴직 연금) Value ■
+    wsTot[f'O{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정  
+    wsTot[f'O{rowNo}'].alignment = Alignment(horizontal='right', vertical='center')     # 03. 필드 정렬 설정
+    wsTot[f'O{rowNo}'].border = thin_border   # 04. 필드 테두리 설정 
+    # print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_51_22] [평가손익_2(퇴직 연금)]"+ str(irp_eval_profit_loss_13) )
+
+    if irp_eval_profit_loss_13 != ''  :   # 평가손익_13이 존재하면 
+        wsTot[f'P{rowNo}'].value = format(irp_eval_profit_loss_13, ',')      # 01. 필드에 값 쓰기 ---> 평가손익_13(퇴직 연금) Value ■
+    else: 
+        wsTot[f'P{rowNo}'].value = irp_eval_profit_loss_13     # 01. 필드에 값 쓰기 ---> 평가손익_13(퇴직 연금) Value ■
+
+    wsTot[f'P{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정  
+    wsTot[f'P{rowNo}'].alignment = Alignment(horizontal='right', vertical='center')     # 03. 필드 정렬 설정 
+    wsTot[f'P{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+    # print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_51_23] [손익률(%)_2(퇴직 연금)]"+ str(irp_eval_profit_loss_rate_1) )
+
+    wsTot[f'Q{rowNo}'].value = irp_eval_profit_loss_rate_13     # 01. 필드에 값 쓰기 ---> 손익률(%)_13(퇴직 연금) Value ■
+    wsTot[f'Q{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정  
+    wsTot[f'Q{rowNo}'].alignment = Alignment(horizontal='right', vertical='center')     # 03. 필드 정렬 설정
+    wsTot[f'Q{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+
+    if irp_eval_profit_loss_13 == ''  :   # 평가손익_13이 존재하면     
+        wsTot[f'P{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정 
+        wsTot[f'Q{rowNo}'].font = Font(name="돋움", bold=False, size=9)  # 02. 필드 글자 설정   
+    elif irp_eval_profit_loss_13 > 0  :   # 평평가손익_2이 양이면    
+        wsTot[f'P{rowNo}'].font = Font(name="돋움", bold=False, size=9, color="FF0000")   # 02. 필드 글자 설정(빨간색)
+        wsTot[f'Q{rowNo}'].font = Font(name="돋움", bold=False, size=9, color="FF0000")   # 02. 필드 글자 설정(빨간색)
+    else :
+        wsTot[f'P{rowNo}'].font = Font(name="돋움", bold=False, size=9, color="00ADEF")   # 02. 필드 글자 설정(파란색)
+        wsTot[f'Q{rowNo}'].font = Font(name="돋움", bold=False, size=9, color="00ADEF")   # 02. 필드 글자 설정(파란색)
+# # ------------------------------------------------------------------------------------------------------------->
+
+if irp_stock_nm_14 != None and irp_stock_nm_14 != '' :   # 상품명_14(퇴직 연금)이 존재하면
+    rowNo = add_row + 23		# "03-1. 퇴직신탁 보유현황" 칼럼 Row(02. 총자산(24Y) Tab에서)   ---> 상품명_14(퇴직 연금)
+    wsTot[f'K{rowNo}'].value = "14"  # 01. 필드에 값 쓰기 ---> No. ■ 
+    wsTot[f'K{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정  
+    wsTot[f'K{rowNo}'].alignment = Alignment(horizontal='center', vertical='center')     # 03. 필드 정렬 설정 
+    wsTot[f'K{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+
+    wsTot[f'L{rowNo}'].value = "010-30-7208980"   # 01. 필드에 값 쓰기 ---> 계좌번호 ■ 
+    wsTot[f'L{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정  
+    wsTot[f'L{rowNo}'].alignment = Alignment(horizontal='center', vertical='center')     # 03. 필드 정렬 설정
+    wsTot[f'L{rowNo}'].border = thin_border   # 04. 필드 테두리 설정 
+
+    wsTot[f'M{rowNo}'].value = "개인형IRP"   # 01. 필드에 값 쓰기 ---> 제도 ■ 
+    wsTot[f'M{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정  
+    wsTot[f'M{rowNo}'].alignment = Alignment(horizontal='center', vertical='center')     # 03. 필드 정렬 설정 
+    wsTot[f'M{rowNo}'].border = thin_border   # 04. 필드 테두리 설정 
+
+    wsTot[f'N{rowNo}'].value = irp_stock_nm_14      # 01. 필드에 값 쓰기 ---> 상품명_14(퇴직 연금) Value ■
+    wsTot[f'N{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정 
+    wsTot[f'N{rowNo}'].border = thin_border   # 04. 필드 테두리 설정 
+
+    wsTot[f'O{rowNo}'].value = irp_eval_amt_14      # 01. 필드에 값 쓰기 ---> 평가금액_14(퇴직 연금) Value ■
+    wsTot[f'O{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정  
+    wsTot[f'O{rowNo}'].alignment = Alignment(horizontal='right', vertical='center')     # 03. 필드 정렬 설정
+    wsTot[f'O{rowNo}'].border = thin_border   # 04. 필드 테두리 설정 
+    # print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_51_22] [평가손익_2(퇴직 연금)]"+ str(irp_eval_profit_loss_14) )
+
+    if irp_eval_profit_loss_14 != ''  :   # 평가손익_14이 존재하면 
+        wsTot[f'P{rowNo}'].value = format(irp_eval_profit_loss_14, ',')      # 01. 필드에 값 쓰기 ---> 평가손익_14(퇴직 연금) Value ■
+    else: 
+        wsTot[f'P{rowNo}'].value = irp_eval_profit_loss_14     # 01. 필드에 값 쓰기 ---> 평가손익_14(퇴직 연금) Value ■
+
+    wsTot[f'P{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정  
+    wsTot[f'P{rowNo}'].alignment = Alignment(horizontal='right', vertical='center')     # 03. 필드 정렬 설정 
+    wsTot[f'P{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+    # print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_51_23] [손익률(%)_2(퇴직 연금)]"+ str(irp_eval_profit_loss_rate_1) )
+
+    wsTot[f'Q{rowNo}'].value = irp_eval_profit_loss_rate_14     # 01. 필드에 값 쓰기 ---> 손익률(%)_14(퇴직 연금) Value ■
+    wsTot[f'Q{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정  
+    wsTot[f'Q{rowNo}'].alignment = Alignment(horizontal='right', vertical='center')     # 03. 필드 정렬 설정
+    wsTot[f'Q{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+
+    if irp_eval_profit_loss_14 == ''  :   # 평가손익_14이 존재하면     
+        wsTot[f'P{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정 
+        wsTot[f'Q{rowNo}'].font = Font(name="돋움", bold=False, size=9)  # 02. 필드 글자 설정   
+    elif irp_eval_profit_loss_14 > 0  :   # 평평가손익_2이 양이면    
+        wsTot[f'P{rowNo}'].font = Font(name="돋움", bold=False, size=9, color="FF0000")   # 02. 필드 글자 설정(빨간색)
+        wsTot[f'Q{rowNo}'].font = Font(name="돋움", bold=False, size=9, color="FF0000")   # 02. 필드 글자 설정(빨간색)
+    else :
+        wsTot[f'P{rowNo}'].font = Font(name="돋움", bold=False, size=9, color="00ADEF")   # 02. 필드 글자 설정(파란색)
+        wsTot[f'Q{rowNo}'].font = Font(name="돋움", bold=False, size=9, color="00ADEF")   # 02. 필드 글자 설정(파란색)
+# # ------------------------------------------------------------------------------------------------------------->
+
+if irp_stock_nm_15 != None and irp_stock_nm_15 != '' :   # 상품명_15(퇴직 연금)이 존재하면
+    rowNo = add_row + 24		# "03-1. 퇴직신탁 보유현황" 칼럼 Row(02. 총자산(24Y) Tab에서)   ---> 상품명_15(퇴직 연금)
+    wsTot[f'K{rowNo}'].value = "15"  # 01. 필드에 값 쓰기 ---> No. ■ 
+    wsTot[f'K{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정  
+    wsTot[f'K{rowNo}'].alignment = Alignment(horizontal='center', vertical='center')     # 03. 필드 정렬 설정 
+    wsTot[f'K{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+
+    wsTot[f'L{rowNo}'].value = "010-30-7208980"   # 01. 필드에 값 쓰기 ---> 계좌번호 ■ 
+    wsTot[f'L{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정  
+    wsTot[f'L{rowNo}'].alignment = Alignment(horizontal='center', vertical='center')     # 03. 필드 정렬 설정
+    wsTot[f'L{rowNo}'].border = thin_border   # 04. 필드 테두리 설정 
+
+    wsTot[f'M{rowNo}'].value = "개인형IRP"   # 01. 필드에 값 쓰기 ---> 제도 ■ 
+    wsTot[f'M{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정  
+    wsTot[f'M{rowNo}'].alignment = Alignment(horizontal='center', vertical='center')     # 03. 필드 정렬 설정 
+    wsTot[f'M{rowNo}'].border = thin_border   # 04. 필드 테두리 설정 
+
+    wsTot[f'N{rowNo}'].value = irp_stock_nm_15      # 01. 필드에 값 쓰기 ---> 상품명_15(퇴직 연금) Value ■
+    wsTot[f'N{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정 
+    wsTot[f'N{rowNo}'].border = thin_border   # 04. 필드 테두리 설정 
+
+    wsTot[f'O{rowNo}'].value = irp_eval_amt_15      # 01. 필드에 값 쓰기 ---> 평가금액_15(퇴직 연금) Value ■
+    wsTot[f'O{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정  
+    wsTot[f'O{rowNo}'].alignment = Alignment(horizontal='right', vertical='center')     # 03. 필드 정렬 설정
+    wsTot[f'O{rowNo}'].border = thin_border   # 04. 필드 테두리 설정 
+    # print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_51_22] [평가손익_2(퇴직 연금)]"+ str(irp_eval_profit_loss_15) )
+
+    if irp_eval_profit_loss_15 != ''  :   # 평가손익_15이 존재하면 
+        wsTot[f'P{rowNo}'].value = format(irp_eval_profit_loss_15, ',')      # 01. 필드에 값 쓰기 ---> 평가손익_15(퇴직 연금) Value ■
+    else: 
+        wsTot[f'P{rowNo}'].value = irp_eval_profit_loss_15     # 01. 필드에 값 쓰기 ---> 평가손익_15(퇴직 연금) Value ■
+
+    wsTot[f'P{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정  
+    wsTot[f'P{rowNo}'].alignment = Alignment(horizontal='right', vertical='center')     # 03. 필드 정렬 설정 
+    wsTot[f'P{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+    # print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_51_23] [손익률(%)_2(퇴직 연금)]"+ str(irp_eval_profit_loss_rate_1) )
+
+    wsTot[f'Q{rowNo}'].value = irp_eval_profit_loss_rate_15     # 01. 필드에 값 쓰기 ---> 손익률(%)_15(퇴직 연금) Value ■
+    wsTot[f'Q{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정  
+    wsTot[f'Q{rowNo}'].alignment = Alignment(horizontal='right', vertical='center')     # 03. 필드 정렬 설정
+    wsTot[f'Q{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+
+    if irp_eval_profit_loss_15 == ''  :   # 평가손익_15이 존재하면     
+        wsTot[f'P{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정 
+        wsTot[f'Q{rowNo}'].font = Font(name="돋움", bold=False, size=9)  # 02. 필드 글자 설정   
+    elif irp_eval_profit_loss_15 > 0  :   # 평평가손익_2이 양이면    
+        wsTot[f'P{rowNo}'].font = Font(name="돋움", bold=False, size=9, color="FF0000")   # 02. 필드 글자 설정(빨간색)
+        wsTot[f'Q{rowNo}'].font = Font(name="돋움", bold=False, size=9, color="FF0000")   # 02. 필드 글자 설정(빨간색)
+    else :
+        wsTot[f'P{rowNo}'].font = Font(name="돋움", bold=False, size=9, color="00ADEF")   # 02. 필드 글자 설정(파란색)
+        wsTot[f'Q{rowNo}'].font = Font(name="돋움", bold=False, size=9, color="00ADEF")   # 02. 필드 글자 설정(파란색)
+# # ------------------------------------------------------------------------------------------------------------->
+
+if irp_stock_nm_16 != None and irp_stock_nm_16 != '' :   # 상품명_16(퇴직 연금)이 존재하면
+    rowNo = add_row + 25		# "03-1. 퇴직신탁 보유현황" 칼럼 Row(02. 총자산(24Y) Tab에서)   ---> 상품명_16(퇴직 연금)
+    wsTot[f'K{rowNo}'].value = "16"  # 01. 필드에 값 쓰기 ---> No. ■ 
+    wsTot[f'K{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정  
+    wsTot[f'K{rowNo}'].alignment = Alignment(horizontal='center', vertical='center')     # 03. 필드 정렬 설정 
+    wsTot[f'K{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+
+    wsTot[f'L{rowNo}'].value = "010-30-7208980"   # 01. 필드에 값 쓰기 ---> 계좌번호 ■ 
+    wsTot[f'L{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정  
+    wsTot[f'L{rowNo}'].alignment = Alignment(horizontal='center', vertical='center')     # 03. 필드 정렬 설정
+    wsTot[f'L{rowNo}'].border = thin_border   # 04. 필드 테두리 설정 
+
+    wsTot[f'M{rowNo}'].value = "개인형IRP"   # 01. 필드에 값 쓰기 ---> 제도 ■ 
+    wsTot[f'M{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정  
+    wsTot[f'M{rowNo}'].alignment = Alignment(horizontal='center', vertical='center')     # 03. 필드 정렬 설정 
+    wsTot[f'M{rowNo}'].border = thin_border   # 04. 필드 테두리 설정 
+
+    wsTot[f'N{rowNo}'].value = irp_stock_nm_16      # 01. 필드에 값 쓰기 ---> 상품명_16(퇴직 연금) Value ■
+    wsTot[f'N{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정 
+    wsTot[f'N{rowNo}'].border = thin_border   # 04. 필드 테두리 설정 
+
+    wsTot[f'O{rowNo}'].value = irp_eval_amt_16      # 01. 필드에 값 쓰기 ---> 평가금액_16(퇴직 연금) Value ■
+    wsTot[f'O{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정  
+    wsTot[f'O{rowNo}'].alignment = Alignment(horizontal='right', vertical='center')     # 03. 필드 정렬 설정
+    wsTot[f'O{rowNo}'].border = thin_border   # 04. 필드 테두리 설정 
+    # print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_51_22] [평가손익_2(퇴직 연금)]"+ str(irp_eval_profit_loss_16) )
+
+    if irp_eval_profit_loss_16 != ''  :   # 평가손익_16이 존재하면 
+        wsTot[f'P{rowNo}'].value = format(irp_eval_profit_loss_16, ',')      # 01. 필드에 값 쓰기 ---> 평가손익_16(퇴직 연금) Value ■
+    else: 
+        wsTot[f'P{rowNo}'].value = irp_eval_profit_loss_16     # 01. 필드에 값 쓰기 ---> 평가손익_16(퇴직 연금) Value ■
+
+    wsTot[f'P{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정  
+    wsTot[f'P{rowNo}'].alignment = Alignment(horizontal='right', vertical='center')     # 03. 필드 정렬 설정 
+    wsTot[f'P{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+    # print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_51_23] [손익률(%)_2(퇴직 연금)]"+ str(irp_eval_profit_loss_rate_1) )
+
+    wsTot[f'Q{rowNo}'].value = irp_eval_profit_loss_rate_16     # 01. 필드에 값 쓰기 ---> 손익률(%)_16(퇴직 연금) Value ■
+    wsTot[f'Q{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정  
+    wsTot[f'Q{rowNo}'].alignment = Alignment(horizontal='right', vertical='center')     # 03. 필드 정렬 설정
+    wsTot[f'Q{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+
+    if irp_eval_profit_loss_16 == ''  :   # 평가손익_16이 존재하면     
+        wsTot[f'P{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정 
+        wsTot[f'Q{rowNo}'].font = Font(name="돋움", bold=False, size=9)  # 02. 필드 글자 설정   
+    elif irp_eval_profit_loss_16 > 0  :   # 평평가손익_2이 양이면    
+        wsTot[f'P{rowNo}'].font = Font(name="돋움", bold=False, size=9, color="FF0000")   # 02. 필드 글자 설정(빨간색)
+        wsTot[f'Q{rowNo}'].font = Font(name="돋움", bold=False, size=9, color="FF0000")   # 02. 필드 글자 설정(빨간색)
+    else :
+        wsTot[f'P{rowNo}'].font = Font(name="돋움", bold=False, size=9, color="00ADEF")   # 02. 필드 글자 설정(파란색)
+        wsTot[f'Q{rowNo}'].font = Font(name="돋움", bold=False, size=9, color="00ADEF")   # 02. 필드 글자 설정(파란색)
+# # ------------------------------------------------------------------------------------------------------------->
+
+if irp_stock_nm_17 != None and irp_stock_nm_17 != '' :   # 상품명_17(퇴직 연금)이 존재하면
+    rowNo = add_row + 24		# "03-1. 퇴직신탁 보유현황" 칼럼 Row(02. 총자산(24Y) Tab에서)   ---> 상품명_17(퇴직 연금)
+    wsTot[f'K{rowNo}'].value = "17"  # 01. 필드에 값 쓰기 ---> No. ■ 
+    wsTot[f'K{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정  
+    wsTot[f'K{rowNo}'].alignment = Alignment(horizontal='center', vertical='center')     # 03. 필드 정렬 설정 
+    wsTot[f'K{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+
+    wsTot[f'L{rowNo}'].value = "010-30-7208980"   # 01. 필드에 값 쓰기 ---> 계좌번호 ■ 
+    wsTot[f'L{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정  
+    wsTot[f'L{rowNo}'].alignment = Alignment(horizontal='center', vertical='center')     # 03. 필드 정렬 설정
+    wsTot[f'L{rowNo}'].border = thin_border   # 04. 필드 테두리 설정 
+
+    wsTot[f'M{rowNo}'].value = "개인형IRP"   # 01. 필드에 값 쓰기 ---> 제도 ■ 
+    wsTot[f'M{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정  
+    wsTot[f'M{rowNo}'].alignment = Alignment(horizontal='center', vertical='center')     # 03. 필드 정렬 설정 
+    wsTot[f'M{rowNo}'].border = thin_border   # 04. 필드 테두리 설정 
+
+    wsTot[f'N{rowNo}'].value = irp_stock_nm_14      # 01. 필드에 값 쓰기 ---> 상품명_14(퇴직 연금) Value ■
+    wsTot[f'N{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정 
+    wsTot[f'N{rowNo}'].border = thin_border   # 04. 필드 테두리 설정 
+
+    wsTot[f'O{rowNo}'].value = irp_eval_amt_14      # 01. 필드에 값 쓰기 ---> 평가금액_14(퇴직 연금) Value ■
+    wsTot[f'O{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정  
+    wsTot[f'O{rowNo}'].alignment = Alignment(horizontal='right', vertical='center')     # 03. 필드 정렬 설정
+    wsTot[f'O{rowNo}'].border = thin_border   # 04. 필드 테두리 설정 
+    # print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_51_22] [평가손익_2(퇴직 연금)]"+ str(irp_eval_profit_loss_14) )
+
+    if irp_eval_profit_loss_14 != ''  :   # 평가손익_14이 존재하면 
+        wsTot[f'P{rowNo}'].value = format(irp_eval_profit_loss_14, ',')      # 01. 필드에 값 쓰기 ---> 평가손익_18(퇴직 연금) Value ■
+    else: 
+        wsTot[f'P{rowNo}'].value = irp_eval_profit_loss_14     # 01. 필드에 값 쓰기 ---> 평가손익_14(퇴직 연금) Value ■
+
+    wsTot[f'P{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정  
+    wsTot[f'P{rowNo}'].alignment = Alignment(horizontal='right', vertical='center')     # 03. 필드 정렬 설정 
+    wsTot[f'P{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+    # print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_51_23] [손익률(%)_2(퇴직 연금)]"+ str(irp_eval_profit_loss_rate_1) )
+
+    wsTot[f'Q{rowNo}'].value = irp_eval_profit_loss_rate_14     # 01. 필드에 값 쓰기 ---> 손익률(%)_14(퇴직 연금) Value ■
+    wsTot[f'Q{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정  
+    wsTot[f'Q{rowNo}'].alignment = Alignment(horizontal='right', vertical='center')     # 03. 필드 정렬 설정
+    wsTot[f'Q{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+
+    if irp_eval_profit_loss_14 == ''  :   # 평가손익_14이 존재하면     
+        wsTot[f'P{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정 
+        wsTot[f'Q{rowNo}'].font = Font(name="돋움", bold=False, size=9)  # 02. 필드 글자 설정   
+    elif irp_eval_profit_loss_14 > 0  :   # 평평가손익_2이 양이면    
+        wsTot[f'P{rowNo}'].font = Font(name="돋움", bold=False, size=9, color="FF0000")   # 02. 필드 글자 설정(빨간색)
+        wsTot[f'Q{rowNo}'].font = Font(name="돋움", bold=False, size=9, color="FF0000")   # 02. 필드 글자 설정(빨간색)
+    else :
+        wsTot[f'P{rowNo}'].font = Font(name="돋움", bold=False, size=9, color="00ADEF")   # 02. 필드 글자 설정(파란색)
+        wsTot[f'Q{rowNo}'].font = Font(name="돋움", bold=False, size=9, color="00ADEF")   # 02. 필드 글자 설정(파란색)
+# # ------------------------------------------------------------------------------------------------------------->
+
+if irp_stock_nm_18 != None and irp_stock_nm_18 != '' :   # 상품명_18(퇴직 연금)이 존재하면
+    rowNo = add_row + 25		# "03-1. 퇴직신탁 보유현황" 칼럼 Row(02. 총자산(24Y) Tab에서)   ---> 상품명_18(퇴직 연금)
+    wsTot[f'K{rowNo}'].value = "18"  # 01. 필드에 값 쓰기 ---> No. ■ 
+    wsTot[f'K{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정  
+    wsTot[f'K{rowNo}'].alignment = Alignment(horizontal='center', vertical='center')     # 03. 필드 정렬 설정 
+    wsTot[f'K{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+
+    wsTot[f'L{rowNo}'].value = "010-30-7208980"   # 01. 필드에 값 쓰기 ---> 계좌번호 ■ 
+    wsTot[f'L{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정  
+    wsTot[f'L{rowNo}'].alignment = Alignment(horizontal='center', vertical='center')     # 03. 필드 정렬 설정
+    wsTot[f'L{rowNo}'].border = thin_border   # 04. 필드 테두리 설정 
+
+    wsTot[f'M{rowNo}'].value = "개인형IRP"   # 01. 필드에 값 쓰기 ---> 제도 ■ 
+    wsTot[f'M{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정  
+    wsTot[f'M{rowNo}'].alignment = Alignment(horizontal='center', vertical='center')     # 03. 필드 정렬 설정 
+    wsTot[f'M{rowNo}'].border = thin_border   # 04. 필드 테두리 설정 
+
+    wsTot[f'N{rowNo}'].value = irp_stock_nm_18      # 01. 필드에 값 쓰기 ---> 상품명_18(퇴직 연금) Value ■
+    wsTot[f'N{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정 
+    wsTot[f'N{rowNo}'].border = thin_border   # 04. 필드 테두리 설정 
+
+    wsTot[f'O{rowNo}'].value = irp_eval_amt_18      # 01. 필드에 값 쓰기 ---> 평가금액_18(퇴직 연금) Value ■
+    wsTot[f'O{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정  
+    wsTot[f'O{rowNo}'].alignment = Alignment(horizontal='right', vertical='center')     # 03. 필드 정렬 설정
+    wsTot[f'O{rowNo}'].border = thin_border   # 04. 필드 테두리 설정 
+    # print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_51_22] [평가손익_2(퇴직 연금)]"+ str(irp_eval_profit_loss_18) )
+
+    if irp_eval_profit_loss_18 != ''  :   # 평가손익_18이 존재하면 
+        wsTot[f'P{rowNo}'].value = format(irp_eval_profit_loss_18, ',')      # 01. 필드에 값 쓰기 ---> 평가손익_18(퇴직 연금) Value ■
+    else: 
+        wsTot[f'P{rowNo}'].value = irp_eval_profit_loss_18     # 01. 필드에 값 쓰기 ---> 평가손익_18(퇴직 연금) Value ■
+
+    wsTot[f'P{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정  
+    wsTot[f'P{rowNo}'].alignment = Alignment(horizontal='right', vertical='center')     # 03. 필드 정렬 설정 
+    wsTot[f'P{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+    # print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_51_23] [손익률(%)_2(퇴직 연금)]"+ str(irp_eval_profit_loss_rate_1) )
+
+    wsTot[f'Q{rowNo}'].value = irp_eval_profit_loss_rate_18     # 01. 필드에 값 쓰기 ---> 손익률(%)_18(퇴직 연금) Value ■
+    wsTot[f'Q{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정  
+    wsTot[f'Q{rowNo}'].alignment = Alignment(horizontal='right', vertical='center')     # 03. 필드 정렬 설정
+    wsTot[f'Q{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+
+    if irp_eval_profit_loss_18 == ''  :   # 평가손익_18이 존재하면     
+        wsTot[f'P{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정 
+        wsTot[f'Q{rowNo}'].font = Font(name="돋움", bold=False, size=9)  # 02. 필드 글자 설정   
+    elif irp_eval_profit_loss_18 > 0  :   # 평평가손익_2이 양이면    
+        wsTot[f'P{rowNo}'].font = Font(name="돋움", bold=False, size=9, color="FF0000")   # 02. 필드 글자 설정(빨간색)
+        wsTot[f'Q{rowNo}'].font = Font(name="돋움", bold=False, size=9, color="FF0000")   # 02. 필드 글자 설정(빨간색)
+    else :
+        wsTot[f'P{rowNo}'].font = Font(name="돋움", bold=False, size=9, color="00ADEF")   # 02. 필드 글자 설정(파란색)
+        wsTot[f'Q{rowNo}'].font = Font(name="돋움", bold=False, size=9, color="00ADEF")   # 02. 필드 글자 설정(파란색)
+# # ------------------------------------------------------------------------------------------------------------->
+
+if irp_stock_nm_19 != None and irp_stock_nm_19 != '' :   # 상품명_19(퇴직 연금)이 존재하면
+    rowNo = add_row + 26		# "03-1. 퇴직신탁 보유현황" 칼럼 Row(02. 총자산(24Y) Tab에서)   ---> 상품명_19(퇴직 연금)
+    wsTot[f'K{rowNo}'].value = "19"  # 01. 필드에 값 쓰기 ---> No. ■ 
+    wsTot[f'K{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정  
+    wsTot[f'K{rowNo}'].alignment = Alignment(horizontal='center', vertical='center')     # 03. 필드 정렬 설정 
+    wsTot[f'K{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+
+    wsTot[f'L{rowNo}'].value = "010-30-7208980"   # 01. 필드에 값 쓰기 ---> 계좌번호 ■ 
+    wsTot[f'L{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정  
+    wsTot[f'L{rowNo}'].alignment = Alignment(horizontal='center', vertical='center')     # 03. 필드 정렬 설정
+    wsTot[f'L{rowNo}'].border = thin_border   # 04. 필드 테두리 설정 
+
+    wsTot[f'M{rowNo}'].value = "개인형IRP"   # 01. 필드에 값 쓰기 ---> 제도 ■ 
+    wsTot[f'M{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정  
+    wsTot[f'M{rowNo}'].alignment = Alignment(horizontal='center', vertical='center')     # 03. 필드 정렬 설정 
+    wsTot[f'M{rowNo}'].border = thin_border   # 04. 필드 테두리 설정 
+
+    wsTot[f'N{rowNo}'].value = irp_stock_nm_19      # 01. 필드에 값 쓰기 ---> 상품명_19(퇴직 연금) Value ■
+    wsTot[f'N{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정 
+    wsTot[f'N{rowNo}'].border = thin_border   # 04. 필드 테두리 설정 
+
+    wsTot[f'O{rowNo}'].value = irp_eval_amt_19      # 01. 필드에 값 쓰기 ---> 평가금액_19(퇴직 연금) Value ■
+    wsTot[f'O{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정  
+    wsTot[f'O{rowNo}'].alignment = Alignment(horizontal='right', vertical='center')     # 03. 필드 정렬 설정
+    wsTot[f'O{rowNo}'].border = thin_border   # 04. 필드 테두리 설정 
+    # print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_51_22] [평가손익_2(퇴직 연금)]"+ str(irp_eval_profit_loss_19) )
+
+    if irp_eval_profit_loss_19 != ''  :   # 평가손익_19이 존재하면 
+        wsTot[f'P{rowNo}'].value = format(irp_eval_profit_loss_19, ',')      # 01. 필드에 값 쓰기 ---> 평가손익_19(퇴직 연금) Value ■
+    else: 
+        wsTot[f'P{rowNo}'].value = irp_eval_profit_loss_19     # 01. 필드에 값 쓰기 ---> 평가손익_19(퇴직 연금) Value ■
+
+    wsTot[f'P{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정  
+    wsTot[f'P{rowNo}'].alignment = Alignment(horizontal='right', vertical='center')     # 03. 필드 정렬 설정 
+    wsTot[f'P{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+    # print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_51_23] [손익률(%)_2(퇴직 연금)]"+ str(irp_eval_profit_loss_rate_1) )
+
+    wsTot[f'Q{rowNo}'].value = irp_eval_profit_loss_rate_19     # 01. 필드에 값 쓰기 ---> 손익률(%)_19(퇴직 연금) Value ■
+    wsTot[f'Q{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정  
+    wsTot[f'Q{rowNo}'].alignment = Alignment(horizontal='right', vertical='center')     # 03. 필드 정렬 설정
+    wsTot[f'Q{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+
+    if irp_eval_profit_loss_19 == ''  :   # 평가손익_19이 존재하면     
+        wsTot[f'P{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정 
+        wsTot[f'Q{rowNo}'].font = Font(name="돋움", bold=False, size=9)  # 02. 필드 글자 설정   
+    elif irp_eval_profit_loss_19 > 0  :   # 평평가손익_2이 양이면    
+        wsTot[f'P{rowNo}'].font = Font(name="돋움", bold=False, size=9, color="FF0000")   # 02. 필드 글자 설정(빨간색)
+        wsTot[f'Q{rowNo}'].font = Font(name="돋움", bold=False, size=9, color="FF0000")   # 02. 필드 글자 설정(빨간색)
+    else :
+        wsTot[f'P{rowNo}'].font = Font(name="돋움", bold=False, size=9, color="00ADEF")   # 02. 필드 글자 설정(파란색)
+        wsTot[f'Q{rowNo}'].font = Font(name="돋움", bold=False, size=9, color="00ADEF")   # 02. 필드 글자 설정(파란색)
+# # ------------------------------------------------------------------------------------------------------------->
+
+if irp_stock_nm_20 != None and irp_stock_nm_20 != '' :   # 상품명_20(퇴직 연금)이 존재하면
+    rowNo = add_row + 27		# "03-1. 퇴직신탁 보유현황" 칼럼 Row(02. 총자산(24Y) Tab에서)   ---> 상품명_20(퇴직 연금)
+    wsTot[f'K{rowNo}'].value = "20"  # 01. 필드에 값 쓰기 ---> No. ■ 
+    wsTot[f'K{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정  
+    wsTot[f'K{rowNo}'].alignment = Alignment(horizontal='center', vertical='center')     # 03. 필드 정렬 설정 
+    wsTot[f'K{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+
+    wsTot[f'L{rowNo}'].value = "010-30-7208980"   # 01. 필드에 값 쓰기 ---> 계좌번호 ■ 
+    wsTot[f'L{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정  
+    wsTot[f'L{rowNo}'].alignment = Alignment(horizontal='center', vertical='center')     # 03. 필드 정렬 설정
+    wsTot[f'L{rowNo}'].border = thin_border   # 04. 필드 테두리 설정 
+
+    wsTot[f'M{rowNo}'].value = "개인형IRP"   # 01. 필드에 값 쓰기 ---> 제도 ■ 
+    wsTot[f'M{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정  
+    wsTot[f'M{rowNo}'].alignment = Alignment(horizontal='center', vertical='center')     # 03. 필드 정렬 설정 
+    wsTot[f'M{rowNo}'].border = thin_border   # 04. 필드 테두리 설정 
+
+    wsTot[f'N{rowNo}'].value = irp_stock_nm_20      # 01. 필드에 값 쓰기 ---> 상품명_20(퇴직 연금) Value ■
+    wsTot[f'N{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정 
+    wsTot[f'N{rowNo}'].border = thin_border   # 04. 필드 테두리 설정 
+
+    wsTot[f'O{rowNo}'].value = irp_eval_amt_20      # 01. 필드에 값 쓰기 ---> 평가금액_20(퇴직 연금) Value ■
+    wsTot[f'O{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정  
+    wsTot[f'O{rowNo}'].alignment = Alignment(horizontal='right', vertical='center')     # 03. 필드 정렬 설정
+    wsTot[f'O{rowNo}'].border = thin_border   # 04. 필드 테두리 설정 
+    # print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_51_22] [평가손익_2(퇴직 연금)]"+ str(irp_eval_profit_loss_20) )
+
+    if irp_eval_profit_loss_20 != ''  :   # 평가손익_20이 존재하면 
+        wsTot[f'P{rowNo}'].value = format(irp_eval_profit_loss_20, ',')      # 01. 필드에 값 쓰기 ---> 평가손익_20(퇴직 연금) Value ■
+    else: 
+        wsTot[f'P{rowNo}'].value = irp_eval_profit_loss_20     # 01. 필드에 값 쓰기 ---> 평가손익_20(퇴직 연금) Value ■
+
+    wsTot[f'P{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정  
+    wsTot[f'P{rowNo}'].alignment = Alignment(horizontal='right', vertical='center')     # 03. 필드 정렬 설정 
+    wsTot[f'P{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+    # print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_51_23] [손익률(%)_2(퇴직 연금)]"+ str(irp_eval_profit_loss_rate_1) )
+
+    wsTot[f'Q{rowNo}'].value = irp_eval_profit_loss_rate_20     # 01. 필드에 값 쓰기 ---> 손익률(%)_20(퇴직 연금) Value ■
+    wsTot[f'Q{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정  
+    wsTot[f'Q{rowNo}'].alignment = Alignment(horizontal='right', vertical='center')     # 03. 필드 정렬 설정
+    wsTot[f'Q{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+
+    if irp_eval_profit_loss_20 == ''  :   # 평가손익_20이 존재하면     
+        wsTot[f'P{rowNo}'].font = Font(name="돋움", bold=False, size=9)   # 02. 필드 글자 설정 
+        wsTot[f'Q{rowNo}'].font = Font(name="돋움", bold=False, size=9)  # 02. 필드 글자 설정   
+    elif irp_eval_profit_loss_20 > 0  :   # 평평가손익_2이 양이면    
+        wsTot[f'P{rowNo}'].font = Font(name="돋움", bold=False, size=9, color="FF0000")   # 02. 필드 글자 설정(빨간색)
+        wsTot[f'Q{rowNo}'].font = Font(name="돋움", bold=False, size=9, color="FF0000")   # 02. 필드 글자 설정(빨간색)
+    else :
+        wsTot[f'P{rowNo}'].font = Font(name="돋움", bold=False, size=9, color="00ADEF")   # 02. 필드 글자 설정(파란색)
+    wsTot[f'Q{rowNo}'].font = Font(name="돋움", bold=False, size=9, color="00ADEF")   # 02. 필드 글자 설정(파란색)
+# # ------------------------------------------------------------------------------------------------------------->
+# ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ ------------------->
+
+
+print("\n\n [@_T] ■■■ [/ast_vrfc.py] ==> [T_01] ■■■■■■ [######################### [71. 자산(24Y) Tab 작업 Start] #########################] ■■■■■■ ")
+
+print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_71_01] [71. 자산(24Y) Tab Sheet(Tab)에 접근 @@@@@@@@ ===========>]")
+
+
+tot_sum_prev_amt = 0        # 90. 총 합계 금액(이전 년월)
+rowNo = 17
+astYear = "01. 자산("+ str(astYYM[2:4]) +"Y)"   # 02. 출력할 년월■  --> 자산(25Y)
+
+if int(input_astYYYYMM[1]) > 11  :   # 자산 월이 12월 이면
+    ws = wb.create_sheet(astYear, 0)   # 엑셀 Sheet 생성 --> 자산(25Y) Tab 생성
+    ws = wb[astYear]    # "자산(2023)" Sheet(Tab)에 접근 --> 자산(25Y) Tab 접근    
+    astPrevYear = "01. 자산("+ str(input_astYYYYMM[0][2:4]) +"Y)"   # 01. 현재 년월[입력] --> 자산(24Y)
+    # print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_71_01_1] [00. astYear]"+ str(astYear) +"[자산 년]"+ str(input_astYYYYMM[0]) +"[자산 월]"+ str(input_astYYYYMM[1]) ) 
+    wsPrev = wb[astPrevYear]    # 01. 현재 년월[입력] Sheet(Tab)에 접근 --> 자산(24Y) Tab 접근   
+
+    tot_sum_prev_amt = wsPrev[f'B{rowNo}'].value    # 01. 현재 년월(Tab) 총 합계 금액(이전 년월) value ■  
+else :    
+    ws = wb[astYear]    # "자산(2023)" Sheet(Tab)에 접근 --> 자산(25Y) Tab 접근    
+    tot_sum_prev_amt = ws[f'B{rowNo}'].value    # 01. 필드에 값 쓰기 ---> 00. 총 합계 금액(이전 년월) value ■ 
+print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_71_03] [00. astYear]"+ str(astYear) +"[자산 년]"+ str(input_astYYYYMM[0]) +"[자산 월]"+ str(input_astYYYYMM[1]) )
+print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_71_04] [rowNo]"+ str(rowNo) +"[00. 총 합계 금액(이전 년월)]"+ str(tot_sum_prev_amt) )
+# -------------------------------------------------------------------------------------------->
+
+
+# 01. 자산(24Y) Tab 줄 추가, 셀 병합
+insertRow = 17 + 2      # 월별 자산 추가 줄(17줄 + 2줄[상위 빈 줄])
+ws.insert_rows(3, insertRow)    # 월별 자산 제목 아래 부터 줄부터 18줄 추가(3번째 줄 위치에 19줄을 추가 ==> 17줄)
+print("\n\n[@_T] ■■■ [/ast_vrfc.py] ==> [T_71_04] [01.자산(24Y) Tab 줄 추가, 셀 병합 처리]===========>" )
+
+addRow = 3
+addRow2 = insertRow
+ws.merge_cells(start_row=1, start_column=1, end_row=1, end_column=5)  # 'TAMA 자산(2024)' 셀 병합("A1:E1")
+ws.merge_cells(start_row=addRow, start_column=1, end_row=addRow, end_column=4)     # '2024.06 자산' 셀 병합("A3:D3") ==> 22
+ws.merge_cells(start_row=addRow, start_column=7, end_row=addRow, end_column=8)     # '은행 결산' 셀 병합(G3:H3")
+ws.merge_cells(start_row=addRow, start_column=10, end_row=addRow, end_column=11)   # '지출' 셀 병합("J3:K3")
+ws.merge_cells(start_row=addRow2, start_column=1, end_row=addRow2, end_column=5)   # '결산' 셀 병합("A19:E19")
+print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_71_50] [item_0번째] [00. A_rowNo]"+ str(ws[f'A{addRow}'].value) +"[01. start_row]"+ str(addRow) +"[02. addRow2]"+ str(addRow2) )
+
+addRow = 0
+addRow2 = 0
+addRowFrst = int(insertRow) + 3    # 줄 추가_01[2024.06 자산 칼럼] = 19 + 3줄[하위 빈 줄])
+addRowFrst2 = int(insertRow) + 19  # 줄 추가_02[결산 칼럼] = 19 + 19줄[하위 빈 줄])
+
+for i in range(1, 13):
+    addRow = int(addRow) + int(addRowFrst)     # 줄 추가_03 = 22 + 3 = 41
+    addRow2 = int(addRow2) + int(addRowFrst2)  # 줄 추가_03 = 19 + 19 = 57
+    if i > 1 : addRow = int(addRow) - 3
+    if i > 1 : addRow2 = int(addRow2) - 19
+    # if ws[f'A{rowNo}'].value != None and ws[f'A{rowNo}'].value != '' :   # 상품명_3(퇴직 연금)이 존재하면 
+    ws.merge_cells(start_row=addRow, start_column=1, end_row=addRow, end_column=4)     # '2024.06 자산' 셀 병합("A3:D3") ==> 41
+    ws.merge_cells(start_row=addRow, start_column=7, end_row=addRow, end_column=8)     # '은행 결산' 셀 병합(G3:H3")
+    ws.merge_cells(start_row=addRow, start_column=10, end_row=addRow, end_column=11)   # '지출' 셀 병합("J3:K3") 
+    ws.merge_cells(start_row=addRow2, start_column=1, end_row=addRow2, end_column=5)   # '결산' 셀 병합("A19:E19")
+    print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_71_51] [item_번째]"+ str(i) +"[00. A_rowNo]"+ str(ws[f'A{rowNo}'].value) +"[01. start_row]"+ str(addRow) +"[02. addRow2]"+ str(addRow2) )
+# -------------------------------------------------------------------------------------------->
+
+# 01. 자산(24Y) Tab 값 쓰기
+ws.column_dimensions["A"].width = 50  # A열의 너비를 50로 설정
+ws.column_dimensions["B"].width = 10  # A열의 너비를 10로 설정
+ws.column_dimensions["G"].width = 18  # G열의 너비를 18로 설정
+ws.column_dimensions["J"].width = 18  # G열의 너비를 18로 설정 
+thin_border = Border(left=Side(style="thin"), right=Side(style="thin"), top=Side(style="thin"), bottom=Side(style="thin"))
+
+rowNo = 0
+add_row = 0     # 줄 추가
+rowNo = add_row + 1 
+if int(input_astYYYYMM[1]) > 11  :   # 자산 월이 12월 이면
+    ws[f'A{rowNo}'].value = "01. TAMA 자산("+ str(astYYM[0:4]) +")"  # 01. 필드에 값 쓰기 ---> TAMA 자산 ■
+    ws[f'A{rowNo}'].font = Font(name="돋움", bold=True, size=13)   # 02. 필드 글자 설정 
+    ws[f'A{rowNo}'].alignment = Alignment(horizontal='center', vertical='center')   # 03. 필드 정렬 설정
+    ws[f'A{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+    ws[f'B{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+    ws[f'C{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+    ws[f'D{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+    ws[f'E{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+    ws[f'A{rowNo}'].fill = blueDark2Fill   # 05. 필드 배경색 설정
+# ------------------------------------------------------------------------------------------------------------->
+
+rowNo = add_row + 3     # "2023.12 자산" 칼럼 Row(자산(2023) Tab에서)
+ws[f'A{rowNo}'].value = astYYM +" 자산"   # 01. 필드에 값 쓰기 ---> 자산 년월 ■
+ws[f'A{rowNo}'].font = Font(name="돋움", bold=True, size=12)   # 02. 필드 글자 설정 
+ws[f'A{rowNo}'].alignment = Alignment(horizontal='center', vertical='center')   # 03. 필드 정렬 설정
+ws[f'A{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+ws[f'A{rowNo}'].fill = orangeFill      # 05. 필드 배경색 설정
+
+ws[f'B{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+ws[f'B{rowNo}'].fill = orangeFill      # 05. 필드 배경색 설정
+
+ws[f'C{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+ws[f'C{rowNo}'].fill = orangeFill      # 05. 필드 배경색 설정
+
+ws[f'D{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+ws[f'D{rowNo}'].fill = orangeFill      # 05. 필드 배경색 설정
+
+ws[f'E{rowNo}'].value = lastLastDt     # 01. 필드에 값 쓰기 ---> 024.01.01(작성 년월일) ■
+ws[f'E{rowNo}'].font = Font(name="돋움", bold=True, size=9)     # 02. 필드 글자 설정 
+ws[f'E{rowNo}'].alignment = Alignment(horizontal='center', vertical='center')    # 03. 필드 정렬 설정
+ws[f'E{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+ws[f'E{rowNo}'].fill = orangeFill      # 05. 필드 배경색 설정
+
+ws[f'G{rowNo}'].value = '은행 결산'     # 01. 필드에 값 쓰기 ---> 은행 결산 ■
+ws[f'G{rowNo}'].font = Font(name="돋움", bold=True, size=9, color="FF0000")     # 02. 필드 글자 설정
+ws[f'G{rowNo}'].alignment = Alignment(horizontal='center', vertical='center')   # 03. 필드 정렬 설정
+ws[f'G{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+ws[f'G{rowNo}'].fill = blueDark2Fill   # 05. 필드 배경색 설정
+
+ws[f'H{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+
+ws[f'J{rowNo}'].value = '지출'          # 01. 필드에 값 쓰기 ---> 지출 ■
+ws[f'J{rowNo}'].font = Font(name="돋움", bold=True, size=9, color="FF0000")      # 02. 필드 글자 설정
+ws[f'J{rowNo}'].alignment = Alignment(horizontal='center', vertical='center')    # 03. 필드 정렬 설정
+ws[f'J{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+ws[f'J{rowNo}'].fill = blueDark2Fill   # 05. 필드 배경색 설정
+
+ws[f'K{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+ws[f'K{rowNo}'].fill = blueDark2Fill   # 05. 필드 배경색 설정 
+# ------------------------------------------------------------------------------------------------------------->
+
+rowNo = add_row + 4    # "내용" 칼럼 Row(자산(2023) Tab에서)
+ws[f'A{rowNo}'].value = '내용'          # 01. 필드에 값 쓰기 ---> 내용 ■
+ws[f'A{rowNo}'].font = Font(name="돋움", bold=False, size=9)    # 02. 필드 글자 설정
+ws[f'A{rowNo}'].alignment = Alignment(horizontal='center', vertical='center')     # 03. 필드 정렬 설정
+ws[f'A{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+ws[f'A{rowNo}'].fill = grayFill        # 05. 필드 배경색 설정
+
+ws[f'B{rowNo}'].value = '금액'          # 01. 필드에 값 쓰기 ---> 금액 ■
+ws[f'B{rowNo}'].font = Font(name="돋움", bold=False, size=9)    # 02. 필드 글자 설정
+ws[f'B{rowNo}'].alignment = Alignment(horizontal='center', vertical='center')     # 03. 필드 정렬 설정
+ws[f'B{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+ws[f'B{rowNo}'].fill = grayFill        # 05. 필드 배경색 설정
+
+ws[f'C{rowNo}'].value = '원금'          # 01. 필드에 값 쓰기 ---> 원금 ■
+ws[f'C{rowNo}'].font = Font(name="돋움", bold=False, size=9)    # 02. 필드 글자 설정
+ws[f'C{rowNo}'].alignment = Alignment(horizontal='center', vertical='center')     # 03. 필드 정렬 설정
+ws[f'C{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+ws[f'C{rowNo}'].fill = grayFill        # 05. 필드 배경색 설정
+
+ws[f'D{rowNo}'].value = '손익'          # 01. 필드에 값 쓰기 ---> 손익 ■
+ws[f'D{rowNo}'].font = Font(name="돋움", bold=False, size=9)    # 02. 필드 글자 설정
+ws[f'D{rowNo}'].alignment = Alignment(horizontal='center', vertical='center')     # 03. 필드 정렬 설정
+ws[f'D{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+ws[f'D{rowNo}'].fill = grayFill        # 05. 필드 배경색 설정
+
+ws[f'E{rowNo}'].value = '수익률(%)'     # 01. 필드에 값 쓰기 ---> 수익률(%) ■
+ws[f'E{rowNo}'].font = Font(name="돋움", bold=False, size=9)    # 02. 필드 글자 설정
+ws[f'E{rowNo}'].alignment = Alignment(horizontal='center', vertical='center')     # 03. 필드 정렬 설정
+ws[f'E{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+ws[f'E{rowNo}'].fill = grayFill        # 05. 필드 배경색 설정
+
+ws[f'G{rowNo}'].value = '은행 자산 상태'    # 01. 필드에 값 쓰기 ---> 은행 자산 상태 ■
+ws[f'G{rowNo}'].font = Font(name="돋움", bold=False, size=9)    # 02. 필드 글자 설정
+ws[f'G{rowNo}'].alignment = Alignment(horizontal='center', vertical='center')     # 03. 필드 정렬 설정
+ws[f'G{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+ws[f'G{rowNo}'].fill = grayFill        # 05. 필드 배경색 설정
+
+ws[f'H{rowNo}'].value = '금액'    # 01. 필드에 값 쓰기 ---> 금액 ■
+ws[f'H{rowNo}'].font = Font(name="돋움", bold=False, size=9)    # 02. 필드 글자 설정
+ws[f'H{rowNo}'].alignment = Alignment(horizontal='center', vertical='center')     # 03. 필드 정렬 설정
+ws[f'H{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+ws[f'H{rowNo}'].fill = grayFill        # 05. 필드 배경색 설정
+
+ws[f'J{rowNo}'].value = '내역'    # 01. 필드에 값 쓰기 ---> 내역 ■
+ws[f'J{rowNo}'].font = Font(name="돋움", bold=False, size=9)    # 02. 필드 글자 설정
+ws[f'J{rowNo}'].alignment = Alignment(horizontal='center', vertical='center')     # 03. 필드 정렬 설정
+ws[f'J{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+ws[f'J{rowNo}'].fill = grayFill        # 05. 필드 배경색 설정
+
+ws[f'K{rowNo}'].value = '금액'    # 01. 필드에 값 쓰기 ---> 금액 ■
+ws[f'K{rowNo}'].font = Font(name="돋움", bold=False, size=9)    # 02. 필드 글자 설정
+ws[f'K{rowNo}'].alignment = Alignment(horizontal='center', vertical='center')     # 03. 필드 정렬 설정
+ws[f'K{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+ws[f'K{rowNo}'].fill = grayFill        # 05. 필드 배경색 설정
+# -------------------------------------------------------------------------------------------->
+
+rowNo = add_row + 5    # "01. 은행 예. 적금([06])" 칼럼 Row(자산(2023) Tab에서)
+ws[f'A{rowNo}'].value = deposit_savings_nm    # 01. 필드에 값 쓰기 ---> 01. 은행 예. 적금([06]) ■
+ws[f'A{rowNo}'].font = Font(name="돋움", bold=False, size=9)    # 02. 필드 글자 설정
+ws[f'A{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+ws[f'A{rowNo}'].fill = blueFill        # 05. 필드 배경색 설정
+
+ws[f'B{rowNo}'].value = format(deposit_savings, ',')         # 01. 필드에 값 쓰기 ---> 01. 은행 예. 적금([06]) value ■
+ws[f'B{rowNo}'].font = Font(name="돋움", bold=False, size=9, color="FF0000")    # 02. 필드 글자 설정
+ws[f'B{rowNo}'].alignment = Alignment(horizontal='right', vertical='center')    # 03. 필드 정렬 설정
+ws[f'B{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+ws[f'B{rowNo}'].fill = blueFill        # 05. 필드 배경색 설정
+
+ws[f'C{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+ws[f'C{rowNo}'].fill = blueFill        # 05. 필드 배경색 설정
+
+ws[f'D{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+ws[f'D{rowNo}'].fill = blueFill        # 05. 필드 배경색 설정
+
+ws[f'E{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+ws[f'E{rowNo}'].fill = blueFill        # 05. 필드 배경색 설정
+
+ws[f'G{rowNo}'].value = deposit_savings_sh_nm   # 01. 필드에 값 쓰기 ---> 01. 신한은행 ■
+ws[f'G{rowNo}'].font = Font(name="돋움", bold=False, size=9)    # 02. 필드 글자 설정
+ws[f'G{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+
+ws[f'H{rowNo}'].value = format(deposit_savings_sh, ',')     # 01. 필드에 값 쓰기 ---> 01. 신한은행 Value ■
+ws[f'H{rowNo}'].font = Font(name="돋움", bold=False, size=9)    # 02. 필드 글자 설정
+ws[f'H{rowNo}'].alignment = Alignment(horizontal='right', vertical='center')    # 03. 필드 정렬 설정 
+ws[f'H{rowNo}'].border = thin_border     # 04. 필드 테두리 설정
+ws[f'H{rowNo}'].fill = blueFill          # 05. 필드 배경색 설정
+
+ws[f'J{rowNo}'].value = '91. 월 지출(A)'   # 01. 필드에 값 쓰기 --->  91. 월 지출(A)■
+ws[f'J{rowNo}'].font = Font(name="돋움", bold=False, size=9)    # 02. 필드 글자 설정
+ws[f'J{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+
+ws[f'K{rowNo}'].value = format(mon_expendit, ',')     # 01. 필드에 값 쓰기 --->  91. 월 지출(A) Value ■
+ws[f'K{rowNo}'].font = Font(name="돋움", bold=False, size=9)    # 02. 필드 글자 설정
+ws[f'K{rowNo}'].alignment = Alignment(horizontal='right', vertical='center')    # 03. 필드 정렬 설정 설정
+ws[f'K{rowNo}'].border = thin_border     # 04. 필드 테두리 설정
+# -------------------------------------------------------------------------------------------->
+
+rowNo = add_row + 6    # "02. 대여금(문태용[24.05까지])" 칼럼 Row(자산(2023) Tab에서)
+ws[f'A{rowNo}'].value = rental_fee_nm   # 01. 필드에 값 쓰기 ---> 02. 대여금(문태용[24.05까지]) ■
+ws[f'A{rowNo}'].font = Font(name="돋움", bold=False, size=9)    # 02. 필드 글자 설정
+ws[f'A{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+ws[f'A{rowNo}'].fill = blueFill        # 05. 필드 배경색 설정
+# print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_71_11] [02. 대여금]"+ str(rental_fee))
+
+ws[f'B{rowNo}'].value = format(rental_fee, ',')        # 01. 필드에 값 쓰기 ---> 02. 대여금(문태용[24.05까지]) value ■
+ws[f'B{rowNo}'].font = Font(name="돋움", bold=False, size=9)    # 02. 필드 글자 설정
+ws[f'B{rowNo}'].alignment = Alignment(horizontal='right', vertical='center')    # 03. 필드 정렬 설정
+ws[f'B{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+ws[f'B{rowNo}'].fill = blueFill        # 05. 필드 배경색 설정
+
+ws[f'C{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+ws[f'C{rowNo}'].fill = blueFill        # 05. 필드 배경색 설정
+
+ws[f'D{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+ws[f'D{rowNo}'].fill = blueFill        # 05. 필드 배경색 설정
+
+ws[f'E{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+ws[f'E{rowNo}'].fill = blueFill        # 05. 필드 배경색 설정
+
+ws[f'G{rowNo}'].border = thin_border   # 04. 필드 테두리 설정  ---> 은행 결산_1 칼럼 ■
+
+ws[f'H{rowNo}'].border = thin_border   # 04. 필드 테두리 설정  ---> 은행 결산_2 칼럼 ■
+
+ws[f'J{rowNo}'].border = thin_border   # 04. 필드 테두리 설정  ---> 지출_1 칼럼 ■
+
+ws[f'K{rowNo}'].border = thin_border   # 04. 필드 테두리 설정  ---> 지출_2 칼럼 ■
+# # -------------------------------------------------------------------------------------------->
+
+rowNo = add_row + 7   # "1. 총 예적금" 칼럼 Row(자산(2023) Tab에서)
+ws[f'A{rowNo}'].value = '1. 총 예적금'   # 01. 필드에 값 쓰기 ---> 1. 총 예적금 ■
+ws[f'A{rowNo}'].font = Font(name="돋움", bold=True, size=9)  # 02. 필드 글자 설정
+ws[f'A{rowNo}'].border = thin_border    # 04. 필드 테두리 설정
+ws[f'A{rowNo}'].fill = greenWeekFill    # 05. 필드 배경색 설정
+
+ws[f'B{rowNo}'].value = format(tot_deposit_savings, ',')         # 01. 필드에 값 쓰기 ---> 01. 은행 예. 적금([06]) value ■
+ws[f'B{rowNo}'].font = Font(name="돋움", bold=True, size=9)    # 02. 필드 글자 설정
+ws[f'B{rowNo}'].alignment = Alignment(horizontal='right', vertical='center')    # 03. 필드 정렬 설정
+ws[f'B{rowNo}'].border = thin_border    # 04. 필드 테두리 설정
+ws[f'B{rowNo}'].fill = greenWeekFill    # 05. 필드 배경색 설정
+
+ws[f'C{rowNo}'].border = thin_border    # 04. 필드 테두리 설정
+ws[f'C{rowNo}'].fill = greenWeekFill    # 05. 필드 배경색 설정
+
+ws[f'D{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+ws[f'D{rowNo}'].fill = greenWeekFill   # 05. 필드 배경색 설정
+
+ws[f'E{rowNo}'].border = thin_border    # 04. 필드 테두리 설정
+ws[f'E{rowNo}'].fill = greenWeekFill    # 05. 필드 배경색 설정
+
+ws[f'G{rowNo}'].border = thin_border   # 04. 필드 테두리 설정  ---> 은행 결산_1 칼럼 ■
+
+ws[f'H{rowNo}'].border = thin_border   # 04. 필드 테두리 설정  ---> 은행 결산_2 칼럼 ■
+
+ws[f'J{rowNo}'].border = thin_border   # 04. 필드 테두리 설정  ---> 지출_1 칼럼 ■
+
+ws[f'K{rowNo}'].border = thin_border   # 04. 필드 테두리 설정  ---> 지출_2 칼럼 ■
+# -------------------------------------------------------------------------------------------->
+
+rowNo = add_row + 8   # "77. 주식 투자" 칼럼 Row(자산(2023) Tab에서)
+ws[f'A{rowNo}'].value = '77. 주식 투자'   # 01. 필드에 값 쓰기 ---> 77. 주식 투자 ■
+ws[f'A{rowNo}'].font = Font(name="돋움", bold=False, size=9)  # 02. 필드 글자 설정
+ws[f'A{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+
+ws[f'B{rowNo}'].value = format(eval_amt, ',')         # 01. 필드에 값 쓰기 ---> 77. 주식 투자(평가금액) value  ■
+ws[f'B{rowNo}'].font = Font(name="돋움", bold=True, size=9, color="FF0000")    # 02. 필드 글자 설정
+ws[f'B{rowNo}'].alignment = Alignment(horizontal='right', vertical='center')    # 03. 필드 정렬 설정
+ws[f'B{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+ws[f'B{rowNo}'].fill = yellowFill      # 05. 필드 배경색 설정
+
+ws[f'C{rowNo}'].value = format(prchs_amt, ',')         # 01. 필드에 값 쓰기 ---> 77. 주식 투자 원금(매입금액) value ■
+ws[f'C{rowNo}'].font = Font(name="돋움", bold=True, size=9)    # 02. 필드 글자 설정
+ws[f'C{rowNo}'].alignment = Alignment(horizontal='right', vertical='center')    # 03. 필드 정렬 설정
+ws[f'C{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+
+# 평가손익(원) = 평가금액 - 매입금액
+eval_profit_loss =  eval_amt - prchs_amt
+ws[f'D{rowNo}'].value = format(eval_profit_loss, ',')         # 01. 필드에 값 쓰기 ---> 77. 주식 투자 손익(평가손익) value ■
+if eval_profit_loss > 0  :   # 77. 주식 투자 손익이 양이면
+    ws[f'D{rowNo}'].font = Font(name="돋움", bold=True, size=9, color="FF0000")    # 02. 필드 글자 설정(빨간색)
+    ws[f'E{rowNo}'].font = Font(name="돋움", bold=True, size=9, color="FF0000")   # 02. 필드 글자 설정(빨간색)
+else :
+    ws[f'D{rowNo}'].font = Font(name="돋움", bold=True, size=9, color="00ADEF")   # 02. 필드 글자 설정(파란색)
+    ws[f'E{rowNo}'].font = Font(name="돋움", bold=True, size=9, color="00ADEF")   # 02. 필드 글자 설정(파란색)
+ws[f'D{rowNo}'].alignment = Alignment(horizontal='right', vertical='center')    # 03. 필드 정렬 설정
+ws[f'D{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+
+# 손익률(%)= (평가금액 - 매입금액) / 매입금액
+eval_profit_loss_rate =  (eval_profit_loss / prchs_amt) * 100
+ws[f'E{rowNo}'].value = f'{eval_profit_loss_rate:.2f}'         # 01. 필드에 값 쓰기 ---> 77. 주식 투자 수익률(%) [손익률(%)] value ■ 
+ws[f'E{rowNo}'].alignment = Alignment(horizontal='right', vertical='center')    # 03. 필드 정렬 설정
+ws[f'E{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+
+ws[f'G{rowNo}'].border = thin_border   # 04. 필드 테두리 설정  ---> 은행 결산_1 칼럼 ■
+
+ws[f'H{rowNo}'].border = thin_border   # 04. 필드 테두리 설정  ---> 은행 결산_2 칼럼 ■
+
+ws[f'J{rowNo}'].border = thin_border   # 04. 필드 테두리 설정  ---> 지출_1 칼럼 ■
+
+ws[f'K{rowNo}'].border = thin_border   # 04. 필드 테두리 설정  ---> 지출_2 칼럼 ■
+# -------------------------------------------------------------------------------------------->
+
+rowNo = add_row + 9   # "90. 퇴직 연금(개인형 IRP)'"칼럼 Row(자산(2023) Tab에서)
+ws[f'A{rowNo}'].value = '90. 퇴직 연금(개인형 IRP)'   # 01. 필드에 값 쓰기 ---> 90. 퇴직 연금(개인형 IRP) ■
+ws[f'A{rowNo}'].font = Font(name="돋움", bold=False, size=9)  # 02. 필드 글자 설정
+ws[f'A{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+
+ws[f'B{rowNo}'].value = format(irp_eval_amt, ',')         # 01. 필드에 값 쓰기 ---> 90. 퇴직 연금(개인형 IRP) (평가금액) value ■
+ws[f'B{rowNo}'].font = Font(name="돋움", bold=False, size=9)    # 02. 필드 글자 설정
+ws[f'B{rowNo}'].alignment = Alignment(horizontal='right', vertical='center')    # 03. 필드 정렬 설정
+ws[f'B{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+ws[f'B{rowNo}'].fill = blueDarkFill    # 05. 필드 배경색 설정
+
+ws[f'C{rowNo}'].value = format(irp_prchs_amt, ',')         # 01. 필드에 값 쓰기 ---> 78. 퇴직 연금 원금(매입금액) value ■
+ws[f'C{rowNo}'].font = Font(name="돋움", bold=False, size=9)    # 02. 필드 글자 설정
+ws[f'C{rowNo}'].alignment = Alignment(horizontal='right', vertical='center')    # 03. 필드 정렬 설정
+ws[f'C{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+
+ws[f'D{rowNo}'].value = format(irp_eval_profit_loss, ',')         # 01. 필드에 값 쓰기 ---> 78. 퇴직 연금 손익(평가손익) value ■
+if irp_eval_profit_loss > 0  :   # 78. 퇴직 연금 손익이 양이면
+    ws[f'D{rowNo}'].font = Font(name="돋움", bold=False, size=9, color="FF0000")   # 02. 필드 글자 설정(빨간색)
+    ws[f'E{rowNo}'].font = Font(name="돋움", bold=False, size=9, color="FF0000")   # 02. 필드 글자 설정(빨간색)
+else :
+    ws[f'D{rowNo}'].font = Font(name="돋움", bold=False, size=9, color="00ADEF")   # 02. 필드 글자 설정(파란색)
+    ws[f'E{rowNo}'].font = Font(name="돋움", bold=False, size=9, color="00ADEF")   # 02. 필드 글자 설정(파란색)
+ws[f'D{rowNo}'].alignment = Alignment(horizontal='right', vertical='center')    # 03. 필드 정렬 설정
+ws[f'D{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+# print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_71_13] [퇴직 연금 수익률(%)]"+ str(irp_eval_profit_loss_rate))
+
+ws[f'E{rowNo}'].value = format(irp_eval_profit_loss_rate * 100, ',')    # 01. 필드에 값 쓰기 ---> 78. 퇴직 연금 수익률(%) value ■
+ws[f'E{rowNo}'].alignment = Alignment(horizontal='right', vertical='center')    # 03. 필드 정렬 설정
+ws[f'E{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+
+ws[f'G{rowNo}'].border = thin_border   # 04. 필드 테두리 설정  ---> 은행 결산_1 칼럼 ■
+
+ws[f'H{rowNo}'].border = thin_border   # 04. 필드 테두리 설정  ---> 은행 결산_2 칼럼 ■
+
+ws[f'J{rowNo}'].border = thin_border   # 04. 필드 테두리 설정  ---> 지출_1 칼럼 ■
+
+ws[f'K{rowNo}'].border = thin_border   # 04. 필드 테두리 설정  ---> 지출_2 칼럼 ■
+# -------------------------------------------------------------------------------------------->
+
+rowNo = add_row + 10   # "78. 발행어음 만기형_개인(181~270)'" 칼럼 Row(자산(2023) Tab에서)
+ws[f'A{rowNo}'].value = '78. 발행어음 만기형_개인(181~270)'   # 01. 필드에 값 쓰기 ---> 78. 발행어음 만기형_개인(181~270) ■
+ws[f'A{rowNo}'].font = Font(name="돋움", bold=False, size=9)  # 02. 필드 글자 설정
+ws[f'A{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+
+ws[f'B{rowNo}'].value = format(eval_amt78, ',')         # 01. 필드에 값 쓰기 ---> 78. 발행어음 만기형_개인(181~270)(평가금액) value ■
+ws[f'B{rowNo}'].font = Font(name="돋움", bold=False, size=9)    # 02. 필드 글자 설정
+ws[f'B{rowNo}'].alignment = Alignment(horizontal='right', vertical='center')    # 03. 필드 정렬 설정
+ws[f'B{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+ws[f'B{rowNo}'].fill = blueDarkFill    # 05. 필드 배경색 설정
+
+ws[f'C{rowNo}'].value = format(prchs_amt78, ',')         # 01. 필드에 값 쓰기 ---> 78. 발행어음 원금(매입금액) value ■
+ws[f'C{rowNo}'].font = Font(name="돋움", bold=False, size=9)    # 02. 필드 글자 설정
+ws[f'C{rowNo}'].alignment = Alignment(horizontal='right', vertical='center')    # 03. 필드 정렬 설정
+ws[f'C{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+
+# 평가손익(원) = 평가금액 - 매입금액
+eval_profit_loss78 = eval_amt78 - prchs_amt78
+ws[f'D{rowNo}'].value = format(eval_profit_loss78, ',')   # 01. 필드에 값 쓰기 ---> 78. 발행어음 손익(평가손익) value ■
+if eval_profit_loss78 > 0  :   # 8. 발행어음 손익이 양이면
+    ws[f'D{rowNo}'].font = Font(name="돋움", bold=False, size=9, color="FF0000")    # 02. 필드 글자 설정(빨간색)
+    ws[f'E{rowNo}'].font = Font(name="돋움", bold=False, size=9, color="FF0000")   # 02. 필드 글자 설정(빨간색)
+else :
+    ws[f'D{rowNo}'].font = Font(name="돋움", bold=False, size=9, color="00ADEF")   # 02. 필드 글자 설정(파란색)
+    ws[f'E{rowNo}'].font = Font(name="돋움", bold=False, size=9, color="00ADEF")   # 02. 필드 글자 설정(파란색) 
+ws[f'D{rowNo}'].alignment = Alignment(horizontal='right', vertical='center')    # 03. 필드 정렬 설정
+ws[f'D{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+
+# 손익률(%)= (평가금액 - 매입금액) / 매입금액
+eval_profit_loss_rate78 = (eval_profit_loss78 / prchs_amt78) * 100
+# print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_71_12] [발행어음 수익률(%)]"+ str(eval_profit_loss_rate))
+
+ws[f'E{rowNo}'].value = f'{eval_profit_loss_rate78:.2f}'      # 01. 필드에 값 쓰기 ---> 78. 발행어음 수익률(%) value ■ 
+ws[f'E{rowNo}'].alignment = Alignment(horizontal='right', vertical='center')    # 03. 필드 정렬 설정
+ws[f'E{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+
+ws[f'G{rowNo}'].border = thin_border   # 04. 필드 테두리 설정  ---> 은행 결산_1 칼럼 ■
+
+ws[f'H{rowNo}'].border = thin_border   # 04. 필드 테두리 설정  ---> 은행 결산_2 칼럼 ■
+
+ws[f'J{rowNo}'].border = thin_border   # 04. 필드 테두리 설정  ---> 지출_1 칼럼 ■
+
+ws[f'K{rowNo}'].border = thin_border   # 04. 필드 테두리 설정  ---> 지출_2 칼럼 ■
+# -------------------------------------------------------------------------------------------->
+
+rowNo = add_row + 11   # "79. 발행어음 CMA_개인'" 칼럼 Row(자산(2023) Tab에서)
+ws[f'A{rowNo}'].value = '79. 발행어음 CMA_개인'   # 01. 필드에 값 쓰기 ---> 79. 발행어음 CMA_개인 ■
+ws[f'A{rowNo}'].font = Font(name="돋움", bold=False, size=9)  # 02. 필드 글자 설정
+ws[f'A{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+
+ws[f'B{rowNo}'].value = format(eval_amt79, ',')         # 01. 필드에 값 쓰기 ---> 79. 발행어음 CMA_개인(평가금액) value ■
+ws[f'B{rowNo}'].font = Font(name="돋움", bold=False, size=9)    # 02. 필드 글자 설정
+ws[f'B{rowNo}'].alignment = Alignment(horizontal='right', vertical='center')    # 03. 필드 정렬 설정
+ws[f'B{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+ws[f'B{rowNo}'].fill = blueDarkFill    # 05. 필드 배경색 설정
+
+ws[f'C{rowNo}'].value = format(prchs_amt79, ',')         # 01. 필드에 값 쓰기 ---> 79. 발행어음 원금(매입금액) value ■
+ws[f'C{rowNo}'].font = Font(name="돋움", bold=False, size=9)    # 02. 필드 글자 설정
+ws[f'C{rowNo}'].alignment = Alignment(horizontal='right', vertical='center')    # 03. 필드 정렬 설정
+ws[f'C{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+
+# 평가손익(원) = 평가금액 - 매입금액
+eval_profit_loss79 = eval_amt79 - prchs_amt79
+ws[f'D{rowNo}'].value = format(eval_profit_loss79, ',')   # 01. 필드에 값 쓰기 ---> 79. 발행어음 손익(평가손익) value ■
+if eval_profit_loss79 > 0  :   # 8. 발행어음 손익이 양이면
+    ws[f'D{rowNo}'].font = Font(name="돋움", bold=False, size=9, color="FF0000")    # 02. 필드 글자 설정(빨간색)
+    ws[f'E{rowNo}'].font = Font(name="돋움", bold=False, size=9, color="FF0000")   # 02. 필드 글자 설정(빨간색)
+else :
+    ws[f'D{rowNo}'].font = Font(name="돋움", bold=False, size=9, color="00ADEF")   # 02. 필드 글자 설정(파란색)
+    ws[f'E{rowNo}'].font = Font(name="돋움", bold=False, size=9, color="00ADEF")   # 02. 필드 글자 설정(파란색) 
+ws[f'D{rowNo}'].alignment = Alignment(horizontal='right', vertical='center')    # 03. 필드 정렬 설정
+ws[f'D{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+
+# 손익률(%)= (평가금액 - 매입금액) / 매입금액
+if eval_profit_loss79 < 1 :   # 발행어음 수익률이 음이면
+    eval_profit_loss_rate79 = 0
+else :
+    eval_profit_loss_rate79 =  (eval_profit_loss79 / prchs_amt79) * 100
+# print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_71_12] [발행어음 수익률(%)]"+ str(eval_profit_loss_rate))
+
+ws[f'E{rowNo}'].value = f'{eval_profit_loss_rate79:.2f}'      # 01. 필드에 값 쓰기 ---> 79. 발행어음 수익률(%) value ■ 
+ws[f'E{rowNo}'].alignment = Alignment(horizontal='right', vertical='center')    # 03. 필드 정렬 설정
+ws[f'E{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+
+ws[f'G{rowNo}'].border = thin_border   # 04. 필드 테두리 설정  ---> 은행 결산_1 칼럼 ■
+
+ws[f'H{rowNo}'].border = thin_border   # 04. 필드 테두리 설정  ---> 은행 결산_2 칼럼 ■
+
+ws[f'J{rowNo}'].border = thin_border   # 04. 필드 테두리 설정  ---> 지출_1 칼럼 ■
+
+ws[f'K{rowNo}'].border = thin_border   # 04. 필드 테두리 설정  ---> 지출_2 칼럼 ■
+# -------------------------------------------------------------------------------------------->
+
+rowNo = add_row + 12   # "2. 총 투자 금액" 칼 럼 Row(자산(2023) Tab에서)
+ws[f'A{rowNo}'].value = '2. 총 투자 금액'   # 01. 필드에 값 쓰기 ---> 2. 총 투자 금액 ■
+ws[f'A{rowNo}'].font = Font(name="돋움", bold=True, size=9)  # 02. 필드 글자 설정
+ws[f'A{rowNo}'].border = thin_border    # 04. 필드 테두리 설정
+ws[f'A{rowNo}'].fill = greenWeekFill    # 05. 필드 배경색 설정
+
+tot_invst_amt = int(eval_amt) + int(eval_amt78) + int(eval_amt79) + int(irp_eval_amt)   # 2. 총 투자 금액 = 77. 평가금액(주식 투자) + 78. 평가금액(발행 어음) + 79. 발행어음 CMA_개인 + 90. 평가금액(퇴직 연금)
+ws[f'B{rowNo}'].value = format(tot_invst_amt, ',')         # 01. 필드에 값 쓰기 ---> 2. 총 투자 금액 value ■
+ws[f'B{rowNo}'].font = Font(name="돋움", bold=True, size=9)    # 02. 필드 글자 설정
+ws[f'B{rowNo}'].alignment = Alignment(horizontal='right', vertical='center')    # 03. 필드 정렬 설정
+ws[f'B{rowNo}'].border = thin_border    # 04. 필드 테두리 설정
+ws[f'B{rowNo}'].fill = greenWeekFill    # 05. 필드 배경색 설정
+
+tot_prch_amt = int(prchs_amt) + int(prchs_amt78) + int(prchs_amt79) + int(irp_prchs_amt)   # 2. 총 투자 금액 (원금)= 77. 평가금액(주식 투자)(원금) + 78. 평가금액(발행 어음) (원금)+ 90. 평가금액(퇴직 연금)(원금)
+ws[f'C{rowNo}'].value = format(tot_prch_amt, ',')         # 01. 필드에 값 쓰기 ---> 2. 총 투자 금액(원금) value ■
+ws[f'C{rowNo}'].font = Font(name="돋움", bold=False, size=9)    # 02. 필드 글자 설정
+ws[f'C{rowNo}'].alignment = Alignment(horizontal='right', vertical='center')    # 03. 필드 정렬 설정
+ws[f'C{rowNo}'].border = thin_border    # 04. 필드 테두리 설정
+ws[f'C{rowNo}'].fill = greenWeekFill    # 05. 필드 배경색 설정
+
+ws[f'D{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+ws[f'D{rowNo}'].fill = greenWeekFill   # 05. 필드 배경색 설정
+
+ws[f'E{rowNo}'].border = thin_border    # 04. 필드 테두리 설정
+ws[f'E{rowNo}'].fill = greenWeekFill    # 05. 필드 배경색 설정
+
+ws[f'G{rowNo}'].border = thin_border    # 04. 필드 테두리 설정  ---> 은행 결산_1 칼럼 ■
+
+ws[f'H{rowNo}'].border = thin_border   # 04. 필드 테두리 설정  ---> 은행 결산_2 칼럼 ■
+
+ws[f'J{rowNo}'].border = thin_border   # 04. 필드 테두리 설정  ---> 지출_1 칼럼 ■
+
+ws[f'K{rowNo}'].border = thin_border   # 04. 필드 테두리 설정  ---> 지출_2 칼럼 ■
+# -------------------------------------------------------------------------------------------->
+
+rowNo = add_row + 13   # "21. (무) 굿앤굿어린이CI보험(Hi1304)(현대해상, 진수종) 칼럼 Row(자산(2023) Tab에서)
+ws[f'A{rowNo}'].value = '21. (무) 굿앤굿어린이CI보험(Hi1304)(현대해상, 진수종)'   # 01. 필드에 값 쓰기 ---> 21. (무) 굿앤굿어린이CI보험(Hi1304)(현대해상, 진수종) ■
+ws[f'A{rowNo}'].font = Font(name="돋움", bold=False, size=9)  # 02. 필드 글자 설정
+ws[f'A{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+
+ws[f'B{rowNo}'].value = format(insu_non_life_soo, ',')         # 01. 필드에 값 쓰기 ---> 21. (무) 굿앤굿어린이CI보험(Hi1304)(현대해상, 진수종) value ■
+ws[f'B{rowNo}'].font = Font(name="돋움", bold=False, size=9)    # 02. 필드 글자 설정
+ws[f'B{rowNo}'].alignment = Alignment(horizontal='right', vertical='center')    # 03. 필드 정렬 설정
+ws[f'B{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+
+ws[f'C{rowNo}'].border = thin_border    # 04. 필드 테두리 설정
+
+ws[f'D{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+
+ws[f'E{rowNo}'].border = thin_border    # 04. 필드 테두리 설정
+
+ws[f'G{rowNo}'].border = thin_border    # 04. 필드 테두리 설정  ---> 은행 결산_1 칼럼 ■
+
+ws[f'H{rowNo}'].border = thin_border   # 04. 필드 테두리 설정  ---> 은행 결산_2 칼럼 ■
+
+ws[f'J{rowNo}'].border = thin_border   # 04. 필드 테두리 설정  ---> 지출_1 칼럼 ■
+
+ws[f'K{rowNo}'].border = thin_border   # 04. 필드 테두리 설정  ---> 지출_2 칼럼 ■
+# # -------------------------------------------------------------------------------------------->
+
+rowNo = add_row + 14   # "22. (무) 한아름행복플러스종합보험1404(한화손해보험, 잔태만)'" 칼 럼 Row(자산(2023) Tab에서)
+ws[f'A{rowNo}'].value = '22. (무) 한아름행복플러스종합보험1404(한화손해보험, 잔태만)'   # 01. 필드에 값 쓰기 ---> 2. (무) 한아름행복플러스종합보험1404(한화손해보험, 잔태만) ■
+ws[f'A{rowNo}'].font = Font(name="돋움", bold=False, size=9)  # 02. 필드 글자 설정
+ws[f'A{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+
+ws[f'B{rowNo}'].value = format(insu_non_life, ',')         # 01. 필드에 값 쓰기 ---> 22. (무) 한아름행복플러스종합보험1404(한화손해보험, 잔태만) value ■
+ws[f'B{rowNo}'].font = Font(name="돋움", bold=False, size=9)    # 02. 필드 글자 설정
+ws[f'B{rowNo}'].alignment = Alignment(horizontal='right', vertical='center')    # 03. 필드 정렬 설정
+ws[f'B{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+
+ws[f'C{rowNo}'].border = thin_border    # 04. 필드 테두리 설정
+
+ws[f'D{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+
+ws[f'E{rowNo}'].border = thin_border    # 04. 필드 테두리 설정
+
+ws[f'G{rowNo}'].border = thin_border    # 04. 필드 테두리 설정  ---> 은행 결산_1 칼럼 ■
+
+ws[f'H{rowNo}'].border = thin_border   # 04. 필드 테두리 설정  ---> 은행 결산_2 칼럼 ■
+
+ws[f'J{rowNo}'].border = thin_border   # 04. 필드 테두리 설정  ---> 지출_1 칼럼 ■
+
+ws[f'K{rowNo}'].border = thin_border   # 04. 필드 테두리 설정  ---> 지출_2 칼럼 ■
+# -------------------------------------------------------------------------------------------->
+
+rowNo = add_row + 15   # "2. 총 보험금" 칼 럼 Row(자산(2023) Tab에서)
+ws[f'A{rowNo}'].value = '2. 총 보험금'   # 01. 필드에 값 쓰기 ---> 2. 총 보험금 ■
+ws[f'A{rowNo}'].font = Font(name="돋움", bold=True, size=9)  # 02. 필드 글자 설정
+ws[f'A{rowNo}'].border = thin_border    # 04. 필드 테두리 설정
+ws[f'A{rowNo}'].fill = greenFill    # 05. 필드 배경색 설정
+
+tot_insu_non_life = int(insu_non_life) + int(insu_non_life)   # 2. 총 보험금 -------->
+ws[f'B{rowNo}'].value = format(tot_insu_non_life, ',')         # 01. 필드에 값 쓰기 ---> 2. 총 보험금 value ■
+ws[f'B{rowNo}'].font = Font(name="돋움", bold=True, size=9)    # 02. 필드 글자 설정
+ws[f'B{rowNo}'].alignment = Alignment(horizontal='right', vertical='center')    # 03. 필드 정렬 설정
+ws[f'B{rowNo}'].border = thin_border    # 04. 필드 테두리 설정
+ws[f'B{rowNo}'].fill = greenFill    # 05. 필드 배경색 설정
+
+ws[f'C{rowNo}'].border = thin_border    # 04. 필드 테두리 설정
+ws[f'C{rowNo}'].fill = greenFill    # 05. 필드 배경색 설정
+
+ws[f'D{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+ws[f'D{rowNo}'].fill = greenFill   # 05. 필드 배경색 설정
+
+ws[f'E{rowNo}'].border = thin_border    # 04. 필드 테두리 설정
+ws[f'E{rowNo}'].fill = greenFill    # 05. 필드 배경색 설정
+
+ws[f'G{rowNo}'].value = '[06] 은행 예. 적금 총합'   # 01. 필드에 값 쓰기 ---> [06] 은행 예. 적금 총합 ■
+ws[f'G{rowNo}'].font = Font(name="돋움", bold=False, size=9, color="FF0000")   # 02. 필드 글자 설정
+ws[f'G{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+ws[f'G{rowNo}'].fill = blueDark2Fill   # 05. 필드 배경색 설정
+
+ws[f'H{rowNo}'].value = format(deposit_savings, ',')      # 01. 필드에 값 쓰기 ---> [06] 은행 예. 적금 총합 Value ■
+ws[f'H{rowNo}'].font =Font(name="돋움", bold=False, size=9, color="FF0000")    # 02. 필드 글자 설정
+ws[f'H{rowNo}'].alignment = Alignment(horizontal='right', vertical='center')    # 03. 필드 정렬 설정 
+ws[f'H{rowNo}'].border = thin_border     # 04. 필드 테두리 설정
+ws[f'H{rowNo}'].fill = blueDark2Fill     # 05. 필드 배경색 설정
+
+ws[f'J{rowNo}'].value = '지출(A) 총합'   # 01. 필드에 값 쓰기 ---> 지출(A) 총합 ■
+ws[f'J{rowNo}'].font = Font(name="돋움", bold=True, size=9)   # 02. 필드 글자 설정
+ws[f'J{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+ws[f'J{rowNo}'].fill = greenFill       # 05. 필드 배경색 설정
+
+ws[f'K{rowNo}'].value = format(mon_expendit, ',')      # 01. 필드에 값 쓰기 ---> 지출(A) 총합 Value ■
+ws[f'K{rowNo}'].font =Font(name="돋움", bold=True, size=9, color="FF0000")    # 02. 필드 글자 설정
+ws[f'K{rowNo}'].alignment = Alignment(horizontal='right', vertical='center')    # 03. 필드 정렬 설정 
+ws[f'K{rowNo}'].border = thin_border    # 04. 필드 테두리 설정
+ws[f'K{rowNo}'].fill = greenFill        # 05. 필드 배경색 설정 
+# -------------------------------------------------------------------------------------------->
+
+rowNo = add_row + 16   # "3. 부동산(현아트빌 404호)" 칼 럼 Row(자산(2023) Tab에서)
+ws[f'A{rowNo}'].value = '3. 부동산(현아트빌 404호)'   # 01. 필드에 값 쓰기 ---> 3. 부동산(현아트빌 404호) ■
+ws[f'A{rowNo}'].font = Font(name="돋움", bold=True, size=9)  # 02. 필드 글자 설정
+ws[f'A{rowNo}'].border = thin_border    # 04. 필드 테두리 설정
+ws[f'A{rowNo}'].fill = greenFill        # 05. 필드 배경색 설정
+
+ws[f'B{rowNo}'].value = format(self_house, ',')         # 01. 필드에 값 쓰기 ---> 3. 부동산(현아트빌 404호) value ■
+ws[f'B{rowNo}'].font = Font(name="돋움", bold=True, size=9)    # 02. 필드 글자 설정
+ws[f'B{rowNo}'].alignment = Alignment(horizontal='right', vertical='center')    # 03. 필드 정렬 설정
+ws[f'B{rowNo}'].border = thin_border    # 04. 필드 테두리 설정
+ws[f'B{rowNo}'].fill = greenFill        # 05. 필드 배경색 설정
+
+ws[f'C{rowNo}'].border = thin_border    # 04. 필드 테두리 설정
+ws[f'C{rowNo}'].fill = greenFill        # 05. 필드 배경색 설정
+
+ws[f'D{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+ws[f'D{rowNo}'].fill = greenFill        # 05. 필드 배경색 설정
+
+ws[f'E{rowNo}'].border = thin_border    # 04. 필드 테두리 설정
+ws[f'E{rowNo}'].fill = greenFill        # 05. 필드 배경색 설정 
+# -------------------------------------------------------------------------------------------->
+
+rowNo = add_row + 17   # "90. 총 합계" 칼 럼 Row(자산(2023) Tab에서)
+ws[f'A{rowNo}'].value = '90. 총 합계'   # 01. 필드에 값 쓰기 ---> 90. 총 합계 ■
+ws[f'A{rowNo}'].font = Font(name="돋움", bold=True, size=9)  # 02. 필드 글자 설정
+ws[f'A{rowNo}'].border = thin_border    # 04. 필드 테두리 설정
+ws[f'A{rowNo}'].fill = yellowFill    # 05. 필드 배경색 설정
+
+tot_sum_amt = int(tot_deposit_savings) + int(tot_invst_amt) + int(tot_insu_non_life) + int(self_house)   
+# 90. 총 합계 금액 = 1. 총 예적금 + 2. 총 투자 금액 + 3. 총 보험금 + 4. 부동산(현아트빌 404호)
+ws[f'B{rowNo}'].value = format(tot_sum_amt, ',')         # 01. 필드에 값 쓰기 ---> 90. 총 합계 value ■
+ws[f'B{rowNo}'].font = Font(name="돋움", bold=True, size=9, color="FF0000")    # 02. 필드 글자 설정
+ws[f'B{rowNo}'].alignment = Alignment(horizontal='right', vertical='center')    # 03. 필드 정렬 설정
+ws[f'B{rowNo}'].border = thin_border    # 04. 필드 테두리 설정
+ws[f'B{rowNo}'].fill = yellowFill    # 05. 필드 배경색 설정
+
+ws[f'C{rowNo}'].border = thin_border    # 04. 필드 테두리 설정
+ws[f'C{rowNo}'].fill = yellowFill    # 05. 필드 배경색 설정
+
+ws[f'D{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+ws[f'D{rowNo}'].fill = yellowFill   # 05. 필드 배경색 설정
+
+ws[f'E{rowNo}'].border = thin_border    # 04. 필드 테두리 설정
+ws[f'E{rowNo}'].fill = yellowFill    # 05. 필드 배경색 설정
+
+ws[f'G{rowNo}'].value = '총합계 전월 대비 증감'   # 01. 필드에 값 쓰기 ---> 총합계 전월 대비 증감 ■
+ws[f'G{rowNo}'].font = Font(name="돋움", bold=False, size=9)  # 02. 필드 글자 설정
+ws[f'G{rowNo}'].alignment = Alignment(horizontal='center', vertical='center')    # 03. 필드 정렬 설정
+ws[f'G{rowNo}'].border = thin_border    # 04. 필드 테두리 설정
+ws[f'G{rowNo}'].fill = grayFill    # 05. 필드 배경색 설정
+
+ws[f'H{rowNo}'].value =  '금액'          # 01. 필드에 값 쓰기 ---> 금액 ■
+ws[f'H{rowNo}'].font = Font(name="돋움", bold=False, size=9)  # 02. 필드 글자 설정
+ws[f'H{rowNo}'].alignment = Alignment(horizontal='center', vertical='center')    # 03. 필드 정렬 설정
+ws[f'H{rowNo}'].border = thin_border    # 04. 필드 테두리 설정
+ws[f'H{rowNo}'].fill = grayFill    # 05. 필드 배경색 설정
+
+ws[f'J{rowNo}'].value = '수입(B) 총합'   # 01. 필드에 값 쓰기 ---> 수입(B) 총합 ■
+ws[f'J{rowNo}'].font = Font(name="돋움", bold=True, size=9)  # 02. 필드 글자 설정 
+ws[f'J{rowNo}'].border = thin_border    # 04. 필드 테두리 설정
+ws[f'J{rowNo}'].fill = grayDarkFill    # 05. 필드 배경색 설정
+
+ws[f'K{rowNo}'].value = format(mon_income, ',')         # 01. 필드에 값 쓰기 ---> 수입(B) 총합 value ■
+ws[f'K{rowNo}'].font = Font(name="돋움", bold=True, size=9, color="FF0000")   # 02. 필드 글자 설정
+ws[f'K{rowNo}'].alignment = Alignment(horizontal='right', vertical='center')    # 03. 필드 정렬 설정
+ws[f'K{rowNo}'].border = thin_border    # 04. 필드 테두리 설정
+ws[f'K{rowNo}'].fill = grayDarkFill    # 05. 필드 배경색 설정
+# -------------------------------------------------------------------------------------------->
+
+rowNo = add_row + 18   # "91. 가용 자산" 칼 럼 Row(자산(2023) Tab에서)
+ws[f'A{rowNo}'].value = '91. 가용 자산'   # 01. 필드에 값 쓰기 ---> 91. 가용 자산 ■
+ws[f'A{rowNo}'].font = Font(name="돋움", bold=True, size=9)  # 02. 필드 글자 설정
+ws[f'A{rowNo}'].border = thin_border    # 04. 필드 테두리 설정
+ws[f'A{rowNo}'].fill = yellowFill    # 05. 필드 배경색 설정
+
+# ws.unmerge_cells("A18:D18")     # 셀 병합 해제 
+
+available_assets = int(tot_deposit_savings) + int(tot_invst_amt)    # 1. 가용 자산 = 1. 총 예적금 + 2. 총 투자 금액 
+print("\n\n[@_T] ■■■ [/ast_vrfc.py] ==> [T_71_11_2] [91. 가용 자산_Row]"+ str(rowNo) +"[91. 가용 자산]"+ str(available_assets) )
+
+ws[f'B{rowNo}'].value = format(available_assets, ',')    # 01. 필드에 값 쓰기 ---> 91. 가용 자산 value ■  
+ws[f'B{rowNo}'].font = Font(name="돋움", bold=True, size=9, color="FF0000")    # 02. 필드 글자 설정
+ws[f'B{rowNo}'].alignment = Alignment(horizontal='right', vertical='center')    # 03. 필드 정렬 설정
+ws[f'B{rowNo}'].border = thin_border    # 04. 필드 테두리 설정
+ws[f'B{rowNo}'].fill = yellowFill    # 05. 필드 배경색 설정
+
+ws[f'C{rowNo}'].border = thin_border    # 04. 필드 테두리 설정
+ws[f'C{rowNo}'].fill = yellowFill    # 05. 필드 배경색 설정
+
+ws[f'D{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+ws[f'D{rowNo}'].fill = yellowFill   # 05. 필드 배경색 설정
+
+ws[f'E{rowNo}'].border = thin_border    # 04. 필드 테두리 설정
+ws[f'E{rowNo}'].fill = yellowFill    # 05. 필드 배경색 설정
+
+ws[f'G{rowNo}'].value = '총 합계(90.A - 90.B)'   # 01. 필드에 값 쓰기 ---> 총 합계 ■
+ws[f'G{rowNo}'].font = Font(name="돋움", bold=True, size=9)  # 02. 필드 글자 설정
+ws[f'G{rowNo}'].alignment = Alignment(horizontal='center', vertical='center')    # 03. 필드 정렬 설정
+ws[f'G{rowNo}'].border = thin_border    # 04. 필드 테두리 설정
+ws[f'G{rowNo}'].fill = yellowFill    # 05. 필드 배경색 설정 
+
+if tot_sum_prev_amt == None or tot_sum_prev_amt == '' :   # 90. 총 합계 금액(이전 년월)이 널 이면 ■■■
+    tot_sum_prev_amt = 0
+else:
+    tot_sum_prev_amt = int(tot_sum_prev_amt.replace(',',''))     # 총 합계 금액(콤마제거 후 정수로 처리)     
+print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_71_12] [00. 총 합계 금액]"+ str(tot_sum_prev_amt) )
+
+rowNo_prev = add_row + 16
+tot_sum_for_mon_amt = int(tot_sum_amt) - int(tot_sum_prev_amt)  # 전월 대비 증감 총 합계 = 90. 총 합계 금액(당월) -  90. 총 합계 금액(이전 년월)
+print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_71_15] [90. 총 합계(90.A - 90.B)]"+ str(tot_sum_for_mon_amt) +"[90. 총 합계 금액(당월)]"+ str(tot_sum_amt) +"[90. 총 합계 금액(이전 년월)]"+ str(tot_sum_prev_amt) )
+
+ws[f'H{rowNo}'].value = format(tot_sum_for_mon_amt, ',')         # 01. 필드에 값 쓰기 ---> 총 합계(90.A - 90.B) value ■
+ws[f'H{rowNo}'].font = Font(name="돋움", bold=True, size=9, color="FF0000")    # 02. 필드 글자 설정(빨간색)
+ws[f'H{rowNo}'].alignment = Alignment(horizontal='right', vertical='center')    # 03. 필드 정렬 설정
+ws[f'H{rowNo}'].border = thin_border    # 04. 필드 테두리 설정
+ws[f'H{rowNo}'].fill = yellowFill    # 05. 필드 배경색 설정
+
+ws[f'J{rowNo}'].value = '총 합계([B] - [A])'   # 01. 필드에 값 쓰기 ---> 총 합계([B] - [A])■
+ws[f'J{rowNo}'].font = Font(name="돋움", bold=True, size=9)  # 02. 필드 글자 설정
+ws[f'J{rowNo}'].border = thin_border    # 04. 필드 테두리 설정
+ws[f'J{rowNo}'].fill = yellowFill    # 05. 필드 배경색 설정
+
+totSum = int(mon_income) - int(mon_expendit)
+ws[f'K{rowNo}'].value = format(totSum, ',')         # 01. 필드에 값 쓰기 ---> 총 합계([B] - [A]) value ■
+ws[f'K{rowNo}'].font = Font(name="돋움", bold=True, size=9, color="FF0000")    # 02. 필드 글자 설정(빨간색)
+ws[f'K{rowNo}'].alignment = Alignment(horizontal='right', vertical='center')    # 03. 필드 정렬 설정
+ws[f'K{rowNo}'].border = thin_border    # 04. 필드 테두리 설정
+ws[f'K{rowNo}'].fill = yellowFill    # 05. 필드 배경색 설정
+# -------------------------------------------------------------------------------------------->
+
+rowNo = add_row + 19   # "결산" 칼 럼 Row(자산(2023) Tab에서)
+ws[f'A{rowNo}'].value = settlement   # 01. 필드에 값 쓰기 ---> 결산(코멘트) ■
+ws[f'A{rowNo}'].font = Font(name="돋움", bold=False, size=9)  # 02. 필드 글자 설정
+ws[f'A{rowNo}'].border = thin_border    # 04. 필드 테두리 설정
+ws[f'A{rowNo}'].fill = orangeWeekFill    # 05. 필드 배경색 설정
+
+ws[f'B{rowNo}'].border = thin_border    # 04. 필드 테두리 설정
+ws[f'B{rowNo}'].fill = orangeWeekFill    # 05. 필드 배경색 설정
+
+ws[f'C{rowNo}'].border = thin_border    # 04. 필드 테두리 설정
+ws[f'C{rowNo}'].fill = orangeWeekFill    # 05. 필드 배경색 설정
+
+ws[f'D{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
+ws[f'D{rowNo}'].fill = orangeWeekFill   # 05. 필드 배경색 설정
+
+ws[f'E{rowNo}'].border = thin_border    # 04. 필드 테두리 설정
+ws[f'E{rowNo}'].fill = orangeWeekFill    # 05. 필드 배경색 설정
 # ===============================================================================================================================
+# ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ ------------------->
 
-
-# 90 점 넘는 셀에 대해서 초록색으로 적용
-# for row in ws.rows:
-#     for cell in row:
-#         # if row.column == 1 and cell.column == 1: # A 번호열은 제외       
-#         #     cell.alignment = Alignment(horizontal="center", vertical="center")   # 각 cell 에 대해서 정렬
-#         # else:
-#         #     cell.alignment = Alignment(horizontal="center", vertical="center")   # 각 cell 에 대해서 정렬   
-#         #     # center, left, right, top, bottom
-
-#         if cell.column == 1: # A 번호열은 제외
-#             continue
-
-#         # cell 이 정수형 데이터이고 90 점보다 높으면
-#         # if isinstance(cell.value, int) and cell.value > 90:
-#         #     cell.fill = PatternFill(fgColor="00FF00", fill_type="solid") # 배경을 초록색으로 설정
-#         #     cell.font = Font(color="FF0000") # 폰트 색상 변경
-# ===============================================================================================================================
 
 # 틀 고정
-ws.freeze_panes = "B2" # B2 기준으로 틀 고정
+# ws.freeze_panes = "B2" # B2 기준으로 틀 고정
 
-rsltFileNm = "01. 자산 검증("+ astYM +")_rslt.xlsx"    # 결과 파일 명(01. 자산 검증(23.08)_rslt.xlsx)
-print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_91] [결과 파일 명]"+ rsltFileNm )
+rsltFileNm = "02. 자산 검증("+ astYM +")_RSLT.xlsx"    # 결과 파일 명(02. 자산 검증(23.08)_RSLT.xlsx) 
+print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_91] [URL 경로]"+ str(urlPath) +"[결과 파일 명 ■■■■■■ ]"+ rsltFileNm  )
 
 wb.save(urlPath + rsltFileNm)
-# wb.save("01. 자산 검증(23.08)_rslt.xlsx")
+# wb.save("02. 자산 검증(23.08)_RSLT.xlsx")
 print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_99] ■■■■■■ [######################### [자산 검증 파일 TEST End] #########################] ■■■■■■\n\n\n\n")
+# ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ ------------------->
