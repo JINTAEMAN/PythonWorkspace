@@ -11,7 +11,7 @@ def cal_bmi():
     print("\n\n [@_T] ■■■ [/bmi_calculate.py] [cal_bmi()] ==> [T_01] [BMI 계산 함수] [성별 구분]"+ str(cbx22.get()) +"[신장(cm)]"+ str(ent32.get()) +"[체중(kg)]"+ str(ent42.get()) )   
 
     ent61.delete(0,"end")
-    ent61.insert(0, '')  # BMI 결과값ent42 ent42 입력창에 입력 ■■■
+    ent61.insert(0, '')  # BMI 결과값ent42 ent42 입력창에 입력 ■■■ TEST
 
     ent62.delete(0,"end")
     ent62.insert(0, '')   # BMI 결과값ent42 ent42 입력창에 입력 ■■■
