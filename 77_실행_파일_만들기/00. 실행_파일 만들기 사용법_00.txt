@@ -1,0 +1,60 @@
+﻿
+ 
+■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
++---------------------------------------------// 00. 실행_파일 만들기 사용법 //--------------------------/ 23.11.04(토) /----+ 
+■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ 
+ 
+
+- 00. 실행_파일 만들기 사용법 @@@
+01. /ast_vrfc.py 파일 실행
+TAMA_HAart_404@TAMA-HAart-404 MINGW64 /d/PythonWorkspace (main)
+$  cd /d/PythonWorkspace_setUpFile/01_실행_파일_만들기   ■
+
+TAMA_HAart_404@TAMA-HAart-404 MINGW64 /d/PythonWorkspace_setUpFile/01_실행_파일_만들기
+$ pyinstaller -w -F ast_vrfc.py							 --->  	// ■■■
+
+...................
+...................
+...................
+50105 INFO: Copying icon to EXE
+50108 INFO: Copying icons from ['C:\\Python311\\Lib\\site-packages\\PyInstaller\\bootloader\\images\\icon-windowed.ico']   
+50128 INFO: Writing RT_GROUP_ICON 0 resource with 104 bytes
+50128 INFO: Writing RT_ICON 1 resource with 3752 bytes
+50128 INFO: Writing RT_ICON 2 resource with 2216 bytes
+50128 INFO: Writing RT_ICON 3 resource with 1384 bytes
+50128 INFO: Writing RT_ICON 4 resource with 38188 bytes
+50128 INFO: Writing RT_ICON 5 resource with 9640 bytes
+50129 INFO: Writing RT_ICON 6 resource with 4264 bytes
+50129 INFO: Writing RT_ICON 7 resource with 1128 bytes
+50131 INFO: Copying 0 resources to EXE
+50131 INFO: Embedding manifest in EXE
+50132 INFO: Updating manifest in D:\PythonWorkspace_setUpFile\01_실행_파일_만들기\dist\ast_vrfc.exe.notanexecutable        
+50133 INFO: Updating resource type 24 name 1 language 0
+50135 INFO: Appending PKG archive to EXE
+50215 INFO: Fixing EXE headers
+50549 INFO: Building EXE from EXE-00.toc completed successfully.
+===============================================================================================================
+
+02. /ast_vrfc.py 파일 확인
+D:\PythonWorkspace_setUpFile\01_실행_파일_만들기\dist\ast_vrfc.exe    --->  파일 확인 ■■■
+===============================================================================================================
+
+03 /ast_vrfc.exe  파일 실행
+1. 01_1. paramYM.txt 파일에서 아래와 같이 설정
+2023.10;2023.10;						// 작업일자: 2023.11.30(수) ==> ■■■	 2023.10: 자산 년월(출력을 원하는 년월[★]);	2023.10: 자산 년월(오늘 년월■)) --> 10월 출력을 원하는데 현재 10월 이면(정상)
+--------------------------------------------------------------------------------------------
+
+2. 01. 자산 검증(23.10).xlsx 존재 여부 확인 
+--------------------------------------------------------------------------------------------
+
+3  ast_vrfc.exe ->  파일 더블 클릭 ■■■
+==============================================================================================================
+
+04 /ast_vrfc.py 파일 
+ast_vrfc.exe ->  파일 더블 클릭 ■■■
+==============================================================================================================
+ 
+■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
++--------------------------------------------------------// End //--------------------------------------------------+ 
+■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■  
+ 
