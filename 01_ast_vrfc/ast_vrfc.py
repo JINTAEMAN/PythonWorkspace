@@ -17,7 +17,6 @@ import calendar  #   calendar Lib
 # import requests
 # from bs4 import BeautifulSoup
 
-# urlPath = ""   # 01. URL 경로(폴더)   # ■■■■■■■ ===> Real(배포용)
 urlPath = "01_ast_vrfc/"   # 01. URL 경로(엑셀 폴더 경로)  # ■■■■■■■ ===> TEST 수행(테스트용) @@@ ===>    
 opeParaFileNm = "01_1. paramYM.txt"   # 02. 파라 파일명 # ■■■■■■■ ===> Real
 # opeParaFileNm = "01_1. paramYM_24.12.txt"   # 02. 파라 파일명(24.12) --> 년말 테스트  # ■■■■■■■ ===> TEST @@@  ===>
@@ -2161,7 +2160,6 @@ print("\n\n [@_T] ■■■ [/ast_vrfc.py] ==> [T_01] ■■■■■■ [######
 
 print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_71_01] [71. 자산(24Y) Tab Sheet(Tab)에 접근 @@@@@@@@ ===========>]")
 
-
 tot_sum_prev_amt = 0        # 90. 총 합계 금액(이전 년월)
 rowNo = 17
 astYear = "01. 자산("+ str(astYYM[2:4]) +"Y)"   # 02. 출력할 년월■  --> 자산(25Y)
@@ -2590,7 +2588,7 @@ else :
 ws[f'D{rowNo}'].alignment = Alignment(horizontal='right', vertical='center')    # 03. 필드 정렬 설정
 ws[f'D{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
 
-# 손익률(%)= (평가금액 - 매입금액) / 매입금액
+# 손익률(%)= (평가금액 - 매입금액) / 매입금액 
 if eval_profit_loss79 < 1 :   # 발행어음 수익률이 음이면
     eval_profit_loss_rate79 = 0
 else :

@@ -11,7 +11,11 @@ def cal_bmi():
     print("\n\n [@_T] ■■■ [/bmi_calculate.py] [cal_bmi()] ==> [T_01] [BMI 계산 함수] [성별 구분]"+ str(cbx22.get()) +"[신장(cm)]"+ str(ent32.get()) +"[체중(kg)]"+ str(ent42.get()) )   
 
     ent61.delete(0,"end")
+<<<<<<< HEAD
+    ent61.insert(0, '')  # BMI 결과값ent42 ent42 입력창에 입력 ■■■
+=======
     ent61.insert(0, '')  # BMI 결과값ent42 ent42 입력창에 입력 ■■■ TEST
+>>>>>>> 7d51dc1ecae9dd59b65f7616a87e80dcabe29644
 
     ent62.delete(0,"end")
     ent62.insert(0, '')   # BMI 결과값ent42 ent42 입력창에 입력 ■■■
@@ -26,7 +30,11 @@ def cal_bmi():
     print("[@_T] ■■■ [/bmi_calculate.py] [cal_bmi()] ==> [T_90] [신체질량지수(BMI))]"+ str(bmi) ) 
     
     ent61.delete(0,"end")
+<<<<<<< HEAD
+    ent61.insert(0, bmi)   # BMI 결과값 ent41 입력창에 입력 ■■■
+=======
     ent61.insert(0, bmi)   # BMI 결과값 ent41 입력창에 입력 ■■■  ==> TEST
+>>>>>>> 7d51dc1ecae9dd59b65f7616a87e80dcabe29644
     
     bmi = float(bmi)
 
@@ -60,6 +68,9 @@ def cal_bmi():
 # ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ ------------------->
 
 
+<<<<<<< HEAD
+print("\n\n [@_T] ■■■ [/bmi_calculate.py] ==> [T_01] ■■■■■■ [######################### [BMI 계산 Start] #########################] ■■■■■■ ")
+=======
 # print("\n\n [@_T] ■■■ [/bmi_calculate.py] ==> [T_01] ■■■■■■ [######################### [BMI 계산 Start] #########################] ■■■■■■ ")
 
 sMsg = "■■■ [#### [BMI 계산 Startt ####] ■■■\n" 
@@ -98,6 +109,7 @@ print(int(year)-2)  # 2018
 print(int(year)-1)  # 2019
 
 # ---------------------------------------------------------------------------------------------------------------------->
+>>>>>>> 7d51dc1ecae9dd59b65f7616a87e80dcabe29644
 
 window=tk.Tk()
 
@@ -173,6 +185,9 @@ ent62.grid(row=rowNo, column=1, padx=5, pady=10)
 
 window.mainloop()
 
+<<<<<<< HEAD
+=======
 print("[@_T] ■■■ [/bmi_calculate.py] ==> [T_90] [BMI 계산 결과]"+ str(cal_bmi) )
+>>>>>>> 7d51dc1ecae9dd59b65f7616a87e80dcabe29644
 print("[@_T] ■■■ [/bmi_calculate.py] ==> [T_99] ■■■■■■ [######################### [BMI 계산 End] #########################] ■■■■■■\n\n\n\n")
 # ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ ------------------->
