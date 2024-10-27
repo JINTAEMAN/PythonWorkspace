@@ -17,8 +17,8 @@ import calendar  #   calendar Lib
 # import requests
 # from bs4 import BeautifulSoup
 
-urlPath = ""   # 01. URL 경로(엑셀 폴더 경로)
-# urlPath = "01_ast_vrfc/"   # 01. URL 경로(엑셀 폴더 경로)  # ■■■■■■■ ===> TEST 수행(테스트용) @@@ ===>    
+# urlPath = ""   # 01. URL 경로(엑셀 폴더 경로)
+urlPath = "01_ast_vrfc/"   # 01. URL 경로(엑셀 폴더 경로)  # ■■■■■■■ ===> TEST 수행(테스트용) @@@ ===>    
 opeParaFileNm = "01_1. paramYM.txt"   # 02. 파라 파일명 # ■■■■■■■ ===> Real
 # opeParaFileNm = "01_1. paramYM_24.12.txt"   # 02. 파라 파일명(24.12) --> 년말 테스트  # ■■■■■■■ ===> TEST @@@  ===>
 
@@ -63,8 +63,11 @@ whiteFill = PatternFill(start_color='FFFFFF', end_color='FFFFFF', fill_type='sol
 # ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ ------------------->
 
 
-print("\n\n [@_T] ■■■ [/ast_vrfc.py] ==> [T_01] ■■■■■■ [######################### [자산 검증 파일 TEST Start] #########################] ■■■■■■ ")
-print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_01_01]" )
+# print("\n\n [@_T] ■■■ [/ast_vrfc.py] ==> [T_01] ■■■■■■ [######################### [자산 검증 파일 TEST Start] #########################] ■■■■■■ ")
+
+sMsg2 = "[T_01] ■■■■■■ [######################### [자산 검증 파일 TEST Start] #########################] ■■■■■■" 
+sMsg = "\n\n\n ■■■ [/ast_vrfc.py]] ==> " + sMsg2
+print(sMsg + sMsg2)
 
 now_ym = str(datetime.datetime.now()).replace('-','.')     # 오늘 년월(년.월) (2023.08.31)
 dt_now = datetime.datetime.now() 
@@ -75,7 +78,9 @@ input_astYYYYMM = str(parameters[0])     # 자산 년월 --> 이전 년월
 input_astYYYYMM = input_astYYYYMM.split(".")     
 input_astYY = str(input_astYYYYMM[0][2:4])  # 자산 년[입력] -->ㅎㄵ 년월
 input_astMM = int(input_astYYYYMM[1])    # 자산 년월[입력]
-print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_02_02] [01. 현재 년월[입력][★]]"+ str(parameters[0]) +"[02. 출력할 년월■]"+ str(parameters[1]) +"[3. 오늘 년월(오늘 년월■)]"+ str(input_astMM) ) 
+# print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_02_02] [01. 현재 년월[입력][★]]"+ str(parameters[0]) +"[02. 출력할 년월■]"+ str(parameters[1]) +"[3. 오늘 년월(오늘 년월■)]"+ str(input_astMM) ) 
+sMsg2 = "[T_02] [01. 현재 년월[입력][★]]"+ str(parameters[0]) +"[02. 출력할 년월■]"+ str(parameters[1]) +"[3. 오늘 년월(오늘 년월■)]"+ str(input_astMM)
+print(sMsg + sMsg2)
 
 if str(parameters[0]) == None :   # 자산 년월 미입력 이면
     result = pyautogui.alert("자산 년월을 입력하세요. 예) 2023.08", title='[자산 년월 입력 오류]', button='OK')
