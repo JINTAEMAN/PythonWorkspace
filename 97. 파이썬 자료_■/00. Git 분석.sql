@@ -31,10 +31,11 @@ $ git log --all --oneline  		# log 시각적으로 보기
 ----------------------------------------------------------------------------------------------
 
 git add .;
-git commit -m "Add to main: 01. /ast_vrfc.py 수정(채권 Tab에서 CMA 금액 없을 경우)[24.10.26(T_02)], by tamario]"; 	
-git push origin		# main 브런치에 소스 올리기 ■
+git commit -m "Add to main: 01. /ast_vrfc.py 수정(채권 Tab에서 CMA 금액 없을 경우)[24.10.26(T_03)], by tamario]"; 	
+git push origin;		# main 브런치에 소스 올리기 ■
+git status;		# git 상태 확인
 
-git log --all --oneline  		# log 시각적으로 보기
+# git log --all --oneline  		# log 시각적으로 보기
 ==============================================================================================================  
 ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
 
