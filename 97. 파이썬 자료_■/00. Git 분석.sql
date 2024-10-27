@@ -32,8 +32,8 @@ $ git log --all --oneline  		# log 시각적으로 보기
 ----------------------------------------------------------------------------------------------
 
 git add .;
-git commit -m "Add to main: 01. /ast_vrfc.py 수정[24.10.26(T_05)], by tamario]"; 	
-git push origin main;		# main 브런치에 소스 올리기 ■
+git commit -m "▶ [24.10.28 08:31] 00. Git 분석 파일 수정(by tamario)"; 
+git push origin;		# 원격 서버에 소스 올리기 ■
 git status;		# git 상태 확인
 
 ==============================================================================================================  
@@ -50,7 +50,7 @@ $ git checkout develop		-- develop 브랜치로 전환
 $ git pull
 --------------- ============================================================================================================-
 ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
- 
+
 
 $ git status	# git 상태 확인
 ▶ On branch dev
@@ -59,7 +59,7 @@ $ git status	# git 상태 확인
 ▶ Changes not staged for commit:  # staged에 안 올라간 상태
   (use "git add <file>..." to uddate what will be commited)"
 	modified:   app/api/vi/llm_model.py
- 
+
 $ git clean -fd  	# untracked 파일, 폴더 모두 삭제 ■
 ▶ Removing app/api/vi/llm_model.py
 
@@ -74,16 +74,16 @@ $ git status    # git 상태 확인
 		
 $ git reset HEAD -- app/api/vi/llm_model.py	 	# Staged된 파일 삭제 ■  
 -- $ git checkout  -- 01_ast_vrfc/bmi_calculate.py	 # Staged된 파일 삭제 ■( Modified상태 파일을 최근 커밋한 상태(또는 clone했을 때 상태)로 되돌리기
- 
+
 ▶ Unstaged changes after reset:
 M       app/api/vi/llm_model.py
 --------------- ============================================================================================================-
 ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
 
 
- - 유튜브로 배우는 코딩 Git 강좌 시청
+- 유튜브로 배우는 코딩 Git 강좌 시청
 https://www.youtube.com/watch?v=JZJQ4_8XoPM&list=PLHF1wYTaCuixewA1hAn8u6hzx5mNenAGM
- - 03.저장소 만들기와 커밋(Commit) 하기
+- 03.저장소 만들기와 커밋(Commit) 하기
 > git init
 > git add filename
 > git commit
@@ -142,8 +142,8 @@ https://github.com/JINTAEMAN/PythonWorkspace,.   ----> INTAEMAN/asas1212!!tama
 +--------------------------------------------------------// End //----------------------------------------------------------+
 ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
 
- 
- - 03.저장소 만들기와 커밋(Commit) 하기
+
+- 03.저장소 만들기와 커밋(Commit) 하기
 > git init
 > git add filename
 > git commit
@@ -190,7 +190,7 @@ $ git status    # git 상태 확인
 		
 $ git reset HEAD -- app/api/vi/llm_model.py	 	# Staged된 파일 삭제 ■  
 -- $ git checkout  -- 01_ast_vrfc/bmi_calculate.py	 # Staged된 파일 삭제 ■( Modified상태 파일을 최근 커밋한 상태(또는 clone했을 때 상태)로 되돌리기
- 
+
 ▶ Unstaged changes after reset:
 M       app/api/vi/llm_model.py
 ==============================================================================================================
@@ -198,7 +198,8 @@ M       app/api/vi/llm_model.py
 
 - Git 서명 작성
 $ git config --global user.name "tamario";
-git config --global user.email "tamario@naver.com"]]
+git config --global user.email "tamario@naver.com"
+
 ==============================================================================================================
 ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
 +--------------------------------------------------------// End //----------------------------------------------------------+
