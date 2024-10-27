@@ -32,8 +32,8 @@ $ git log --all --oneline  		# log 시각적으로 보기
 ----------------------------------------------------------------------------------------------
 
 git add .;
-git commit -m "Add to main: 01. /ast_vrfc.py 수정[24.10.26(T_04)], by tamario]"; 	
-git push main;		# main 브런치에 소스 올리기 ■
+git commit -m "Add to main: 01. /ast_vrfc.py 수정[24.10.26(T_05)], by tamario]"; 	
+git push origin main;		# main 브런치에 소스 올리기 ■
 git status;		# git 상태 확인
 
 ==============================================================================================================  
