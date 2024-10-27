@@ -17,8 +17,7 @@ import calendar  #   calendar Lib
 # import requests
 # from bs4 import BeautifulSoup
 
-urlPath = ""   # 01. URL 경로(엑셀 폴더 경로)
-# urlPath = "01_ast_vrfc/"   # 01. URL 경로(엑셀 폴더 경로)  # ■■■■■■■ ===> TEST 수행(테스트용) @@@ ===>    
+urlPath = "01_ast_vrfc/"   # 01. URL 경로(엑셀 폴더 경로)  # ■■■■■■■ ===> TEST 수행(테스트용) @@@ ===>    
 opeParaFileNm = "01_1. paramYM.txt"   # 02. 파라 파일명 # ■■■■■■■ ===> Real
 # opeParaFileNm = "01_1. paramYM_24.12.txt"   # 02. 파라 파일명(24.12) --> 년말 테스트  # ■■■■■■■ ===> TEST @@@  ===>
 

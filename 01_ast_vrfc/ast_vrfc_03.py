@@ -17,8 +17,7 @@ import calendar  #   calendar Lib
 # import requests
 # from bs4 import BeautifulSoup
 
-urlPath = ""   # 01. URL 경로(엑셀 폴더 경로)
-# urlPath = "01_ast_vrfc/"   # 01. URL 경로(엑셀 폴더 경로)  # ■■■■■■■ ===> TEST 수행(테스트용) @@@ ===>    
+urlPath = "01_ast_vrfc/"   # 01. URL 경로(엑셀 폴더 경로)  # ■■■■■■■ ===> TEST 수행(테스트용) @@@ ===>    
 opeParaFileNm = "01_1. paramYM.txt"   # 02. 파라 파일명 # ■■■■■■■ ===> Real
 # opeParaFileNm = "01_1. paramYM_24.12.txt"   # 02. 파라 파일명(24.12) --> 년말 테스트  # ■■■■■■■ ===> TEST @@@  ===>
 
@@ -564,22 +563,10 @@ rowNo = add_row + 6
 prchs_amt78 = ws_03_bond[f'E{rowNo}'].value        # 04. 매입금액(78. 발행어음 만기형_개인(181~270))
 eval_amt78 = ws_03_bond[f'F{rowNo}'].value         # 05. 평가금액(78. 발행어음 만기형_개인(181~270))
 eval_profit_loss78 = ws_01_actBalnc[f'G{rowNo}'].value   # 06. 평가손익(78. 발행어음 만기형_개인(181~270)) 
-print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_31] [04. 매입금액(79. 발행어음 CMA_개인)_00]" )
 
 rowNo = add_row + 7
-cmaRowNo = add_row + 7
-if ws_03_bond[f'E{rowNo}'].value != None :    # 04. 매입금액(79. 발행어음 CMA_개인)이 널이 아니면
-    cma_prchs_amt79 = ws_03_bond[f'E{rowNo}'].value   # 04. 매입금액(79. 발행어음 CMA_개인)  
-else:
-    cma_prchs_amt79 = 0   # 04. 매입금액(79. 발행어음 CMA_개인)
-print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_32] [04. 매입금액(79. 발행어음 CMA_개인)]"+ str(ws_03_bond[f'E{rowNo}'].value) +"[04. 매입금액(79. 발행어음 CMA_개인)_22]"+ str(cma_prchs_amt79) )
-
-if ws_03_bond[f'F{rowNo}'].value != None :    # 05. 평가금액(79. 발행어음 CMA_개인)이 널이 아니면
-    cma_eval_amt79 = ws_03_bond[f'F{rowNo}'].value   # 05. 평가금액(79. 발행어음 CMA_개인)  
-else:
-    cma_eval_amt79 = 0   # 05. 평가금액(79. 발행어음 CMA_개인)
-print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_33] [05. 평가금액(79. 발행어음 CMA_개인)]"+ str(cma_eval_amt79) )
-
+prchs_amt79 = ws_03_bond[f'E{rowNo}'].value        # 04. 매입금액(79. 발행어음 CMA_개인) 
+eval_amt79 = ws_03_bond[f'F{rowNo}'].value         # 05. 평가금액(79. 발행어음 CMA_개인)
 eval_profit_loss79 = ws_01_actBalnc[f'G{rowNo}'].value   # 06. 평가손익(79. 발행어음 CMA_개인) 
 # ---------------------------------------------------------------------------------------------------------------------->
 # ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ ------------------->
@@ -2577,17 +2564,20 @@ ws[f'A{rowNo}'].value = '79. 발행어음 CMA_개인'   # 01. 필드에 값 쓰�
 ws[f'A{rowNo}'].font = Font(name="돋움", bold=False, size=9)  # 02. 필드 글자 설정
 ws[f'A{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
 
+ws[f'B{rowNo}'].value = format(eval_amt79, ',')         # 01. 필드에 값 쓰기 ---> 79. 발행어음 CMA_개인(평가금액) value ■
 ws[f'B{rowNo}'].font = Font(name="돋움", bold=False, size=9)    # 02. 필드 글자 설정
 ws[f'B{rowNo}'].alignment = Alignment(horizontal='right', vertical='center')    # 03. 필드 정렬 설정
 ws[f'B{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
 ws[f'B{rowNo}'].fill = blueDarkFill    # 05. 필드 배경색 설정
-print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_71_11] [cma_prchs_amt79]"+ str(ws_03_bond[f'E{rowNo}'].value))
 
+ws[f'C{rowNo}'].value = format(prchs_amt79, ',')         # 01. 필드에 값 쓰기 ---> 79. 발행어음 원금(매입금액) value ■
 ws[f'C{rowNo}'].font = Font(name="돋움", bold=False, size=9)    # 02. 필드 글자 설정
 ws[f'C{rowNo}'].alignment = Alignment(horizontal='right', vertical='center')    # 03. 필드 정렬 설정
+ws[f'C{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
 
 # 평가손익(원) = 평가금액 - 매입금액
-eval_profit_loss79 = cma_eval_amt79 - cma_prchs_amt79
+eval_profit_loss79 = eval_amt79 - prchs_amt79
+ws[f'D{rowNo}'].value = format(eval_profit_loss79, ',')   # 01. 필드에 값 쓰기 ---> 79. 발행어음 손익(평가손익) value ■
 if eval_profit_loss79 > 0  :   # 8. 발행어음 손익이 양이면
     ws[f'D{rowNo}'].font = Font(name="돋움", bold=False, size=9, color="FF0000")    # 02. 필드 글자 설정(빨간색)
     ws[f'E{rowNo}'].font = Font(name="돋움", bold=False, size=9, color="FF0000")   # 02. 필드 글자 설정(빨간색)
@@ -2601,22 +2591,10 @@ ws[f'D{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
 if eval_profit_loss79 < 1 :   # 발행어음 수익률이 음이면
     eval_profit_loss_rate79 = 0
 else :
-    eval_profit_loss_rate79 =  (eval_profit_loss79 / cma_prchs_amt79) * 100
-print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_71_12] [발행어음 수익률(%)]"+ str(eval_profit_loss_rate))
-print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_71_13] [05. 평가금액(79. 발행어음 CMA_개인)]"+ str(ws_03_bond[f'E{cmaRowNo}'].value))
+    eval_profit_loss_rate79 =  (eval_profit_loss79 / prchs_amt79) * 100
+# print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_71_12] [발행어음 수익률(%)]"+ str(eval_profit_loss_rate))
 
-if ws_03_bond[f'E{cmaRowNo}'].value != None  :  # 05. 평가금액(79. 발행어음 CMA_개인)이 널이 아니면
-    ws[f'B{rowNo}'].value = format(cma_eval_amt79, ',')    # 79. 발행어음 CMA_개인(01. 금액) value ■
-    ws[f'C{rowNo}'].value = format(cma_prchs_amt79, ',')    # 79. 발행어음 CMA_개인(02. 원금) value ■
-    ws[f'D{rowNo}'].value = format(eval_profit_loss79, ',')   # 79. 발행어음 CMA_개인(03. 손익) value ■
-    ws[f'E{rowNo}'].value = f'{eval_profit_loss_rate79:.2f}'  # 79. 발행어음 CMA_개인(03. 수익률(%)) value ■
-else:
-    ws[f'B{rowNo}'].value = ""   # 79. 발행어음 CMA_개인(01. 금액) value ■
-    ws[f'C{rowNo}'].value = ""   # 79. 발행어음 CMA_개인(02. 원금) value ■
-    ws[f'D{rowNo}'].value = ""   # 79. 발행어음 CMA_개인(03. 손익) value ■
-    ws[f'E{rowNo}'].value = ""  # 79. 발행어음 CMA_개인(03. 수익률(%)) value ■
-print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_71_14] [05. 평가금액(79. 발행어음 CMA_개인)]"+ str(ws[f'B{rowNo}'].value))
-
+ws[f'E{rowNo}'].value = f'{eval_profit_loss_rate79:.2f}'      # 01. 필드에 값 쓰기 ---> 79. 발행어음 수익률(%) value ■ 
 ws[f'E{rowNo}'].alignment = Alignment(horizontal='right', vertical='center')    # 03. 필드 정렬 설정
 ws[f'E{rowNo}'].border = thin_border   # 04. 필드 테두리 설정
 
@@ -2635,14 +2613,14 @@ ws[f'A{rowNo}'].font = Font(name="돋움", bold=True, size=9)  # 02. 필드 글�
 ws[f'A{rowNo}'].border = thin_border    # 04. 필드 테두리 설정
 ws[f'A{rowNo}'].fill = greenWeekFill    # 05. 필드 배경색 설정
 
-tot_invst_amt = int(eval_amt) + int(eval_amt78) + int(cma_eval_amt79) + int(irp_eval_amt)   # 2. 총 투자 금액 = 77. 평가금액(주식 투자) + 78. 평가금액(발행 어음) + 79. 발행어음 CMA_개인 + 90. 평가금액(퇴직 연금)
+tot_invst_amt = int(eval_amt) + int(eval_amt78) + int(eval_amt79) + int(irp_eval_amt)   # 2. 총 투자 금액 = 77. 평가금액(주식 투자) + 78. 평가금액(발행 어음) + 79. 발행어음 CMA_개인 + 90. 평가금액(퇴직 연금)
 ws[f'B{rowNo}'].value = format(tot_invst_amt, ',')         # 01. 필드에 값 쓰기 ---> 2. 총 투자 금액 value ■
 ws[f'B{rowNo}'].font = Font(name="돋움", bold=True, size=9)    # 02. 필드 글자 설정
 ws[f'B{rowNo}'].alignment = Alignment(horizontal='right', vertical='center')    # 03. 필드 정렬 설정
 ws[f'B{rowNo}'].border = thin_border    # 04. 필드 테두리 설정
 ws[f'B{rowNo}'].fill = greenWeekFill    # 05. 필드 배경색 설정
 
-tot_prch_amt = int(prchs_amt) + int(prchs_amt78) + int(cma_prchs_amt79) + int(irp_prchs_amt)   # 2. 총 투자 금액 (원금)= 77. 평가금액(주식 투자)(원금) + 78. 평가금액(발행 어음) (원금)+ 90. 평가금액(퇴직 연금)(원금)
+tot_prch_amt = int(prchs_amt) + int(prchs_amt78) + int(prchs_amt79) + int(irp_prchs_amt)   # 2. 총 투자 금액 (원금)= 77. 평가금액(주식 투자)(원금) + 78. 평가금액(발행 어음) (원금)+ 90. 평가금액(퇴직 연금)(원금)
 ws[f'C{rowNo}'].value = format(tot_prch_amt, ',')         # 01. 필드에 값 쓰기 ---> 2. 총 투자 금액(원금) value ■
 ws[f'C{rowNo}'].font = Font(name="돋움", bold=False, size=9)    # 02. 필드 글자 설정
 ws[f'C{rowNo}'].alignment = Alignment(horizontal='right', vertical='center')    # 03. 필드 정렬 설정

@@ -1,8 +1,9 @@
 ﻿  
 
 # 자산 검증 파일 파일 실행(Git bash에서 처리)  ■■■■■■   ■■■■■■   ■■■■■■  ■■■■■■   ■■■■■■   ■■■■■■  --> TEST
-01. 실행 + 디버깅 단축키 ==> F5 ■■■■■■ 
-02. 실행 단축키 ==> Ctrl + F5 ■■■■■■
+01. 디버깅 시작(F5) ■■■■■■ ==> 실행(R) > 디버깅 시작
+02. 디버깅 없이 실행(Ctrl + F5) ■■■■■■ ==> 실행(R) > 디버깅 시작
+
 
 TAMA_HAart_404@TAMA-HAart-404 MINGW64 /d/PythonWorkspace (main)
 $ cd /d/PythonWorkspace
@@ -41,13 +42,13 @@ urlPath = "01_ast_vrfc/"   # 01. URL 경로(엑셀 폴더 경로)  # ■■■�
 - 00. 실행_파일 만들기 사용법 @@@
 01. /ast_vrfc.py 파일 실행(Visual Studio Code에서 수행)
 TAMA_HAart_404@TAMA-HAart-404 MINGW64 /d/PythonWorkspace (main)
-$ cd /D/PythonWorkspace/44_실행_파일_만들기
+$ cd /D/PythonWorkspace/77_실행_파일_만들기
 
-TAMA_HAart_404@TAMA-HAart-404 MINGW64  cd /D/PythonWorkspace/44_실행_파일_만들기
+TAMA_HAart_404@TAMA-HAart-404 MINGW64  cd /D/PythonWorkspace/77_실행_파일_만들기
 $ dir -l
 -rw-r--r-- 1 TAMA_HAart_404 197121 223927 Jul 15 16:51 ast_vrfc.py   	--->   ast_vrfc.py  파일 존재 여부 확인 ■
 
-TAMA_HAart_404@TAMA-HAart-404 MINGW64 /D/PythonWorkspace/44_실행_파일_만들기 (main)
+TAMA_HAart_404@TAMA-HAart-404 MINGW64 /D/PythonWorkspace/77_실행_파일_만들기 (main)
 $ pyinstaller -w -F ast_vrfc.py		 --->  	// ■■■ (w: 콘솔 윈도우 표시 안함, F: 1개의 exe파일로 변환)
 1098 INFO: PyInstaller: 5.13.2
 1098 INFO: Python: 3.11.4
@@ -57,18 +58,18 @@ $ pyinstaller -w -F ast_vrfc.py		 --->  	// ■■■ (w: 콘솔 윈도우 표�
 .........
 
 51212 INFO: Fixing EXE headers
-52167 INFO: Building EXE from EXE-00.toc completed successfully.
+52167 INFO: Building EXE from EXE-00.toc completed successfully.   ---> 성공 여부 여부 확인 ■
  
-TAMA_HAart_404@TAMA-HAart-404 MINGW64 /D/PythonWorkspace/44_실행_파일_만들기 (main)
-$ cd /D/PythonWorkspace/44_실행_파일_만들기/dist
+TAMA_HAart_404@TAMA-HAart-404 MINGW64 /D/PythonWorkspace/77_실행_파일_만들기 (main)
+$ cd /D/PythonWorkspace/77_실행_파일_만들기/dist
 
-TAMA_HAart_404@TAMA-HAart-404 MINGW64 /D/PythonWorkspace/44_실행_파일_만들기/dist (main)
+TAMA_HAart_404@TAMA-HAart-404 MINGW64 /D/PythonWorkspace/77_실행_파일_만들기/dist (main)
 $ dir -l
 total 70829 
 -rwxr-xr-x 1 TAMA_HAart_404 197121 72356805 Jul 15 17:03 ast_vrfc.exe       -->  \dist\ast_vrfc.exe  파일 생성 여부 확인 ■■■
 
-02. D:\PythonWorkspace\44_실행_파일_만들기\dist 폴더에 01_1. paramYM.txt, 02. 자산 검증(24.03).xlsx 파일 복사(탐색기에서)
- 1) 01_1. paramYM.txt, 02. 자산 검증(24.03).xlsx  	==> D:\PythonWorkspace\44_실행_파일_만들기\dist
+02. D:\PythonWorkspace\77_실행_파일_만들기\dist 폴더에 01_1. paramYM.txt, 02. 자산 검증(24.03).xlsx 파일 복사(탐색기에서)
+ 1) 01_1. paramYM.txt, 02. 자산 검증(24.03).xlsx  	==> D:\PythonWorkspace\77_실행_파일_만들기\dist
 
 03. /ast_vrfc.exe 실행 파일 더블 클릭(탐색기에서)
  1) 02. 자산 검증(24.04)_RSLT.xlsx 파일 생성됨 ■■■
