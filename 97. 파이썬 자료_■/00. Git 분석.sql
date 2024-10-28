@@ -19,6 +19,22 @@ $ git clone https://github.com/JINTAEMAN/PythonWorkspace
 # git pull origin main	# main 브런치에서 소스 받아 오기 ■
 ============================================================================================================-
 
+1. ghtHub에 올리기 받아 오기_Real(VS Code > bash 터미널에서) ●
+tamar@TAMA-MSI-A10SD-I7-21Y MINGW64 /d/PythonWorkspace (main)
+$ git add .;
+git commit -m "▶ [24.10.28 09:30] Git 서명 작성 수정 ";
+git push origin;		# 원격 서버에 소스 올리기 ■
+git status;		# git 상태 확인
+
+[main 1fb417a] ▶ [24.10.28 09:30] 00. Git 분석 파일 수정(by tamario)
+1 file changed, 12 insertions(+), 11 deletions(-)
+
+Your branch is up to date with 'origin/main'.
+
+nothing to commit, working tree clean
+==> 하단 상태 바에서 Git Graph: 클릭 -->  ▶ [24.10.28 08:31] 00. Git 분석 파일 수정(by tamario): 클릭 --> 변경 내용 확인 
+---------------------------------------------------------------------------------------------------------------
+
 1. ghtHub에 올리기 받아 오기 ●
 $ git add .
 $ git commit -m "Add to main: 77_실행_파일_만들기, 97. 파이썬 자료_■ 폴더 올리기[24.10.26(T_01)], by tamario]";
