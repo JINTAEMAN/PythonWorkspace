@@ -22,11 +22,11 @@ $ git clone https://github.com/JINTAEMAN/PythonWorkspace
 1. ghtHub에 올리기 받아 오기_Real(VS Code > bash 터미널에서) ●
 tamar@TAMA-MSI-A10SD-I7-21Y MINGW64 /d/PythonWorkspace (main)
 $ git add .;
-git commit -m "▶ [24.10.28 09:30] Git 서명 작성 수정 ";
+git commit -m "▶ [24.10.28 09:33] 00. Git 분석 파일 수정(by tamario)";
 git push origin;		# 원격 서버에 소스 올리기 ■
 git status;		# git 상태 확인
 
-[main 1fb417a] ▶ [24.10.28 09:30] 00. Git 분석 파일 수정(by tamario)
+[main 1fb417a] ▶ [24.10.28 09:33] 00. Git 분석 파일 수정(by tamario)
 1 file changed, 12 insertions(+), 11 deletions(-)
 
 Your branch is up to date with 'origin/main'.
