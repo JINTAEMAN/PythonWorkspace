@@ -48,7 +48,7 @@ $ git log --all --oneline  		# log 시각적으로 보기
 ----------------------------------------------------------------------------------------------
 
 git add .;
-git commit -m "▶ [24.10.28 08:31] 00. Git 분석 파일 수정(by tamario)"; 
+git commit -m "▶ [24.10.28 15:16] /ast_vrfc.py 수정(by tamario)"; 
 git push origin;		# 원격 서버에 소스 올리기 ■
 git status;		# git 상태 확인
 [main 1fb417a] ▶ [24.10.28 08:31] 00. Git 분석 파일 수정(by tamario)

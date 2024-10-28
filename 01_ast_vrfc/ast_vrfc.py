@@ -65,8 +65,12 @@ whiteFill = PatternFill(start_color='FFFFFF', end_color='FFFFFF', fill_type='sol
 
 # print("\n\n [@_T] ■■■ [/ast_vrfc.py] ==> [T_01] ■■■■■■ [######################### [자산 검증 파일 TEST Start] #########################] ■■■■■■ ")
 
-sMsg2 = "[T_01] ■■■■■■ [######################### [자산 검증 파일 TEST Start] #########################] ■■■■■■" 
-sMsg = "\n\n\n ■■■ [/ast_vrfc.py]] ==> " + sMsg2
+sMsg2 = "[T_01] ■■■■■■  [######################### [자산 검증 파일 TEST Start] #########################] ■■■■■■" 
+sMsg = "\n\n\n ■■■ [/ast_vrfc.py] ==> "
+print(sMsg + sMsg2)
+
+# print(os.getcwd())
+sMsg2 = "[T_02] [현재 위치의 디렉터리 보기] ==> " + os.getcwd()
 print(sMsg + sMsg2)
 
 now_ym = str(datetime.datetime.now()).replace('-','.')     # 오늘 년월(년.월) (2023.08.31)
