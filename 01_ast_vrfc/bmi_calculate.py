@@ -1,5 +1,5 @@
-﻿# -*- coding: utf-8 -*-	    # 문자 인코딩(한글 사용) 
-# ! /bmi_calculate.py	     # BMI 계산증 파일 
+﻿# -*- coding: utf-8 -*-	    # 문자 인코딩(한글 사용)
+# ! /bmi_calculate.py	     # BMI 계산증 파일
 
 import tkinter as tk	### 이름이 길어서 tk라고 정의합니다.
 from tkinter import ttk
@@ -8,7 +8,7 @@ from tkinter import ttk
 # * @description BMI 계산 함수
 # */
 def cal_bmi():
-    print("\n\n [@_T] ■■■ [/bmi_calculate.py] [cal_bmi()] ==> [T_01] [BMI 계산 함수] [성별 구분]"+ str(cbx22.get()) +"[신장(cm)]"+ str(ent32.get()) +"[체중(kg)]"+ str(ent42.get()) )   
+    print("\n\n [@_T] ■■■ [/bmi_calculate.py] [cal_bmi()] ==> [T_01] [BMI 계산 함수] [성별 구분]"+ str(cbx22.get()) +"[신장(cm)]"+ str(ent32.get()) +"[체중(kg)]"+ str(ent42.get()) )
 
     ent61.delete(0,"end")
     ent61.insert(0, '')  # BMI 결과값ent42 ent42 입력창에 입력 ■■■
@@ -16,24 +16,24 @@ def cal_bmi():
     ent62.delete(0,"end")
     ent62.insert(0, '')   # BMI 결과값ent42 ent42 입력창에 입력 ■■■
 
-    m_sex = str(cbx22.get())  # 성별 구분 
+    m_sex = str(cbx22.get())  # 성별 구분
     m_height = float(ent32.get()) * 0.01   # 신장(cm)
     m_weight = float(ent42.get())  # 체중(kg)
-    print("[@_T] ■■■ [/bmi_calculate.py] [cal_bmi()] ==> [T_21] [성별 구분]"+ str(m_sex) +"[신장(cm)]"+ str(m_height) +"[체중(kg)]"+ str(m_weight) )   
-    
+    print("[@_T] ■■■ [/bmi_calculate.py] [cal_bmi()] ==> [T_21] [성별 구분]"+ str(m_sex) +"[신장(cm)]"+ str(m_height) +"[체중(kg)]"+ str(m_weight) )
+
     bmi = m_weight / ( m_height * m_height)    # 신체질량지수(BMI) = 체중(kg) / [신장(m) * 신장(m)]
     bmi = f"{bmi:.2f}"
-    print("[@_T] ■■■ [/bmi_calculate.py] [cal_bmi()] ==> [T_90] [신체질량지수(BMI))]"+ str(bmi) ) 
-    
+    print("[@_T] ■■■ [/bmi_calculate.py] [cal_bmi()] ==> [T_90] [신체질량지수(BMI))]"+ str(bmi) )
+
     ent61.delete(0,"end")
     ent61.insert(0, bmi)   # BMI 결과값 ent41 입력창에 입력 ■■■
-    
+
     bmi = float(bmi)
 
     if str(m_sex) == '남' :  # 성별 구분이 남성 이면 ■■■
         if bmi < 18.5 :  # 18.5 kg/㎡ 미만일 경우
             bmi_comment = "저체중"
-        elif bmi >= 18.5 and bmi <= 22.99 :   # 18.5~22.9 kg/㎡ 일 경우 
+        elif bmi >= 18.5 and bmi <= 22.99 :   # 18.5~22.9 kg/㎡ 일 경우
             bmi_comment = "정상 체중"
         elif bmi >= 23 and bmi <= 24.99 :    # 23 ~ 24.9 kg/㎡ 일 경우 :과 체중
             bmi_comment = "과 체중"     # 비만 전 단계(과 체중 or 위험 체중)
@@ -45,11 +45,11 @@ def cal_bmi():
             bmi_comment = "고도 비만"   # 3단계비만(고도 비만)
     else :  # 성별 구분이 여성 이면 ■■■
         if bmi < 21 :  # 8 미만일 경우
-            bmi_comment = "저체중" 
+            bmi_comment = "저체중"
         elif bmi >= 21 and bmi <= 32 :   # 21~32일 경우
             bmi_comment = "정상체중"
         elif bmi >= 33 and bmi <= 38 :  # 33~38일 경우
-            bmi_comment = "과체중"    
+            bmi_comment = "과체중"
         elif bmi >= 39 :   # 39 이상일 경우
             bmi_comment = "고도 비만"
 
@@ -70,18 +70,18 @@ window.resizable(False,False)
 
 add_row = 0   # 줄 추가
 rowNo = add_row
-print("[@_T] ■■■ [/bmi_calculate.py] ==> [T_02] [rowNo]"+ str(rowNo) ) 
+print("[@_T] ■■■ [/bmi_calculate.py] ==> [T_02] [rowNo]"+ str(rowNo) )
 
 # 1행 제목 라벨
-lab11 = tk.Label(window,text='BMI 계산', 
+lab11 = tk.Label(window,text='BMI 계산',
     bg='#2F5597', fg='white', width=20, height=1, font=('맑은 고딕', 16, 'bold'))
-lab11.grid(row=rowNo, column=0, padx=5, pady=10, columnspan=2, sticky='we')  
+lab11.grid(row=rowNo, column=0, padx=5, pady=10, columnspan=2, sticky='we')
 
 rowNo = rowNo + 1
-print("[@_T] ■■■ [/bmi_calculate.py] ==> [T_02] [rowNo_2행]"+ str(rowNo) ) 
+print("[@_T] ■■■ [/bmi_calculate.py] ==> [T_02] [rowNo_2행]"+ str(rowNo) )
 
 # 2행 성별 구분 라벨
-lab21 = tk.Label(window,text='성별', 
+lab21 = tk.Label(window,text='성별',
     bg='#2F5597', fg='white', width=8, height=1, font=('맑은 고딕', 16, 'bold'))
 lab21.grid(row=rowNo, column=0, padx=5, pady=10)
 
@@ -92,9 +92,9 @@ cbx22.current(0) # 0번째로 콤보박스 초기화
 cbx22.grid(row=rowNo, column=1, padx=5, pady=10)   #콤보박스 배치
 
 rowNo = rowNo + 1
-print("[@_T] ■■■ [/bmi_calculate.py] ==> [T_03] [rowNo_3행]"+ str(rowNo) ) 
+print("[@_T] ■■■ [/bmi_calculate.py] ==> [T_03] [rowNo_3행]"+ str(rowNo) )
 # 3행 신장(m) 라벨
-lab31 = tk.Label(window,text='신장(cm)', 
+lab31 = tk.Label(window,text='신장(cm)',
     bg='#2F5597', fg='white', width=8, height=1, font=('맑은 고딕', 16, 'bold'))
 lab31.grid(row=rowNo, column=0, padx=5, pady=10)
 
@@ -108,7 +108,7 @@ ent32.insert(0, my_height)   # 신장(m)값 ent12 입력창에 입력 ■■■
 
 rowNo = rowNo + 1
 # 4행 체중(kg) 라벨
-lab41 = tk.Label(window,text='체중(kg)', 
+lab41 = tk.Label(window,text='체중(kg)',
     bg='#2F5597', fg='white', width=8, height=1, font=('맑은 고딕', 16, 'bold'))
 lab41.grid(row=rowNo, column=0, padx=5, pady=10)
 
@@ -119,10 +119,10 @@ ent42.focus_set()   # 체중(kg) 입력창 포커스 설정
 
 rowNo = rowNo + 1
 # 5행 BMI 결과 버튼
-btutton51 = tk.Button(window,text='BMI 결과', 
+btutton51 = tk.Button(window,text='BMI 결과',
     bg='red', fg='white', width=8, height=1, font=('맑은 고딕', 16, 'bold'),
     command=cal_bmi)  # BMI 결과 버튼 cal_bmi 함수 호출 ■■■■
-btutton51.grid(row=rowNo, column=0, padx=5, pady=10, columnspan=2, sticky='we')   
+btutton51.grid(row=rowNo, column=0, padx=5, pady=10, columnspan=2, sticky='we')
 
 rowNo = rowNo + 1
 # 6행 BMI 결과 입력창

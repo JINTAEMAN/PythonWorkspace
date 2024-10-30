@@ -5,8 +5,18 @@
 ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
 
 
--00. Git 분석 ●●●
+-00. Git 분석 ●●● 
 https://github.com/JINTAEMAN/PythonWorkspace,.   ----> INTAEMAN/asas1212!!tama
+----------------------------------------------------------------------------------------------
+■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+
+1. ghtHub에 올리기 받아 오기_Real(VS Code > bash 터미널에서) ●
+git add .;
+git commit -m "▶ [24.10.30 13:40] 파일 수정(by tamario)";
+git push origin;		# 원격 서버에 소스 올리기 ■
+
+----------------------------------------------------------------------------------------------
+■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
 
 
 1. ghtHub에서 소스 다운로드 ●
@@ -15,7 +25,7 @@ $ git clone https://github.com/JINTAEMAN/PythonWorkspace
 ============================================================================================================-
 
 1. ghtHub에서 소스 받아 오기 ●
-# git fetch -a		# dev 브랜치로 전환 
+# git fetch -a		# dev 브랜치로 전환
 # git pull origin main	# main 브런치에서 소스 받아 오기 ■
 ============================================================================================================-
 
@@ -32,23 +42,23 @@ git status;		# git 상태 확인
 Your branch is up to date with 'origin/main'.
 
 nothing to commit, working tree clean
-==> 하단 상태 바에서 Git Graph: 클릭 -->  ▶ [24.10.28 08:31] 00. Git 분석 파일 수정(by tamario): 클릭 --> 변경 내용 확인 
+==> 하단 상태 바에서 Git Graph: 클릭 -->  ▶ [24.10.28 08:31] 00. Git 분석 파일 수정(by tamario): 클릭 --> 변경 내용 확인
 ---------------------------------------------------------------------------------------------------------------
 
 1. ghtHub에 올리기 받아 오기 ●
 $ git add .
 $ git commit -m "Add to main: 77_실행_파일_만들기, 97. 파이썬 자료_■ 폴더 올리기[24.10.26(T_01)], by tamario]";
-$ git commit -m "Add to main: 파이썬 자료_■ 폴더 올리기[24.10.26(T_01)], by tamario]"; 	
-$ git commit -m "Add to main:  파이썬 자료_■ 폴더 올리기[24.10.26(T_01)], by tamario]"; 	
-$ git commit -m "Add to main: 01. /ast_vrfc.py 수정(채권 Tab에서 CMA 금액 없을 경우)[24.10.76(T_01)], by tamario]"; 	
-git commit -m "Add to main: 01. /ast_vrfc.py 수정(채권 Tab에서 CMA 금액 없을 경우)[24.10.26(T_03)], by tamario]"; 	
+$ git commit -m "Add to main: 파이썬 자료_■ 폴더 올리기[24.10.26(T_01)], by tamario]";
+$ git commit -m "Add to main:  파이썬 자료_■ 폴더 올리기[24.10.26(T_01)], by tamario]";
+$ git commit -m "Add to main: 01. /ast_vrfc.py 수정(채권 Tab에서 CMA 금액 없을 경우)[24.10.76(T_01)], by tamario]";
+git commit -m "Add to main: 01. /ast_vrfc.py 수정(채권 Tab에서 CMA 금액 없을 경우)[24.10.26(T_03)], by tamario]";
 
 $ git push origin		# main 브런치에 소스 올리기 ■
 $ git log --all --oneline  		# log 시각적으로 보기
 ----------------------------------------------------------------------------------------------
 
 git add .;
-git commit -m "▶ [24.10.28 15:16] /ast_vrfc.py 수정(by tamario)"; 
+git commit -m "▶ [24.10.28 15:16] /ast_vrfc.py 수정(by tamario)";
 git push origin;		# 원격 서버에 소스 올리기 ■
 git status;		# git 상태 확인
 [main 1fb417a] ▶ [24.10.28 08:31] 00. Git 분석 파일 수정(by tamario)
@@ -60,13 +70,13 @@ nothing to commit, working tree clean
 ==> 하단 상태 바에서 Git Graph: 클릭 -->  ▶ [24.10.28 08:31] 00. Git 분석 파일 수정(by tamario): 클릭  --> 변경 내용 확인
 ---------------------------------------------------------------------------------------
 
-==============================================================================================================  
+==============================================================================================================
 ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
 
 
 $ git log --all --oneline  		# log 시각적으로 보기
 $ git status		# git 상태 확인
- 
+
 $ git clone http://gitlab.lguplus.co.kr/project/nedp/dlk airflow 01.git		# dik_airflow_01 프로젝트 Clone 받기 --> 최초에만 실행 ■
 $ cd /c/Users/tamario/Pycharm Projects/dik_airflow_01 	# 위치에서 gitrbash 열기
 $ git pull origin master
@@ -95,8 +105,8 @@ $ git status    # git 상태 확인
 ▶ Changes to be committed:  	# 변경 이후 staged에 올라간 상태
   (use "git restore --staged <file>..." to unstage)
         modified:   app/api/vi/llm_model.py
-		
-$ git reset HEAD -- app/api/vi/llm_model.py	 	# Staged된 파일 삭제 ■  
+
+$ git reset HEAD -- app/api/vi/llm_model.py	 	# Staged된 파일 삭제 ■
 -- $ git checkout  -- 01_ast_vrfc/bmi_calculate.py	 # Staged된 파일 삭제 ■( Modified상태 파일을 최근 커밋한 상태(또는 clone했을 때 상태)로 되돌리기
 
 ▶ Unstaged changes after reset:
@@ -117,8 +127,8 @@ https://www.youtube.com/watch?v=JZJQ4_8XoPM&list=PLHF1wYTaCuixewA1hAn8u6hzx5mNen
 ---------------------------------------------------------------------------------------
 
 > git branch  -v 	 	# 등록된 브랜치의 상세한 정보 확인
-> git branch --merged 		# 브랜치 상태 확인(-merged,  --no-merged ) 
-> git checkout main # master에 체크 아웃  
+> git branch --merged 		# 브랜치 상태 확인(-merged,  --no-merged )
+> git checkout main # master에 체크 아웃
 > git merge test		#  test브랜치의 코드를 main에 합침
 ---------------------------------------------------------------------------------------
 
@@ -138,7 +148,7 @@ https://www.youtube.com/watch?v=JZJQ4_8XoPM&list=PLHF1wYTaCuixewA1hAn8u6hzx5mNen
 
 - Visual Studio Code 로 다루는 Git[생활 코딩]
 https://www.youtube.com/watch?v=SZclqh4GpEI&list=PLuHgQVnccGMAQvSVKdXFiOo51HUD8iQQm&index=3
-============================================================================================================- 
+============================================================================================================-
 ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
 
 
@@ -152,7 +162,7 @@ $ cd /c/Users/tamario/Pycharm Projects/dik_airflow_01 	# 위치에서 gitrbash �
 $ git pull origin master
 $ git checkout develop		-- develop 브랜치로 전환
 $ git pull
-============================================================================================================- 
+============================================================================================================-
 ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
 
 
@@ -177,8 +187,8 @@ https://github.com/JINTAEMAN/PythonWorkspace,.   ----> INTAEMAN/asas1212!!tama
 ---------------------------------------------------------------------------------------
 
 > git branch  -v 	 	# 등록된 브랜치의 상세한 정보 확인
-> git branch --merged 		# 브랜치 상태 확인(-merged,  --no-merged ) 
-> git checkout main # master에 체크 아웃  
+> git branch --merged 		# 브랜치 상태 확인(-merged,  --no-merged )
+> git checkout main # master에 체크 아웃
 > git merge test		#  test브랜치의 코드를 main에 합침
 ---------------------------------------------------------------------------------------
 
@@ -191,7 +201,7 @@ https://github.com/JINTAEMAN/PythonWorkspace,.   ----> INTAEMAN/asas1212!!tama
 - [Git] Branch와 Merge
 https://velog.io/@marksen/Git-Branch%EC%99%80-Merge
 ==============================================================================================================
- 
+
 $ git status	# git 상태 확인
 ▶ On branch dev
 ▶ Your branch is up to date with 'origin/dev'.
@@ -199,7 +209,7 @@ $ git status	# git 상태 확인
 ▶ Changes not staged for commit:  # staged에 안 올라간 상태
   (use "git add <file>..." to uddate what will be commited)"
 	modified:   app/api/vi/llm_model.py
- 
+
 $ git clean -fd  	# untracked 파일, 폴더 모두 삭제 ■
 ▶ Removing app/api/vi/llm_model.py
 
@@ -211,8 +221,8 @@ $ git status    # git 상태 확인
 ▶ Changes to be committed:  	# 변경 이후 staged에 올라간 상태
   (use "git restore --staged <file>..." to unstage)
         modified:   app/api/vi/llm_model.py
-		
-$ git reset HEAD -- app/api/vi/llm_model.py	 	# Staged된 파일 삭제 ■  
+
+$ git reset HEAD -- app/api/vi/llm_model.py	 	# Staged된 파일 삭제 ■
 -- $ git checkout  -- 01_ast_vrfc/bmi_calculate.py	 # Staged된 파일 삭제 ■( Modified상태 파일을 최근 커밋한 상태(또는 clone했을 때 상태)로 되돌리기
 
 ▶ Unstaged changes after reset:
@@ -235,7 +245,7 @@ git config --global user.email "tamario@naver.com"
 91. URL 경로(01_ast_vrfc/)
 00. 자산 검증 파일 TEST Start
 01. 자산 Tab
-02. 총자산 Tab 
+02. 총자산 Tab
 --------------------------------------------------------------
 
 /bmi_calculate.py
@@ -245,4 +255,3 @@ git config --global user.email "tamario@naver.com"
 +--------------------------------------------------------// End //----------------------------------------------------------+
 ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
 
- 
