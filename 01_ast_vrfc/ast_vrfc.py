@@ -12,28 +12,30 @@ import pyautogui    # 마우스와 키보드 제어 Lib
 import time     # 시간 Lib
 from datetime import datetime   # datetime Lib
 import datetime
-
 import calendar  #   calendar Lib
-# import requests
-# from bs4 import BeautifulSoup
 
-# urlPath = ""   # 01. URL 경로(엑셀 폴더 경로)
-urlPath = "01_ast_vrfc/"   # 01. URL 경로(엑셀 폴더 경로)  # ■■■■■■■ ===> TEST 수행(테스트용) @@@ ===>
+urlPath = ""   # 01. URL 경로(엑셀 폴더 경로)
 opeParaFileNm = "01_1. paramYM.txt"   # 02. 파라 파일명 # ■■■■■■■ ===> Real
-# opeParaFileNm = "01_1. paramYM_24.12.txt"   # 02. 파라 파일명(24.12) --> 년말 테스트  # ■■■■■■■ ===> TEST @@@  ===>
 
 # /**
 # * @description 파일에서 파라미터 가져오는 함수()
 # */C
-def readParameters():
-    #  print("[@_T] ■■■ [/ast_vrfc.py] [readParameters]==> [T_01]")
-    print("[@_T] ■■■ [/ast_vrfc.py] [readParameters]==> [T_31] [URL 경로]"+ str(urlPath) +"[파라 파일명]"+ str(opeParaFileNm) )
+def readParameters(urlPath: str):
 
-    file = open(urlPath + opeParaFileNm, 'rt', encoding='utf-8-sig')	# properties.txt 파일 내용]
-    print("[@_T] ■■■ [/ast_vrfc.py] [readParameters]==> [T_51] [file]"+ str(file) )
+    file_path = urlPath + opeParaFileNm   # 02. 파라 파일 경로
+    print("[@_T] ■■■ [/ast_vrfc.py] [readParameters]==> [T_02] [URL 경로]"+ str(urlPath) +"[T_02] [file_path]"+ str(file_path) )
 
-    parameters = file.read().split(";")   # 자산 년월 parameters[01. 현재 년월[입력]]
-    print("[@_T] ■■■ [/ast_vrfc.py] [readParameters]==> [T_92] [01. 이전 년월[입력]]"+ str(parameters[0]) +"02. 출력할 년월[현재 월]■]"+ str(parameters[1] ) )
+    if os.path.exists(file_path):    # 파라 파일 경로가 존재하면
+        file = open(urlPath + opeParaFileNm, 'rt', encoding='utf-8-sig')	# properties.txt 파일
+        # print("[@_T] ■■■ [/ast_vrfc.py] [readParameters]==> [T_51] [file]"+ str(file) )
+
+        parameters = file.read().split(";")   # 자산 년월 parameters[01. 현재 년월[입력]]
+        print("[@_T] ■■■ [/ast_vrfc.py] [readParameters]==> [T_52] [00. file]"+ str(file) +"[01. 이전 년월[입력]]"+ str(parameters[0]) +"[02. 출력할 년월[현재 월]■]"+ str(parameters[1] ) )
+
+    else:
+        print(f'File not found: {file_path}')
+        parameters = ""
+    print("[@_T] ■■■ [/ast_vrfc.py] [readParameters]==> [T_91] [parameters]"+ str(parameters) )
 
     return parameters
 # ---------------------------------------------------------------------------------------------------------------------->
@@ -64,38 +66,35 @@ whiteFill = PatternFill(start_color='FFFFFF', end_color='FFFFFF', fill_type='sol
 
 
 # print("\n\n [@_T] ■■■ [/ast_vrfc.py] ==> [T_01] ■■■■■■ [######################### [자산 검증 파일 TEST Start] #########################] ■■■■■■ ")
-
 sMsg2 = "[T_01] ■■■■■■  [######################### [자산 검증 파일 TEST Start] #########################] ■■■■■■"
 sMsg = "\n\n\n ■■■ [/ast_vrfc.py] ==> "
-print(sMsg + sMsg2)
-
-# print(os.getcwd())
-sMsg2 = "[T_02] [현재 위치의 디렉터리 보기] ==> " + os.getcwd()
 print(sMsg + sMsg2)
 
 now_ym = str(datetime.datetime.now()).replace('-','.')     # 오늘 년월(년.월) (2023.08.31)
 dt_now = datetime.datetime.now()
 lastLastDt = dt_now.strftime("%Y") +"."+ dt_now.strftime("%m") +"."+ dt_now.strftime("%d")   # 자산 마지막 일 ■■■■■■ "2023.08.31"
 
-parameters = readParameters()      # 파일에서 파라미터 가져오는 함수() --> [01. 현재 년월[입력]]
-input_astYYYYMM = str(parameters[0])     # 자산 년월 --> 이전 년월
-input_astYYYYMM = input_astYYYYMM.split(".")
-input_astYY = str(input_astYYYYMM[0][2:4])  # 자산 년[입력] -->ㅎㄵ 년월
-input_astMM = int(input_astYYYYMM[1])    # 자산 년월[입력]
-# print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_02_02] [01. 현재 년월[입력][★]]"+ str(parameters[0]) +"[02. 출력할 년월■]"+ str(parameters[1]) +"[3. 오늘 년월(오늘 년월■)]"+ str(input_astMM) )
-sMsg2 = "[T_02] [01. 현재 년월[입력][★]]"+ str(parameters[0]) +"[02. 출력할 년월■]"+ str(parameters[1]) +"[3. 오늘 년월(오늘 년월■)]"+ str(input_astMM)
+parameters = readParameters(urlPath)   # 파일(01_1. paramYM.txt)에서 파라미터 가져오는 함수() --> [01. 현재 년월[입력]]
+sMsg2 = "[T_01_2] [파일 존재 여부]"+ str(parameters) +"[urlPath]"+ str(urlPath)
 print(sMsg + sMsg2)
+
+if parameters is None or parameters =='':   # 파일이 존재하지 않으면
+    urlPath = "01_ast_vrfc/"   # 01. URL 경로(엑셀 폴더 경로)  # ■■■■■■■ ===> TEST 수행(테스트용) @@@ ===>
+    parameters = readParameters(urlPath)   # 파일에서 파라미터 가져오는 함수() --> [01. 현재 년월[입력]]
 
 if str(parameters[0]) == None :   # 자산 년월 미입력 이면
     result = pyautogui.alert("자산 년월을 입력하세요. 예) 2023.08", title='[자산 년월 입력 오류]', button='OK')
     sys.exit()    # 종료
 
-astYYM = parameters[1][0:7]    # 자산 년월[입력] --> 현재 년월(2023.08: 6자리)
-astYM = parameters[1][2:7]  # 자산 년월(23.08: 4자리)
-print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_02_04] [01. 자산 년월(현재 년월)[★]]"+ str(astYYM) +"[02. 자산 년월(현재 년월)■]"+ str(astYM) )
-
+input_astYYYYMM = str(parameters[0])     # 자산 년월 --> 이전 년월
+input_astYYYYMM = input_astYYYYMM.split(".")
+input_astYY = str(input_astYYYYMM[0][2:4])  # 자산 년[입력]
+input_astMM = int(input_astYYYYMM[1])    # 자산 년월[입력]  --> 현재 년월
+astYYM = parameters[1][0:7]     # 자산 년월[입력] --> 현재 년월(2023.08: 6자리)
+astYM = parameters[1][2:7]      # 자산 년월(23.08: 4자리)
 openFileNm = "02. 자산 검증("+ str(input_astYY) +"."+ format(input_astMM, '02') +").xlsx"   # 오픈 파일 명(02. 자산 검증(23.08).xlsx)
-# print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_02_04] [URL 경로]"+ str(urlPath) +"[오픈 파일]"+ str(openFileNm) )
+sMsg2 = "[T_02] [01. 이전 년월]"+ str(input_astYYYYMM) +"[02. 출력할 년월(현재 년)■]"+ str(astYYM)
+print(sMsg + sMsg2)
 
 wb = load_workbook(urlPath + openFileNm, data_only=True)    # 오픈 파일을 wb을 불러옴(data_only=True: 수식이 아닌 실제 데이터를 가지고 옴)
 print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_02_05] [URL 경로]"+ str(urlPath) +"[오픈 파일]"+ str(openFileNm) +"[wb]"+ str(wb) )
