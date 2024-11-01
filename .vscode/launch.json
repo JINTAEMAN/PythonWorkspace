@@ -6,6 +6,7 @@
     "configurations": [
         {
             "name": "01. Python 디버거: 현재 파일",
+            "type": "python",   // type 추가
             "request": "launch",
             "program": "${file}",
             "console": "integratedTerminal"
