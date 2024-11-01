@@ -74,13 +74,13 @@ now_ym = str(datetime.datetime.now()).replace('-','.')     # 오늘 년월(년.�
 dt_now = datetime.datetime.now()
 lastLastDt = dt_now.strftime("%Y") +"."+ dt_now.strftime("%m") +"."+ dt_now.strftime("%d")   # 자산 마지막 일 ■■■■■■ "2023.08.31"
 
-parameters = readParameters(urlPath)   # 파일(01_1. paramYM.txt)에서 파라미터 가져오는 함수() --> [01. 현재 년월[입력]]
+parameters = readParameters(urlPath)   # 파일(01_1. paramYM.txt)에서 파라미터 가져오는 함수() 호출 ■
 sMsg2 = "[T_01_2] [파일 존재 여부]"+ str(parameters) +"[urlPath]"+ str(urlPath)
 print(sMsg + sMsg2)
 
 if parameters is None or parameters =='':   # 파일이 존재하지 않으면
     urlPath = "01_ast_vrfc/"   # 01. URL 경로(엑셀 폴더 경로)  # ■■■■■■■ ===> TEST 수행(테스트용) @@@ ===>
-    parameters = readParameters(urlPath)   # 파일에서 파라미터 가져오는 함수() --> [01. 현재 년월[입력]]
+    parameters = readParameters(urlPath)   # 파일(01_1. paramYM.txt)에서 파라미터 가져오는 함수() 호출 ■
 
 if str(parameters[0]) == None :   # 자산 년월 미입력 이면
     result = pyautogui.alert("자산 년월을 입력하세요. 예) 2023.08", title='[자산 년월 입력 오류]', button='OK')
