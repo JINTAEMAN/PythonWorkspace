@@ -21,23 +21,30 @@ opeParaFileNm = "01_1. paramYM.txt"   # 02. 파라 파일명 # ■■■■■�
 # * @description 파일에서 파라미터 가져오는 함수()
 # */C
 def readParameters(urlPath: str):
-
+    rtn_ym = ""
     file_path = urlPath + opeParaFileNm   # 02. 파라 파일 경로
     print("[@_T] ■■■ [/ast_vrfc.py] [readParameters]==> [T_02] [URL 경로]"+ str(urlPath) +"[T_02] [file_path]"+ str(file_path) )
 
     if os.path.exists(file_path):    # 파라 파일 경로가 존재하면
         file = open(urlPath + opeParaFileNm, 'rt', encoding='utf-8-sig')	# properties.txt 파일
-        # print("[@_T] ■■■ [/ast_vrfc.py] [readParameters]==> [T_51] [file]"+ str(file) )
+        print("[@_T] ■■■ [/ast_vrfc.py] [readParameters]==> [T_51] [file]"+ str(file) )
 
         parameters = file.read().split(";")   # 자산 년월 parameters[01. 현재 년월[입력]]
-        print("[@_T] ■■■ [/ast_vrfc.py] [readParameters]==> [T_52] [00. file]"+ str(file) +"[01. 이전 년월[입력]]"+ str(parameters[0]) +"[02. 출력할 년월[현재 월]■]"+ str(parameters[1] ) )
+        print("[@_T] ■■■ [/ast_vrfc.py] [readParameters]==> [T_52] [01. 이전 년월]"+ str(parameters[0]) +"[02. 현재 년월]"+ str(parameters[1]) )
+
+        prev_ym = parameters[0].split(":")   # 이전 년월
+        now_ym = parameters[1].split(":")    # 현재 년월
+        print("[@_T] ■■■ [/ast_vrfc.py] [readParameters]==> [T_53] [01. 이전 년월]"+ str(prev_ym[1]) +"[02. 현재 년월]"+ str(now_ym[1]) )
+
+        rtn_ym = str(prev_ym[1]) +";"+ str(now_ym[1])   # 이전 현재 년월 재 생성 ==> 2024.10;2024.11
+        print("[@_T] ■■■ [/ast_vrfc.py] [readParameters]==> [T_54] [01. 이전, 현재 년월]"+ str(rtn_ym) )
 
     else:
         print(f'File not found: {file_path}')
-        parameters = ""
-    print("[@_T] ■■■ [/ast_vrfc.py] [readParameters]==> [T_91] [parameters]"+ str(parameters) )
+        rtn_ym = ""
+    print("[@_T] ■■■ [/ast_vrfc.py] [readParameters]==> [T_91] [rtn_ym]"+ str(rtn_ym) )
 
-    return parameters
+    return rtn_ym
 # ---------------------------------------------------------------------------------------------------------------------->
 
 
@@ -66,7 +73,7 @@ whiteFill = PatternFill(start_color='FFFFFF', end_color='FFFFFF', fill_type='sol
 
 
 # print("\n\n [@_T] ■■■ [/ast_vrfc.py] ==> [T_01] ■■■■■■ [######################### [자산 검증 파일 TEST Start] #########################] ■■■■■■ ")
-sMsg2 = "[T_01] ■■■■■■  [######################### [자산 검증 파일 TEST Start] #########################] ■■■■■■"
+sMsg2 = "[T_01] ■■■■■■  [######################### [01, 자산 검증 파일 TEST Start] #########################] ■■■■■■"
 sMsg = "\n\n\n ■■■ [/ast_vrfc.py] ==> "
 print(sMsg + sMsg2)
 
@@ -85,15 +92,20 @@ if parameters is None or parameters =='':   # 파일이 존재하지 않으면
 if str(parameters[0]) == None :   # 자산 년월 미입력 이면
     result = pyautogui.alert("자산 년월을 입력하세요. 예) 2023.08", title='[자산 년월 입력 오류]', button='OK')
     sys.exit()    # 종료
+sMsg2 = "[T_01_3] [parameters]"+ str(parameters) +"[이전 년월]"+ str(parameters[0])
+print(sMsg + sMsg2)
 
-input_astYYYYMM = str(parameters[0])     # 자산 년월 --> 이전 년월
-input_astYYYYMM = input_astYYYYMM.split(".")
-input_astYY = str(input_astYYYYMM[0][2:4])  # 자산 년[입력]
-input_astMM = int(input_astYYYYMM[1])    # 자산 년월[입력]  --> 현재 년월
-astYYM = parameters[1][0:7]     # 자산 년월[입력] --> 현재 년월(2023.08: 6자리)
-astYM = parameters[1][2:7]      # 자산 년월(23.08: 4자리)
+prev_now_ym = parameters.split(";")     # 이전, 현재 년월 ==> 2024.10;2024.11
+prev_ym = str(prev_now_ym[0])   # 이전 년월
+input_astYYYYMM = prev_ym.split(".")
+input_astYY = str(input_astYYYYMM[0][2:4])  # 이전 년[입력]
+input_astMM = int(input_astYYYYMM[1])    # 이전 월[입력]
+
+now_ym = str(prev_now_ym[1][0:7])   # 현재 년월
+astYYM = prev_now_ym[1][0:7]     # 자산 년월[입력] --> 현재 년월(2023.08: 6자리)
+astYM = prev_now_ym[1][2:7]      # 자산 년월(23.08: 4자리)
 openFileNm = "02. 자산 검증("+ str(input_astYY) +"."+ format(input_astMM, '02') +").xlsx"   # 오픈 파일 명(02. 자산 검증(23.08).xlsx)
-sMsg2 = "[T_02] [01. 이전 년월]"+ str(input_astYYYYMM) +"[02. 출력할 년월(현재 년)■]"+ str(astYYM)
+sMsg2 = "[T_01_4] [parameters]"+ str(parameters) +"[prev_now_ym]"+ str(prev_now_ym) +"[이전 년월]"+ prev_ym +"[현재 년월]"+ now_ym
 print(sMsg + sMsg2)
 
 wb = load_workbook(urlPath + openFileNm, data_only=True)    # 오픈 파일을 wb을 불러옴(data_only=True: 수식이 아닌 실제 데이터를 가지고 옴)
