@@ -54,7 +54,7 @@ sMsg2 += ""+ out_cmd.decode('utf-8') +"\n"
 print(sMsg + sMsg2)
 print("[@_T] ■■■ [/git_pull_push.py] ==> [T_44] [git_way]"+ str(git_way) +"[git_way_no]"+ str(git_way_no) )
 
-if str(git_way) == "push":   # 인자값이 push 이면(ghtHub에 올리기)
+if str(git_way) == "push":   # 인자값이 push 이면(ghtHub에 올리기) 
     print("[@_T] ■■■ [/git_pull_push.py] ==> [T_51]")
 
     command = 'git status'    # 0. Git 저장소의 상태 확인
