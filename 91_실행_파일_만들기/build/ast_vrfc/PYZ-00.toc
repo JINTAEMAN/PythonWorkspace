@@ -1,4 +1,4 @@
-('D:\\PythonWorkspace\\77_실행_파일_만들기\\build\\ast_vrfc\\PYZ-00.pyz',
+('D:\\PythonWorkspace\\91_실행_파일_만들기\\build\\ast_vrfc\\PYZ-00.pyz',
  [('PIL', 'C:\\Python311\\Lib\\site-packages\\PIL\\__init__.py', 'PYMODULE'),
   ('PIL.BlpImagePlugin',
    'C:\\Python311\\Lib\\site-packages\\PIL\\BlpImagePlugin.py',

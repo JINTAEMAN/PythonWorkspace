@@ -12,57 +12,55 @@ import pyautogui    # 마우스와 키보드 제어 Lib
 
 git_way_no = 1      # git 방식 No(1: pull: ghtHub에서 소스 받아 오기, 2: push: ghtHub에 소스 올리기, 3: 1 + 2)
 
-# urlPath = ""   # 01. URL 경로(엑셀 폴더 경로)
-# opeParaFileNm = "01_1. param_push.txt"   # 02. 파라 파일명 # ■■■■■■■ ===> Real
-
-# def readParameters():    # 파일에서 파라미터 가져오는 함수()
-#     print("[@_T] ■■■ [/git_pull_push.py] [readParameters]==> [T_01]")
-
-#     file = open(urlPath + opeParaFileNm, 'rt', encoding='utf-8-sig')	# properties.txt 파일
-#     # file = open("git_pull_push_pram.txt", 'rt', encoding='utf-8-sig')	# properties.txt 파일 내용 ---> 2023.09[자산 년월(오늘 년월)]
-#     # print("[@_T] ■■■ [/git_pull_push.py] [readParameters]==> [T_51] [file]"+ str(file) )
-
-#     parameters = file.read().split(";")      # 자산 년월 parameters
-#     print("[@_T] ■■■ [/git_pull_push.py] [readParameters]==> [T_91] [parameters]"+ str(parameters) )
-#     print("[@_T] ■■■ [/git_pull_push.py] [readParameters]==> [T_92] [자산 년월]"+ str(parameters[0]) )
-
-#     return parameters
-# ---------------------------------------------------------------------------------------------------------------------->
-
 # print(" [@_T] ■■■ [/git_pull_push.py] ==> [T_01] ■■■■■■ [######################### [python Workspace 처리 Start] #########################] ■■■■■■ \n\n\n")
 sMsg2 = "[T_01] ■■■■■■  [######################### [01. git_pull_push 처리 Start] #########################] ■■■■■■"
 sMsg = "\n\n\n ■■■ [/git_pull_push.py] ==> "
 print(sMsg + sMsg2)
 
 now_ydmhm = time.strftime("%y.%m.%d %H:%M")	    # 오늘 날짜(년.월.일 시:분)
-# parameters = readParameters(urlPath)   # 파일(01_1. paramYM.txt)에서 파라미터 가져오는 함수()
-
-git_way = str(sys.argv[1:])     # g 명령줄 인자 출력[git 방식(get, push)]
-# print("[@_T] ■■■ [/git_pull_push.py] ==> [T_03] [git 방식]"+ str(git_way) )
+git_way = str(sys.argv[1 :])     # g 명령줄 인자 출력[git 방식(get, push)] ==> sys.argv[1][1 :]
 # print("[@_T] ■■■ [/git_pull_push.py] ==> [T_40] [Git 경보 처리 시작0. 원격 저장소 데이타 가저 오기(git pull)] ■■■■■■■■■■ \n\n")
 
 command = 'git pull origin main'    # 1. ghtHub에서 소스 받아 오기
 proc = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE).stdout
 out_cmd = proc.read()
-# print("[@_T] ■■■ [/git_pull_push.py] ==> [T_41] [0. ghtHub에서 소스 받아 오기 결과] ■■■■■■■■■■"+ out_cmd.decode('utf-8') )
 sMsg2 = "[T_41] [0. ghtHub에서 소스 받아 오기 결과] ■■■■■■■■■■"+ out_cmd.decode('utf-8')
 print(sMsg + sMsg2)
+print("[@_T] ■■■ [/git_pull_push.py] ==> [T_42]")
 
-command = 'git log --oneline --all --graph'   # 로그 보기
-proc = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE).stdout
-out_cmd = proc.read()
+if str(out_cmd.decode('utf-8')) == "Already up to date.\n":   # 인자값이 push 이면(ghtHub에 올리기)
+    git_way_no = git_way_no - 1
 
-git_way = "push"   # 인자값이 push 이면(ghtHub에 올리기)  ===> TEST @@@@ ===>
-# result = pyautogui.alert(git_way, title='▶ [git_way 확인]', button='OK')
-# sys.exit()    # 종료
+if git_way == None and git_way_no == 0:
+    rsltFileNmAlert = "1. ghtHub에서 소스 받아 오기 실패 했습니다(변경 사항 없음)"
+    result = pyautogui.alert(rsltFileNmAlert, title='▶ [pull 확인 결과]', button='OK')
+    sys.exit()    # 종료
+print("[@_T] ■■■ [/git_pull_push.py] ==> [T_43]")
 
-sMsg2 = "[T_42] [git 방식(인자값)]"+ str(git_way) +"\n"
+if git_way == None:
+    command = 'git log --oneline --all --graph'   # 로그 보기
+    proc = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE).stdout
+    out_cmd = proc.read()
+
+# git_way = "push"   # 인자값이 push 이면(ghtHub에 올리기) ===> TEST @@@@ ===>
+result = pyautogui.alert(git_way, title='▶ [git_way 확인]', button='OK')
+print("[@_T] ■■■ [/git_pull_push.py] ==> [T_44]")
+
+sMsg2 = "[T_42_0] [git 방식(인자값)]"+ str(git_way) +"\n"
 sMsg2 += "[0. 로그 보기]  ■■■■■■■■■■ \n"
 sMsg2 += ""+ out_cmd.decode('utf-8') +"\n"
 print(sMsg + sMsg2)
+# print(' '.join(map(str.upper, sys.argv[1:])))
+# if str(git_way) == "push":   # 인자값이 push 이면(ghtHub에 올리기)
 
-if git_way == "push":   # 인자값이 push 이면(ghtHub에 올리기)
+git_way_nm = "".join(map(str.lower, sys.argv[1:]))
+print("[@_T] ■■■ [/git_pull_push.py] ==> [T_44] [git_way_nm]"+ str(git_way_nm) )
+
+if str(git_way_nm) == "push":   # 인자값이 push 이면(ghtHub에 올리기)
+    print("[@_T] ■■■ [/git_pull_push.py] ==> [T_51]")
+
     command = 'git status'    # 0. Git 저장소의 상태 확인
+
     proc = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE).stdout
     out_cmd_status = proc.read()
     print("[@_T] ■■■ [/git_pull_push.py] ==> [T_71] [0. Git 저장소의 상태 확인(git status)] ■■■■■ ★★★★★ ■■■■■■■ "+ out_cmd_status.decode('utf-8') )
@@ -86,11 +84,15 @@ if git_way == "push":   # 인자값이 push 이면(ghtHub에 올리기)
     print("[@_T] ■■■ [/git_pull_push py] ==> [T_74] [5. 원격 저장소에 반영(git push)]"+ out_cmd_push.decode('utf-8'))
     print("[@_T] ■■■ [/git_pull_push.py] ==> [T_80] [Git 정보 처리 시작 End] ■■■ @@@@@ ■■■■■■■■■ ■\n\n")
 
+print("[@_T] ■■■ [/git_pull_push.py] ==> [T_90] ■■■■■■[ git_way_no]"+ str(git_way_no) )
+
 if git_way_no == 2:   # 인자값이 push 이면(ghtHub에 올리기)
     git_way_no = git_way_no + 1
 
 if git_way_no == 3:   # 인자값이 push 이면(ghtHub에 올리기)
     rsltFileNmAlert = "1. ghtHub에서 소스 받아 오기, 2. ghtHub에 소스 올리기가 성공 했습니다."
+# elsif git_way_no == 1:
+#     rsltFileNmAlert = "1. ghtHub에서 소스 받아 오기가 성공 했습니다."
 else:
     rsltFileNmAlert = "1. ghtHub에서 소스 받아 오기가 성공 했습니다."
 
@@ -98,3 +100,7 @@ result = pyautogui.alert(rsltFileNmAlert, title='▶ [pull, push 처리]', butto
 sys.exit()    # 종료
 
 print("[@_T] ■■■ [/git_pull_push.py] ==> [T_99] ■■■■■■ [######################### [01. git_pull_push 처리 End] #########################] ■■■■■■\n\n\n")
+
+
+# if str(out_cmd.decode('utf-8')) == "Already up to date.\n":   # 인자값이 push 이면(ghtHub에 올리기)
+#     git_way_no = git_way_no - 1
