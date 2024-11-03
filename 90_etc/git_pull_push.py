@@ -72,7 +72,7 @@ if git_way == "push":   # 인자값이 push 이면(ghtHub에 올리기)
     out_cmd_add = proc.read()
     print("[@_T] ■■■ [/git_pull_push.py] ==> [T_72] [3. Git 스테이지 영역에 추가(git add)]"+ out_cmd_add.decode('utf-8') )
 
-    cmd_cmt_msg = 'git commit -m "[TM] Add to Python Work space['+ now_ydmhm +'(T_01), by 진태만]"'   # 4. Git 로컬 저장소 영역에 커밋 처리
+    cmd_cmt_msg = 'git commit -m "▶['+ now_ydmhm +'] 02. 소스 올리기(by 진태만)"'   # 4. Git 로컬 저장소 영역에 커밋 처리
     # git commit -m ' [TM] Add to Python Work space[23.08.26, by 진태만]'
     proc = subprocess.Popen(cmd_cmt_msg, shell=True, stdout=subprocess.PIPE).stdout
     out_cmt_msg = proc.read()
@@ -83,7 +83,7 @@ if git_way == "push":   # 인자값이 push 이면(ghtHub에 올리기)
     proc = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE).stdout
     out_cmd_push = proc.read()
     git_way_no = 2     # git 방식 No(1: pull: ghtHub에서 소스 받아 오기, 2: push: ghtHub에 소스 올리기, 3: 1 + 2)
-    print("[@_T] ■■■ [/git_pull_push py] ==> [T_74] [5. 원격 정장소에 반영(git push)]"+ out_cmd_push.decode('utf-8'))
+    print("[@_T] ■■■ [/git_pull_push py] ==> [T_74] [5. 원격 저장소에 반영(git push)]"+ out_cmd_push.decode('utf-8'))
     print("[@_T] ■■■ [/git_pull_push.py] ==> [T_80] [Git 정보 처리 시작 End] ■■■ @@@@@ ■■■■■■■■■ ■\n\n")
 
 if git_way_no == 2:   # 인자값이 push 이면(ghtHub에 올리기)
