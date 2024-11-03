@@ -30,7 +30,7 @@ print(sMsg + sMsg2)
 print("[@_T] ■■■ [/git_pull_push.py] ==> [T_42]")
 
 if str(out_cmd.decode('utf-8')) == "Already up to date.\n":   # 인자값이 push 이면(ghtHub에 올리기)
-    git_way_no = git_way_no - 1
+    git_way_no =  int(git_way_no) - 1
 
 if git_way == None and git_way_no == 0:
     rsltFileNmAlert = "1. ghtHub에서 소스 받아 오기 실패 했습니다(변경 사항 없음)"
@@ -52,6 +52,7 @@ sMsg2 += "[0. 로그 보기]  ■■■■■■■■■■ \n"
 sMsg2 += ""+ out_cmd.decode('utf-8') +"\n"
 print(sMsg + sMsg2)
 print("[@_T] ■■■ [/git_pull_push.py] ==> [T_44] [git_way]"+ str(git_way) )
+print("[@_T] ■■■ [/git_pull_push.py] ==> [T_44] ■■■■■■[git_way_no]"+ str(git_way_no) )
 
 if str(git_way) == "push":   # 인자값이 push 이면(ghtHub에 올리기)
     print("[@_T] ■■■ [/git_pull_push.py] ==> [T_51]")
@@ -80,6 +81,7 @@ if str(git_way) == "push":   # 인자값이 push 이면(ghtHub에 올리기)
     git_way_no = int(git_way_no) + 1     # git 방식 No(1: pull: ghtHub에서 소스 받아 오기, 2: push: ghtHub에 소스 올리기, 3: 1 + 2)
     print("[@_T] ■■■ [/git_pull_push py] ==> [T_74] [5. 원격 저장소에 반영(git push)]"+ out_cmd_push.decode('utf-8'))
     print("[@_T] ■■■ [/git_pull_push.py] ==> [T_80] [Git 정보 처리 시작 End] ■■■ @@@@@ ■■■■■■■■■ ■\n\n")
+    print("[@_T] ■■■ [/git_pull_push.py] ==> [T_81] ■■■■■■[git_way_no]"+ str(git_way_no) )
 
 print("[@_T] ■■■ [/git_pull_push.py] ==> [T_90] ■■■■■■[git_way_no]"+ str(git_way_no) )
 
