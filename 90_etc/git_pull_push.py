@@ -86,10 +86,10 @@ print("[@_T] ■■■ [/git_pull_push.py] ==> [T_90] ■■■■■■[ git_wa
 if git_way_no == 2:   # 인자값이 push 이면(ghtHub에 올리기)
     git_way_no = git_way_no + 1
 
-if git_way_no == 3:   # 인자값이 push 이면(ghtHub에 올리기)
+if git_way_no == 2:
+    rsltFileNmAlert = "2. ghtHub에 소스 올리기가 성공 했습니다."
+elif git_way_no == 3:
     rsltFileNmAlert = "1. ghtHub에서 소스 받아 오기, 2. ghtHub에 소스 올리기가 성공 했습니다."
-# elsif git_way_no == 1:
-#     rsltFileNmAlert = "1. ghtHub에서 소스 받아 오기가 성공 했습니다."
 else:
     rsltFileNmAlert = "1. ghtHub에서 소스 받아 오기가 성공 했습니다."
 
