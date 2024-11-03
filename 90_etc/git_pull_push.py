@@ -78,7 +78,7 @@ if str(git_way) == "push":   # 인자값이 push 이면(ghtHub에 올리기)
     command = 'git push origin main'    # 5. ghtHub에 소스 올리기
     proc = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE).stdout
     out_cmd_push = proc.read()
-    git_way_no = int(git_way_no) + 1     # git 방식 No(1: pull: ghtHub에서 소스 받아 오기, 2: push: ghtHub에 소스 올리기, 3: 1 + 2)
+    git_way_no = int(git_way_no) + 3    # git 방식 No(1: pull: ghtHub에서 소스 받아 오기, 2: push: ghtHub에 소스 올리기, 3: 1 + 2)
     print("[@_T] ■■■ [/git_pull_push py] ==> [T_74] [5. 원격 저장소에 반영(git push)]"+ out_cmd_push.decode('utf-8'))
     print("[@_T] ■■■ [/git_pull_push.py] ==> [T_80] [Git 정보 처리 시작 End] ■■■ @@@@@ ■■■■■■■■■ ■\n\n")
     print("[@_T] ■■■ [/git_pull_push.py] ==> [T_81] ■■■■■■[git_way_no]"+ str(git_way_no) )
@@ -89,9 +89,9 @@ print("[@_T] ■■■ [/git_pull_push.py] ==> [T_90] ■■■■■■[git_way
 #     git_way_no = git_way_no + 1
 # print("[@_T] ■■■ [/git_pull_push.py] ==> [T_91] ■■■■■■[git_way_no]"+ str(git_way_no) )
 
-if git_way_no == 2:
+if git_way_no == 3:
     rsltFileNmAlert = "2. ghtHub에 소스 올리기가 성공 했습니다."
-elif git_way_no == 3:
+elif git_way_no == 4:
     rsltFileNmAlert = "1. ghtHub에서 소스 받아 오기, 2. ghtHub에 소스 올리기가 성공 했습니다."
 else:
     rsltFileNmAlert = "1. ghtHub에서 소스 받아 오기가 성공 했습니다."
