@@ -81,10 +81,11 @@ if str(git_way) == "push":   # 인자값이 push 이면(ghtHub에 올리기)
     print("[@_T] ■■■ [/git_pull_push py] ==> [T_74] [5. 원격 저장소에 반영(git push)]"+ out_cmd_push.decode('utf-8'))
     print("[@_T] ■■■ [/git_pull_push.py] ==> [T_80] [Git 정보 처리 시작 End] ■■■ @@@@@ ■■■■■■■■■ ■\n\n")
 
-print("[@_T] ■■■ [/git_pull_push.py] ==> [T_90] ■■■■■■[ git_way_no]"+ str(git_way_no) )
+print("[@_T] ■■■ [/git_pull_push.py] ==> [T_90] ■■■■■■[git_way_no]"+ str(git_way_no) )
 
 if git_way_no == 2:   # 인자값이 push 이면(ghtHub에 올리기)
     git_way_no = git_way_no + 1
+print("[@_T] ■■■ [/git_pull_push.py] ==> [T_91] ■■■■■■[git_way_no]"+ str(git_way_no) )
 
 if git_way_no == 2:
     rsltFileNmAlert = "2. ghtHub에 소스 올리기가 성공 했습니다."
