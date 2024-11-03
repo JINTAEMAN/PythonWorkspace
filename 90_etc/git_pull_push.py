@@ -53,6 +53,8 @@ proc = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE).stdout
 out_cmd = proc.read()
 
 git_way = "push"   # 인자값이 push 이면(ghtHub에 올리기)  ===> TEST @@@@ ===>
+# result = pyautogui.alert(git_way, title='▶ [git_way 확인]', button='OK')
+# sys.exit()    # 종료
 
 sMsg2 = "[T_42] [git 방식(인자값)]"+ str(git_way) +"\n"
 sMsg2 += "[0. 로그 보기]  ■■■■■■■■■■ \n"
@@ -82,7 +84,7 @@ if git_way == "push":   # 인자값이 push 이면(ghtHub에 올리기)
     out_cmd_push = proc.read()
     git_way_no = 2     # git 방식 No(1: pull: ghtHub에서 소스 받아 오기, 2: push: ghtHub에 소스 올리기, 3: 1 + 2)
     print("[@_T] ■■■ [/git_pull_push py] ==> [T_74] [5. 원격 정장소에 반영(git push)]"+ out_cmd_push.decode('utf-8'))
-    print("[@_T] ■■■ [/git_pull_push.py] ==> [T_80] [Git 정보 쳐리 시작 End] ■■■ @@@@@ ■■■■■■■■■ ■\n\n")
+    print("[@_T] ■■■ [/git_pull_push.py] ==> [T_80] [Git 정보 처리 시작 End] ■■■ @@@@@ ■■■■■■■■■ ■\n\n")
 
 if git_way_no == 2:   # 인자값이 push 이면(ghtHub에 올리기)
     git_way_no = git_way_no + 1
