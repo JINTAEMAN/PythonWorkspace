@@ -72,7 +72,7 @@ if str(git_way) == "push":   # 인자값이 push 이면(ghtHub에 올리기)
     # git commit -m ' [TM] Add to Python Work space[23.08.26, by 진태만]'
     proc = subprocess.Popen(cmd_cmt_msg, shell=True, stdout=subprocess.PIPE).stdout
     out_cmt_msg = proc.read()
-    print("[@_T] ■■■ [/git_pull_push.py] ==> [T_73] [4. Git 로걸 저장소 영역에 추가(커밋 에세지)]■■"+ str(cmd_cmt_msg))
+    print("[@_T] ■■■ [/git_pull_push.py] ==> [T_73] [4. Git 로걸 저장소 영역에 추가(커밋 메세지)] ■■■■■■ ★★ ■■■■■■"+ str(cmd_cmt_msg) +"\n\n")
     # print("[@_T] ■■■ [/git_pull_push.py] ==> [T_73_2] [4  Git 로걸 저장소 영역에 추가(git commit)] ■■■■■■■■■■■■ "* out_cmt_msg.decode('utf-8') )
 
     command = 'git push origin main'    # 5. ghtHub에 소스 올리기
