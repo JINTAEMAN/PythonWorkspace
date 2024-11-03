@@ -1,0 +1,102 @@
+﻿
+
+■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
++---------------------------------------// 00. Python실행_파일 만들기 사용법 //-----------------------/ 24.07.15(월) /----+ 
+■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ 
+
+
+- 00. 실행_파일 만들기 사용법 @@@
+01. /ast_vrfc.py 파일 실행(Visual Studio Code에서 수행)
+TAMA_HAart_404@TAMA-HAart-404 MINGW64 /d/PythonWorkspace (main)
+$ cd /D/PythonWorkspace/44_실행_파일_만들기
+
+TAMA_HAart_404@TAMA-HAart-404 MINGW64  cd /D/PythonWorkspace/44_실행_파일_만들기
+$ dir -l
+-rw-r--r-- 1 TAMA_HAart_404 197121 223927 Jul 15 16:51 ast_vrfc.py   	--->   ast_vrfc.py  파일 존재 여부 확인 ■
+
+TAMA_HAart_404@TAMA-HAart-404 MINGW64 /D/PythonWorkspace/44_실행_파일_만들기 (main)
+$ pyinstaller -w -F ast_vrfc.py		 --->  	// ■■■ (w: 콘솔 윈도우 표시 안함, F: 1개의 exe파일로 변환)
+1098 INFO: PyInstaller: 5.13.2
+1098 INFO: Python: 3.11.4
+1113 INFO: Platform: Windows-10-10.0.22631-SP0
+.........
+.........
+.........
+
+51212 INFO: Fixing EXE headers
+52167 INFO: Building EXE from EXE-00.toc completed successfully.
+ 
+TAMA_HAart_404@TAMA-HAart-404 MINGW64 /D/PythonWorkspace/44_실행_파일_만들기 (main)
+$ cd /D/PythonWorkspace/44_실행_파일_만들기/dist
+
+TAMA_HAart_404@TAMA-HAart-404 MINGW64 /D/PythonWorkspace/44_실행_파일_만들기/dist (main)
+$ dir -l
+total 70829 
+-rwxr-xr-x 1 TAMA_HAart_404 197121 72356805 Jul 15 17:03 ast_vrfc.exe       -->  \dist\ast_vrfc.exe  파일 생성 여부 확인 ■■■
+
+02. D:\PythonWorkspace\44_실행_파일_만들기\dist 폴더에 01_1. paramYM.txt, 02. 자산 검증(24.03).xlsx 파일 복사(탐색기에서)
+ 1) 01_1. paramYM.txt, 02. 자산 검증(24.03).xlsx  	==> D:\PythonWorkspace\44_실행_파일_만들기\dist
+
+03. /ast_vrfc.exe 실행 파일 더블 클릭(탐색기에서)
+ 1) 02. 자산 검증(24.04)_RSLT.xlsx 파일 생성됨 ■■■
+=============================================================================================================
+■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
++--------------------------------------------------------// End //--------------------------------------------------+ 
+■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■  
+
+
+
+■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
++---------------------------------------// 00. Python실행_파일 만들기 사용법 //-----------------------/ 24.04.19(금) /----+ 
+■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ 
+  
+ 
+- 00. Python 실행_파일 만들기 사용법 @@@
+01. /ast_vrfc.py 파일 실행(Visual Studio Code에서 수행)
+TAMA_HAart_404@TAMA-HAart-404 MINGW64 /d/PythonWorkspace (main)
+$ cd /D/PythonWorkspace/77_실행_파일_만들기
+
+TAMA_HAart_404@TAMA-HAart-404 MINGW64  cd /D/PythonWorkspace/77_실행_파일_만들기
+$ dir
+ast_vrfc.py    	--->   ast_vrfc.py  파일 존재 여부 확인 ■
+
+TAMA_HAart_404@TAMA-HAart-404 MINGW64 /D/PythonWorkspace/77_실행_파일_만들기 (main)
+$ pyinstaller -w -F ast_vrfc.py 			-->  	// ■■■ (W: window 방식, F: 하나의 실행 파일 생성)
+
+$ pyinstaller -w -F ast_vrfc.py							 --->  	// ■■■ (w: 콘솔 윈도우 표시 안함, F: 1개의 exe파일로 변환)
+1013 INFO: PyInstaller: 5.13.2
+1014 INFO: Python: 3.11.4
+1029 INFO: Platform: Windows-10-10.0.22631-SP0
+1030 INFO: wrote D:\PythonWorkspace\77_실행_파일_만들기\ast_vrfc.spec
+1041 INFO: Extending PYTHONPATH with paths
+['D:\\PythonWorkspace\\77_실행_파일_만들기']
+
+
+48402 INFO: Appending PKG archive to EXE
+48495 INFO: Fixing EXE headers
+48908 INFO: Building EXE from EXE-00.toc completed successfully.
+
+TAMA_HAart_404@TAMA-HAart-404 MINGW64 /D/PythonWorkspace/77_실행_파일_만들기 (main)
+$ 
+==> D:\PythonWorkspace\77_실행_파일_만들기\dist\ast_vrfc.exe		-->  \dist\ast_vrfc.exe  파일 생성 여부 확인 ■■■
+
+02. D:\PythonWorkspace\77_실행_파일_만들기\dist 폴더에 01_1. paramYM.txt, 02. 자산 검증(24.03).xlsx 파일 복사(탐색기에서)
+ 1) 01_1. paramYM.txt, 02. 자산 검증(24.03).xlsx  	==> D:\PythonWorkspace\77_실행_파일_만들기\dist
+
+03. /ast_vrfc.exe 실행 파일 더블 클릭(탐색기에서)
+ 1) 02. 자산 검증(24.04)_RSLT.xlsx 파일 생성됨 ■■■
+ 
+04. 파일명 변경(탐색기에서)
+ 1) 02. 자산 검증(24.04)\.xlsx 로 이름 변경 ■■■
+============================================================================================================= 
+
+- 파이썬 실행파일 (EXE) 만들기, 배포, 변환 이 영상만 보세요.[스타트 코딩]
+https://www.youtube.com/watch?v=nuZAmSyCMgY
+
+- 파이썬 프로그램을 .exe 실행 파일로 만드는 방법 (PyInstaller) [나도 코딩]
+https://www.youtube.com/watch?v=Es1fQqqxIFQ&t=899s
+=============================================================================================================
+■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
++--------------------------------------------------------// End //--------------------------------------------------+ 
+■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■  
+ 
