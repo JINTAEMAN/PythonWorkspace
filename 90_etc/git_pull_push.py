@@ -45,8 +45,8 @@ if git_way == None or git_way == '':
 # result = pyautogui.alert(git_way, title='▶ [git_way 확인]', button='OK')
 # print("[@_T] ■■■ [/git_pull_push.py] ==> [T_44]")
 
-my_host_nm = getpass.getuser()
-print("[@_T] ■■■ [/git_pull_push.py] ==> [T_43] [git_way]"+ str(my_host_nm) )
+my_host_nm = getpass.getuser()  # 컴퓨터 현재 사용자 이름 가져오기(PC 명)
+print("[@_T] ■■■ [/git_pull_push.py] ==> [T_43] [PC 명]"+ str(my_host_nm) )
 
 sMsg2 = "[T_42_0] [git 방식(인자값)]"+ str(git_way) +"\n"
 sMsg2 += "[0. 로그 보기]  ■■■■■■■■■■ \n"
