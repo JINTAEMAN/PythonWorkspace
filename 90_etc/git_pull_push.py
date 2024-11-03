@@ -68,7 +68,7 @@ if str(git_way) == "push":   # 인자값이 push 이면(ghtHub에 올리기)
     out_cmd_add = proc.read()
     print("[@_T] ■■■ [/git_pull_push.py] ==> [T_72] [3. Git 스테이지 영역에 추가(git add)]"+ out_cmd_add.decode('utf-8') )
 
-    cmd_cmt_msg = 'git commit -m "▶['+ now_ydmhm +'] 02. 소스 올리기(by 진태만[PC 명'+ my_host_nm +'])"'   # 4. Git 로컬 저장소 영역에 커밋 처리
+    cmd_cmt_msg = 'git commit -m "▶['+ now_ydmhm +'] 02. 소스 올리기(by 진태만[PC 명: '+ my_host_nm +'])"'   # 4. Git 로컬 저장소 영역에 커밋 처리
     # git commit -m ' [TM] Add to Python Work space[23.08.26, by 진태만]'
     proc = subprocess.Popen(cmd_cmt_msg, shell=True, stdout=subprocess.PIPE).stdout
     out_cmt_msg = proc.read()
