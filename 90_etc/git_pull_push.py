@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-	# 문자 인코딩(한글 사용)
 
 import os	# 운영체제(OS) 제어 Lib
+import getpass
 import sys	# 파이씬 인터프리터 제어 Lib
 import csv	# CSV 파일 Lib
 import shutil      # 고수준 파일 연산 Lib
@@ -30,10 +31,10 @@ if str(out_cmd.decode('utf-8')) == "Already up to date.\n":   # 인자값이 pus
     git_way_no =  int(git_way_no) - 1
 print("[@_T] ■■■ [/git_pull_push.py] ==> [T_42] [git_way]"+ str(git_way) +"[git_way_no]"+ str(git_way_no) )
 
-if (git_way == None or git_way == '' ) and git_way_no == 0:
-    rsltFileNmAlert = "1. ghtHub에서 소스 받아 오기 실패 했습니다(변경 사항 없음)"
-    result = pyautogui.alert(rsltFileNmAlert, title='▶ [pull 확인 결과]', button='OK')
-    sys.exit()    # 종료
+# if (git_way == None or git_way == '' ) and git_way_no == 0:
+#     rsltFileNmAlert = "1. ghtHub에서 소스 받아 오기 실패 했습니다(변경 사항 없음)"
+#     result = pyautogui.alert(rsltFileNmAlert, title='▶ [pull 확인 결과]', button='OK')
+#     sys.exit()    # 종료
 
 if git_way == None or git_way == '':
     command = 'git log --oneline --all --graph'   # 로그 보기
@@ -43,6 +44,9 @@ if git_way == None or git_way == '':
 # git_way = "push"   # 인자값이 push 이면(ghtHub에 올리기) ===> TEST @@@@ ===>
 # result = pyautogui.alert(git_way, title='▶ [git_way 확인]', button='OK')
 # print("[@_T] ■■■ [/git_pull_push.py] ==> [T_44]")
+
+my_host_nm = getpass.getuser()
+print("[@_T] ■■■ [/git_pull_push.py] ==> [T_43] [git_way]"+ str(my_host_nm) )
 
 sMsg2 = "[T_42_0] [git 방식(인자값)]"+ str(git_way) +"\n"
 sMsg2 += "[0. 로그 보기]  ■■■■■■■■■■ \n"
@@ -64,7 +68,7 @@ if str(git_way) == "push":   # 인자값이 push 이면(ghtHub에 올리기)
     out_cmd_add = proc.read()
     print("[@_T] ■■■ [/git_pull_push.py] ==> [T_72] [3. Git 스테이지 영역에 추가(git add)]"+ out_cmd_add.decode('utf-8') )
 
-    cmd_cmt_msg = 'git commit -m "▶['+ now_ydmhm +'] 02. 소스 올리기(by 진태만)"'   # 4. Git 로컬 저장소 영역에 커밋 처리
+    cmd_cmt_msg = 'git commit -m "▶['+ now_ydmhm +'] 02. 소스 올리기(by 진태만['+ my_host_nm +'])"'   # 4. Git 로컬 저장소 영역에 커밋 처리
     # git commit -m ' [TM] Add to Python Work space[23.08.26, by 진태만]'
     proc = subprocess.Popen(cmd_cmt_msg, shell=True, stdout=subprocess.PIPE).stdout
     out_cmt_msg = proc.read()
