@@ -18,7 +18,8 @@ sMsg = "\n\n\n ■■■ [/git_pull_push.py] ==> "
 print(sMsg + sMsg2)
 
 now_ydmhm = time.strftime("%y.%m.%d %H:%M")	    # 오늘 날짜(년.월.일 시:분)
-git_way = str(sys.argv[1 :])     # g 명령줄 인자 출력[git 방식(get, push)] ==> sys.argv[1][1 :]
+git_way = "".join(map(str.lower, sys.argv[1:]))  # g 명령줄 인자 출력[git 방식(get, push)] ==> sys.argv[1][1 :]
+# git_way = str(sys.argv[1 :])     # g 명령줄 인자 출력[git 방식(get, push)] ==> sys.argv[1][1 :]
 # print("[@_T] ■■■ [/git_pull_push.py] ==> [T_40] [Git 경보 처리 시작0. 원격 저장소 데이타 가저 오기(git pull)] ■■■■■■■■■■ \n\n")
 
 command = 'git pull origin main'    # 1. ghtHub에서 소스 받아 오기
@@ -43,8 +44,8 @@ if git_way == None:
     out_cmd = proc.read()
 
 # git_way = "push"   # 인자값이 push 이면(ghtHub에 올리기) ===> TEST @@@@ ===>
-result = pyautogui.alert(git_way, title='▶ [git_way 확인]', button='OK')
-print("[@_T] ■■■ [/git_pull_push.py] ==> [T_44]")
+# result = pyautogui.alert(git_way, title='▶ [git_way 확인]', button='OK')
+# print("[@_T] ■■■ [/git_pull_push.py] ==> [T_44]")
 
 sMsg2 = "[T_42_0] [git 방식(인자값)]"+ str(git_way) +"\n"
 sMsg2 += "[0. 로그 보기]  ■■■■■■■■■■ \n"
@@ -53,10 +54,10 @@ print(sMsg + sMsg2)
 # print(' '.join(map(str.upper, sys.argv[1:])))
 # if str(git_way) == "push":   # 인자값이 push 이면(ghtHub에 올리기)
 
-git_way_nm = "".join(map(str.lower, sys.argv[1:]))
-print("[@_T] ■■■ [/git_pull_push.py] ==> [T_44] [git_way_nm]"+ str(git_way_nm) )
+# git_way_nm = "".join(map(str.lower, sys.argv[1:]))
+print("[@_T] ■■■ [/git_pull_push.py] ==> [T_44] [git_way]"+ str(git_way) )
 
-if str(git_way_nm) == "push":   # 인자값이 push 이면(ghtHub에 올리기)
+if str(git_way) == "push":   # 인자값이 push 이면(ghtHub에 올리기)
     print("[@_T] ■■■ [/git_pull_push.py] ==> [T_51]")
 
     command = 'git status'    # 0. Git 저장소의 상태 확인
