@@ -73,7 +73,7 @@ whiteFill = PatternFill(start_color='FFFFFF', end_color='FFFFFF', fill_type='sol
 
 
 # print("\n\n [@_T] ■■■ [/ast_vrfc.py] ==> [T_01] ■■■■■■ [######################### [자산 검증 파일 TEST Start] #########################] ■■■■■■ ")
-sMsg2 = "[T_01] ■■■■■■  [######################### [01, 자산 검증 파일 TEST Start] #########################] ■■■■■■"
+sMsg2 = "[T_01] ■■■■■■  [######################### [01. 자산 검증 파일 TEST Start] #########################] ■■■■■■"
 sMsg = "\n\n\n ■■■ [/ast_vrfc.py] ==> "
 print(sMsg + sMsg2)
 
@@ -2935,6 +2935,10 @@ ws[f'E{rowNo}'].fill = orangeWeekFill    # 05. 필드 배경색 설정
 
 rsltFileNm = "02. 자산 검증("+ astYM +")_RSLT.xlsx"    # 결과 파일 명(02. 자산 검증(23.08)_RSLT.xlsx)
 print("[@_T] ■■■ [/ast_vrfc.py] ==> [T_91] [URL 경로]"+ str(urlPath) +"[결과 파일 명 ■■■■■■ ]"+ rsltFileNm  )
+
+rsltFileNmAlert = "자산 검증 파일이 생성 되었습니다.("+ rsltFileNm +")"
+result = pyautogui.alert(rsltFileNmAlert, title='▶ [자산 검증 파일 생성 성공]', button='OK')
+sys.exit()    # 종료
 
 wb.save(urlPath + rsltFileNm)
 # wb.save("02. 자산 검증(23.08)_RSLT.xlsx")
