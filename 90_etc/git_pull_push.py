@@ -13,7 +13,6 @@ import pyautogui    # 마우스와 키보드 제어 Lib
 
 git_way_no = 1      # git 방식 No(1: pull: ghtHub에서 소스 받아 오기, 2: push: ghtHub에 소스 올리기, 3: 1 + 2)
 
-# print(" [@_T] ■■■ [/git_pull_push.py] ==> [T_01] ■■■■■■ [######################### [python Workspace 처리 Start] #########################] ■■■■■■ \n\n\n")
 sMsg2 = "[T_01] ■■■■■■  [######################### [01. git_pull_push 처리 Start] #########################] ■■■■■■"
 sMsg = "\n\n\n ■■■ [/git_pull_push.py] ==> "
 print(sMsg + sMsg2)
