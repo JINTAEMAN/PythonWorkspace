@@ -1,8 +1,8 @@
 # ! /git_pull_push.py   # python Workspace 처리 파일
 # -*- coding: utf-8 -*-	# 문자 인코딩(한글 사용)
 
-import os	# 운영체제(OS) 제어 Lib
-import getpass
+import os	# 운영체제(OS) 제어 Lib 
+import platform  # platform 정보 Lib 
 import sys	# 파이씬 인터프리터 제어 Lib
 import csv	# CSV 파일 Lib
 import shutil      # 고수준 파일 연산 Lib
@@ -45,16 +45,16 @@ if git_way == None or git_way == '':
 # result = pyautogui.alert(git_way, title='▶ [git_way 확인]', button='OK')
 # print("[@_T] ■■■ [/git_pull_push.py] ==> [T_44]")
 
-my_host_nm = getpass.getuser()  # 컴퓨터 현재 사용자 이름 가져오기(PC 명)
-print("[@_T] ■■■ [/git_pull_push.py] ==> [T_43] [PC 명]"+ str(my_host_nm) )
-
 sMsg2 = "[T_42_0] [git 방식(인자값)]"+ str(git_way) +"\n"
 sMsg2 += "[0. 로그 보기]  ■■■■■■■■■■ \n"
 sMsg2 += ""+ out_cmd.decode('utf-8') +"\n"
 print(sMsg + sMsg2)
 print("[@_T] ■■■ [/git_pull_push.py] ==> [T_44] [git_way]"+ str(git_way) +"[git_way_no]"+ str(git_way_no) )
 
-if str(git_way) == "push":   # 인자값이 push 이면(ghtHub에 올리기) 
+my_host_nm = platform.uname().node  # 컴퓨터 현재 사용자 이름 가져오기(PC 명)
+print("[@_T] ■■■ [/git_pull_push.py] ==> [T_44] [PC 명]"+ str(my_host_nm) )
+
+if str(git_way) == "push":   # 인자값이 push 이면(ghtHub에 올리기)
     print("[@_T] ■■■ [/git_pull_push.py] ==> [T_51]")
 
     command = 'git status'    # 0. Git 저장소의 상태 확인
