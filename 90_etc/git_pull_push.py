@@ -89,6 +89,7 @@ if str(git_way) == "push":   # 인자값이 push 이면(ghtHub에 올리기)
         print("[@_T] ■■■ [/git_pull_push py] ==> [T_74] [5. 원격 저장소에 반영(git push)]"+ out_cmd_push.decode('utf-8'))
         print("[@_T] ■■■ [/git_pull_push.py] ==> [T_80] [Git 정보 처리 시작 End] ■■■ @@@@@ ■■■■■■■■■ ■\n\n")
     else:
+        print("[@_T] ■■■ [/git_pull_push.py] ==> [T_81] [2. 커밋할 소스가 없습니다.(수정한 내용 없음)]")
         rsltFileNmAlert = "2. 커밋할 소스가 없습니다.(수정한 내용 없음)"
         result = pyautogui.alert(rsltFileNmAlert, title='▶ [pull 확인 결과]', button='OK')
         sys.exit()    # 종료
