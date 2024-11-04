@@ -92,7 +92,8 @@ if str(git_way) == "push":   # 인자값이 push 이면(ghtHub에 올리기)
         result = pyautogui.alert(rsltFileNmAlert, title='▶ [pull 확인 결과]', button='OK')
         sys.exit()    # 종료
 
-print("[@_T] ■■■ [/git_pull_push.py] ==> [T_90] ■■■■■■[git_way_no]"+ str(git_way_no) )
+print("[@_T] ■■■ [/git_pull_push.py] ==> [T_90] ■■■■■■ [git_way_no]"+ str(git_way_no) )
+print("[@_T] ■■■ [/git_pull_push.py] ==> [T_99] ■■■■■■ [######################### [01. git_pull_push 처리 End] #########################] ■■■■■■\n\n\n")
 
 if git_way_no == 3:
     rsltFileNmAlert = "2. ghtHub에 소스 올리기가 성공 했습니다."
@@ -103,5 +104,3 @@ else:
 
 result = pyautogui.alert(rsltFileNmAlert, title='▶ [pull, push 처리]', button='OK')
 sys.exit()    # 종료
-
-print("[@_T] ■■■ [/git_pull_push.py] ==> [T_99] ■■■■■■ [######################### [01. git_pull_push 처리 End] #########################] ■■■■■■\n\n\n")
