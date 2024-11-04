@@ -28,7 +28,8 @@ print(sMsg + sMsg2)
 
 if str(out_cmd.decode('utf-8')) == "Already up to date.\n":   # 인자값이 push 이면(ghtHub에 올리기)
     git_way_no =  int(git_way_no) - 1
-print("[@_T] ■■■ [/git_pull_push.py] ==> [T_42] [git_way]"+ str(git_way) +"[git_way_no]"+ str(git_way_no) )
+    print("[@_T] ■■■ [/git_pull_push.py] ==> [T_40] [1. ghtHub에서 소스 받아 오기 실패 했습니다.(변경 사항 없음)]")
+# print("[@_T] ■■■ [/git_pull_push.py] ==> [T_42] [git_way]"+ str(git_way) +"[git_way_no]"+ str(git_way_no) )
 
 if (git_way == None or git_way == '' ) and git_way_no == 0:
     rsltFileNmAlert = "1. ghtHub에서 소스 받아 오기 실패 했습니다.(변경 사항 없음)"
@@ -65,7 +66,7 @@ if str(git_way) == "push":   # 인자값이 push 이면(ghtHub에 올리기)
     out_cmd_status_cd_1 = out_cmd_status.decode('utf-8').find(srch_word_1)  # 조회 단어1이 처음 나타나는 위치
     # out_cmd_status_cd_2 = out_cmd_status.decode('utf-8').find(srch_word_2)  # 조회 단어2이 처음 나타나는 위치
     # print(out_cmd_status.find('nothing to commit'))     # nothing to commit가 처음 나타나는 위치
-    print("[@_T] ■■■ [/git_pull_push.py] ==> [T_71_2] [조회 단어1이 처음 나타나는 위치]"+ str(out_cmd_status_cd_1) )
+    print("[@_T] ■■■ [/git_pull_push.py] ==> [T_71_2] [조회 단어1이 처음 나타나는 위치]■■■■■■■"+ str(out_cmd_status_cd_1) )
 
     if out_cmd_status_cd_1 < 0:  # 조회 단어1가 없으면
     # if out_cmd_status_cd_1 > 0 and out_cmd_status_cd_2 > 0:
