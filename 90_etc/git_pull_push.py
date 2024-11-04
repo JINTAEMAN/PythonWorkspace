@@ -67,7 +67,8 @@ if str(git_way) == "push":   # 인자값이 push 이면(ghtHub에 올리기)
     # print(out_cmd_status.find('nothing to commit'))     # nothing to commit가 처음 나타나는 위치
     print("[@_T] ■■■ [/git_pull_push.py] ==> [T_71_2] [out_cmd_status_cd_1]"+ str(out_cmd_status_cd_1) +"[out_cmd_status_cd_2]"+ str(out_cmd_status_cd_2) )
 
-    if out_cmd_status_cd_1 > 0 or out_cmd_status_cd_2 > 0:
+    if out_cmd_status_cd_1 < 0:  # 조회 단어1가 없으면
+    # if out_cmd_status_cd_1 > 0 and out_cmd_status_cd_2 > 0:
         command = 'git add -A'    # 3. Git 스테이지 영역에 추가
         proc = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE).stdout
         out_cmd_add = proc.read()
