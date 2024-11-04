@@ -30,10 +30,10 @@ if str(out_cmd.decode('utf-8')) == "Already up to date.\n":   # 인자값이 pus
     git_way_no =  int(git_way_no) - 1
 print("[@_T] ■■■ [/git_pull_push.py] ==> [T_42] [git_way]"+ str(git_way) +"[git_way_no]"+ str(git_way_no) )
 
-# if (git_way == None or git_way == '' ) and git_way_no == 0:
-#     rsltFileNmAlert = "1. ghtHub에서 소스 받아 오기 실패 했습니다(변경 사항 없음)"
-#     result = pyautogui.alert(rsltFileNmAlert, title='▶ [pull 확인 결과]', button='OK')
-#     sys.exit()    # 종료
+if (git_way == None or git_way == '' ) and git_way_no == 0:
+    rsltFileNmAlert = "1. ghtHub에서 소스 받아 오기 실패 했습니다(변경 사항 없음)"
+    result = pyautogui.alert(rsltFileNmAlert, title='▶ [pull 확인 결과]', button='OK')
+    sys.exit()    # 종료
 
 if git_way == None or git_way == '':
     command = 'git log --oneline --all --graph'   # 로그 보기
