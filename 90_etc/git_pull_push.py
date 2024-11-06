@@ -1,6 +1,3 @@
-# ! /git_pull_push.py   # python Workspace 처리 파일
-# -*- coding: utf-8 -*-	# 문자 인코딩(한글 사용)
-
 import os	# 운영체제(OS) 제어 Lib
 import platform  # platform 정보 Lib
 import sys	# 파이씬 인터프리터 제어 Lib
