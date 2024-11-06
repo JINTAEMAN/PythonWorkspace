@@ -52,7 +52,7 @@ sMsg2 += "[0. 로그 보기]  ■■■■■■■■■■ \n"
 sMsg2 += ""+ out_cmd.decode('utf-8') +"\n"
 print(sMsg + sMsg2)
 
-my_host_nm = platform.uname().node  # 컴퓨터 현재 사용자 이름 가져오기(PC 명)
+my_host_nm = platform.uname().node  # 컴퓨터 현재 사용자 이름 가져오기(PC 명): TEST
 print("[@_T] ■■■ [/git_pull_push.py] ==> [T_50] [PC 명]"+ str(my_host_nm) +"[git 방식]"+ str(git_way) +"[git 방식 No]"+ str(git_way_no) )
 
 if str(git_way) == "push":   # 인자값이 push 이면(gitHub에 올리기)
