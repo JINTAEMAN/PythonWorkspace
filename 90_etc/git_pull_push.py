@@ -35,14 +35,12 @@ print(sMsg + sMsg2)
 
 if str(out_cmd.decode('utf-8')) == "Already up to date.\n":   # 인자값이 push 이면(gitHub에 올리기)
     git_way_no =  int(git_way_no) - 1
-    print("■■■ [/git_pull_push.py] ==> [T_21] [1. gitHub에서 소스 받아 오기 실패 했습니다.(변경 사항 없음)]")
-# print("■■■ [/git_pull_push.py] ==> [T_34] [git_way]"+ str(git_way) +"[git_way_no]"+ str(git_way_no) )
+    print("■■■ [/git_pull_push.py] ==> [T_32] [1. gitHub에서 소스 받아 오기 실패 했습니다.(변경 사항 없음)]")
 
-# if git_way == None or git_way == '':
 command = 'git log --oneline --all --graph -5'   # 커밋 로그 보기(최근 5개만 보여)
 proc = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE).stdout
 out_cmd = proc.read()
-sMsg2 = "[T_30] [커밋 로그 보기] ■■■■■ ★★ ■■■■■\n"+ out_cmd.decode('utf-8')
+sMsg2 = "[T_30] [gitHub에서 발생한 커밋 로그 보기] ■■■■■ ★★ ■■■■■\n"+ out_cmd.decode('utf-8')
 print(sMsg + sMsg2)
 
 if (git_way == None or git_way == '' ) and git_way_no == 0:
