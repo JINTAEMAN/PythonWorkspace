@@ -60,7 +60,7 @@ if str(git_way) == "push":   # 인자값이 push 이면(gitHub에 올리기)
 
     proc = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE).stdout
     out_cmd_status = proc.read()
-    print("[@_T] ■■■ [/git_pull_push.py] ==> [T_71] [0. Git 저장소의 상태 확인(git status)] ■■■■■ ★★★★★ ■■■■■■■ "+ out_cmd_status.decode('utf-8') )
+    print("[@_T] ■■■ [/git_pull_push.py] ==> [T_71] [0. Git 저장소의 상태 확인(git status)] ■■■■■ ★★★★★ ■■■■■■■\n"+ out_cmd_status.decode('utf-8') )
     print("[@_T] ■■■ [/git_pull_push.py] ==> [T_71_1] [out_cmd_status]"+ out_cmd_status.decode('utf-8') )
 
     srch_word_1 = "nothing to commit"    # 조회 단어1
