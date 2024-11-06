@@ -1,0 +1,1 @@
+python git_pull_push.py push
