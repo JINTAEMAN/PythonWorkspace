@@ -23,23 +23,25 @@ git_way = "".join(map(str.lower, sys.argv[1:]))  # 명령줄 인자 출력[git �
 command = 'git pull origin main'    # 1. gitHub에서 소스 받아 오기
 proc = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE).stdout
 out_cmd = proc.read()
-sMsg2 = "[T_41] [0. gitHub에서 소스 받아 오기 결과] ■■■■■■■■■■"+ out_cmd.decode('utf-8')
+sMsg2 = "[T_31] [0. gitHub에서 소스 받아 오기 결과] ■■■■■■■■■■\n"+ out_cmd.decode('utf-8')
 print(sMsg + sMsg2)
 
 if str(out_cmd.decode('utf-8')) == "Already up to date.\n":   # 인자값이 push 이면(gitHub에 올리기)
     git_way_no =  int(git_way_no) - 1
-    print("[@_T] ■■■ [/git_pull_push.py] ==> [T_40] [1. gitHub에서 소스 받아 오기 실패 했습니다.(변경 사항 없음)]")
-# print("[@_T] ■■■ [/git_pull_push.py] ==> [T_42] [git_way]"+ str(git_way) +"[git_way_no]"+ str(git_way_no) )
+    print("[@_T] ■■■ [/git_pull_push.py] ==> [T_32] [1. gitHub에서 소스 받아 오기 실패 했습니다.(변경 사항 없음)]")
+# print("[@_T] ■■■ [/git_pull_push.py] ==> [T_34] [git_way]"+ str(git_way) +"[git_way_no]"+ str(git_way_no) )
+
+# if git_way == None or git_way == '':
+command = 'git log --oneline --all --graph -5'   # 커밋 로그 보기(최근 5개만 보여)
+proc = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE).stdout
+out_cmd = proc.read()
+sMsg2 = "[T_35] [커밋 로그 보기] ■■■■■■■■■■\n"+ out_cmd.decode('utf-8')
+print(sMsg + sMsg2)
 
 if (git_way == None or git_way == '' ) and git_way_no == 0:
     rsltFileNmAlert = "1. gitHub에서 소스 받아 오기 실패 했습니다.(변경 사항 없음)"
     result = pyautogui.alert(rsltFileNmAlert, title='▶ [pull 확인 결과]', button='OK')
     sys.exit()    # 종료
-
-if git_way == None or git_way == '':
-    command = 'git log --oneline --all --graph'   # 로그 보기
-    proc = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE).stdout
-    out_cmd = proc.read()
 
 # git_way = "push"   # 인자값이 push 이면(gitHub에 올리기) ===> TEST @@@@ ===>
 # result = pyautogui.alert(git_way, title='▶ [git_way 확인]', button='OK')
@@ -79,7 +81,7 @@ if str(git_way) == "push":   # 인자값이 push 이면(gitHub에 올리기)
         # git commit -m ' [TM] Add to Python Work space[23.08.26, by 진태만]'
         proc = subprocess.Popen(cmd_cmt_msg, shell=True, stdout=subprocess.PIPE).stdout
         out_cmt_msg = proc.read()
-        print("[@_T] ■■■ [/git_pull_push.py] ==> [T_73] [4. Git 로걸 저장소 영역에 추가(커밋 메세지)] ■■■■■■ ★★ ■■■■■■"+ str(cmd_cmt_msg) +"\n\n")
+        print("[@_T] ■■■ [/git_pull_push.py] ==> [T_73] [4. Git 로걸 저장소 영역에 추가(커밋 메세지)] ■■■■■■ ★★ ■■■■■■\n"+ str(cmd_cmt_msg) +"\n\n")
         # print("[@_T] ■■■ [/git_pull_push.py] ==> [T_73_2] [4  Git 로걸 저장소 영역에 추가(git commit)] ■■■■■■■■■■■■ "* out_cmt_msg.decode('utf-8') )
 
         command = 'git push origin main'    # 5. gitHub에 소스 올리기
