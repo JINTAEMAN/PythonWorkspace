@@ -32,7 +32,7 @@ print(sMsg + sMsg2)
 
 if str(out_cmd.decode('utf-8')) == "Already up to date.\n":   # 인자값이 push 이면(gitHub에 올리기)
     git_way_no =  int(git_way_no) - 1
-    print("■■■ [/git_pull_push.py] ==> [T_32] [1. gitHub에서 소스 받아 오기 실패 했습니다.(변경 사항 없음)]")
+    print("■■■ [/git_pull_push.py] ==> [T_21] [1. gitHub에서 소스 받아 오기 실패 했습니다.(변경 사항 없음)]")
 
 command = 'git log --oneline --all --graph -5'   # 커밋 로그 보기(최근 5개만 보여)
 proc = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE).stdout
@@ -82,6 +82,10 @@ if str(git_way) == "push":   # 인자값이 push 이면(gitHub에 올리기)
         git_way_no = int(git_way_no) + 3    # git 방식 No(1: pull: gitHub에서 소스 받아 오기, 2: push: gitHub에 소스 올리기, 3: 1 + 2)
         print("■■■ [/git_pull_push py] ==> [T_81] [5. 원격 저장소에 반영(git push)]"+ out_cmd_push.decode('utf-8'))
         print("■■■ [/git_pull_push.py] ==> [T_82] [Git 정보 처리 시작 End] ■■■ @@@@@ ■■■■■■■■■ ■\n\n")
+
+        sMsg2 = "[T_81] [5. 원격 저장소에 반영(git push)]"+ out_cmd_push.decode('utf-8')
+        sMsg2 = "[T_81] [5. 원격 저장소에 반영(git push)]"+ out_cmd_push.decode('utf-8')
+        print(sMsg + sMsg2)
     else:
         print("■■■ [/git_pull_push.py] ==> [T_83] [2. 커밋할 소스가 없습니다.(수정한 내용 없음)]")
         rsltFileNmAlert = "2. 커밋할 소스가 없습니다.(수정한 내용 없음)"
@@ -89,7 +93,8 @@ if str(git_way) == "push":   # 인자값이 push 이면(gitHub에 올리기)
         sys.exit()    # 종료
 
 print("■■■ [/git_pull_push.py] ==> [T_90] ■■■■■■ [git_way_no]"+ str(git_way_no) )
-print("■■■ [/git_pull_push.py] ==> [T_99] ■■■■■■ [######################### [01. git_pull_push 처리 End] #########################] ■■■■■■\n\n\n")
+sMsg2 = "[T_99] ■■■■■■ [######################### [01. git_pull_push 처리 End] #########################] ■■■■■■\n\n\n"
+print(sMsg + sMsg2)
 
 if git_way_no == 3:
     rsltFileNmAlert = "2. gitHub에 소스 올리기가 성공 했습니다."
