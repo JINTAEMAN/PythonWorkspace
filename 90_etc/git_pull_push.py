@@ -42,7 +42,7 @@ print(sMsg + sMsg2)
 # print("■■■ [/git_pull_push.py] ==> [T_20_1]")
 
 if (git_way == None or git_way == '' ) and git_way_no == 0:
-    sMsg2 = "1. gitHub(원격 저장소)에서 소스 받아 올 소스가 없습니다.(변경 사항 없음)"
+    sMsg2 = "A. gitHub(원격 저장소)에서 소스 가져 올 소스가 없습니다.(변경 사항 없음)"
     rsltFileNmAlert = ""+ str(sMsg_nSrc) +""
     result = pyautogui.alert(rsltFileNmAlert, title='▶ [pull 확인 결과]', button='OK')
     sys.exit()    # 종료
