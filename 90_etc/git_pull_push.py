@@ -19,26 +19,20 @@ print(sMsg0 + sMsg2)
 now_ydmhm = time.strftime("%y.%m.%d %H:%M")     # 오늘 날짜(년.월.일 시:분)
 git_way = "".join(map(str.lower, sys.argv[1:]))  # 명령줄 인자 출력[git 방식(get, push)] ==> sys.argv[1][1 :]
 
-command = 'git status'  # 0. Git 로컬 저장소의 상태 확인
-proc = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE).stdout
-out_cmd_status = proc.read()
-sMsg2 = "[T_10] [0. 로컬 저장소의 상태 확인(git status)] ■■■■■ ★★ ■■■■■\n"+ out_cmd_status.decode('utf-8')
-print(sMsg + sMsg2)
-
 command = 'git pull origin main'    # 1. gitHub(원격 저장소)에서 소스 받아 오기
 proc = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE).stdout
 out_cmd = proc.read()
-sMsg2 = "[T_20] [1. gitHub(원격 저장소)에서 소스 받아 오기 결과] ■■■■■ ★★ ■■■■■\n"+ out_cmd.decode('utf-8')
+sMsg2 = "[T_10] [1. gitHub(원격 저장소)에서 소스 받아 오기 결과] ■■■■■ ★★ ■■■■■\n"+ out_cmd.decode('utf-8')
 print(sMsg0 + sMsg2)
 
 if str(out_cmd.decode('utf-8')) == "Already up to date.\n":   # 인자값이 push 이면(gitHub에 올리기)
     git_way_no =  int(git_way_no) - 1
-    print("■■■ [/git_pull_push.py] ==> [T_21] ["+ str(sMsg_nSrc) +"]")
+    print("■■■ [/git_pull_push.py] ==> [T_11] ["+ str(sMsg_nSrc) +"]")
 
 command = 'git log --oneline --all --graph -5'   # 커밋 로그 보기(최근 5개만 보여)
 proc = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE).stdout
 out_cmd = proc.read()
-sMsg2 = "[T_30] [1. gitHub(원격 저장소)에서 발생한 커밋 로그 보기] ■■■■■ ★★ ■■■■■\n"+ out_cmd.decode('utf-8') +"\n\n"
+sMsg2 = "[T_20] [1. gitHub(원격 저장소)에서 발생한 커밋 로그 보기] ■■■■■ ★★ ■■■■■\n"+ out_cmd.decode('utf-8') +"\n\n"
 print(sMsg + sMsg2)
 
 if (git_way == None or git_way == '' ) and git_way_no == 0:
@@ -50,6 +44,12 @@ if (git_way == None or git_way == '' ) and git_way_no == 0:
 # git_way = "push"   # 인자값이 push 이면(gitHub에 올리기) ===> TEST @@@@ ===>
 # result = pyautogui.alert(git_way, title='▶ [git_way 확인]', button='OK')
 # print("■■■ [/git_pull_push.py] ==> [T_44]")
+
+command = 'git status'  # 0. Git 로컬 저장소의 상태 확인
+proc = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE).stdout
+out_cmd_status = proc.read()
+sMsg2 = "[T_30] [0. 로컬 저장소의 상태 확인(git status)] ■■■■■ ★★ ■■■■■\n"+ out_cmd_status.decode('utf-8')
+print(sMsg + sMsg2)
 
 my_host_nm = platform.uname().node  # 컴퓨터 현재 사용자 이름 가져오기(PC 명)
 sMsg2 = "[T_40] [git 방식(인자값)]"+ str(git_way) +"[PC 명]"+ str(my_host_nm) +"\n"
