@@ -22,7 +22,7 @@ git_way = "".join(map(str.lower, sys.argv[1:]))  # 명령줄 인자 출력[git �
 command = 'git pull origin main'    # 1. gitHub(원격 저장소)에서 소스 받아 오기
 proc = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE).stdout
 out_cmd = proc.read()
-sMsg2 = "[T_10] [1. gitHub(원격 저장소)에서 소스 받아 오기 결과\n"
+sMsg2 = "[T_10] [A. gitHub(원격 저장소)에서 소스 가져오기 결과\n"
 sMsg2 += "(1. 로컬 저장소와 원격 저장소에서 1번쨰 커밋한 소스 비교)]"
 sMsg2 += "■■■■■ ★★ ■■■■■\n"+ out_cmd.decode('utf-8')
 print(sMsg0 + sMsg2)
@@ -58,7 +58,7 @@ my_host_nm = platform.uname().node  # 컴퓨터 현재 사용자 이름 가져�
 # print(sMsg + sMsg2)
 
 if str(git_way) == "push":   # 인자값이 push 이면(gitHub에 올리기)
-    sMsg2 = "[T_40] [1. gitHub(원격 저장소)에서 커밋 처리] ■■■■■ ★★ ■■■■■\n"
+    sMsg2 = "[T_40] B. gitHub(원격 저장소)에 올리기 처리] ■■■■■ ★★ ■■■■■\n"
     sMsg2 += "[git 방식(인자값)]"+ str(git_way) +"[PC 명]"+ str(my_host_nm) +"\n"
     print(sMsg + sMsg2)
 
