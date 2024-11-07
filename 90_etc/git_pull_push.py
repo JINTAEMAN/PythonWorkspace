@@ -58,7 +58,7 @@ my_host_nm = platform.uname().node  # 컴퓨터 현재 사용자 이름 가져�
 # print(sMsg + sMsg2)
 
 if str(git_way) == "push":   # 인자값이 push 이면(gitHub에 올리기)
-    sMsg2 = "[T_40] B. gitHub(원격 저장소)에 올리기 처리] ■■■■■ ★★ ■■■■■\n"
+    sMsg2 = "[T_40] [B. gitHub(원격 저장소)에 올리기 처리] ■■■■■ ★★ ■■■■■\n"
     sMsg2 += "[git 방식(인자값)]"+ str(git_way) +"[PC 명]"+ str(my_host_nm) +"\n"
     print(sMsg + sMsg2)
 
