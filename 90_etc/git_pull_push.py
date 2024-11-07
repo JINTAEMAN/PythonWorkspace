@@ -52,10 +52,14 @@ sMsg2 = "[T_30] [0. 로컬 저장소의 상태 확인(git status)] ■■■■�
 print(sMsg + sMsg2)
 
 my_host_nm = platform.uname().node  # 컴퓨터 현재 사용자 이름 가져오기(PC 명)
-sMsg2 = "[T_40] [git 방식(인자값)]"+ str(git_way) +"[PC 명]"+ str(my_host_nm) +"\n"
-print(sMsg + sMsg2)
+# sMsg2 = "[T_40] [git 방식(인자값)]"+ str(git_way) +"[PC 명]"+ str(my_host_nm) +"\n"
+# print(sMsg + sMsg2)
 
 if str(git_way) == "push":   # 인자값이 push 이면(gitHub에 올리기)
+    sMsg2 = "[T_41] [1. gitHub(원격 저장소)에서 커밋 처리] ■■■■■ ★★ ■■■■■\n"
+    sMsg2 += "[git 방식(인자값)]"+ str(git_way) +"[PC 명]"+ str(my_host_nm) +"\n"
+    print(sMsg + sMsg2)
+
     srch_word_1 = "nothing to commit"    # 조회 단어1
     out_cmd_status_cd_1 = out_cmd_status.decode('utf-8').find(srch_word_1)  # 조회 단어1이 처음 나타나는 위치
     print("■■■ [/git_pull_push.py] ==> [T_71] [조회 단어1이 처음 나타나는 위치]■■■■■■■"+ str(out_cmd_status_cd_1) )
