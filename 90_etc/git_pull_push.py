@@ -77,8 +77,6 @@ if str(git_way) == "push":   # 인자값이 push 이면(gitHub에 올리기)
         git_way_no = int(git_way_no) + 3    # git 방식 No(1: pull: gitHub(원격 저장소)에서 소스 받아 오기, 2: push: gitHub에 소스 올리기, 3: 1 + 2)
         print("■■■ [/git_pull_push py] ==> [T_81] [5. 원격 저장소에 반영(git push)]"+ out_cmd_push.decode('utf-8'))
         print("■■■ [/git_pull_push.py] ==> [T_82] [Git 정보 처리 시작 End] ■■■ @@@@@ ■■■■■■■■■ ■\n\n")
-
-        sMsg2 = "[T_81] [5. 원격 저장소에 반영(git push)]"+ out_cmd_push.decode('utf-8')
         print(sMsg + sMsg2)
     else:
         print("■■■ [/git_pull_push.py] ==> [T_83] [2. 커밋할 소스가 없습니다.(수정한 내용 없음)]")
