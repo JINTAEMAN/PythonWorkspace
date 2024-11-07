@@ -22,7 +22,8 @@ git_way = "".join(map(str.lower, sys.argv[1:]))  # 명령줄 인자 출력[git �
 command = 'git pull origin main'    # 1. gitHub(원격 저장소)에서 소스 받아 오기
 proc = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE).stdout
 out_cmd = proc.read()
-sMsg2 = "[T_10] [1. gitHub(원격 저장소)에서 소스 받아 오기 결과(1. 로컬 저장소와 원격 저장소에서 1번쨰 커밋한 소스 비교)] \n"
+sMsg2 = "[T_10] [1. gitHub(원격 저장소)에서 소스 받아 오기 결과\n"
+sMsg2 += "(1. 로컬 저장소와 원격 저장소에서 1번쨰 커밋한 소스 비교)]"
 sMsg2 += "■■■■■ ★★ ■■■■■\n"+ out_cmd.decode('utf-8')
 print(sMsg0 + sMsg2)
 
