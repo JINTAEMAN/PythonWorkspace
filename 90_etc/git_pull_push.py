@@ -9,6 +9,7 @@ import subprocess	# 하위 프로세스 관리 표준 Lib
 import pyautogui    # 마우스와 키보드 제어 Lib
 
 git_way_no = 1      # git 방식 No(1: pull: gitHub(원격 저장소)에서 소스 받아 오기, 2: push: gitHub에 소스 올리기, 3: 1 + 2)
+sMsg_nSrc = "1. gitHub(원격 저장소)에서 소스 받아 올 소스가 없습니다.(변경 사항 없음)"
 
 sMsg2 = "[T_01] ■■■■■■  [######################### [01. git_pull_push 처리 Start] #########################] ■■■■■■"
 sMsg0 = "\n\n\n ■■■ [/git_pull_push.py] ==> "
@@ -32,6 +33,7 @@ print(sMsg + sMsg2)
 
 if str(out_cmd.decode('utf-8')) == "Already up to date.\n":   # 인자값이 push 이면(gitHub에 올리기)
     git_way_no =  int(git_way_no) - 1
+    print("■■■ [/git_pull_push.py] ==> [T_21] ["+ str(sMsg_nSrc) +"]")
 
 command = 'git log --oneline --all --graph -5'   # 커밋 로그 보기(최근 5개만 보여)
 proc = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE).stdout
@@ -41,8 +43,7 @@ print(sMsg + sMsg2)
 
 if (git_way == None or git_way == '' ) and git_way_no == 0:
     sMsg2 = "1. gitHub(원격 저장소)에서 소스 받아 올 소스가 없습니다.(변경 사항 없음)"
-    print("■■■ [/git_pull_push.py] ==> [T_31] ["+ str(sMsg2) +"]")
-    rsltFileNmAlert = ""+ str(sMsg2) +""
+    rsltFileNmAlert = ""+ str(sMsg_nSrc) +""
     result = pyautogui.alert(rsltFileNmAlert, title='▶ [pull 확인 결과]', button='OK')
     sys.exit()    # 종료
 
