@@ -37,6 +37,12 @@ out_cmd = proc.read()
 sMsg2 = "[T_20] [1. gitHub(원격 저장소)에서 발생한 커밋 로그 보기] ■■■■■ ★★ ■■■■■\n"+ out_cmd.decode('utf-8') +"\n\n"
 print(sMsg + sMsg2)
 
+command = 'git status'  # 0. Git 로컬 저장소의 상태 확인
+proc = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE).stdout
+out_cmd_status = proc.read()
+sMsg2 = "[T_30] [0. 로컬 저장소의 상태 확인(git status)] ■■■■■ ★★ ■■■■■\n"+ out_cmd_status.decode('utf-8')
+print(sMsg + sMsg2)
+
 # git_way = "push"   # 인자값이 push 이면(gitHub에 올리기) ===> TEST @@@@ ===> 2
 # result = pyautogui.alert(git_way, title='▶ [git_way 확인]', button='OK')
 # print("■■■ [/git_pull_push.py] ==> [T_20_1]")
@@ -46,12 +52,6 @@ if (git_way == None or git_way == '' ) and git_way_no == 0:
     rsltFileNmAlert = ""+ str(sMsg_nSrc) +""
     result = pyautogui.alert(rsltFileNmAlert, title='▶ [pull 확인 결과]', button='OK')
     sys.exit()    # 종료
-
-command = 'git status'  # 0. Git 로컬 저장소의 상태 확인
-proc = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE).stdout
-out_cmd_status = proc.read()
-sMsg2 = "[T_30] [0. 로컬 저장소의 상태 확인(git status)] ■■■■■ ★★ ■■■■■\n"+ out_cmd_status.decode('utf-8')
-print(sMsg + sMsg2)
 
 my_host_nm = platform.uname().node  # 컴퓨터 현재 사용자 이름 가져 오기(PC 명)
 # sMsg2 = "[T_40] [git 방식(인자값)]"+ str(git_way) +"[PC 명]"+ str(my_host_nm) +"\n"
