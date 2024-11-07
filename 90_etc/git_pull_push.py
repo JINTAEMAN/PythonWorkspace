@@ -28,7 +28,7 @@ print(sMsg + sMsg2)
 command = 'git pull origin main'    # 1. gitHub(원격 저장소)에서 소스 받아 오기
 proc = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE).stdout
 out_cmd = proc.read()
-sMsg2 = "[T_20] [1. gitHub(원격 저장소)에서 소스 받아 오기 결과] ■■■■■■■■■■\n"+ out_cmd.decode('utf-8')
+sMsg2 = "[T_20] [1. gitHub(원격 저장소)에서 소스 받아 오기 결과] ■■■■■ ★★ ■■■■■\n"+ out_cmd.decode('utf-8')
 print(sMsg0 + sMsg2)
 
 if str(out_cmd.decode('utf-8')) == "Already up to date.\n":   # 인자값이 push 이면(gitHub에 올리기)
