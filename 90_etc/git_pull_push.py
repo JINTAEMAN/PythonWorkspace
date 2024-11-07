@@ -37,15 +37,15 @@ out_cmd = proc.read()
 sMsg2 = "[T_20] [1. gitHub(원격 저장소)에서 발생한 커밋 로그 보기] ■■■■■ ★★ ■■■■■\n"+ out_cmd.decode('utf-8') +"\n\n"
 print(sMsg + sMsg2)
 
+git_way = "push"   # 인자값이 push 이면(gitHub에 올리기) ===> TEST @@@@ ===>
+# result = pyautogui.alert(git_way, title='▶ [git_way 확인]', button='OK')
+print("■■■ [/git_pull_push.py] ==> [T_20_1]")
+
 if (git_way == None or git_way == '' ) and git_way_no == 0:
     sMsg2 = "1. gitHub(원격 저장소)에서 소스 받아 올 소스가 없습니다.(변경 사항 없음)"
     rsltFileNmAlert = ""+ str(sMsg_nSrc) +""
     result = pyautogui.alert(rsltFileNmAlert, title='▶ [pull 확인 결과]', button='OK')
     sys.exit()    # 종료
-
-# git_way = "push"   # 인자값이 push 이면(gitHub에 올리기) ===> TEST @@@@ ===>
-# result = pyautogui.alert(git_way, title='▶ [git_way 확인]', button='OK')
-# print("■■■ [/git_pull_push.py] ==> [T_44]")
 
 command = 'git status'  # 0. Git 로컬 저장소의 상태 확인
 proc = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE).stdout
