@@ -8,8 +8,8 @@ import time     	# 시간 Lib
 import subprocess	# 하위 프로세스 관리 표준 Lib
 import pyautogui    # 마우스와 키보드 제어 Lib
 
-git_way_no = 1      # git 방식 No(1: pull: gitHub(원격 저장소)에서 소스 받아 오기, 2: push: gitHub에 소스 올리기, 3: 1 + 2)
-sMsg_nSrc = "1. gitHub(원격 저장소)에서 소스 받아 올 소스가 없습니다.(변경 사항 없음)"
+git_way_no = 1      # git 방식 No(1: pull: gitHub(원격 저장소)에서 소스 가져 오기, 2: push: gitHub에 소스 올리기, 3: 1 + 2)
+sMsg_nSrc = "1. gitHub(원격 저장소)에서 소스 가져 올 소스가 없습니다.(변경 사항 없음)"
 
 sMsg2 = "[T_01] ■■■■■■  [######################### [01. git_pull_push 처리 Start] #########################] ■■■■■■"
 sMsg0 = "\n\n\n ■■■ [/git_pull_push.py] ==> "
@@ -22,7 +22,7 @@ git_way = "".join(map(str.lower, sys.argv[1:]))  # 명령줄 인자 출력[git �
 command = 'git pull origin main'    # 1. gitHub(원격 저장소)에서 소스 받아 오기
 proc = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE).stdout
 out_cmd = proc.read()
-sMsg2 = "[T_10] [A. gitHub(원격 저장소)에서 소스 가져오기 결과\n"
+sMsg2 = "[T_10] [A. gitHub(원격 저장소)에서 소스 가져 오기 결과\n"
 sMsg2 += "(1. 로컬 저장소와 원격 저장소에서 1번쨰 커밋한 소스 비교)]"
 sMsg2 += "■■■■■ ★★ ■■■■■\n"+ out_cmd.decode('utf-8')
 print(sMsg0 + sMsg2)
@@ -53,7 +53,7 @@ out_cmd_status = proc.read()
 sMsg2 = "[T_30] [0. 로컬 저장소의 상태 확인(git status)] ■■■■■ ★★ ■■■■■\n"+ out_cmd_status.decode('utf-8')
 print(sMsg + sMsg2)
 
-my_host_nm = platform.uname().node  # 컴퓨터 현재 사용자 이름 가져오기(PC 명)
+my_host_nm = platform.uname().node  # 컴퓨터 현재 사용자 이름 가져 오기(PC 명)
 # sMsg2 = "[T_40] [git 방식(인자값)]"+ str(git_way) +"[PC 명]"+ str(my_host_nm) +"\n"
 # print(sMsg + sMsg2)
 
@@ -95,9 +95,9 @@ print(sMsg + sMsg2)
 if git_way_no == 3:
     rsltFileNmAlert = "2. gitHub(원격 저장소)에 소스 올리기가 성공 했습니다."
 elif git_way_no == 4:
-    rsltFileNmAlert = "1. gitHub(원격 저장소)에서 소스 받아 오기, 2. gitHub에 소스 올리기가 성공 했습니다."
+    rsltFileNmAlert = "1. gitHub(원격 저장소)에서 소스 가져 오기, 2. gitHub에 소스 올리기가 성공 했습니다."
 else:
-    rsltFileNmAlert = "1. gitHub(원격 저장소)에서 소스 받아 오기가 성공 했습니다."
+    rsltFileNmAlert = "1. gitHub(원격 저장소)에서 소스 가져 오기가 성공 했습니다."
 
 result = pyautogui.alert(rsltFileNmAlert, title='▶ [pull, push 처리]', button='OK')
 sys.exit()    # 종료
