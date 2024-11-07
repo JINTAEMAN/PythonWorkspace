@@ -29,7 +29,7 @@ command = 'git pull origin main'    # 1. gitHub(원격 저장소)에서 소스 �
 proc = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE).stdout
 out_cmd = proc.read()
 sMsg2 = "[T_20] [0. gitHub(원격 저장소)에서 소스 받아 오기 결과] ■■■■■■■■■■\n"+ out_cmd.decode('utf-8')
-print(sMsg + sMsg2)
+print(sMsg0 + sMsg2)
 
 if str(out_cmd.decode('utf-8')) == "Already up to date.\n":   # 인자값이 push 이면(gitHub에 올리기)
     git_way_no =  int(git_way_no) - 1
@@ -52,8 +52,7 @@ if (git_way == None or git_way == '' ) and git_way_no == 0:
 # print("■■■ [/git_pull_push.py] ==> [T_44]")
 
 my_host_nm = platform.uname().node  # 컴퓨터 현재 사용자 이름 가져오기(PC 명)
-sMsg2 = "[T_40] [git 방식(인자값)]"+ str(git_way) +"\n"
-sMsg2 += "[PC 명]"+ str(my_host_nm) +"\n"
+sMsg2 = "[T_40] [git 방식(인자값)]"+ str(git_way) +"[PC 명]"+ str(my_host_nm) +"\n"
 print(sMsg + sMsg2)
 
 if str(git_way) == "push":   # 인자값이 push 이면(gitHub에 올리기)
@@ -87,7 +86,7 @@ if str(git_way) == "push":   # 인자값이 push 이면(gitHub에 올리기)
         result = pyautogui.alert(rsltFileNmAlert, title='▶ [pull 확인 결과]', button='OK')
         sys.exit()    # 종료
 print("■■■ [/git_pull_push.py] ==> [T_90] ■■■■■■ [git_way_no]"+ str(git_way_no) )
-sMsg2 = "[T_99] ■■■■■■ [######################### [01. git_pull_push 처리 End] #########################] ■■■■■■\n\n\n"
+sMsg2 = "[T_99] ■■■■■■ [######################### [01. git_pull_push 처리 End] #########################] ■■■■■■\n\n"
 print(sMsg + sMsg2)
 
 if git_way_no == 3:
