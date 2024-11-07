@@ -37,7 +37,7 @@ if str(out_cmd.decode('utf-8')) == "Already up to date.\n":   # 인자값이 pus
 command = 'git log --oneline --all --graph -5'   # 커밋 로그 보기(최근 5개만 보여)
 proc = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE).stdout
 out_cmd = proc.read()
-sMsg2 = "[T_30] [gitHub에서 발생한 커밋 로그 보기] ■■■■■ ★★ ■■■■■\n"+ out_cmd.decode('utf-8')
+sMsg2 = "[T_30] [gitHub에서 발생한 커밋 로그 보기] ■■■■■ ★★ ■■■■■\n"+ out_cmd.decode('utf-8') +"\n\n"
 print(sMsg + sMsg2)
 
 if (git_way == None or git_way == '' ) and git_way_no == 0:
@@ -49,32 +49,26 @@ if (git_way == None or git_way == '' ) and git_way_no == 0:
 # result = pyautogui.alert(git_way, title='▶ [git_way 확인]', button='OK')
 # print("■■■ [/git_pull_push.py] ==> [T_44]")
 
-my_host_nm = platform.uname().node  # 컴퓨터 현재 사용자 이름 가져오기(PC 명): TEST
+my_host_nm = platform.uname().node  # 컴퓨터 현재 사용자 이름 가져오기(PC 명)
 sMsg2 = "[T_40] [git 방식(인자값)]"+ str(git_way) +"\n"
-sMsg2 = "[PC 명]"+ str(my_host_nm) +"\n"
+sMsg2 += "[PC 명]"+ str(my_host_nm) +"\n"
 print(sMsg + sMsg2)
 
 if str(git_way) == "push":   # 인자값이 push 이면(gitHub에 올리기)
     srch_word_1 = "nothing to commit"    # 조회 단어1
-    # srch_word_2 = "no changes added to commit"    # 조회 단어2
     out_cmd_status_cd_1 = out_cmd_status.decode('utf-8').find(srch_word_1)  # 조회 단어1이 처음 나타나는 위치
-    # out_cmd_status_cd_2 = out_cmd_status.decode('utf-8').find(srch_word_2)  # 조회 단어2이 처음 나타나는 위치
-    # print(out_cmd_status.find('nothing to commit'))     # nothing to commit가 처음 나타나는 위치
     print("■■■ [/git_pull_push.py] ==> [T_71] [조회 단어1이 처음 나타나는 위치]■■■■■■■"+ str(out_cmd_status_cd_1) )
 
     if out_cmd_status_cd_1 < 0:  # 조회 단어1가 없으면
-    # if out_cmd_status_cd_1 > 0 and out_cmd_status_cd_2 > 0:
         command = 'git add -A'    # 3. Git 스테이지 영역에 추가
         proc = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE).stdout
         out_cmd_add = proc.read()
         print("■■■ [/git_pull_push.py] ==> [T_72] [3. Git 스테이지 영역에 추가(git add)]"+ out_cmd_add.decode('utf-8') )
 
         cmd_cmt_msg = 'git commit -m "▶['+ now_ydmhm +'] 02. 소스 올리기(by 진태만[PC 명: '+ my_host_nm +'])"'   # 4. Git 로컬 저장소 영역에 커밋 처리
-        # git commit -m ' [TM] Add to Python Work space[23.08.26, by 진태만]'
         proc = subprocess.Popen(cmd_cmt_msg, shell=True, stdout=subprocess.PIPE).stdout
         out_cmt_msg = proc.read()
         print("■■■ [/git_pull_push.py] ==> [T_80] [4. Git 로걸 저장소 영역에 추가(커밋 메세지)] ■■■■■ ★★ ■■■■■\n"+ str(cmd_cmt_msg) +"\n\n")
-        # print("■■■ [/git_pull_push.py] ==> [T_73_2] [4  Git 로걸 저장소 영역에 추가(git commit)] ■■■■■■■■■■■■ "* out_cmt_msg.decode('utf-8') )
 
         command = 'git push origin main'    # 5. gitHub에 소스 올리기
         proc = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE).stdout
@@ -84,14 +78,12 @@ if str(git_way) == "push":   # 인자값이 push 이면(gitHub에 올리기)
         print("■■■ [/git_pull_push.py] ==> [T_82] [Git 정보 처리 시작 End] ■■■ @@@@@ ■■■■■■■■■ ■\n\n")
 
         sMsg2 = "[T_81] [5. 원격 저장소에 반영(git push)]"+ out_cmd_push.decode('utf-8')
-        sMsg2 = "[T_81] [5. 원격 저장소에 반영(git push)]"+ out_cmd_push.decode('utf-8')
         print(sMsg + sMsg2)
     else:
         print("■■■ [/git_pull_push.py] ==> [T_83] [2. 커밋할 소스가 없습니다.(수정한 내용 없음)]")
         rsltFileNmAlert = "2. 커밋할 소스가 없습니다.(수정한 내용 없음)"
         result = pyautogui.alert(rsltFileNmAlert, title='▶ [pull 확인 결과]', button='OK')
         sys.exit()    # 종료
-
 print("■■■ [/git_pull_push.py] ==> [T_90] ■■■■■■ [git_way_no]"+ str(git_way_no) )
 sMsg2 = "[T_99] ■■■■■■ [######################### [01. git_pull_push 처리 End] #########################] ■■■■■■\n\n\n"
 print(sMsg + sMsg2)
