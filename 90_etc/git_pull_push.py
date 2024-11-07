@@ -22,13 +22,13 @@ git_way = "".join(map(str.lower, sys.argv[1:]))  # 명령줄 인자 출력[git �
 command = 'git status'  # 0. Git 로컬 저장소의 상태 확인
 proc = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE).stdout
 out_cmd_status = proc.read()
-sMsg2 = "[T_10] [0. Git 로컬 저장소의 상태 확인(git status)] ■■■■■ ★★ ■■■■■\n"+ out_cmd_status.decode('utf-8')
+sMsg2 = "[T_10] [0. 로컬 저장소의 상태 확인(git status)] ■■■■■ ★★ ■■■■■\n"+ out_cmd_status.decode('utf-8')
 print(sMsg + sMsg2)
 
 command = 'git pull origin main'    # 1. gitHub(원격 저장소)에서 소스 받아 오기
 proc = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE).stdout
 out_cmd = proc.read()
-sMsg2 = "[T_20] [0. gitHub(원격 저장소)에서 소스 받아 오기 결과] ■■■■■■■■■■\n"+ out_cmd.decode('utf-8')
+sMsg2 = "[T_20] [1. gitHub(원격 저장소)에서 소스 받아 오기 결과] ■■■■■■■■■■\n"+ out_cmd.decode('utf-8')
 print(sMsg0 + sMsg2)
 
 if str(out_cmd.decode('utf-8')) == "Already up to date.\n":   # 인자값이 push 이면(gitHub에 올리기)
@@ -38,7 +38,7 @@ if str(out_cmd.decode('utf-8')) == "Already up to date.\n":   # 인자값이 pus
 command = 'git log --oneline --all --graph -5'   # 커밋 로그 보기(최근 5개만 보여)
 proc = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE).stdout
 out_cmd = proc.read()
-sMsg2 = "[T_30] [gitHub(원격 저장소)에서 발생한 커밋 로그 보기] ■■■■■ ★★ ■■■■■\n"+ out_cmd.decode('utf-8') +"\n\n"
+sMsg2 = "[T_30] [1. gitHub(원격 저장소)에서 발생한 커밋 로그 보기] ■■■■■ ★★ ■■■■■\n"+ out_cmd.decode('utf-8') +"\n\n"
 print(sMsg + sMsg2)
 
 if (git_way == None or git_way == '' ) and git_way_no == 0:
@@ -90,7 +90,7 @@ sMsg2 = "[T_99] ■■■■■■ [######################### [01. git_pull_push
 print(sMsg + sMsg2)
 
 if git_way_no == 3:
-    rsltFileNmAlert = "2. gitHub에 소스 올리기가 성공 했습니다."
+    rsltFileNmAlert = "2. gitHub(원격 저장소)에 소스 올리기가 성공 했습니다."
 elif git_way_no == 4:
     rsltFileNmAlert = "1. gitHub(원격 저장소)에서 소스 받아 오기, 2. gitHub에 소스 올리기가 성공 했습니다."
 else:
