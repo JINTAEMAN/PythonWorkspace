@@ -55,21 +55,21 @@ $ git branch dev		# dev Branch 생성 ♣  ==> git branch -d premium 	# dev Branch 
 $ git switch dev		# dev Branch로 이동 ♣  ==> git branch
 $ git status			# 저장소 상태 확인 ♣  ==> git branch
 
-$ touch /d/PythonWorkspace/90_etc/test_02.txt			# test_02.txt 파일 생성 ♣
-$ echo "1" > /d/PythonWorkspace/90_etc/test_02.txt;	# test_02.txt 파일에 1 입력 ♣
-echo "-" >> /d/PythonWorkspace/90_etc/test_02.txt;
-echo "2" >> /d/PythonWorkspace/90_etc/test_02.txt;
-echo "-" >> /d/PythonWorkspace/90_etc/test_02.txt;	 
-echo "3" >> /d/PythonWorkspace/90_etc/test_02.txt;		#  test_02.txt 파일에 3 입력 ♣
-echo "-" >> /d/PythonWorkspace/90_etc/test_02.txt;	  
-echo "4" >> /d/PythonWorkspace/90_etc/test_02.txt;
+$ touch /d/PythonWorkspace/90_etc/test.txt			# test.txt 파일 생성 ♣
+$ echo "1" > /d/PythonWorkspace/90_etc/test.txt;	# test.txt 파일에 1 입력 ♣
+echo "-" >> /d/PythonWorkspace/90_etc/test.txt;
+echo "2" >> /d/PythonWorkspace/90_etc/test.txt;
+echo "-" >> /d/PythonWorkspace/90_etc/test.txt;	 
+echo "3" >> /d/PythonWorkspace/90_etc/test.txt;		#  test.txt 파일에 3 입력 ♣
+echo "-" >> /d/PythonWorkspace/90_etc/test.txt;	  
+echo "4" >> /d/PythonWorkspace/90_etc/test.txt;
 
-$ git add /d/PythonWorkspace/90_etc/test_02.txt;
-git commit -m "01. merge test A";	# 커밋 ♣
+$ git add /d/PythonWorkspace/90_etc/test.txt;
+git commit -m "01. merge test B2";	# 커밋 ♣
 git push origin main; 		# 원격 저장소(main)에 소스 올리기 ♣
 -------------------------------------------------------------------------------------------
 
-- test_02.txt 파일 생성 @@@
+- test.txt 파일 생성 @@@
 1
 -
 2
@@ -79,67 +79,67 @@ git push origin main; 		# 원격 저장소(main)에 소스 올리기 ♣
 4
 -------------------------------------------------------------------------------------------
 
-$ echo "1" > /d/PythonWorkspace/90_etc/test_02.txt;	# test_02.txt 파일에 1 입력 ♣
-echo "-" >> /d/PythonWorkspace/90_etc/test_02.txt;
-echo "2" >> /d/PythonWorkspace/90_etc/test_02.txt;
-echo "-" >> /d/PythonWorkspace/90_etc/test_02.txt;	 
-echo "M3" >> /d/PythonWorkspace/90_etc/test_02.txt;		#  test_02.txt 파일에 3 입력 ♣
-echo "-" >> /d/PythonWorkspace/90_etc/test_02.txt;	  
-echo "4" >> /d/PythonWorkspace/90_etc/test_02.txt;
+$ echo "1" > /d/PythonWorkspace/90_etc/test.txt;	# test.txt 파일에 1 입력 ♣
+echo "-" >> /d/PythonWorkspace/90_etc/test.txt;
+echo "2" >> /d/PythonWorkspace/90_etc/test.txt;
+echo "-" >> /d/PythonWorkspace/90_etc/test.txt;	 
+echo "M3" >> /d/PythonWorkspace/90_etc/test.txt;		#  test.txt 파일에 3 입력 ♣
+echo "-" >> /d/PythonWorkspace/90_etc/test.txt;	  
+echo "4" >> /d/PythonWorkspace/90_etc/test.txt;
 
-git add /d/PythonWorkspace/90_etc/test_02.txt;
+git add /d/PythonWorkspace/90_etc/test.txt;
 git commit -m "01. merge test B2";	# 커밋 ♣
 git push origin main;		# 원격 저장소(main)에 소스 올리기 ♣
 -------------------------------------------------------------------------------------------
 
-$ echo "1" > /d/PythonWorkspace/90_etc/test_02.txt;	# test_02.txt 파일에 1 입력 ♣
-echo "-" >> /d/PythonWorkspace/90_etc/test_02.txt;
-echo "2" >> /d/PythonWorkspace/90_etc/test_02.txt;
-echo "-" >> /d/PythonWorkspace/90_etc/test_02.txt;	 
-echo "M3" >> /d/PythonWorkspace/90_etc/test_02.txt;		#  test_02.txt 파일에 3 입력 ♣
-echo "-" >> /d/PythonWorkspace/90_etc/test_02.txt;	  
-echo "M4" >> /d/PythonWorkspace/90_etc/test_02.txt;
+$ echo "1" > /d/PythonWorkspace/90_etc/test.txt;	# test.txt 파일에 1 입력 ♣
+echo "-" >> /d/PythonWorkspace/90_etc/test.txt;
+echo "2" >> /d/PythonWorkspace/90_etc/test.txt;
+echo "-" >> /d/PythonWorkspace/90_etc/test.txt;	 
+echo "M3" >> /d/PythonWorkspace/90_etc/test.txt;		#  test.txt 파일에 3 입력 ♣
+echo "-" >> /d/PythonWorkspace/90_etc/test.txt;	  
+echo "M4" >> /d/PythonWorkspace/90_etc/test.txt;
 
-git add /d/PythonWorkspace/90_etc/test_02.txt; 
+git add /d/PythonWorkspace/90_etc/test.txt; 
 git commit -m "01. merge test C2";	# 커밋 ♣
 git push origin main;	# 원격 저장소(main)에 소스 올리기 ♣
  ---------------------------------------------------------------------------------------------------------------
 
 $ git switch dev		# dev Branch로 이동 ♣  ==> git branch
 
-$ echo "1" > /d/PythonWorkspace/90_etc/test_02.txt;	# test_02.txt 파일에 1 입력 ♣
-echo "-" >> /d/PythonWorkspace/90_etc/test_02.txt;
-echo "E2" >> /d/PythonWorkspace/90_etc/test_02.txt;
-echo "-" >> /d/PythonWorkspace/90_etc/test_02.txt;	 
-echo "3" >> /d/PythonWorkspace/90_etc/test_02.txt;		#  test_02.txt 파일에 3 입력 ♣
-echo "-" >> /d/PythonWorkspace/90_etc/test_02.txt;	  
-echo "4" >> /d/PythonWorkspace/90_etc/test_02.txt;
+$ echo "1" > /d/PythonWorkspace/90_etc/test.txt;	# test.txt 파일에 1 입력 ♣
+echo "-" >> /d/PythonWorkspace/90_etc/test.txt;
+echo "E2" >> /d/PythonWorkspace/90_etc/test.txt;
+echo "-" >> /d/PythonWorkspace/90_etc/test.txt;	 
+echo "3" >> /d/PythonWorkspace/90_etc/test.txt;		#  test.txt 파일에 3 입력 ♣
+echo "-" >> /d/PythonWorkspace/90_etc/test.txt;	  
+echo "4" >> /d/PythonWorkspace/90_etc/test.txt;
 
-git add /d/PythonWorkspace/90_etc/test_02.txt;
+git add /d/PythonWorkspace/90_etc/test.txt;
 git commit -m "01. merge test B1";	# 커밋 ♣
 git push origin dev;		# 원격 저장소(main)에 소스 올리기 ♣
 -------------------------------------------------------------------------------------------
 
-$ echo "1" > /d/PythonWorkspace/90_etc/test_02.txt;	# test_02.txt 파일에 1 입력 ♣
-echo "-" >> /d/PythonWorkspace/90_etc/test_02.txt;
-echo "E2" >> /d/PythonWorkspace/90_etc/test_02.txt;
-echo "-" >> /d/PythonWorkspace/90_etc/test_02.txt;	 
-echo "3" >> /d/PythonWorkspace/90_etc/test_02.txt;		#  test_02.txt 파일에 3 입력 ♣
-echo "-" >> /d/PythonWorkspace/90_etc/test_02.txt;	  
-echo "E4" >> /d/PythonWorkspace/90_etc/test_02.txt;
+$ echo "1" > /d/PythonWorkspace/90_etc/test.txt;	# test.txt 파일에 1 입력 ♣
+echo "-" >> /d/PythonWorkspace/90_etc/test.txt;
+echo "E2" >> /d/PythonWorkspace/90_etc/test.txt;
+echo "-" >> /d/PythonWorkspace/90_etc/test.txt;	 
+echo "3" >> /d/PythonWorkspace/90_etc/test.txt;		#  test.txt 파일에 3 입력 ♣
+echo "-" >> /d/PythonWorkspace/90_etc/test.txt;	  
+echo "E4" >> /d/PythonWorkspace/90_etc/test.txt;
 
-git add /d/PythonWorkspace/90_etc/test_02.txt;
+git add /d/PythonWorkspace/90_etc/test.txt;
 git commit -m "01. merge test C1";	# 커밋 ♣
 git push origin dev 		# 원격 저장소(main)에 소스 올리기 ♣
 -------------------------------------------------------------------------------------------
  
 $ git switch main		# dev Branch로 이동 ♣  ==> git branch
 $ git merge dev		# dev Branch로 머지 처리 ♣ 
-Auto-merging 90_etc/test_02.txt
-CONFLICT (add/add): Merge conflict in 90_etc/test_02.txt		# test_02.txt 파일에서 충돌 발생 ■■■
+Auto-merging 90_etc/test.txt
+CONFLICT (add/add): Merge conflict in 90_etc/test.txt		# test.txt 파일에서 충돌 발생 ■■■
 Automatic merge failed; fix conflicts and then commit the result.
 
-- /test_02.txt 파일에서 충돌 수정
+- /test.txt 파일에서 충돌 수정
 1
 -
 E2
@@ -153,7 +153,7 @@ $ git merge dev	# dev Branch로 머지 처리 ♣
 git commit -m "01. merge test D";	# 커밋 ♣
 git push origin main 	 # 원격 저장소(main)에 소스 올리기 ♣
 
-- /test_02.txt 파일에서
+- /test.txt 파일에서
 1
 -
 E2
@@ -163,11 +163,14 @@ M3
 ME4
 ============================================================================================================= 
 
-$ git log --oneline --all --graph --grep "01. merge test*"		# 커밋 로그 검색 ♣
+$ git reset --hard Commit ID 		# 작업 돌리기 ♣
+$ git log --oneline --all --graph --grep "B*"		# 커밋 로그 검색 ♣
+
 $ git reflog show HEAD -30  	# 커밋 로그(30개 조회) ♣
 $ git reset --hard a078229   	# 커밋 복구 ♣
 HEAD is now at a078229 C2
 =============================================================================================================
+
 ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
 
 

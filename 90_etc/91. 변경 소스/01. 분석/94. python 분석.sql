@@ -18,7 +18,7 @@ $ git checkout dev		# dev Branch로 전환 ♣
 $ git add -a;   	# 3. Git 스테이지 영역에 추가 ♣
 $ git commit -m "▶[24.11.06 09:50] 02. 소스 올리기(by 진태만[PC 명: TAMA-HAART-404"  		# 4. Git 로컬 저장소 영역에 커밋 처리 ♣
 (PC 명: TAMA-HAART-404, TAMA-WORK-NB-MSI)  --> ▶[24.11.06 09:50] 02. 소스 올리기(by 진태만[PC 명: TAMA-MSI-A10SD-I7-21Y])
-$ git push origin mai    	# 5. gitHub에 소스 올리기 ♣
+$ git push origin main   	# 5. gitHub에 소스 올리기 ♣
 $ git log --pretty=format:"%h - %an, %ar : %s"	--since=8.hours   	# 커밋 기록 확인 ♣ ==> q: git log 빠져 나가기
 --------------------------------------------------------------------------------------------------------
 
