@@ -1,7 +1,7 @@
 
   
 ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
-+---------------------------------------------// 96. git conflict 해결 //-----------------------------------/ 24.11.07(목) /---+ 
++---------------------------------------------// 96. git conflict 해결 //-------------------------------/ 24.11.07(목) /---+ 
 ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
 
 
@@ -15,7 +15,7 @@ $ git switch main		 # main Branch로 이동 ♣
 $ git merge dev	# dev Branch를 main 브랜치로 merge 처리 ♣  ==> 3 way merge(A[base★], C1, C2)
 ----------------------------------------------------------------------------------------------------------------------
 
-2. cherry-pick: 특정 버전의 변경 사항 만 가져오는 병합(부분 변합)
+2. cherry-pick: 특정 버전의 변경 사항 만 가져오는 병합(부분 병합)
 ■A(1, 2, 3, 4) 		===> ■B1(1, E2, 3, 4) [base★]		===> ■C1(1, E2, 3, E4) [dev]		 
 							===> ■B2(1, 2, M3, 4)					===> ■C2(1, 2, M3, M4) 		===> ■D(1, 2, M3, ME4) [main(HEAD)]
 $ git switch main	 	# main Branch로 이동 ♣		 
@@ -48,28 +48,19 @@ $ git rebase B2	 # B2를 main 브랜치로 revert 처리 ♣	 ==> B2단계에서 취소 --> 1)
 	===> ■E(1, E2, ME3, M4) [main(HEAD)]
 3) B2, A를 비교해서서 변경된 M3을 3으로 원복시킴
 4) B2, D를 비교해서 변경된 3를 ME3로, 4를 M4로 변경 --> 3 way merge(B2[base★], A, D)
-=========================================================================================================
+=============================================================================================================
+■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+
 
 - conflict 테스트 ■■■
-$ git branch dev		# dev Branch 생성 ♣  ==> git branch -d premium 	# dev Branch 삭제♣  
+1. merge: 가장 전형적인 병합(충돌은 3 way merge 원리 바탕) @@@
+$ git branch dev		# dev Branch 생성 ♣  ==> 참고: git checkout -b dev		# dev Branch 생성 ♣  	
+# git branch -d dev		# dev Branch 삭제 ==> 참고: git checkout -d dev		# dev Branch 삭제 ♣  	 
 $ git switch dev		# dev Branch로 이동 ♣  ==> git branch
 $ git status			# 저장소 상태 확인 ♣  ==> git branch
 
-$ touch /d/PythonWorkspace/90_etc/test_02.txt			# test_02.txt 파일 생성 ♣
-$ echo "1" > /d/PythonWorkspace/90_etc/test_02.txt;	# test_02.txt 파일에 1 입력 ♣
-echo "-" >> /d/PythonWorkspace/90_etc/test_02.txt;
-echo "2" >> /d/PythonWorkspace/90_etc/test_02.txt;
-echo "-" >> /d/PythonWorkspace/90_etc/test_02.txt;	 
-echo "3" >> /d/PythonWorkspace/90_etc/test_02.txt;		#  test_02.txt 파일에 3 입력 ♣
-echo "-" >> /d/PythonWorkspace/90_etc/test_02.txt;	  
-echo "4" >> /d/PythonWorkspace/90_etc/test_02.txt;
-
-$ git add /d/PythonWorkspace/90_etc/test_02.txt;
-git commit -m "01. merge test A";	# 커밋 ♣
-git push origin main; 		# 원격 저장소(main)에 소스 올리기 ♣
--------------------------------------------------------------------------------------------
-
-- test_02.txt 파일 생성 @@@
+$ touch /d/PythonWorkspace/90_etc/common.txt			# common.txt 파일 생성 ♣
+- common.txt 파일 생성 @@@
 1
 -
 2
@@ -78,98 +69,139 @@ git push origin main; 		# 원격 저장소(main)에 소스 올리기 ♣
 -
 4
 -------------------------------------------------------------------------------------------
-
-$ echo "1" > /d/PythonWorkspace/90_etc/test_02.txt;	# test_02.txt 파일에 1 입력 ♣
-echo "-" >> /d/PythonWorkspace/90_etc/test_02.txt;
-echo "2" >> /d/PythonWorkspace/90_etc/test_02.txt;
-echo "-" >> /d/PythonWorkspace/90_etc/test_02.txt;	 
-echo "M3" >> /d/PythonWorkspace/90_etc/test_02.txt;		#  test_02.txt 파일에 3 입력 ♣
-echo "-" >> /d/PythonWorkspace/90_etc/test_02.txt;	  
-echo "4" >> /d/PythonWorkspace/90_etc/test_02.txt;
-
-git add /d/PythonWorkspace/90_etc/test_02.txt;
-git commit -m "01. merge test B2";	# 커밋 ♣
-git push origin main;		# 원격 저장소(main)에 소스 올리기 ♣
--------------------------------------------------------------------------------------------
-
-$ echo "1" > /d/PythonWorkspace/90_etc/test_02.txt;	# test_02.txt 파일에 1 입력 ♣
-echo "-" >> /d/PythonWorkspace/90_etc/test_02.txt;
-echo "2" >> /d/PythonWorkspace/90_etc/test_02.txt;
-echo "-" >> /d/PythonWorkspace/90_etc/test_02.txt;	 
-echo "M3" >> /d/PythonWorkspace/90_etc/test_02.txt;		#  test_02.txt 파일에 3 입력 ♣
-echo "-" >> /d/PythonWorkspace/90_etc/test_02.txt;	  
-echo "M4" >> /d/PythonWorkspace/90_etc/test_02.txt;
-
-git add /d/PythonWorkspace/90_etc/test_02.txt; 
-git commit -m "01. merge test C2";	# 커밋 ♣
-git push origin main;	# 원격 저장소(main)에 소스 올리기 ♣
- ---------------------------------------------------------------------------------------------------------------
-
+ 
 $ git switch dev		# dev Branch로 이동 ♣  ==> git branch
 
-$ echo "1" > /d/PythonWorkspace/90_etc/test_02.txt;	# test_02.txt 파일에 1 입력 ♣
-echo "-" >> /d/PythonWorkspace/90_etc/test_02.txt;
-echo "E2" >> /d/PythonWorkspace/90_etc/test_02.txt;
-echo "-" >> /d/PythonWorkspace/90_etc/test_02.txt;	 
-echo "3" >> /d/PythonWorkspace/90_etc/test_02.txt;		#  test_02.txt 파일에 3 입력 ♣
-echo "-" >> /d/PythonWorkspace/90_etc/test_02.txt;	  
-echo "4" >> /d/PythonWorkspace/90_etc/test_02.txt;
-
-git add /d/PythonWorkspace/90_etc/test_02.txt;
-git commit -m "01. merge test B1";	# 커밋 ♣
-git push origin dev;		# 원격 저장소(main)에 소스 올리기 ♣
+- common.txt 파일에서 @@@
+2 --> E2 수정
+$ git add .  	# stage애 올리기 ♣ 
+$ git commit -m "▶[24.11.09] 01. merge test B1"		# 커밋 ♣ 
 -------------------------------------------------------------------------------------------
 
-$ echo "1" > /d/PythonWorkspace/90_etc/test_02.txt;	# test_02.txt 파일에 1 입력 ♣
-echo "-" >> /d/PythonWorkspace/90_etc/test_02.txt;
-echo "E2" >> /d/PythonWorkspace/90_etc/test_02.txt;
-echo "-" >> /d/PythonWorkspace/90_etc/test_02.txt;	 
-echo "3" >> /d/PythonWorkspace/90_etc/test_02.txt;		#  test_02.txt 파일에 3 입력 ♣
-echo "-" >> /d/PythonWorkspace/90_etc/test_02.txt;	  
-echo "E4" >> /d/PythonWorkspace/90_etc/test_02.txt;
+- common.txt 파일에서 @@@
+4 --> E4 수정
+$ git add .  	# stage애 올리기 ♣ 
+$ git commit -m "▶[24.11.09] 01. merge test C1"		# 커밋 ♣
+=============================================================================================================
 
-git add /d/PythonWorkspace/90_etc/test_02.txt;
-git commit -m "01. merge test C1";	# 커밋 ♣
-git push origin dev 		# 원격 저장소(main)에 소스 올리기 ♣
+$ git switch main		# main Branch로 이동 ♣  ==> git branch
+
+- common.txt 파일에서 @@@
+3 --> M3 수정
+git add /d/PythonWorkspace/90_etc/common.txt		# stage애 올리기 ♣ 
+git commit -m "▶[24.11.09] 01. merge test B2"		# 커밋 ♣
 -------------------------------------------------------------------------------------------
+
+- common.txt 파일에서 @@@
+4 --> M4 수정
+git add /d/PythonWorkspace/90_etc/common.txt		# stage애 올리기 ♣ 
+git commit -m "▶[24.11.09] 01. merge test C2"		# 커밋 ♣
+=============================================================================================================
+ 
  
 $ git switch main		# dev Branch로 이동 ♣  ==> git branch
 $ git merge dev		# dev Branch로 머지 처리 ♣ 
-Auto-merging 90_etc/test_02.txt
-CONFLICT (add/add): Merge conflict in 90_etc/test_02.txt		# test_02.txt 파일에서 충돌 발생 ■■■
+Auto-merging 90_etc/common.txt
+CONFLICT (add/add): Merge conflict in 90_etc/common.txt			# common.txt 파일에서 충돌 발생 ■■■
 Automatic merge failed; fix conflicts and then commit the result.
 
-- /test_02.txt 파일에서 충돌 수정
+- /common.txt 파일에서 충돌 수정
 1
 -
 E2
 -
-M3
+3
 -
-ME4 		# E4를 ME4로 수정 ■■■
+<<<<<<< HEAD	# '<' 부터 시작하여 HEAD 아래 부분 모두 삭제 처리 ■■■
+M4
+
+=======
+E4
+>>>>>>> dev		# '>' 까지 삭제 처리 ■■■ 
+
+ME4 		# E4를 ME4로 수정 ■■■ 
 ----------------------------------------------------------------------------------------------------------------------
 
-$ git merge dev	# dev Branch로 머지 처리 ♣
-git commit -m "01. merge test D";	# 커밋 ♣
-git push origin main 	 # 원격 저장소(main)에 소스 올리기 ♣
+$ git add /d/PythonWorkspace/90_etc/common.txt		# stage애 올리기 ♣ 
+$ git status 	 # git 상태 확인 ♣
+On branch main
+Your branch is ahead of 'origin/main' by 2 commits.
+  (use "git push" to publish your local commits)
 
-- /test_02.txt 파일에서
+All conflicts fixed but you are still merging.
+  (use "git commit" to conclude merge)
+
+$ git commit -m "▶[24.11.09] 01. merge test D"	# 커밋 ♣ 
+============================================================================================================= 
+■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+
+
+- conflict 테스트 ■■■
+2. cherry-pick: 특정 버전의 변경 사항 만 가져오는 병합(부분 병합)
+
+$ git reset --hard 8414249351fa098e6a6f50d43b660eab85c6ea62	# HEAD가 가르키는 Branch가 C2(COMMIT ID)로 이동 ♣
+HEAD is now at 8414249 ▶[24.11.09] 01. merge test C2
+
+$ git cherry-pick bfea955e58bd70d1e1e09c919696c9985d1c3af8		  # dev Branch를 main 브랜치로 cherry-pick 처리(C1: COMMIT ID)  ♣ 
+Auto-merging 90_etc/common.txt
+CONFLICT (content): Merge conflict in 90_etc/common.txt
+error: could not apply bfea955... ▶[24.11.09] 01. merge test C1
+hint: After resolving the conflicts, mark them with
+hint: "git add/rm <pathspec>", then run
+hint: "git cherry-pick --continue".
+hint: You can instead skip this commit with "git cherry-pick --skip".
+hint: To abort and get back to the state before "git cherry-pick",
+hint: run "git cherry-pick --abort".
+--------------------------------------------------------------------------------------------------
+
+- common.txt 파일 생성 @@@
 1
 -
-E2
+2
 -
-M3
+3
 -
-ME4
-============================================================================================================= 
 
-$ git log --oneline --all --graph --grep "01. merge test*"		# 커밋 로그 검색 ♣
+<<<<<<< HEAD	# '<' 부터 시작하여 HEAD 아래 부분 모두 삭제 처리 ■■■
+M4
+
+=======
+E4
+>>>>>>> dev		# '>' 까지 삭제 처리 ■■■ 
+
+ME4 		# E4를 ME4로 수정 ■■■ 
+-------------------------------------------------------------------------------------------
+ 
+$ git status	# git 상태 확인 ♣
+On branch main
+Your branch is ahead of 'origin/main' by 2 commits.
+  (use "git push" to publish your local commits)
+
+You are currently cherry-picking commit bfea955.
+  (all conflicts fixed: run "git cherry-pick --continue")
+  (use "git cherry-pick --skip" to skip this patch)
+  (use "git cherry-pick --abort" to cancel the cherry-pick operation)
+
+Changes to be committed:
+        modified:   90_etc/common.txt
+ 
+$ git add .  	# stage애 올리기 ♣ 
+$ git commit -m "▶[24.11.09] 01. merge test D"		# 커밋 ♣ 
+[main 842738a] ▶[24.11.09] 01. merge test D
+ Date: Sat Nov 9 10:49:32 2024 +0900
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+$ git cherry-pick --continue	 # dev Branch를 main 브랜치로 cherry-pick 처리 ♣
+=============================================================================================================
+■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+
+
+$ git log --oneline --all --graph --grep "▶[24.11.09] 01. merge test*"		# 커밋 로그 검색 ♣
 $ git reflog show HEAD -30  	# 커밋 로그(30개 조회) ♣
 $ git reset --hard a078229   	# 커밋 복구 ♣
 HEAD is now at a078229 C2
 =============================================================================================================
 ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
-
 
 
 
