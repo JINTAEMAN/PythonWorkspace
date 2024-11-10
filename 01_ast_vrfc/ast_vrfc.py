@@ -72,10 +72,10 @@ whiteFill = PatternFill(start_color='FFFFFF', end_color='FFFFFF', fill_type='sol
 # ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ ------------------->
 
 
-# print("\n\n [@_T] ■■■ [/ast_vrfc.py] ==> [T_01] ■■■■■■ [######################### [자산 검증 파일 TEST Start] #########################] ■■■■■■ ")
-sMsg2 = "[T_01] ■■■■■■  [######################### [01. 자산 검증 파일 TEST Start] #########################] ■■■■■■"
-sMsg = "\n\n\n ■■■ [/ast_vrfc.py] ==> "
-print(sMsg + sMsg2)
+sMsg2 = "[T_01] ■■■■■■  [######################### [01. 자산 검증 파일 TEST Start] #########################] ■■■■■■" 
+sMsg0 = "\n\n\n ■■■ [/ast_vrfc.py] ==> "
+sMsg = "■■■ [/ast_vrfc.py] ==> "
+print(sMsg0 + sMsg2)
 
 now_ym = str(datetime.datetime.now()).replace('-','.')     # 오늘 년월(년.월) (2023.08.31)
 dt_now = datetime.datetime.now()
