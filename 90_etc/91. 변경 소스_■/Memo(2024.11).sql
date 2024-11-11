@@ -675,7 +675,10 @@ https://ukjong.tistory.com/180
 =============================================================================================================
 
 - 02. Datadog(LG U+)
-https://app.datadoghq.com/account/login, tamario2@lgupluspartners.co.kr/qwqw2323@@ --> zxzx1212##
+1. https://app.datadoghq.com/account/login/by_email, tamario2@lgupluspartners.co.kr ==> LG U+ okta 로그인
+
+- 02. Datadog(LG U+)
+https://app.datadoghq.com/account/login, tamario2@lgupluspartners.co.kr/qwqw2323@@ --> zxzx1212## --> tata1212!! 
 =============================================================================================================
 
 - 회의(15:30, 6층 중회의실 E9-01)
@@ -688,15 +691,15 @@ https://app.datadoghq.com/account/login, tamario2@lgupluspartners.co.kr/qwqw2323
  5) AI 플랫폼 개발팀(VIOLET): 도커 < 쿠버 네티스(Kubernetes) < AWS)
 =============================================================================================================
 
- - [따배쿠] 쿠버네티스 시리즈[TTABAE-LEARN]
- https://www.youtube.com/playlist?list=PLApuRlvrZKohaBHvXAOhUD-RxD0uQ3z0c
+- [따배쿠] 쿠버네티스 시리즈[TTABAE-LEARN]
+https://www.youtube.com/playlist?list=PLApuRlvrZKohaBHvXAOhUD-RxD0uQ3z0c
 =============================================================================================================
-]
+
 - 모바일 출입증 문의
 1. 김홍진(선임: 010-8400-2156, 모바일 서비스 선행 개발팀)
  1) 앱 삭제 후 담당자에게 다시 받아서 설치하라고 함
- =============================================================================================================
- 
+=============================================================================================================
+
 - Visual Studio Code 기본 사용법[생활 코딩]
 https://www.youtube.com/watch?v=K8qVH8V0VvY&t=277s
 =============================================================================================================
