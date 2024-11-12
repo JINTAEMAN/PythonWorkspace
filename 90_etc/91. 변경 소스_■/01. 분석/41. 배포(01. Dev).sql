@@ -44,8 +44,8 @@ $ git pull origin dev		# 02. dev Branch에서 내용 가져오기 ♣
 
 - 파이썬 패키지 업데이트 @@@
 $ cd /app		# 경로 변경 ♣
-$ poetry update		# 파이썬 패키지 업데이트 ♣ 		==> poetry install
-$ pyproject.toml -> poetry.lock 파일에 실제 사용한 패키지 기록 및 가상 환경 업데이트 
+$ poetry update		# 파이썬 패키지 업데이트(poetry: 패키지 관리) ♣ 		==> poetry install
+--> $ pyproject.toml -> poetry.lock 파일에 실제 사용한 패키지 기록 및 가상 환경 업데이트 함
 -----------------------------------------------------------------------------------------------
 
 $ ./startup.sh 		# startup 파일 테스트 ♣
@@ -212,14 +212,15 @@ D. 개발 서버 배포 완료 후 테스트(상세)( @@@
 D-1. VSC 화면으로 이동(VIOLET 화면에서[보안 Cloud PC])
 1. /post_text.sh 파일 수정 @@@
 port_no="8000"		# 00. 포트 번호(8080: 정상, 8000: 디버깅 모드) ■ 
-project_key="dddd"		#  02. 프로젝트 키 ■
+project_key="86f23d264a178ca5113a46baef607c22ddb9554379316cb740889483fb73afa0120c55aafdaa1ac908790e44683ab827ca80ab8d53ac56bd8a716586d6b0d763"		# 02. 프로젝트 키 ■
+# project_key= "4304b0d54bb204a1b6f686d0e0fc145a258ca2185a609695a590e6de9edf7b6adeb183ec07be251054633be4458a0a142cc24453295bbca390278ddf9de2a4b0";	# 02. 프로젝트 키(운영 서버) ■
 # url="http://localhost:8080/app/v1/text"		# 00. 로컬 서버(포트 번호(8080: 정상, 8000: 디버깅 모드)) ■ 
 # url="http://localhost:8000/app/v1/text"		# 00. 로컬 서버(포트 번호(8080: 정상, 8000: 디버깅 모드)) ■ 
 url="https://sc-commai-ixi-api.temp-sp.violet.uplus.co.kr/api/v1/text"		# 00. 개발 서버 ■
 # url="https://sc-commai-ixi-api.prd-sp.violet.uplus.co.kr/api/v1/text"		# 01. 상용 서버 ■
 # url="https://sc-commai-ixi-api.stg-sp.violet.uplus.co.kr/api/v1/text'		# 02. 검증 서버 ■
 # $ /app/client/text/post_text.sh		# step 1. post text 실행(JOB ID 생성) ♣
-echo "	■■■ [/post_text.sh] [T_01] ■■■ [#### step 1. post text 실행 ####] ■■■ [url■]${url}[00. 포트 번호■]${port_no}[02. 프로젝트 키■]${project_key}"
+echo "	■■■ [/post_text.sh] [T_01] ■■■ [#### step 1. post text 실행 ####] ■■■ [url■]${url}[00. 포트 번호■]${port_no}[02. 프로젝트 키■]${project_keyproject_key}"
  
 curl --location -vvv  ''"${url}"''  \	
 --header 'Transaction-Id: TR_20240122_13...-04f3c' 	\
@@ -267,7 +268,8 @@ url="http://localhost:8000/app/v1/text"		# 00. 로컬 서버(포트 번호(8080: 정상, 8
 
 2. /get_job_status.sh 파일 수정 @@@ 
 job_id="380b8297-ebc7-4c58.7217d"		# 01. job_id ■ 
-project_key="dddd"		#  02. 프로젝트 키 ■
+project_key="86f23d264a178ca5113a46baef607c22ddb9554379316cb740889483fb73afa0120c55aafdaa1ac908790e44683ab827ca80ab8d53ac56bd8a716586d6b0d763"		# 02. 프로젝트 키 ■
+# project_key= "4304b0d54bb204a1b6f686d0e0fc145a258ca2185a609695a590e6de9edf7b6adeb183ec07be251054633be4458a0a142cc24453295bbca390278ddf9de2a4b0";	# 02. 프로젝트 키(운영 서버) ■
 port_no="8000"		# 00. 포트 번호(8080: 정상, 8000: 디버깅 모드) ■ 
 # url="http://localhost:8080/api/v1/text/job-status"		# 00. 로컬 서버(포트 번호(8080: 정상, 8000: 디버깅 모드)) ■
 # url="http://localhost:8000/api/v1/text/job-status"		# 00. 로컬 서버(포트 번호(8080: 정상, 8000: 디버깅 모드)) ■
@@ -288,7 +290,8 @@ curl -X GET ${url}  \
 
 3. /get_text_result.sh 파일 수정 @@@ 
 job_id="380b8297-ebc7-4c58.7217d"		# 01. job_id ■ 
-project_key="dddd"		#  02. 프로젝트 키 ■
+project_key="86f23d264a178ca5113a46baef607c22ddb9554379316cb740889483fb73afa0120c55aafdaa1ac908790e44683ab827ca80ab8d53ac56bd8a716586d6b0d763"		# 02. 프로젝트 키 ■
+# project_key= "4304b0d54bb204a1b6f686d0e0fc145a258ca2185a609695a590e6de9edf7b6adeb183ec07be251054633be4458a0a142cc24453295bbca390278ddf9de2a4b0";	# 02. 프로젝트 키(운영 서버) ■
 port_no="8000"		# 00. 포트 번호(8080: 정상, 8000: 디버깅 모드) ■  
 # url="http://localhost:8080/api/v1/text/result"		# 00. 로컬 서버(포트 번호(8080: 정상, 8000: 디버깅 모드)) ■
 # url="http://localhost:8000/api/v1/text/result"		# 00. 로컬 서버(포트 번호(8080: 정상, 8000: 디버깅 모드)) ■
@@ -309,7 +312,8 @@ curl -X GET ${url}  \
 
 4. /tts.sh 파일 수정 @@@ 
 port_no="8000"		# 00. 포트 번호(8080: 정상, 8000: 디버깅 모드) ■ 
-project_key="dddd"		#  02. 프로젝트 키 ■
+project_key="86f23d264a178ca5113a46baef607c22ddb9554379316cb740889483fb73afa0120c55aafdaa1ac908790e44683ab827ca80ab8d53ac56bd8a716586d6b0d763"		# 02. 프로젝트 키 ■
+# project_key= "4304b0d54bb204a1b6f686d0e0fc145a258ca2185a609695a590e6de9edf7b6adeb183ec07be251054633be4458a0a142cc24453295bbca390278ddf9de2a4b0";	# 02. 프로젝트 키(운영 서버) ■
 # url="http://localhost:8080/api/v1/audio/tts"		# 00. 로컬 서버(포트 번호(8080: 정상, 8000: 디버깅 모드)) ■ 
 # url="http://localhost:8000/api/v1/audio/tts"		# 00. 로컬 서버(포트 번호(8080: 정상, 8000: 디버깅 모드)) ■ 
 url="https://sc-commai-ixi-api.temp-sp.violet.uplus.co.kr/api/v1/audio/tts"		# 00. 개발 서버 ■
