@@ -784,6 +784,8 @@ pyproject.toml
 - 01. 따배쿠(동영상 시청: 10시 ~ )
 https://www.youtube.com/watch?v=6n5obRKsCRQ&list=PLApuRlvrZKohaBHvXAOhUD-RxD0uQ3z0c&index=1
 1. replicate: 모사하다
+[따배쿠] 6-3. 쿠버네티스 RollingUpdate를 위한 Deployment
+https://www.youtube.com/watch?v=L5LDBWrP6QU&list=PLApuRlvrZKohaBHvXAOhUD-RxD0uQ3z0c&index=19
 =============================================================================================================
  
 - 운영 배포
