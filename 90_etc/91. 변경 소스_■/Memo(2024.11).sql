@@ -838,13 +838,19 @@ https://www.youtube.com/watch?v=kxl6wYd5i2g&list=PL1mta2YyMpPXHc1U8XKQvkY4NzpKSw
 hhttps://www.youtube.com/watch?v=cLgzqc_hwIg&list=PL1mta2YyMpPWItLT-9XCaSsdF_EysOS4Z
 =============================================================================================================
  
+- AcroEdit 에디터 프로그램을 소개(편집기)
+https://www.youtube.com/watch?v=jTbZRfiGuQE
+- AcroEdit(편집 SW)
+http://www.acrosoft.pe.kr/board/download
+=============================================================================================================
+
 - 투자 정보
 1. 주식 ==> 네이버 증권: https://m.stock.naver.com/
 2. ETF
 - ETF만으로 IRP(개인형퇴직연금) 포트폴리오를 짜려면? 4가지 전략을 참고[미래에셋 투자와 연금 TV]
 https://www.youtube.com/watch?v=bWUZyuPavQQ
 =============================================================================================================
-
+ 
 
 
 
