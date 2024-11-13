@@ -718,8 +718,8 @@ https://www.youtube.com/watch?v=K8qVH8V0VvY&t=277s
 - 인수 인계
 1. 01. 인수인계 문서(24.11.12).7z 파일 이신나 책임에게 메일로 보냄
 2. 01. ixi-VIOLET 분석
-2. 41. 배포(01. Dev)
-2. 02. API test
+3. 41. 배포(01. Dev)
+4. 02. API test
 =============================================================================================================
 
 - poetry의 거의 모든것(튜토리얼)
@@ -727,22 +727,22 @@ https://teddylee777.github.io/poetry/poetry-tutorial/
 
 - 파이썬 패키지 업데이트 @@@
 $ cd /app		# 경로 변경 ♣
-$ poetry update		# 파이썬 패키지 업데이트(poetry: 패키지 관리) ♣ 		==> poetry install
+$ poetry update		# 파이썬 패키지 업데이트(poetry: 패키지 관리) ♣ 	==> poetry install
 --> $ pyproject.toml -> poetry.lock 파일에 실제 사용한 패키지 기록 및 가상 환경 업데이트 함
 =============================================================================================================
 
-- pXX Latency 에 대해서
+- pXX Latency에 대해서
 https://gipyeonglee.tistory.com/307
 1. p99 의 latency 는 10초이다. 요청의 1%만이 10초보다 오래걸린다.
 예를 들면  p99 응답 시간이 10초라면 100개의 요청 중 99개는 10초 이하고, 100개의 요청 중 1개는 10초보다 더 걸린다.
 1) p95 Latency: 100ms ==> 100개의 요청 중 95개는 0.1초 이하고, 5개는 0.1초보다 더 걸린다.
 =============================================================================================================
  
-- vscode  please clean your repository working tree before checkout 오류해결 
-[출처] vscode  please clean your repository working tree before checkout 오류해결|작성자 세븐
+- VS Code  please clean your repository working tree before checkout 오류해결 
+https://okeybox.tistory.com/162
 $ git stash 	# 내용 임시 저장 ♣
 $ git pull origin dev		 # dev Branch에서 내용 가져오기(merge) ♣
-$ git stash pop 	# 임시 저장 내용 되돌리기 ♣
+$ git stash pop 		# 임시 저장 내용 되돌리기 ♣
 =============================================================================================================
 
 ■■■■■■■■■■■■■■■■■■ 2024.11.13(수) 작업 ■■■■■■■■■■■■■■■■■■
@@ -750,13 +750,102 @@ $ git stash pop 	# 임시 저장 내용 되돌리기 ♣
 
 - LG U+ ixi-O SM Prj[★]
 - 인수 인계
+1. 41. 배포(01. Dev)
+==> 11:00 이신나 책임 본사에 갔다 옴(노트북 장비 가져옴)
+=============================================================================================================
+
+- HTTP 상태 코드
+https://developer.mozilla.org/ko/docs/Web/HTTP/Status
+200: Success
+201: Completed
+202: Queue Accepted
+----------------------------------------------------------------------
+400: Bad Request
+404: Not Found
+500:  Internal Server Error
+=============================================================================================================
+
+- AICallAgent-AIServer\callAgent-ixi-api에서 수정 사항 확인(gitHub에서)
+- v1.1.4
+https://github.com/AICallAgent-AIServer/callAgent-ixi-api/releases/tag/v1.1.4
+1. Full Changelog: v1.1.3...v1.1.4   ==> 클릭
+2. Comparing changes 
+https://github.com/AICallAgent-AIServer/callAgent-ixi-api/compare/v1.1.3...v1.1.4
+ 1) Commits(Tab): 25
+ 2) Files changed(Tab): 7
+app/api/v1/llm_model.py
+app/api/v1/tts.py
+app/lifespan/tlo_logger.py
+celery_task/config.py
+gunicorn/config.py
+pyproject.toml
+=============================================================================================================
+
+- 01. 따배쿠(동영상 시청: 10시 ~ )
+https://www.youtube.com/watch?v=6n5obRKsCRQ&list=PLApuRlvrZKohaBHvXAOhUD-RxD0uQ3z0c&index=1
+1. replicate: 모사하다
+=============================================================================================================
  
+- 운영 배포
+1. 금일 20시 ~ 21시 상용기 변경 개발의건 api, worker, beat 배포 예정
+https://github.com/AICallAgent-AIServer/callAgent-ixi-api/releases/tag/v1.1.4
+=============================================================================================================
+
+- AICallAgent-AIServer\callAgent-ixi-apiv에서 수정 사항 확인
+- 1.1.4
+https://github.com/AICallAgent-AIServer/callAgent-ixi-api/releases/tag/v1.1.4
+1. Full Changelog: v1.1.3...v1.1.4   ==> 클릭
+2. Comparing changes 
+https://github.com/AICallAgent-AIServer/callAgent-ixi-api/compare/v1.1.3...v1.1.4
+ 1) Commits(Tab) 25
+ 2) Files changed(Tab) 7
+app/api/v1/llm_model.py 
+app/api/v1/tts.py 
+app/lifespan/tlo_logger.py 
+celery_task/config.py 
+gunicorn/config.py
+pyproject.toml
+=============================================================================================================
+ 
+- bash 버전 확인
+tamario@TAMA-WORK-NB-MSI MINGW64 /d/PythonWorkspace (main)
+$ bash -version
+GNU bash, version 5.2.15(1)-release (x86_64-pc-msys)
+Copyright (C) 2022 Free Software Foundation, Inc.
+License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+
+This is free software; you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+=============================================================================================================
+
+■■■■■■■■■■■■■■■■■■ 2024.11.14(목) 작업 ■■■■■■■■■■■■■■■■■■
+---> 07:00 ~ 17:30 ==>
+
+- LG U+ ixi-O SM Prj[★]
+- 인수 인계
+1. 41. 배포(01. Dev)
+=============================================================================================================
+
+- 01. 따배쿠(동영상 시청: 8시 ~ )
+https://www.youtube.com/watch?v=6n5obRKsCRQ&list=PLApuRlvrZKohaBHvXAOhUD-RxD0uQ3z0c&index=1
+
+02. Argo CD(쿠버네티스)
+https://www.youtube.com/watch?v=kxl6wYd5i2g&list=PL1mta2YyMpPXHc1U8XKQvkY4NzpKSwgb0
+
+03. Argo CD 이해
+hhttps://www.youtube.com/watch?v=cLgzqc_hwIg&list=PL1mta2YyMpPWItLT-9XCaSsdF_EysOS4Z
+=============================================================================================================
+ 
+- 투자 정보
+1. 주식 ==> 네이버 증권: https://m.stock.naver.com/
+2. ETF
+- ETF만으로 IRP(개인형퇴직연금) 포트폴리오를 짜려면? 4가지 전략을 참고[미래에셋 투자와 연금 TV]
+https://www.youtube.com/watch?v=bWUZyuPavQQ
 =============================================================================================================
 
 
 
 
- 
 
 =============================================================================================================
 ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
