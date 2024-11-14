@@ -809,7 +809,7 @@ gunicorn/config.py
 pyproject.toml
 =============================================================================================================
  
-- bash 버전 확인
+- bash 버전 확인(업무 노트북: TAMA_NT_MSI)
 tamario@TAMA-WORK-NB-MSI MINGW64 /d/PythonWorkspace (main)
 $ bash -version
 GNU bash, version 5.2.15(1)-release (x86_64-pc-msys)
@@ -818,30 +818,40 @@ License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
 
 This is free software; you are free to change and redistribute it.
 There is NO WARRANTY, to the extent permitted by law.
+------------------------------------------------------------------------------
+
+- VS CODE 버전 확인(업무 노트북: TAMA_NT_MSI)
+버전: 1.95.1 (system setup)
+커밋: 65edc4939843c90c34d61f4ce11704f09d3e5cb6
+날짜: 2024-10-31T05:14:54.222Z
+Electron: 32.2.1
+ElectronBuildId: 10427718
+Chromium: 128.0.6613.186
+Node.js: 20.18.0
+V8: 12.8.374.38-electron.0
+OS: Windows_NT x64 10.0.22631
+==>  https://code.visualstudio.com/docs/?dv=win32arm64zip
 =============================================================================================================
 
 ■■■■■■■■■■■■■■■■■■ 2024.11.14(목) 작업 ■■■■■■■■■■■■■■■■■■
----> 07:00 ~ 17:30 ==>
+---> 07:00 ~ 16:30 ==> 2025 학년도 대학 수학 능력 시험(일남이 딸 재수), 16:30 LG U+ ixi-O SM Prj 철수
 
 - LG U+ ixi-O SM Prj[★]
 - 인수 인계
-1. 41. 배포(01. Dev)
+1. 02. API test ==> 간단하게 설명
 =============================================================================================================
 
-- 01. 따배쿠(동영상 시청: 8시 ~ )
+- 01. 따배쿠(동영상 시청: 08:30 ~ 14:00)
 https://www.youtube.com/watch?v=6n5obRKsCRQ&list=PLApuRlvrZKohaBHvXAOhUD-RxD0uQ3z0c&index=1
+- [따배쿠] 6-4. 쿠버네티스 DaemonSet! + RollingUpdate
+https://www.youtube.com/watch?v=wJeb561CMOg&list=PLApuRlvrZKohaBHvXAOhUD-RxD0uQ3z0c&index=20
+- [따배쿠] 6-4. 쿠버네티스 DaemonSet! + RollingUpdate
+https://www.youtube.com/watch?v=wJeb561CMOg&list=PLApuRlvrZKohaBHvXAOhUD-RxD0uQ3z0c&index=20
+- [따배쿠] 11. Kubernetes Secret
+https://www.youtube.com/watch?v=aW2RAVnOHFY&list=PLApuRlvrZKohaBHvXAOhUD-RxD0uQ3z0c&index=35
 
-02. Argo CD(쿠버네티스)
+- 02. Argo CD(쿠버네티스)
 https://www.youtube.com/watch?v=kxl6wYd5i2g&list=PL1mta2YyMpPXHc1U8XKQvkY4NzpKSwgb0
-
-03. Argo CD 이해
-hhttps://www.youtube.com/watch?v=cLgzqc_hwIg&list=PL1mta2YyMpPWItLT-9XCaSsdF_EysOS4Z
-=============================================================================================================
- 
-- Acro Edit 에디터 프로그램을 소개(편집기)
-https://www.youtube.com/watch?v=jTbZRfiGuQE
-- AcroEdit(편집 SW)
-http://www.acrosoft.pe.kr/board/download
 =============================================================================================================
  
 - [★] WA(24년)_Memo_02
@@ -852,17 +862,45 @@ T_15■.sql
 T_16.sql
 T_20■.sql
 =============================================================================================================
-
+ 
+- Acro Edit 에디터 프로그램을 소개(편집기)
+https://www.youtube.com/watch?v=jTbZRfiGuQE
+- AcroEdit(편집 SW)
+http://www.acrosoft.pe.kr/board/download
+=============================================================================================================
+ 
 - 투자 정보
 1. 주식 ==> 네이버 증권: https://m.stock.naver.com/
 2. ETF
 - ETF만으로 IRP(개인형퇴직연금) 포트폴리오를 짜려면? 4가지 전략을 참고[미래에셋 투자와 연금 TV]
 https://www.youtube.com/watch?v=bWUZyuPavQQ
-========
+=============================================================================================================
+  
+- VS CODE 버전 확인(업무 노트북: TAMA_NT_MSI)
+버전: 1.95.1 (system setup)
+커밋: 65edc4939843c90c34d61f4ce11704f09d3e5cb6
+날짜: 2024-10-31T05:14:54.222Z
+Electron: 32.2.1
+ElectronBuildId: 10427718
+Chromium: 128.0.6613.186
+Node.js: 20.18.0
+V8: 12.8.374.38-electron.0
+OS: Windows_NT x64 10.0.22631
+==>  https://code.visualstudio.com/docs/?dv=win32arm64zip
+=============================================================================================================
 
-=====================================================================================================
+■■■■■■■■■■■■■■■■■■ 2024.11.15(금) 작업 ■■■■■■■■■■■■■■■■■■
+---> 07:00 ~ 17:30 ==> 
+
+-  Prj[★]
+-
+=============================================================================================================
+
+
+
+
+
  
-
  
 =============================================================================================================
 ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
