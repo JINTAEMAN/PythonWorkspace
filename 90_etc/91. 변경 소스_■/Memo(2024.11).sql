@@ -1101,7 +1101,7 @@ https://hbase.tistory.com/331
 
 - 무와 니세코 호텔 Prj[★]
 - 01. 무와 니세코 데이타 확인
-1. contents_detail_work_adm(컨텐츠 상셍 WK TB) 수정
+1. contents_detail_work_adm(컨텐츠 상세 WK TB) 수정
 -- 메뉴 그룹별 컨텐츠 상세 정보 조회 @@@
 SELECT  A1.contents_id AS "컨텐츠 ID■", A1.contents_detail_id AS "컨텐츠 상세  ID"
 			, A1.contents_type_cd AS "컨텐츠 타입 코드■", A1.page_cd AS "페이지 코드■", A1.site_cd AS "사이트 코드■■■"
@@ -1157,7 +1157,109 @@ https://lordofkangs.tistory.com/41
 
 - 무와 니세코 호텔 Prj[★]
 - 01. 무와 니세코 데이타 확인
+d_save_recent ==> 1,04건
+contents_mapping: 컨텐츠 맵핑 TB ==> 추가 컨텐츠별 카테고리 정보
+contents_category: 컨텐츠 카테고리 TB 
+-- 메뉴 그룹 ID  about-gallery, inquiries, offers
+================================================================================================================
+
+-- 포스트 카테고리 정보 조회 @@@
+SELECT  B1.contents_id AS "컨텐츠 ID■",  A1.contents_id AS "컨텐츠 ID■", A1.uid_post AS "post ID■"
+		, A1.category_id AS "카테고리 ID■■■", A1.uid_tag AS "uid_tag ID■"
+			, A1.*
+FROM d_post_category A1		 -- 포스트 카테고리 TB    --> 172건
+	, d_post_renewal B1
+WHERE 1=1
+ 	AND A1.uid_post = B1.uid
+	AND A1.menu_group_id = 'about-gallery'		-- 메뉴 그룹 ID■(1052 2245)
+  -- AND contents_id = 187   -- 컨텐츠 ID■ 
+;
+----------------------------------------------------------------------------------------
+ 
+-- 포스트 카테고리 정보 조회 @@@
+SELECT  B1.contents_id AS "컨텐츠 ID■", A1.uid_post AS "post ID■"
+		, A1.category_id AS "카테고리 ID■■■", A1.uid_tag AS "uid_tag■■■"  -- uid_tag --> 분석해서 카테고리 ID 업데이트
+			, A1.*
+FROM d_post_category A1		 -- 포스트 카테고리 TB    --> 172건
+	, d_save_renewal B1			--  d_save 리뉴얼 TB
+WHERE 1=1
+ 	AND A1.uid_tag = B1.uid
+	AND A1.menu_group_id = 'about-gallery'		-- 메뉴 그룹 ID■(1052 2245)
+  -- AND contents_id = 187   -- 컨텐츠 ID■ 
+;
+================================================================================================================
+ 
+-- d_save 리뉴얼 정보 조회 @@@
+SELECT A1.uid  AS "uid■", A1.contents_id AS "컨텐츠 ID■" 
+			, A1.*
+FROM d_save_renewal A1			--  d_save 리뉴얼 TB
+WHERE 1=1
+  -- AND module LIKE '%gallery%'   -- 모율■(about-gallery)
+	-- AND contents_id = 187   -- 컨텐츠 ID■ 
+; 
+----------------------------------------------------------------------------------------
+
+ -- d_file 리뉴얼 정보 조회 @@@
+SELECT A1.uid  AS "uid■", A1.contents_id AS "컨텐츠 ID■" 
+			, A1.*
+FROM d_file_renewal A1			--  d_file 리뉴얼 TB
+WHERE 1=1 
+	AND contents_id = 1541		-- 컨텐츠 ID■ 
+; 
+-------------------------------------------------------------------
+
+-- d_post 리뉴얼 정보 조회 @@@
+SELECT  A1.contents_id AS "컨텐츠 ID■" 
+			, A1.*
+FROM d_post_renewal A1		 -- d_post 리뉴얼 TB
+WHERE 1=1
+  AND module LIKE '%gallery%'   -- 모율■(about-gallery)
  ;
+================================================================================================================
+ 
+-- 컨텐츠 상세 onsen 정보 등록 @@@  
+INSERT INTO contents_detail_onsen  (	 -- 컨텐츠 상세 onsen TB
+	contents_detail_id,	--	컨텐츠 상세 ID
+	contents_id, 			 -- 컨텐츠 ID	■■
+	contents_type_cd, --	컨텐츠 타입 코드
+	page_cd, --	페이지 코드
+	site_cd, --	사이트 코드(관리자/사용자)
+	content, --	내용
+	link_url, --	링크 URL
+	file_id, --	파일 id
+	accomodation_type_id, --	숙소 타입 id
+	active_yn, -- 활성화 여부	
+	lang_cd, --	언어 코드
+	ord, --	순서
+	use_yn, 	--	사용 여부
+	crte_dttm, -- 생성 일시
+	crte_user, -- 생성 유저
+	upd_dttm, -- 수정 일시
+	upd_user	 -- 수정 유저
+)
+SELECT 
+	(SELECT  NULLIF(MAX(contents_detail_id), 1)  FROM contents_detail) AS contents_detail_id, 	
+	--	컨텐츠 상세 ID
+	192, 			 -- 컨텐츠 ID	■■  ==> 191, 192, 193, 194■
+	contents_type_cd, --	컨텐츠 타입 코드
+	page_cd, --	페이지 코드
+	site_cd, --	사이트 코드(관리자/사용자)
+	content, --	내용
+	link_url, --	링크 URL
+	file_id, --	파일 id
+	accomodation_type_id, --	숙소 타입 id
+	active_yn, -- 활성화 여부	
+	lang_cd, --	언어 코드
+	ord, --	순서
+	use_yn, 	--	사용 여부
+	crte_dttm, -- 생성 일시
+	crte_user, -- 생성 유저
+	upd_dttm, -- 수정 일시
+	upd_user	 -- 수정 유저
+FROM contents_detail  -- 컨텐츠 상세 TB
+WHERE 1=1
+	AND contents_id = 26  	 -- 컨텐츠 ID  
+;
 ================================================================================================================
 
 - 01. Vue js 설치(MSI 노트븍)
@@ -1165,10 +1267,16 @@ D:\06_Vue_js> cd test_prj		# test_prj 폴더 경로로 이동 ♣
 D:\06_Vue_js> npm run serve	  # vue 프로젝트 시작 ♣
 ==> http://localhost:8080/
 ================================================================================================================
+      
+■■■■■■■■■■■■■■■■■■ 2024.11.20(수) 작업 ■■■■■■■■■■■■■■■■■■
+---> 07:00 ~ 18:00 ==> 
+
+- 무와 니세코 호텔 Prj[★]
+-컨텐츠 상세 onsen 정보 등록 @@@  
+================================================================================================================
+
    
  
-
-
 
 
 

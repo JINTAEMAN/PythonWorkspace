@@ -1,0 +1,143 @@
+
+■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
++-----------------------------------------// 01. Vue js 설치 //----------------------------------------/ 24.11.19(화) /---+
+■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+
+
+D:\06_Vue_js> cd test_prj		# test_prj 폴더 경로로 이동 ♣
+D:\06_Vue_js> npm run serve	  # vue 프로젝트 시작 ♣
+---------------------------------------------------------------------------------------------------------------
+
+- 01. Vue js 설치 ■ ==> MSI 노트북에서
+1. Node JS 설치
+https://nodejs.org/en ==> node-v22.11.0-x64.msi 다운로드 후 설치
+​2. node 버전 확인
+D:\PythonWorkspace> node -v		 node 버전 확인 ♣
+v22.11.0
+
+D:\PythonWorkspace> npm  -v  # npm 버전 확인 ♣
+10.1.0
+-- npm(노드 패키지 매니저/Node Package Manager): 자바스크립트 프로그래밍 언어를 위한 패키지 관리자
+
+D:\PythonWorkspace> cd D:\06_Vue_js
+D:\06_Vue_js> npm install -g @vue/cli		# vue-cli 설치 ♣
+-- npm uninstall -g vue-cli	# vue-cli 제거
+
+changed 831 packages in 52s
+
+75 packages are looking for funding
+  run `npm fund` for details
+
+D:\06_Vue_js> vue --version		# vue 버전 확인 ♣
+@vue/cli 5.0.8
+---------------------------------------------------------------------------------------------------------------
+
+D:\06_Vue_js> vue create test_prj		# vue 프로젝트 생성 ♣
+? Please pick a preset: (Use arrow keys)
+> Default ([Vue 3] babel, eslint)
+  Default ([Vue 2] babel, eslint)
+  Manually select features
+
+ ? Check the features needed for your project: (Press <space> to select, <a> to toggle all, <i> to invert selection, and <enter> to proceed)
+ (*) Babel
+ ( ) TypeScript
+ ( ) Progressive Web App (PWA) Support
+ (*) Router   	--> Press <space> 체크 ■
+>(*) Vuex		 --> Press <space>  체크 ■
+ ( ) CSS Pre-processors
+ (*) Linter / Formatter
+ ( ) Unit Testing
+ ( ) E2E Testing
+ ==> and <enter>: ==> 엔터 ■
+
+? Please pick a preset: Manually select features
+? Check the features needed for your project: Babel, Router, Vuex, Linter
+? Choose a version of Vue.js that you want to start the project with (Use arrow keys)
+> 3.x   ==> 엔터 ■
+  2.x
+
+  Vue CLI v5.0.8
+✨  Creating project in D:\06_Vue_js>\test_prj.
+
+🗃  Initializing git repository...
+⚙️  Installing CLI plugins. This might take a while...
+
+Run `npm audit` for details.
+⚓  Running completion hooks...
+
+📄  Generating README.md...
+
+🎉  Successfully created project test_prj.
+👉  Get started with the following commands:
+
+ $ cd test_prj
+ $ npm run serve
+---------------------------------------------------------------------------------------------------------------
+
+D:\06_Vue_js> cd test_prj		# test_prj 폴더 경로로 이동 ♣
+D:\06_Vue_js> npm run serve	  # vue 프로젝트 시작 ♣
+
+ INFO  Starting development server...
+
+ DONE  Compiled successfully in 6540ms   오전 10:54:43
+
+  App running at:
+  - Local:   http://localhost:8080/
+  - Network: http://192.168.219.100:8080/
+---------------------------------------------------------------------------------------------------------------
+
+- Vetur(Pine Wu) 확장팩 설치
+- Vue - Official 확장팩 설치
+=============================================================================================================
+■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+
+
+
+- js 2 (Vue.js 2) 기초 익히기 기본 강좌! [코지 코더] (동영상 강의 수강)
+https://www.youtube.com/watch?v=gZBKGn0wQXU&list=PLB7CpjPWqHOtYP7P_0Ls9XNed0NLvmkAh
+
+- Vue.j(API)
+https://ko.vuejs.org/guide/components/events.html
+------------------------------------------------------------------------------------------------------------------------
+
+- 2024 Vue.js 개발 가이드 - Full Course (feat. Composition API) (동영상 강의 수강)
+https://www.youtube.com/watch?v=9lWaIhE05m8
+=============================================================================================================
+
+- vue.js 3[csslick - 코딩 튜토리얼 & 팁]
+https://www.youtube.com/watch?v=NSeVeLLSW4w&list=PLg-yFEMmilBBc23fH9McDtG3za4o5TbP_&index=2
+=============================================================================================================
+■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+
+
+- [Vue.js] Vue.js 주석
+https://velog.io/@bami/Vue.js-Vue.js-%EC%A3%BC%EC%84%9D
+
+<!--.vue 파일 기본-->
+<template>
+  <!-- template에선 HTML 주석 -->
+</template>
+
+<script>
+  // script에선 js 주석
+ /* script에선 js 주석 */
+</script>
+
+<style>
+  /* style에선 CSS 주석 */
+</style>
+==============================================================================================================
+
+ - 로그 처리 @@@
+sMsg2 = "[T_01] ■■■■■■  [######################### [01. git_pull_push 처리 Start] ################
+#########] ■■■■■■"
+sMsg0 = "\n\n\n ■■■ [/git_pull_push.py] ==> "
+sMsg = "■■■ [/git_pull_push.py] ==> "
+console.log(sMsg0 + sMsg2)
+==============================================================================================================
+
+
+=============================================================================================================
+■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
++--------------------------------------------------------// End //--------------------------------------------------+
+■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
