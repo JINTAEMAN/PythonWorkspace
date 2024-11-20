@@ -1272,11 +1272,138 @@ D:\06_Vue_js> npm run serve	  # vue 프로젝트 시작 ♣
 ---> 07:00 ~ 18:00 ==> 
 
 - 무와 니세코 호텔 Prj[★]
--컨텐츠 상세 onsen 정보 등록 @@@  
+- 컨텐츠 상세 onsen 정보 등록 @@@  
+ONSEN
+PUBLIC ONSEN
+PRIVATE ONSEN  
+--------------------------------------------------------------------------------------------------------------------------
+
+- PUBLIC ONSEN @@@  ==> 컨텐츠 ID■■  ==> 191: ONSEN, 192: PRIVATE ONSEN, 193: PUBLIC ONSEN, 194: MORE ■
+lang_cd_chk  --> 0
+lang_cd_chk
+image 1	==> 1546
+title   2		 ==> PUBLIC ONSEN
+title 	2 		==> 大浴場
+subtitle	3 ==> HERAPEUTIC SPACE OF HOT SPRING WATER
+subtitle 	3  ==> 温泉水の癒し空間
+summary	4 ==> The warm waters of the hot spring create a soothing and comfor,,,,,, 
+summary 4 ==> T開放的なインフィニティ温泉とはまた違った、瞑想的な雰囲気の温泉浴をお,,,,,,  
+
+info	5 ==> 내용(데이타 없음)
+info	5 ==> 내용(데이타 없음)
+info_title	6 ==> INFORMATION
+info_title	6 ==> INFORMATION
+================================================================================================================
+ 
+- PRIVATE ONSEN @@@	==>  컨텐츠 ID■■  ==>192: PRIVATE ONSEN ■
+lang_cd_chk	EN	0
+lang_cd_chk	JA	0 
+title	EN	1		==> PRIVATE ONSEN
+title	JA	1		==> インフィニティ温泉
+
+image	ALL	2	 ==> 1544
+subtitle	EN	2 	==> Mt. Yotei View
+subtitle	JA	2 	==> プライベート茶道
+summary	EN	2 	==> Be captivated by the awe-inspiring sight of the Mt...........
+summary	JA	2 	==> 羊蹄山の壮大な景色を背景に...........
+
+image	ALL	3	 ==> 1087  =======>
+subtitle	EN	3 	==> Private Tea ceremony
+subtitle	JA	3 	==> プライベート茶道
+summary	EN	3 	==> Experience our holistic approach...........
+summary	JA	3 	==> MUWAのホリスティッ...........
+
+info	EN	4 		==> 내용(데이타 없음)  
+info	JA	4  	==> 내용(데이타 없음) 
+info_title	EN 	4 ==> INFORMATION
+info_title	JA 	4 ==> INFORMATION
 ================================================================================================================
 
+-- d_save 리뉴얼 정보 조회 @@@
+SELECT A1.uid AS "uid■", A1.uid_parent AS "부모 uid", A1.contents_id AS "컨텐츠 ID■■" , A1.menu_group_id AS "메뉴 그룹 ID■■"
+			, A1.contents_type AS "컨텐츠 타입■",  A1.title AS "제목■" 
+			, A1.module AS "모듈■" ,  A1.extra AS "extra■" 
+			, A1.*
+FROM d_save_renewal A1			--  d_save 리뉴얼 TB
+WHERE 1=1 
+	-- AND contents_id = 187   -- 컨텐츠 ID■(26: ONSEN(191): wellness-onsen)
+   -- AND uid = 1600   -- uid ■  	--	AND uid_parent >= 2038   -- 부모 uid ■
+	-- AND file_id = 1544   -- 파일 id ■(1544, 1585)
+	-- AND contents_type = 'summary'   -- 컨텐츠 타입■
+	-- AND menu_group_id LIKE '%about-brand%'   -- 메뉴 그룹 ID
+  AND module LIKE '%pdnktzuaiy8s0gsgo4ssoo4o4oogsgc%'   -- 모듈■(about-gallery)  ==> 51mtuiabn5c8c8o4scso0c4wgs0wwc0
+    --AND extra LIKE '%A first-of-its-kind in Japan%'   -- extra■■■  --> 1600  --> The warm waters OF  , 1600, 1605
+ORDER BY uid, contents_id, ord, lang_cd
+; 
+-- ================================================================================================================
+ 
+-- 컨텐츠 상세 onsen 정보 조회 @@@
+SELECT  A1.contents_id AS "컨텐츠 ID■", A1.contents_detail_id AS "컨텐츠 상세  ID"
+			, A1.contents_type_cd AS "컨텐츠 타입 코드■" --, A1.page_cd AS "페이지 코드■", A1.site_cd AS "사이트 코드■■■"    -- 사이트 코드(ADMIN, USER, ALL)
+			, A1.lang_cd AS "언어 구분", A1."ord" AS "순서■", A1."content" AS "내용" 
+			, A1.*
+FROM contents_detail_onsen  A1		 -- 컨텐츠 상세 onsen TB   --> 2,642건  contents_detail_onsen A1		 -- 컨텐츠 상세 onsen TB   --> 2,642건
+WHERE 1=1 
+ 	  AND contents_id = 192 		-- 컨텐츠 ID■■  ==> 191: ONSEN, 192: PRIVATE ONSEN, 193: PUBLIC ONSEN, 194: MORE■
+  	--  AND file_id = 2245		-- 메뉴 그룹 ID■(1052 2245)
+  -- AND contents_type_cd LIKE '%_su%'		 -- 컨텐츠 타입 코드 ■
+  	-- AND CONTENT LIKE '%onsen%'		 -- 내용 ■
+ORDER BY contents_id, ord, lang_cd
+; 
+-- ================================================================================================================
 
-42. 무와 니세코 호텔 Prj(Dev) ■
+- 파월셀에서 CLI 처리 @@@
+PS D:\06_Vue_js> cd D:\"00. Prj"
+PS D:\06_Vue_js> cd D:\"00. Prj■"
+PS D:\06_Vue_js> cd D:\00. Prj 
+Set-Location : 'Prj' 인수를 허용하는 위치 매개 변수를 찾을 수 없습니다.
+위치 줄:1 문자:1
++ cd D:\00. Prj
++ ~~~~~~~~~~~~~
+    + CategoryInfo          : InvalidArgument: (:) [Set-Location], ParameterBindingException
+    + FullyQualifiedErrorId : PositionalParameterNotFound,Microsoft.PowerShell.Commands.SetLocationCommand
+================================================================================================================
+
+- Bash에서 CLI 처리 @@@
+tamario@TAMA-WORK-NB-MSI MINGW64 /d/06_Vue_js
+$ cd /d/"00. Prj"
+$ cd /d/"00. Prj■"
+
+tamario@TAMA-WORK-NB-MSI MINGW64 /d/06_Vue_js
+$ cd D:/00. Prj
+bash: cd: too many arguments
+================================================================================================================
+
+- 포스트그레 SQL DB 저장 에러
+1. 현상: 포스트그레SQL - 보기를 만들려고 할 때 오류 "42701"이 발생합니다.
+SQL Error [42701]: ERROR: column "contents_detail_id" specified more than once
+Position: 113
+2. 원인: "중복 열"로 인해 PostgreSql에서 보기를 만들 수 없음
+================================================================================================================
+
+■■■■■■■■■■■■■■■■■■ 2024.11.21(목) 작업 ■■■■■■■■■■■■■■■■■■
+---> 07:00 ~ 18:00 ==> 
+
+- 무와 니세코 호텔 Prj[★]
+- 컨텐츠 상세 wellness-spa 정보 등록 @@@ contents_detail_spa TB
+https://www.muwaniseko.com/en/wellness/spa
+--------------------------------------------------------------------------------------------------------------------------
+
+- PUBLIC ONSEN @@@  ==>  컨텐츠 ID■■  ==> 191: ONSEN, 192: PRIVATE ONSEN, 193: PUBLIC ONSEN, 194: MORE■
+lang_cd_chk  --> 0
+lang_cd_chk
+image 1	==> 1546
+title   2		 ==> PUBLIC ONSEN
+title 	2 		==> 大浴場
+subtitle	3 ==> HERAPEUTIC SPACE OF HOT SPRING WATER
+subtitle 	3  ==> 温泉水の癒し空間
+summary		4 ==> The warm waters of the hot spring create a soothing and comfor,,,,,, 
+summary y	4 ==> T開放的なインフィニティ温泉とはまた違った、瞑想的な雰囲気の温泉浴をお 
+
+info   --> 5 ==> 내용
+info   --> 5 ==>
+info_title   --> 6 ==> INFORMATION
+info_title   --> 6 ==> INFORMATION
 ================================================================================================================
 
 
