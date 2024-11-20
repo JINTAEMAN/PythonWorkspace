@@ -1375,20 +1375,19 @@ bash: cd: too many arguments
 ================================================================================================================
 
 - 포스트그레 SQL DB 저장 에러
-1. 현상: 포스트그레SQL - 보기를 만들려고 할 때 오류 "42701"이 발생합니다.
-SQL Error [42701]: ERROR: column "contents_detail_id" specified more than once
-Position: 113
+1. 현상: 포스트그레SQL - 보기를 만들려고 할 때 오류 "42701"이 발생
+SQL Error [42701]: ERROR: column "contents_detail_id" specified more than once Position: 113
 2. 원인: "중복 열"로 인해 PostgreSql에서 보기를 만들 수 없음
 ================================================================================================================
 
-- chrome 브라우저 안열림
+- chrome 브라우저 안 열림
 1. 현상: chrome 클릭 하면 하단 트레이에서 실행을 되는데 창이 안뜸
-2 조치: C:\Users\TAMA_HAart_404\AppData\Local\Google 폴더 삭제 후 chrome 재 설치
+2. 조치: C:\Users\TAMA_HAart_404\AppData\Local\Google 폴더 삭제 후 chrome 재 설치
 -------------------------------------------------------------------------------------------------------
 
-- brave 브라우저 안열림
+- brave 브라우저 안 열림
 1. 현상: brave 브라우저 클릭 하면 하단 트레이에서 실행을 되는데 창이 안뜸
-2 조치: C:\Users\TAMA_HAart_404\AppData\Local\BraveSoftware 폴더 삭제 후 brave 재 설치
+2. 조치: C:\Users\TAMA_HAart_404\AppData\Local\BraveSoftware 폴더 삭제 후 brave 재 설치
 ================================================================================================================
 
 - [DB/Postgres] PL/pgSQL이해하기 -1 : Function, Stored Procedure
