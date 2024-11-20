@@ -1391,6 +1391,8 @@ Position: 113
 2 조치: C:\Users\TAMA_HAart_404\AppData\Local\BraveSoftware 폴더 삭제 후 brave 재 설치
 ================================================================================================================
 
+- [DB/Postgres] PL/pgSQL이해하기 -1 : Function, Stored Procedure
+https://adjh54.tistory.com/159
 - Postgres] Procedure(프로시저), Function(함수) 생성 및 사용
 https://bongra.tistory.com/52
 ================================================================================================================
