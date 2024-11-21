@@ -1217,8 +1217,8 @@ WHERE 1=1
  ;
 ================================================================================================================
  
--- 컨텐츠 상세 onsen 정보 등록 @@@  
-INSERT INTO contents_detail_onsen  (	 -- 컨텐츠 상세 onsen TB
+-- 컨텐츠 상세 spa 정보 등록 @@@  
+INSERT INTO contents_detail_spa  (	 -- 컨텐츠 상세 spa TB
 	contents_detail_id,	--	컨텐츠 상세 ID
 	contents_id, 			 -- 컨텐츠 ID	■■
 	contents_type_cd, --	컨텐츠 타입 코드
@@ -1272,10 +1272,8 @@ D:\06_Vue_js> npm run serve	  # vue 프로젝트 시작 ♣
 ---> 07:00 ~ 18:00 ==> 
 
 - 무와 니세코 호텔 Prj[★]
-- 컨텐츠 상세 onsen 정보 등록 @@@  
-ONSEN
-PUBLIC ONSEN
-PRIVATE ONSEN  
+- 컨텐츠 상세 spa 정보 등록 @@@  
+- 컨텐츠 ID■■  ==> 191: ONSEN, ONSEN,192: PRIVATE ONSEN,193: PUBLIC ONSEN, 194: MORE[?] --> wellness-onsen■ 
 --------------------------------------------------------------------------------------------------------------------------
 
 - PUBLIC ONSEN @@@  ==> 컨텐츠 ID■■  ==> 191: ONSEN, 192: PRIVATE ONSEN, 193: PUBLIC ONSEN, 194: MORE ■
@@ -1326,7 +1324,7 @@ SELECT A1.uid AS "uid■", A1.uid_parent AS "부모 uid", A1.contents_id AS "컨
 			, A1.*
 FROM d_save_renewal A1			--  d_save 리뉴얼 TB
 WHERE 1=1 
-	-- AND contents_id = 187   -- 컨텐츠 ID■(26: ONSEN(191): wellness-onsen)
+	-- AND contents_id = 187   -- 컨텐츠 ID■(26: ONSEN(191): wellness-spa)
    -- AND uid = 1600   -- uid ■  	--	AND uid_parent >= 2038   -- 부모 uid ■
 	-- AND file_id = 1544   -- 파일 id ■(1544, 1585)
 	-- AND contents_type = 'summary'   -- 컨텐츠 타입■
@@ -1337,17 +1335,17 @@ ORDER BY uid, contents_id, ord, lang_cd
 ; 
 -- ================================================================================================================
  
--- 컨텐츠 상세 onsen 정보 조회 @@@
+-- 컨텐츠 상세 spa 정보 조회 @@@
 SELECT  A1.contents_id AS "컨텐츠 ID■", A1.contents_detail_id AS "컨텐츠 상세  ID"
 			, A1.contents_type_cd AS "컨텐츠 타입 코드■" --, A1.page_cd AS "페이지 코드■", A1.site_cd AS "사이트 코드■■■"    -- 사이트 코드(ADMIN, USER, ALL)
 			, A1.lang_cd AS "언어 구분", A1."ord" AS "순서■", A1."content" AS "내용" 
 			, A1.*
-FROM contents_detail_onsen  A1		 -- 컨텐츠 상세 onsen TB   --> 2,642건  contents_detail_onsen A1		 -- 컨텐츠 상세 onsen TB   --> 2,642건
+FROM contents_detail_spa  A1		 -- 컨텐츠 상세 spa TB   --> 2,642건  contents_detail_spa A1		 -- 컨텐츠 상세 spa TB   --> 2,642건
 WHERE 1=1 
  	  AND contents_id = 192 		-- 컨텐츠 ID■■  ==> 191: ONSEN, 192: PRIVATE ONSEN, 193: PUBLIC ONSEN, 194: MORE■
   	--  AND file_id = 2245		-- 메뉴 그룹 ID■(1052 2245)
   -- AND contents_type_cd LIKE '%_su%'		 -- 컨텐츠 타입 코드 ■
-  	-- AND CONTENT LIKE '%onsen%'		 -- 내용 ■
+  	-- AND CONTENT LIKE '%spa%'		 -- 내용 ■
 ORDER BY contents_id, ord, lang_cd
 ; 
 -- ================================================================================================================
@@ -1402,26 +1400,58 @@ https://bongra.tistory.com/52
 - 무와 니세코 호텔 Prj[★]
 - 컨텐츠 상세 wellness-spa 정보 등록 @@@ contents_detail_spa TB
 https://www.muwaniseko.com/en/wellness/spa
---------------------------------------------------------------------------------------------------------------------------
-
-- PUBLIC ONSEN @@@  ==>  컨텐츠 ID■■  ==> 191: ONSEN, 192: PRIVATE ONSEN, 193: PUBLIC ONSEN, 194: MORE■
-lang_cd_chk  --> 0
-lang_cd_chk
-image 1	==> 1546
-title   2		 ==> PUBLIC ONSEN
-title 	2 		==> 大浴場
-subtitle	3 ==> HERAPEUTIC SPACE OF HOT SPRING WATER
-subtitle 	3  ==> 温泉水の癒し空間
-summary		4 ==> The warm waters of the hot spring create a soothing and comfor,,,,,, 
-summary y	4 ==> T開放的なインフィニティ温泉とはまた違った、瞑想的な雰囲気の温泉浴をお 
-
-info   --> 5 ==> 내용
-info   --> 5 ==>
-info_title   --> 6 ==> INFORMATION
-info_title   --> 6 ==> INFORMATION
+-- 컨텐츠 ID■■  ==> 205: SPA Treatment, 206 , 207, 208, 209 --> wellness-spa■ 
 ================================================================================================================
 
+- 컨텐츠 상세 wellness-room 정보 등록 @@@ contents_detail_room TB
+https://www.muwaniseko.com/en/wellness/room
+-- 컨텐츠 ID■■ ==> 210: WELLNESS ROOM, 211, 212, 213, 214, 215[?]  --> wellness-room■ 
+--------------------------------------------------------------------------------------------------------------------------
+
+-- 컨텐츠 상세 room 정보 조회 @@@
+SELECT  A1.contents_id AS "컨텐츠 ID", A1.contents_detail_id AS "컨텐츠 상세  ID"
+	--	, (SELECT menu_group_id FROM contents WHERE contents_id = A1.contents_id) AS "메뉴 그룹 ID■"		 -- 메뉴 그룹 ID■"
+	, A1.contents_type_cd AS "컨텐츠 타입 코드■" --, A1.page_cd AS "페이지 코드", A1.site_cd AS "사이트 코드■"    
+	-- 사이트 코드(ADMIN, USER, ALL)
+	, A1.lang_cd AS "언어", A1."ord" AS "순서■", A1."file_id" AS "파일 ID■", A1."content" AS "내용" , A1.*
+FROM contents_detail_room  A1		 -- 컨텐츠 상세 onsen TB
+WHERE 1=1
+	-- AND contents_id = 214 	-- 컨텐츠 ID■   
+   -- AND contents_type_cd LIKE '%link%'	-- 컨텐츠 타입 코드 ■
+  --  AND content LIKE '%2 Bedroom Suites%'		 -- 내용 ■
+ORDER BY contents_id, contents_detail_id, ord, lang_cd
+;  
+-----------------------------------------------------------------------------------------------------------------------
+
+-- d_save 리뉴얼 정보 조회 @@@ --A1.uid AS "uid■", A1.uid_parent AS "부모 uid", 
+SELECT  A1.contents_id AS "컨텐츠 ID■" , A1.menu_group_id AS "메뉴 그룹 ID■■" , A1.contents_type AS "컨텐츠 타입■" 
+			, A1.module AS "모듈■" ,  A1.extra AS "extra■" , A1.*
+FROM d_save_renewal A1			--  d_save 리뉴얼 TB[★★]
+WHERE 1=1 AND extra LIKE '%Each guest room at MUWA Niseko features%'   	-- extra■■■ Operating hours
+ -- WHERE 1=1 AND title LIKE '%Operating%'	-- 제목 ■
+--  WHERE 1=1 AND summary LIKE '%Holistic%'	-- 부제목 ■  -- subtitle, summary
+ORDER BY uid, contents_id, ord, lang_cd
+-----------------------------------------------------------------------------------------------------
+
+-- d_save 리뉴얼 정보 조회 @@@
+SELECT  A1.contents_id AS "컨텐츠 ID■" , A1.menu_group_id AS "메뉴 그룹 ID■■" , A1.contents_type AS "컨텐츠 타입■" 
+			, A1.module AS "모듈■" ,  A1.extra AS "extra■" , A1.*
+FROM d_save_renewal A1			--  d_save 리뉴얼 TB[★★]
+WHERE 1=1  AND module LIKE '%nb7k1dd8bisoog4kowc04coo0ww8gww-%'  		 -- 모듈■
+-- WHERE 1=1 AND title LIKE '%Muwa Signature Treatment%'	-- 컨텐츠 타입 코드 ■
+ORDER BY uid, contents_id, ord, lang_cd
+================================================================================================================
  
+■■■■■■■■■■■■■■■■■■ 2024.11.22(금) 작업 ■■■■■■■■■■■■■■■■■■
+---> 07:00 ~ 18:00 ==> 
+
+- 무와 니세코 호텔 Prj[★]
+ 
+================================================================================================================
+
+
+ 
+
 
 
 ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
