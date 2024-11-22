@@ -1,18 +1,31 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div>
+    <h1>This is Homepage</h1>
+    <p>{{ name }}</p> <!--// 이름 ■//-->
+      <tamaCmp/>  <!--/ component ■ -->
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
+ import tamaCmp from '@/components/tamaCmp.vue';  // component 호출 ■
 
 export default {
-  name: 'HomeView',
   components: {
-    HelloWorld
+    tamaCmp    // component 명 ■
+  },
+
+  data()  {
+    return {
+      name: '태마리오'
+    }
   }
 }
 </script>
+
+<style scoped>
+h1{
+  color: red
+}
+</style>
+

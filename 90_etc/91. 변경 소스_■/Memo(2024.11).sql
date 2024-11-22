@@ -1282,7 +1282,7 @@ lang_cd_chk
 title   1		 ==> PUBLIC ONSEN	--> 제목
 title 	1 		==> 大浴場 
 image 2	==> 1546		--> 이미지
-subtitle	3 ==> HERAPEUTIC SPACE OF HOT SPRING WATER
+subtitle	3 ==> HERAPEUTIC SPACE OF HOT SPRING WATER		--> 부제목
 subtitle 	3  ==> 温泉水の癒し空間
 summary		4 ==> The warm waters of the hot spring create a soothing and comfor,,,,,, 			--> 내용
 summary 	4 ==> T開放的なインフィニティ温泉とはまた違った、瞑想的な雰囲気の温泉浴をお,,,,,,  
@@ -1450,13 +1450,41 @@ ORDER BY uid, contents_id, ord, lang_cd
 ---> 07:00 ~ 18:00 ==> 
 
 - 무와 니세코 호텔 Prj[★]
- 
-================================================================================================================
-
-- Term and condition 생성
-1. Term and condition 이라고 사용자 footer 링크
+- Term and condition TB 생성
 - TERMS AND CONDITIONS: 약관 및 조건
 https://www.muwaniseko.com/en/terms-and-conditions
+252	etc ==> contents_detail_terms
+================================================================================================================
+ 
+- TERMS AND CONDITIONS @@@  ==> 컨텐츠 ID■■  ==> 252: TERMS AND CONDITIONS ■
+lang_cd_chk  --> 0	--> 언어 여부
+lang_cd_chk 
+title	1		==> TERMS AND CONDITIONS	--> 제목
+title	1 		==> TERMS AND CONDITIONS  
+summary		2 ==> Accommodation Clause MUWA NISEKO (2023.03.28),,,,,, 			--> 내용(body)
+summary 	2 ==>  
+open_dttm	3	==>	20241017111646  --> 오픈 일자
+open_dttm	3	==>	20241017111646
+active_yn		4	==>	Y	--> 활성화 여부
+active_yn		4	==>	Y
+================================================================================================================
+
+- Bash에서 Vue 프로젝트 시작
+tamario@TAMA-WORK-NB-MSI MINGW64 /d/06_Vue_js # test_prj 폴더 경로로 이동 ♣
+$ cd test_prj
+
+tamario@TAMA-WORK-NB-MSI MINGW64 /d/06_Vue_js/test_prj (master)
+$ npm run serve   # Vue 프로젝트 시작 ♣
+================================================================================================================
+
+- Vue.js 분석 ■
+1. http://localhost:8080/
+2. /index.html 파일에서(/public)
+ <div id="app"></div>  <!--// app 호출 ■ //-->
+------------------------------------------------------------------------------------------------------------------------
+ 
+- /HelloWorld.vue
+<h3>Installed CLI Plugins[test_tama(24.11.22) ==> HelloWorld component]</h3> 
 ================================================================================================================
 
 
