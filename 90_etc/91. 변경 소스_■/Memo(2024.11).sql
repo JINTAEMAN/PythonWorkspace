@@ -1277,20 +1277,24 @@ D:\06_Vue_js> npm run serve	  # vue 프로젝트 시작 ♣
 --------------------------------------------------------------------------------------------------------------------------
 
 - PUBLIC ONSEN @@@  ==> 컨텐츠 ID■■  ==> 191: ONSEN, 192: PRIVATE ONSEN, 193: PUBLIC ONSEN, 194: MORE ■
-lang_cd_chk  --> 0
-lang_cd_chk
-image 1	==> 1546
-title   2		 ==> PUBLIC ONSEN
-title 	2 		==> 大浴場
+lang_cd_chk  --> 0	--> 언어 여부
+lang_cd_chk 
+title   1		 ==> PUBLIC ONSEN	--> 제목
+title 	1 		==> 大浴場 
+image 2	==> 1546		--> 이미지
 subtitle	3 ==> HERAPEUTIC SPACE OF HOT SPRING WATER
 subtitle 	3  ==> 温泉水の癒し空間
-summary	4 ==> The warm waters of the hot spring create a soothing and comfor,,,,,, 
-summary 4 ==> T開放的なインフィニティ温泉とはまた違った、瞑想的な雰囲気の温泉浴をお,,,,,,  
+summary		4 ==> The warm waters of the hot spring create a soothing and comfor,,,,,, 			--> 내용
+summary 	4 ==> T開放的なインフィニティ温泉とはまた違った、瞑想的な雰囲気の温泉浴をお,,,,,,  
 
-info	5 ==> 내용(데이타 없음)
-info	5 ==> 내용(데이타 없음)
-info_title	6 ==> INFORMATION
-info_title	6 ==> INFORMATION
+info	5 	==> ?  --> info 내용
+info	5 	==> ?  --> info 내용
+info_title	6 	==> INFORMATION ==> info 제목
+info_title	6 	==> INFORMATION
+open_dttm	7		20241017111646  --> 오픈 일자
+open_dttm	7		20241017111646
+active_yn		8	==>	Y	--> 활성화 여부
+active_yn		8	==>	Y
 ================================================================================================================
  
 - PRIVATE ONSEN @@@	==>  컨텐츠 ID■■  ==>192: PRIVATE ONSEN ■
@@ -1372,7 +1376,7 @@ $ cd D:/00. Prj
 bash: cd: too many arguments
 ================================================================================================================
 
-- 포스트그레 SQL DB 저장 에러
+- 포스트그레 SQL(PostgreSQL) DB 저장 에러
 1. 현상: 포스트그레SQL - 보기를 만들려고 할 때 오류 "42701"이 발생
 SQL Error [42701]: ERROR: column "contents_detail_id" specified more than once Position: 113
 2. 원인: "중복 열"로 인해 PostgreSql에서 보기를 만들 수 없음
@@ -1449,8 +1453,15 @@ ORDER BY uid, contents_id, ord, lang_cd
  
 ================================================================================================================
 
+- Term and condition 생성
+1. Term and condition 이라고 사용자 footer 링크
+- TERMS AND CONDITIONS: 약관 및 조건
+https://www.muwaniseko.com/en/terms-and-conditions
+================================================================================================================
 
- 
+
+
+
 
 
 
