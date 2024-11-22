@@ -1469,6 +1469,37 @@ active_yn		4	==>	Y	--> 활성화 여부
 active_yn		4	==>	Y
 ================================================================================================================
 
+- 자바소스 git Lab에서 소스 다운로드 ●
+tamario@TAMA-WORK-NB-MSI MINGW64 /d
+$ git clone http://gitlab.muwaniseko.com/muwaniseko/muwaniseko-be.git	# git Lab에서 소스 받아오기 ♣
+Cloning into 'muwaniseko-be'...
+warning: missing OAuth configuration for gitlab.muwaniseko.com - see https://aka.ms/gcm/gitlab for more information
+warning: redirecting to https://gitlab.muwaniseko.com/muwaniseko/muwaniseko-be.git/
+remote: Enumerating objects: 5018, done.
+remote: Counting objects: 100% (753/753), done.
+remote: Compressing objects: 100% (509/509), done.
+remote: Total 5018 (delta 286), reused 235 (delta 87), pack-reused 4265 (from 1)
+Receiving objects: 100% (5018/5018), 728.14 KiB | 6.22 MiB/s, done.
+Resolving deltas: 100% (2374/2374), done.
+================================================================================================================
+ 
+- Vue.js 소스 git Lab에서 소스 다운로드 ●
+$ cd /d 
+tamario@TAMA-WORK-NB-MSI MINGW64 /d
+$ git clone http://gitlab.muwaniseko.com/muwaniseko/muwaniseko-fe.git		# git Lab에서 소스 받아오기 ♣
+==> 로그인 창 뜨기: tamario2/asas12**!!
+ 
+Cloning into 'muwaniseko-fe'...
+warning: redirecting to https://gitlab.muwaniseko.com/muwaniseko/muwaniseko-fe.git/
+remote: Enumerating objects: 4667, done.
+remote: Counting objects: 100% (4667/4667), done.
+remote: Compressing objects: 100% (2374/2374), done.
+remote: Total 4667 (delta 2204), reused 4231 (delta 1986), pack-reused 0 (from 0)
+Receiving objects: 100% (4667/4667), 4.50 MiB | 24.10 MiB/s, done.
+Resolving deltas: 100% (2204/2204), done.
+Updating files: 100% (850/850), done.
+================================================================================================================
+ 
 - Bash에서 Vue 프로젝트 시작
 tamario@TAMA-WORK-NB-MSI MINGW64 /d/06_Vue_js # test_prj 폴더 경로로 이동 ♣
 $ cd test_prj
@@ -1487,6 +1518,69 @@ $ npm run serve   # Vue 프로젝트 시작 ♣
 <h3>Installed CLI Plugins[test_tama(24.11.22) ==> HelloWorld component]</h3> 
 ================================================================================================================
 
+ ■■■■■■■■■■■■■■■■■■ 2024.11.23(토) 작업 ■■■■■■■■■■■■■■■■■■
+---> 07:00 ~ 18:00 --> 
+	
+- 주말[★]
+06:06 기상
+06:13 조식(돈가스 2개, 치킨)
+06:33 집 출발(도보{자전거), 도림천 <=> 대림역)
+08:10 귀가
+08:13 조식(돈가스, 치킨): 수종
+08:20 빨래  
+10:10 수종 은천 센터에 감(센터 종료 후 바로 엄마집에 놀러감)
+11:30 중식(라면)
+11:45 집 출발(도보{자전거), 도림천 <=> 대림역)
+12:48 종료
+13:21 귀가
+13:50 인터넷 서핑
+14:00  js 2 (Vue.js 2) 기초 익히기 기본 강좌! [코지 코더] (동영상 강의 수강)
+17:30 석식
+17:45 실내 도보
+18:50 종료
+20:00 인터넷 서핑
+20:05 js 2 (Vue.js 2) 기초 익히기 기본 강좌! [코지 코더] (동영상 강의 수강)
+22:30 취침
+============================================================================================================
+ 
+■■■■■■■■■■■■■■■■■■ 2024.11.24(일) 작업 ■■■■■■■■■■■■■■■■■■
+---> 07:00 ~ 18:00 --> 
+
+- 주말2[★]
+06:00 기상
+06:05 조식(돈가스, 치킨 남은 거)
+06:30 집 출발(도보: 도림천 => 신본교(반환점) => 봉림교 삼거리 근처 다리 => 신본교(반환점) => 도림 보도교): 신본교 재 설치 공사 중
+08:02 귀가
+08:50 인터넷 서핑
+09:00 Vue js 설치 분석
+11:29 중식(라면, 돈가스 남은 거)
+11:45 집 출발(자전거]: 도림천 <=> 대림역), 보라매역 공원(화장실)
+13:16 귀가
+13:40 인터넷 서핑
+14:00 Vue js 설치 분석
+17:00 수종 귀가
+17:05 치킨 주문(맛닭꼬 신대방점)
+17:20 집 출발(자전거]
+17:25 맛닭꼬 신대방점 방문 ==> 갈릭 베이크[13,900원)
+17:30 귀가
+17:32 석식(갈릭 베이크 치킨: 수종)
+17:45 실내 도보
+18:50 종료 
+20:10 청소(바닥 쓸기, 바닥 닦기) 
+20:30 수종 귀가
+21:00 샤워(체중: 69kg -> BMI: 23.88(과체중)
+21:00 인터넷 서핑
+23:00 취침
+================================================================================================================ 
+   
+■■■■■■■■■■■■■■■■■■ 2024.11.25(월) 작업 ■■■■■■■■■■■■■■■■■■
+---> 07:00 ~ 18:00 ==> 
+
+- 무와 니세코 호텔 Prj[★]
+- 
+================================================================================================================
+ 
+ 
 
 
 
