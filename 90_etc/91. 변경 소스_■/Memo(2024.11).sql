@@ -1007,7 +1007,7 @@ ORDER BY up_menu_id nulls first, ord
 12:48 종료
 13:21 귀가
 13:50 인터넷 서핑
-14:00  js 2 (Vue.js 2) 기초 익히기 기본 강좌! [코지 코더] (동영상 강의 수강)
+14:00 js 2 (Vue.js 2) 기초 익히기 기본 강좌! [코지 코더] (동영상 강의 수강)
 17:30 석식
 17:45 실내 도보
 18:50 종료
@@ -1089,8 +1089,7 @@ https://hbase.tistory.com/331
 17:32 석식(갈릭 베이크 치킨: 수종)
 17:45 실내 도보
 18:50 종료 
-20:10 청소(바닥 쓸기, 바닥 닦기) 
-20:30 수종 귀가
+20:10 청소(바닥 쓸기, 바닥 닦기)
 21:00 샤워(체중: 69kg -> BMI: 23.88(과체중)
 21:00 인터넷 서핑
 23:00 취침
@@ -1267,7 +1266,7 @@ D:\06_Vue_js> cd test_prj		# test_prj 폴더 경로로 이동 ♣
 D:\06_Vue_js> npm run serve	  # vue 프로젝트 시작 ♣
 ==> http://localhost:8080/
 ================================================================================================================
-      
+
 ■■■■■■■■■■■■■■■■■■ 2024.11.20(수) 작업 ■■■■■■■■■■■■■■■■■■
 ---> 07:00 ~ 18:00 ==> 
 
@@ -1445,6 +1444,21 @@ WHERE 1=1  AND module LIKE '%nb7k1dd8bisoog4kowc04coo0ww8gww-%'  		 -- 모듈■
 -- WHERE 1=1 AND title LIKE '%Muwa Signature Treatment%'	-- 컨텐츠 타입 코드 ■
 ORDER BY uid, contents_id, ord, lang_cd
 ================================================================================================================
+
+- 시스템 파일 검사기
+1. 저의:컴퓨터의 파일 문제를 확인하는 Windows의 유틸리티
+PS C:\Users\TAMA_HAart_404> sfc /scannow			# 시스템 파일 검사 하기 ♠
+
+시스템 검사를 시작합니다. 이 프로세스를 수행하는 데에는 약간의 시간이 소요됩니다.
+
+시스템 검사의 확인 단계를 시작하고 있습니다.
+100% 검증 완료
+
+Windows 리소스 보호에서 손상된 파일을 발견했지만 일부 파일을 복구하지 못했습니다.
+온라인 복구의 경우 세부 정보는 windir\Logs\CBS\CBS.log에 있는
+CBS 로그 파일에 포함되어 있습니다. 예: C:\Windows\Logs\CBS\CBS.log. 오프라인
+복구의 경우 세부 정보는 /OFFLOGFILE 플래그에 의해 제공되는 로그 파일에 포함되어 있습니다. 
+================================================================================================================
  
 ■■■■■■■■■■■■■■■■■■ 2024.11.22(금) 작업 ■■■■■■■■■■■■■■■■■■
 ---> 07:00 ~ 18:00 ==> 
@@ -1469,9 +1483,12 @@ active_yn		4	==>	Y	--> 활성화 여부
 active_yn		4	==>	Y
 ================================================================================================================
 
-- 자바소스 git Lab에서 소스 다운로드 ●
+- 자바 소스 git Lab에서 소스 다운로드 ●
+tamario@TAMA-WORK-NB-MSI MINGW64 cd d
 tamario@TAMA-WORK-NB-MSI MINGW64 /d
 $ git clone http://gitlab.muwaniseko.com/muwaniseko/muwaniseko-be.git	# git Lab에서 소스 받아오기 ♣
+==> 로그인 창 뜨기: tamario2/as**12**!!
+
 Cloning into 'muwaniseko-be'...
 warning: missing OAuth configuration for gitlab.muwaniseko.com - see https://aka.ms/gcm/gitlab for more information
 warning: redirecting to https://gitlab.muwaniseko.com/muwaniseko/muwaniseko-be.git/
@@ -1483,11 +1500,10 @@ Receiving objects: 100% (5018/5018), 728.14 KiB | 6.22 MiB/s, done.
 Resolving deltas: 100% (2374/2374), done.
 ================================================================================================================
  
-- Vue.js 소스 git Lab에서 소스 다운로드 ●
-$ cd /d 
+- Vue.js 소스 git Lab에서 소스 다운로드 ● 
 tamario@TAMA-WORK-NB-MSI MINGW64 /d
 $ git clone http://gitlab.muwaniseko.com/muwaniseko/muwaniseko-fe.git		# git Lab에서 소스 받아오기 ♣
-==> 로그인 창 뜨기: tamario2/asas12**!!
+==> 로그인 창 뜨기: tamario2/as**12**!!
  
 Cloning into 'muwaniseko-fe'...
 warning: redirecting to https://gitlab.muwaniseko.com/muwaniseko/muwaniseko-fe.git/
@@ -1522,67 +1538,202 @@ $ npm run serve   # Vue 프로젝트 시작 ♣
 ---> 07:00 ~ 18:00 --> 
 	
 - 주말[★]
-06:06 기상
-06:13 조식(돈가스 2개, 치킨)
+06:09 기상
+06:13 조식(돈가스 2개)
 06:33 집 출발(도보{자전거), 도림천 <=> 대림역)
-08:10 귀가
-08:13 조식(돈가스, 치킨): 수종
-08:20 빨래  
-10:10 수종 은천 센터에 감(센터 종료 후 바로 엄마집에 놀러감)
+08:05 귀가
+08:10 조식(돈가스, 감자 튀김): 수종
+09:00 Eclipse 분석
+10:50 수종 은천 센터에 감(센터 종료 후 바로 엄마집에 놀러감)
 11:30 중식(라면)
-11:45 집 출발(도보{자전거), 도림천 <=> 대림역)
-12:48 종료
+11:45 집 출발(도보, 도림천 <=> 대림역): 보라매 공원 화장실 
 13:21 귀가
 13:50 인터넷 서핑
-14:00  js 2 (Vue.js 2) 기초 익히기 기본 강좌! [코지 코더] (동영상 강의 수강)
-17:30 석식
+14:35 태용 차(그랜저) 도착(빌라 주차장에 파킹) ==> 아이스 박스에 돈가스, 치킨 가지고 옴(너무 많음)
+14:45 신사 시장 도착 ==> 술 빵(2천원), 빵(천원): 태용이가 쏨
+15:00 메가 커피 도착 ==> 바닐라 라떼: 태용이가 쏨 --> 태용이가 회사 이사 퇴사(태용이는 1년 근무 보장 예정)
+15:55 태용이 귀가
+16:00 Eclipse 분석
+17:30 석식(라면)
 17:45 실내 도보
 18:50 종료
 20:00 인터넷 서핑
-20:05 js 2 (Vue.js 2) 기초 익히기 기본 강좌! [코지 코더] (동영상 강의 수강)
+20:05 Eclipse 분석
 22:30 취침
 ============================================================================================================
  
+- Eclipse Dynamic Web Project 생성하기
+1, 전체 메뉴에서 [File > New > Dynamic Web project]를 클릭
+2. "ew Dynamic Web project(새창)
+ A. Dynamic Web project
+ 1) Project name: testWebPrj		 ==> ■■■
+ 2) Project Location
+   가. Location: D:\00_Prj\03_JAVA\testWebPrj\workspace   
+ B. Java)Configure project for building a Java application.)
+  1) Source folder on build path: src\main\java		 ==> ■■■
+  2) Default outpout foldert: build\classes
+ C. Web Module(Configure Web Module settings)
+  1) Context root: testWebPrj   ==> ■■■
+  2) Content directory: src/main/webapp		==> WAS에서 호출되어 실행되는 Java Class 파일, Jsp 파일, html 파일 등등 웹 파일들이 위치하는 폴더(WebContent)	■■■
+  3) Generate web.xml deploymemnt descriptor:체크(web.xml이 자동을 생성) 
+ ================================================================================================================
+ 
+ - "Project facet Java version 1.8 is not supported" 해결방법 1
+https://jamesdreaming.tistory.com/165
+
+1. testWebPrj 마우스 우 클릭 ==>  Properties: 클릭
+2. Properties for testWebPrj(새창)
+ 1) Project Facets
+   가. Project Facet: Java,	Version: 21  ==> 실행하고자 하는 프로젝트의 자바가 21 인것으로 확인	==> ■■■
+    나. Runtimes > New 를 선택 ==> Tomcat v11.0 Server at localhost 선택 
+   ==> Tomcat은 1.x 버전이 설치 되어 있는 root 디렉토리를 찾아서 선택
+ 3. Window > Preferences: 클릭
+  1) Preferences(새창) 
+   가. JAVA > Installed JREs
+    가) Name: jdk-21.0.5(default), Location: D:\00_Prj\03_JAVA\testWebPrj\bin\jdk\jdk-21.0.5  ==> ■■■
+================================================================================================================
+
+ - [자바 웹을 다루는 기술] 4.6 이클립스에서 실습하기[Tartaglia_타르탈리아 TV]
+ https://www.youtube.com/watch?v=bG8oR0SHRFs&list=PLuvImYntyp-s76lJiia8YfskDRAypeoyh&index=22
+ 
+- [자바 웹을 다루는 기술] 5.9 책 예제 이클립스로 임포트하기[Tartaglia_타르탈리아 TV]
+https://www.youtube.com/watch?v=tbFuxIQPOa8&list=PLuvImYntyp-s76lJiia8YfskDRAypeoyh&index=32
+------------------------------------------------------------------------------------------------------------------------
+
+ - 이클립스 다운로드
+1. Eclipse IDE for Enterprise Java and Web Developers
+  1) eclipse-jee-2024-09-R-win32-x86_64.zip
+https://www.eclipse.org/downloads/packages/release/2024-09/r/eclipse-ide-enterprise-java-and-web-developers
+
+- Java 입문 수업 (생활코딩)
+https://www.youtube.com/watch?v=Mwbe3CeEKGM&list=PLuHgQVnccGMCeAy-2-llhw3nWoQKUvQck&index=13
+============================================================================================================
+
+- 인텔리제이(Intelli J) 무료버전 다운로드
+https://proefforter.tistory.com/26
+============================================================================================================
+  
 ■■■■■■■■■■■■■■■■■■ 2024.11.24(일) 작업 ■■■■■■■■■■■■■■■■■■
 ---> 07:00 ~ 18:00 --> 
 
 - 주말2[★]
-06:00 기상
-06:05 조식(돈가스, 치킨 남은 거)
-06:30 집 출발(도보: 도림천 => 신본교(반환점) => 봉림교 삼거리 근처 다리 => 신본교(반환점) => 도림 보도교): 신본교 재 설치 공사 중
-08:02 귀가
+05:00 기상(오줌[포항 과수원에서 작은 누나와 오줌 누는 꿈))
+06:05 기상
+06:07 조식(돈가스 남은 거)
+06:35 집 출발(도보: 도림천 => 신본교(반환점) => 봉림교 삼거리 근처 다리 => 신본교(반환점) => 도림 보도교): 신본교 재 설치 공사 중
+08:05 귀가
+08:10 빨래(바지, 침대 패드)
 08:50 인터넷 서핑
-09:00 Vue js 설치 분석
-11:29 중식(라면, 돈가스 남은 거)
-11:45 집 출발(자전거]: 도림천 <=> 대림역), 보라매역 공원(화장실)
+09:00 Eclipse 분석
+11:29 중식(라면,)
+11:45 집 출발(자전거]: 도림천 <=> 대림역)
 13:16 귀가
 13:40 인터넷 서핑
-14:00 Vue js 설치 분석
-17:00 수종 귀가
-17:05 치킨 주문(맛닭꼬 신대방점)
-17:20 집 출발(자전거]
-17:25 맛닭꼬 신대방점 방문 ==> 갈릭 베이크[13,900원)
-17:30 귀가
-17:32 석식(갈릭 베이크 치킨: 수종)
+14:00 Eclipse 분석 
+17:32 석식
 17:45 실내 도보
 18:50 종료 
+19:20 엄마와 전화: 김장 12월 초에 한다고 함
+19:30 큰 누나, 큰 매형에게 전화: 10월 달에 큰 매형 오토바이 사고 후 척추 수술: 다음주에 다시 출근 한다고 함
 20:10 청소(바닥 쓸기, 바닥 닦기) 
 20:30 수종 귀가
-21:00 샤워(체중: 69kg -> BMI: 23.88(과체중)
+21:00 샤워(체중: 69.5kg -> BMI: 24.05(과체중)
 21:00 인터넷 서핑
 23:00 취침
 ================================================================================================================ 
-   
+
 ■■■■■■■■■■■■■■■■■■ 2024.11.25(월) 작업 ■■■■■■■■■■■■■■■■■■
 ---> 07:00 ~ 18:00 ==> 
 
 - 무와 니세코 호텔 Prj[★]
-- 
+- IntelliJ 로컬 환경 셋팅
+- IntelliJ IDEA Community Edition
+https://www.jetbrains.com/idea/download/?section=windows
+1. ideaIC-2024.3.exe ==> 무료 버전: 섪치(Database Navigator 설치 안됨)
+ 1) 프로파일링 도구부터 Spring Framework, 데이터베이스 도구, 원격 개발 등 사용 불가
+2.ideaIU-2024.3.exe( IntelliJ IDEA Ultimate) ==> 유료 버전: 섪치(30일 사용 버전)
+
+- Intellij 무료, 유료 차이 및 사용법 Springboot
+https://commnetall.tistory.com/106
 ================================================================================================================
- 
- 
 
+- [intellij] 한국어 언어팩 적용된 것을 다시 영어로 되돌리는 방법
+1. 파일 > 설정: 클릭
+2. Setting(새찯)
+ 1) Plugins > Installed(Tab) ==> Korean Language Pack(한국어 언어 팩) 체크 해제 ==> 확인: 클릭
+==> intellij IDEA를 다시 시작
+================================================================================================================
 
+- [Intellij] 인텔리제이 ultimate 만료 후 community 버전 사용하기
+https://dani0312.tistory.com/81
+이와 같이 ultimate에서 community로 변경하게 되었을 때 알고 있어야 할 3가지는 다음과 같다.
+1. SprintBootApplicationConfigurationType은 ultimate 버전에서만 작동한다. → Configuration 설정 필요
+- Configuration 설정
+1. 실행 버튼(Run) 아래 > Edit Configurations: 선택
+2. Run/Debug Configurations(새창)
+ 1)  Add New Configuration: 클릭
+   가. Name: MuwanisekoApplication_N
+   나. Buid and run: kr.co.muwaniseko.MuwanisekoApplication
+   다. Woking direcotry: D:\muwaniseko-be
+    라. Short command line: @argfile(java 9+)
+   마. Modify options: 클릭 > Add Run Options => Vm options: 체크
+    가) VM options: -Dspring.profiles.active=local  	# 기본으로 활성화할 profile(local, dev)
+ ==> MuwanisekoApplication_N ==> 실행  	
+2. 공식적인 데이터베이스 기능은 ultimate버전에서 만 작동한다. → 커뮤에서 가능한 방법 이용 or workbench같은 툴 이용
+3. active profile기능도 공식적으로 ultimate버전에서 만 지원한다.  → 커뮤에서 가능한 방법(vm options을 활용)
+================================================================================================================
+
+- [Postman] 포스트맨 기본 사용법 정리, API 테스트 하는 법
+https://code-lab1.tistory.com/396
+---------------------------------------------------------------------------------------------------------------------------
+
+- 01. 포스트 맨
+https://web.postman.co/workspace/My-Workspace~5c564c76-b23b-49e9-8130-eaa3c75b0a24/overview, JINTAEMAN/as**12**!!
+---------------------------------------------------------------------------------------------------------------------------
+
+- 01. 코드 목록 조회 API
+http://localhost:8080/api/common/code?codeGroupId=100&langCd=EN&codeId=EN
+http://api.dev.muwaniseko.com:8081/api/common/code?codeGroupId=100&langCd=EN&codeId=EN
+================================================================================================================
+
+- 윈도우 11, USB의 폴더 추가시 대상 폴더 액세스 거부가 떠요
+https://answers.microsoft.com/ko-kr/windows/forum/all/%EC%9C%88%EB%8F%84%EC%9A%B0-11-usb%EC%9D%98/fe810e4e-6540-4413-a431-c716ebfa25a9
+ ================================================================================================================
+ 
+- vue 프로젝트 시작
+tamario@TAMA-WORK-NB-MSI MINGW64 /d/06_Vue_js 		# test_prj 폴더 경로로 이동 ♣
+$ cd test_prj
+
+tamario@TAMA-WORK-NB-MSI MINGW64 /d/06_Vue_js/test_prj (master)
+$ npm run serve   		# vue 프로젝트 시작 ♣
+  App running at:
+  - Local:   http://localhost:8080/ 
+  - Network: http://192.168.100.252:8080/
+
+  Note that the development build is not optimized.
+  To create a production build, run npm run build.
+================================================================================================================
+
+- npm run serve 종료법
+1. ctrl+C를 이용하면 정상 종료 	===> ■■■
+2. ctrl+C가 불가능할 때
+D:\06_Vue_js> netstat -ano | find "8080"		# 사용중인 8080 포트 확인♣
+  TCP    0.0.0.0:8080           0.0.0.0:0              LISTENING       28960		===> ■■■
+  TCP    192.168.100.252:8080   192.168.100.252:57360  ESTABLISHED     28960
+  TCP    192.168.100.252:57360  192.168.100.252:8080   ESTABLISHED     11212
+
+D:\06_Vue_js> taskkill  -F /PID 28960  	 # 해당 프로세스 종료 ■ ■■■
+액세스가 거부되었습니다.
+================================================================================================================
+
+ ■■■■■■■■■■■■■■■■■■ 2024.11.26(화) 작업 ■■■■■■■■■■■■■■■■■■
+---> 07:00 ~ 18:00 ==> 
+
+- 무와 니세코 호텔 Prj[★]
+
+================================================================================================================
+
+ 
 
 
 
